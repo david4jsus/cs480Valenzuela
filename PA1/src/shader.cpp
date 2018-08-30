@@ -1,4 +1,5 @@
 #include "shader.h"
+#include <fstream> // Shader loader
 
 Shader::Shader()
 {
@@ -39,6 +40,7 @@ bool Shader::AddShader(GLenum ShaderType)
 
   if(ShaderType == GL_VERTEX_SHADER)
   {
+    /*
     s = "#version 330\n \
           \
           layout (location = 0) in vec3 v_position; \
@@ -57,9 +59,25 @@ bool Shader::AddShader(GLenum ShaderType)
             color = v_color; \
           } \
           ";
+    */
+    
+    // == Shader loader == //
+    std::ifstream shaderFile("../assets/shaders/vertex.shader");
+    
+    std::string temp;
+    while(!shaderFile.eof())
+    {
+      std::getline(shaderFile, temp);
+      s.append(temp);
+      s.append("\n");
+    }
+    
+    shaderFile.close();
+    // =================== //
   }
   else if(ShaderType == GL_FRAGMENT_SHADER)
   {
+    /*
     s = "#version 330\n \
           \
           smooth in vec3 color; \
@@ -71,6 +89,21 @@ bool Shader::AddShader(GLenum ShaderType)
              frag_color = vec4(color.rgb, 1.0); \
           } \
           ";
+    */
+    
+    // == Shader loader == //
+    std::ifstream shaderFile("../assets/shaders/fragment.shader");
+    
+    std::string temp;
+    while(!shaderFile.eof())
+    {
+      std::getline(shaderFile, temp);
+      s.append(temp);
+      s.append("\n");
+    }
+    
+    shaderFile.close();
+    // =================== //
   }
 
   GLuint ShaderObj = glCreateShader(ShaderType);

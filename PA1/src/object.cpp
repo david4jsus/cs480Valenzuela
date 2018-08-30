@@ -81,6 +81,10 @@ void Object::Update(unsigned int dt)
 {
   angle += dt * M_PI/1000;
   model = glm::rotate(glm::mat4(1.0f), (angle), glm::vec3(0.0, 1.0, 0.0));
+  
+  // == Make the cube move in a circle == //
+  model = glm::translate(model, glm::vec3(3.0, 0.0, 3.0));
+  // ==================================== //
 }
 
 glm::mat4 Object::GetModel()
