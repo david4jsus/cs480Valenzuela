@@ -13,6 +13,13 @@ class Object
     void Render();
 
     glm::mat4 GetModel();
+    
+    // To reverse direction of rotation based on keyboard input
+    void reverseDirection();
+    // Toggle cube rotating (self-centered)
+    void toggleRotation();
+    // Toggle cube orbiting
+    void toggleOrbit();
 
   private:
     glm::mat4 model;
@@ -22,6 +29,13 @@ class Object
     GLuint IB;
 
     float angle;
+    
+    // To reverse direction of rotation based on keyboard input
+    bool directionReversed;
+    // To rotate in place
+    bool rotating;
+    // To orbit around
+    bool orbiting;
 };
 
 #endif /* OBJECT_H */

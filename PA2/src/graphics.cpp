@@ -113,6 +113,11 @@ void Graphics::Update(unsigned int dt)
   m_cube->Update(dt);
 }
 
+Object* Graphics::getCube()
+{
+  return m_cube;
+}
+
 void Graphics::Render()
 {
   //clear the screen
@@ -170,4 +175,3 @@ std::string Graphics::ErrorString(GLenum error)
     return "None";
   }
 }
-

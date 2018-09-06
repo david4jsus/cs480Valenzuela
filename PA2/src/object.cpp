@@ -69,6 +69,13 @@ Object::Object()
   glGenBuffers(1, &IB);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
   glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * Indices.size(), &Indices[0], GL_STATIC_DRAW);
+  
+  // To reverse direction of rotation based on keyboard input
+  directionReversed = false;
+  // To rotate in place
+  rotating = true;
+  // To orbit around
+  orbiting = true;
 }
 
 Object::~Object()
@@ -79,18 +86,61 @@ Object::~Object()
 
 void Object::Update(unsigned int dt)
 {
-  angle += dt * M_PI/1000;
+  // == Reverse direction and/or stop rotations based on keyboard input == //
+  
+  // Reverse direction of rotation based on keyboard input
+  if (directionReversed)
+  {
+    angle -= dt * M_PI/1000;
+  }
+  else
+  {
+    angle += dt * M_PI/1000;
+  }
 
-  // == Make the cube orbit around == //
-  model = glm::rotate(glm::mat4(1.0f), (angle/3), glm::vec3(0.0, 1.0, 0.0));
+  // Orbit rotation (first rotation by which translation is affected)
+  if (orbiting)
+  {
+    model = glm::rotate(glm::mat4(1.0f), (angle/3), glm::vec3(0.0, 1.0, 0.0));
+  }
+  else
+  {
+    model = glm::mat4(1.0f);
+  }
+  
+  // Move to the side
   model = glm::translate(model, glm::vec3(5.0, 0.0, 0.0));
-  model = glm::rotate(model, (angle), glm::vec3(0.0, 1.0, 0.0));
-  // ================================ //
+  
+  // Self-centered rotation
+  if (rotating)
+  {
+    model = glm::rotate(model, (angle), glm::vec3(0.0, 1.0, 0.0));
+  }
+  
+  // ===================================================================== //
 }
 
 glm::mat4 Object::GetModel()
 {
   return model;
+}
+
+// To reverse the direction of rotation based on keyboard input
+void Object::reverseDirection()
+{
+  directionReversed = !directionReversed;
+}
+
+// Toggle cube rotating (self-centered)
+void Object::toggleRotation()
+{
+  rotating = !rotating;
+}
+
+// Toggle cube orbiting
+void Object::toggleOrbit()
+{
+  orbiting = !orbiting;
 }
 
 void Object::Render()

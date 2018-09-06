@@ -17,6 +17,9 @@ class Graphics
     bool Initialize(int width, int height);
     void Update(unsigned int dt);
     void Render();
+    
+    // To reverse the direction of rotation based on keyboard input
+    Object* getCube();
 
   private:
     std::string ErrorString(GLenum error);

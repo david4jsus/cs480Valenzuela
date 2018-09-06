@@ -1,4 +1,4 @@
-# PA1: Spinning Cube
+# PA2: Interaction: Keyboard and Mouse
 
 # Dependencies, Building, and Running
 
@@ -31,7 +31,6 @@ COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/shaders/ ${CMAK
 ```
 
 ```bash
-mkdir build
 cd build
 cmake ..
 make
@@ -39,12 +38,10 @@ make
 ```
 
 ### Makefile Instructions 
-The makefile works as expected and must be updated with new files added in.
+The makefile is already available in the build folder. To create the program, simply run the make command. Then, run the program.
 
 ```bash
-mkdir build
 cd build
-cp ../makefile .
 make
 ./Tutorial
 ```
@@ -54,3 +51,7 @@ OpenGL 3.3 will run on the [ubuntu.cse.unr.edu](https://ubuntu.cse.unr.edu/) web
 ```bash
 /usr/NX/scripts/vgl/vglrun ./Tutorial
 ```
+
+# Controls
+
+To reverse the direction of rotation of the cube, click on the screen or press the 'A' key.

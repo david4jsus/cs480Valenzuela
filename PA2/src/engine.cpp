@@ -1,4 +1,3 @@
-
 #include "engine.h"
 
 Engine::Engine(string name, int width, int height)
@@ -59,10 +58,11 @@ void Engine::Run()
     // Update the DT
     m_DT = getDT();
 
-    // Check the keyboard input
+    // Check input
     while(SDL_PollEvent(&m_event) != 0)
     {
       Keyboard();
+      Mouse();
     }
 
     // Update and render the graphics
@@ -76,16 +76,49 @@ void Engine::Run()
 
 void Engine::Keyboard()
 {
-  if(m_event.type == SDL_QUIT)
+  if (m_event.type == SDL_QUIT)
   {
     m_running = false;
   }
   else if (m_event.type == SDL_KEYDOWN)
   {
-    // handle key down events here
-    if (m_event.key.keysym.sym == SDLK_ESCAPE)
+    // Handle key down events here
+    if (m_event.key.keysym.sym == SDLK_ESCAPE) // Quit program
     {
       m_running = false;
+    }
+    
+    if (m_event.key.keysym.sym == SDLK_a)      // Reverse direction of rotation of cube
+    {
+      m_graphics->getCube()->reverseDirection();
+    }
+    
+    /*
+    if (m_event.key.keysym.sym == SDLK_d)      // Stop cube rotation
+    {
+      m_graphics->getCube()->toggleRotation();
+    }
+    
+    if (m_event.key.keysym.sym == SDLK_s)      // Stop cube orbit
+    {
+      m_graphics->getCube()->toggleOrbit();
+    }
+    */
+  }
+}
+
+void Engine::Mouse()
+{
+  if (m_event.type == SDL_QUIT)
+  {
+    m_running = false;
+  }
+  else if (m_event.type == SDL_MOUSEBUTTONDOWN)
+  {
+    // Handle mouse down events here
+    if (m_event.button.button == SDL_BUTTON_LEFT) // Reverse direction of rotation of cube
+    {
+      m_graphics->getCube()->reverseDirection();
     }
   }
 }
