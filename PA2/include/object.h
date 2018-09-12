@@ -29,6 +29,7 @@ class Object
     GLuint IB;
 
     float angle;
+    float rotAngle;
     
     // To reverse direction of rotation based on keyboard input
     bool directionReversed;

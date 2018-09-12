@@ -54,4 +54,4 @@ OpenGL 3.3 will run on the [ubuntu.cse.unr.edu](https://ubuntu.cse.unr.edu/) web
 
 # Controls
 
-To reverse the direction of rotation of the cube, click on the screen or press the 'A' key.
+To reverse the direction of rotation of the cube, click on the screen or press the 'A' key. You can also stop the cube from orbiting by pressing the 'S' key, and stop it from rotating by pressing the 'D' key. To quit the program, press the escape button.

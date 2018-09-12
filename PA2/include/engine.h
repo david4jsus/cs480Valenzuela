@@ -6,6 +6,7 @@
 
 #include "window.h"
 #include "graphics.h"
+#include "imgui.h"
 
 class Engine
 {
@@ -33,6 +34,9 @@ class Engine
     unsigned int m_DT;
     long long m_currentTimeMillis;
     bool m_running;
+    
+    // Show Dear ImGui demo window
+    bool imgui_demo;
 };
 
 #endif // ENGINE_H

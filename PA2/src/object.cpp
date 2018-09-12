@@ -61,6 +61,7 @@ Object::Object()
   }
 
   angle = 0.0f;
+  rotAngle = 0.0f;
 
   glGenBuffers(1, &VB);
   glBindBuffer(GL_ARRAY_BUFFER, VB);
@@ -76,6 +77,7 @@ Object::Object()
   rotating = true;
   // To orbit around
   orbiting = true;
+  
 }
 
 Object::~Object()
@@ -102,20 +104,28 @@ void Object::Update(unsigned int dt)
   if (orbiting)
   {
     model = glm::rotate(glm::mat4(1.0f), (angle/3), glm::vec3(0.0, 1.0, 0.0));
+
+    // Move to the side
+    model = glm::translate(model, glm::vec3(5.0, 0.0, 0.0));
   }
   else
   {
     model = glm::mat4(1.0f);
-  }
-  
-  // Move to the side
-  model = glm::translate(model, glm::vec3(5.0, 0.0, 0.0));
+  }  
   
   // Self-centered rotation
   if (rotating)
   {
-    model = glm::rotate(model, (angle), glm::vec3(0.0, 1.0, 0.0));
+    if (directionReversed)
+    {
+      rotAngle -= dt * M_PI/1000;
+    }
+    else
+    {
+      rotAngle += dt * M_PI/1000;
+    }
   }
+  model = glm::rotate(model, (rotAngle), glm::vec3(0.0, 1.0, 0.0));
   
   // ===================================================================== //
 }
