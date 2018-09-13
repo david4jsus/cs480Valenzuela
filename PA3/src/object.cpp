@@ -78,6 +78,18 @@ Object::Object()
   // To orbit around
   orbiting = true;
   
+  parent = 0;
+  orbitRadius = 5.0f;
+  angleMultiplier = 1.0f;
+  size = 1;
+}
+
+Object::Object(Object* objParent, float objOrbitRadius, float objAngleMultiplier, float objSize): Object()
+{
+  parent = objParent;
+  orbitRadius = objOrbitRadius;
+  angleMultiplier = objAngleMultiplier;
+  size = objSize;
 }
 
 Object::~Object()
@@ -88,30 +100,43 @@ Object::~Object()
 
 void Object::Update(unsigned int dt)
 {
-  // == Reverse direction and/or stop rotations based on keyboard input == //
+  // Determine center
+  glm::mat4 center;
+  
+  if (parent == 0)
+  {
+    center = glm::mat4(1.0f);
+  }
+  else
+  {
+    center = parent->GetModelForChild();
+  }
   
   // Reverse direction of rotation based on keyboard input
   if (directionReversed)
   {
-    angle -= dt * M_PI/1000;
+    angle -= dt * angleMultiplier * M_PI/1000;
   }
   else
   {
-    angle += dt * M_PI/1000;
+    angle += dt * angleMultiplier * M_PI/1000;
   }
 
   // Orbit rotation (first rotation by which translation is affected)
   if (orbiting)
   {
-    model = glm::rotate(glm::mat4(1.0f), (angle/3), glm::vec3(0.0, 1.0, 0.0));
-
+    model = glm::rotate(center, (angle/3), glm::vec3(0.0, 1.0, 0.0));
+    
     // Move to the side
-    model = glm::translate(model, glm::vec3(5.0, 0.0, 0.0));
+    model = glm::translate(model, glm::vec3(orbitRadius, 0.0, 0.0));
   }
   else
   {
-    model = glm::mat4(1.0f);
-  }  
+    model = center;
+  }
+  
+  // Pass this to any children objects
+  modelForChild = model;
   
   // Self-centered rotation
   if (rotating)
@@ -127,7 +152,8 @@ void Object::Update(unsigned int dt)
   }
   model = glm::rotate(model, (rotAngle), glm::vec3(0.0, 1.0, 0.0));
   
-  // ===================================================================== //
+  // Scaling
+  model = glm::scale(model, glm::vec3(size, size, size));
 }
 
 glm::mat4 Object::GetModel()
@@ -135,10 +161,29 @@ glm::mat4 Object::GetModel()
   return model;
 }
 
+
+glm::mat4 Object::GetModelForChild()
+{
+  return modelForChild;
+}
+
+
 // To reverse the direction of rotation based on keyboard input
 void Object::reverseDirection()
 {
   directionReversed = !directionReversed;
+}
+
+// To make direction counter-clockwise
+void Object::makeDirectionCounter()
+{
+  directionReversed = false;
+}
+
+// To make direction clockwise
+void Object::makeDirectionClockwise()
+{
+  directionReversed = true;
 }
 
 // Toggle cube rotating (self-centered)

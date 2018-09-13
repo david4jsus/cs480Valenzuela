@@ -18,8 +18,8 @@ class Graphics
     void Update(unsigned int dt);
     void Render();
     
-    // To reverse the direction of rotation based on keyboard input
-    Object* getCube();
+    // To get a specified cube, specified by array index
+    Object* getCube(int index);
 
   private:
     std::string ErrorString(GLenum error);
@@ -31,7 +31,8 @@ class Graphics
     GLint m_viewMatrix;
     GLint m_modelMatrix;
 
-    Object *m_cube;
+    //Object *m_cube;
+    std::vector<Object*> m_cubes;
 };
 
 #endif /* GRAPHICS_H */

@@ -8,14 +8,20 @@ class Object
 {
   public:
     Object();
+    Object(Object* objParent, float objOrbitRadius, float objAngleMultiplier, float objSize);
     ~Object();
     void Update(unsigned int dt);
     void Render();
 
     glm::mat4 GetModel();
+    glm::mat4 GetModelForChild();
     
-    // To reverse direction of rotation based on keyboard input
+    // To reverse direction of rotation
     void reverseDirection();
+    // To make direction counter-clockwise
+    void makeDirectionCounter();
+    // To make direction clockwise
+    void makeDirectionClockwise();
     // Toggle cube rotating (self-centered)
     void toggleRotation();
     // Toggle cube orbiting
@@ -27,6 +33,9 @@ class Object
     std::vector<unsigned int> Indices;
     GLuint VB;
     GLuint IB;
+    
+    // If the object has a child, this is the matrix it should read as its center
+    glm::mat4 modelForChild;
 
     float angle;
     float rotAngle;
@@ -37,6 +46,13 @@ class Object
     bool rotating;
     // To orbit around
     bool orbiting;
+    
+    
+    // Planet/moon properties
+    Object* parent;
+    float orbitRadius;
+    float angleMultiplier;
+    float size;
 };
 
 #endif /* OBJECT_H */

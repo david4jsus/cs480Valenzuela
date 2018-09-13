@@ -17,7 +17,7 @@ Engine::Engine(string name)
   m_WINDOW_HEIGHT = 0;
   m_WINDOW_WIDTH = 0;
   m_FULLSCREEN = true;
-  imgui_demo = false;
+  imgui_demo = true;
 }
 
 Engine::~Engine()
@@ -132,17 +132,27 @@ void Engine::Keyboard()
     
     if (m_event.key.keysym.sym == SDLK_a)      // Reverse direction of rotation of cube
     {
-      m_graphics->getCube()->reverseDirection();
-    }    
+      m_graphics->getCube(0)->reverseDirection();
+    }
+    
+    if (m_event.key.keysym.sym == SDLK_LEFT)      // Make direction of rotation of cube counter-clockwise
+    {
+      m_graphics->getCube(0)->makeDirectionCounter();
+    }
+    
+    if (m_event.key.keysym.sym == SDLK_RIGHT)      // Make direction of rotation of cube clockwise
+    {
+      m_graphics->getCube(0)->makeDirectionClockwise();
+    }
     
     if (m_event.key.keysym.sym == SDLK_s)      // Stop cube orbit
     {
-      m_graphics->getCube()->toggleOrbit();
+      m_graphics->getCube(0)->toggleOrbit();
     }
     
     if (m_event.key.keysym.sym == SDLK_d)      // Stop cube rotation
     {
-      m_graphics->getCube()->toggleRotation();
+      m_graphics->getCube(0)->toggleRotation();
     }
   }
 }
@@ -158,7 +168,7 @@ void Engine::Mouse()
     // Handle mouse down events here
     if (m_event.button.button == SDL_BUTTON_LEFT) // Reverse direction of rotation of cube
     {
-      m_graphics->getCube()->reverseDirection();
+      m_graphics->getCube(0)->reverseDirection();
     }
   }
 }
