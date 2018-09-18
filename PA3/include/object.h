@@ -8,7 +8,8 @@ class Object
 {
   public:
     Object();
-    Object(Object* objParent, float objOrbitRadius, float objAngleMultiplier, float objSize);
+    Object(Object* objParent, float objOrbitRadius, float objOrbitMultiplier,
+      float objRotateMultiplier, float objSize);
     ~Object();
     void Update(unsigned int dt);
     void Render();
@@ -26,6 +27,9 @@ class Object
     void toggleRotation();
     // Toggle cube orbiting
     void toggleOrbit();
+    
+    // Check if reverse direction for orbit
+    bool isDirectionReversed();
 
   private:
     glm::mat4 model;
@@ -51,7 +55,8 @@ class Object
     // Planet/moon properties
     Object* parent;
     float orbitRadius;
-    float angleMultiplier;
+    float orbitSpeedMultiplier;
+    float rotateSpeedMultiplier;
     float size;
 };
 

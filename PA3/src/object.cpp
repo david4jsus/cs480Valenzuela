@@ -80,15 +80,18 @@ Object::Object()
   
   parent = 0;
   orbitRadius = 5.0f;
-  angleMultiplier = 1.0f;
+  orbitSpeedMultiplier = 1.0f;
+  rotateSpeedMultiplier = 1.0f;
   size = 1;
 }
 
-Object::Object(Object* objParent, float objOrbitRadius, float objAngleMultiplier, float objSize): Object()
+Object::Object(Object* objParent, float objOrbitRadius, float objOrbitMultiplier,
+  float objRotateMultiplier, float objSize): Object()
 {
   parent = objParent;
   orbitRadius = objOrbitRadius;
-  angleMultiplier = objAngleMultiplier;
+  orbitSpeedMultiplier = objOrbitMultiplier;
+  rotateSpeedMultiplier = objRotateMultiplier;
   size = objSize;
 }
 
@@ -112,28 +115,23 @@ void Object::Update(unsigned int dt)
     center = parent->GetModelForChild();
   }
   
-  // Reverse direction of rotation based on keyboard input
-  if (directionReversed)
-  {
-    angle -= dt * angleMultiplier * M_PI/1000;
-  }
-  else
-  {
-    angle += dt * angleMultiplier * M_PI/1000;
-  }
-
-  // Orbit rotation (first rotation by which translation is affected)
+  // Calculate orbit rotation only if orbiting
   if (orbiting)
   {
-    model = glm::rotate(center, (angle/3), glm::vec3(0.0, 1.0, 0.0));
-    
-    // Move to the side
-    model = glm::translate(model, glm::vec3(orbitRadius, 0.0, 0.0));
+    // Reverse direction of rotation bsed on input
+    if (directionReversed)
+    {
+      angle -= dt * orbitSpeedMultiplier * M_PI/1000;
+    }
+    else
+    {
+      angle += dt * orbitSpeedMultiplier * M_PI/1000;
+    }
   }
-  else
-  {
-    model = center;
-  }
+
+  // Orbit rotation
+  model = glm::translate(center, glm::vec3(glm::sin(angle) * orbitRadius,
+    0, glm::cos(angle) * orbitRadius));
   
   // Pass this to any children objects
   modelForChild = model;
@@ -143,11 +141,11 @@ void Object::Update(unsigned int dt)
   {
     if (directionReversed)
     {
-      rotAngle -= dt * M_PI/1000;
+      rotAngle -= dt * rotateSpeedMultiplier * M_PI/1000;
     }
     else
     {
-      rotAngle += dt * M_PI/1000;
+      rotAngle += dt * rotateSpeedMultiplier * M_PI/1000;
     }
   }
   model = glm::rotate(model, (rotAngle), glm::vec3(0.0, 1.0, 0.0));
@@ -196,6 +194,11 @@ void Object::toggleRotation()
 void Object::toggleOrbit()
 {
   orbiting = !orbiting;
+}
+
+bool Object::isDirectionReversed()
+{
+  return directionReversed;
 }
 
 void Object::Render()

@@ -54,4 +54,4 @@ OpenGL 3.3 will run on the [ubuntu.cse.unr.edu](https://ubuntu.cse.unr.edu/) web
 
 # Controls
 
-To reverse the direction of rotation of the planet, click on the screen or press the 'A' key. To make the planet rotate specifically in a ccounter-clockwise direction, press the 'left arrow' button. To make it rotate specifically in a clockwise direction, press the 'right arrow' button. You can also stop the cube from orbiting by pressing the 'S' key, and stop it from rotating by pressing the 'D' key. To quit the program, press the escape button.
+To reverse the direction of rotation of the planet, click on the screen or press the '**A**' key. To make the planet rotate specifically in a counter-clockwise direction, press the **left arrow** button. To make it rotate specifically in a clockwise direction, press the **right arrow** button. You can also stop the cube from orbiting by pressing the '**S**' key, and stop it from rotating by pressing the '**D**' key. To quit the program, press the **escape button**.

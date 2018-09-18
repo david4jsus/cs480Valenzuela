@@ -17,7 +17,7 @@ Engine::Engine(string name)
   m_WINDOW_HEIGHT = 0;
   m_WINDOW_WIDTH = 0;
   m_FULLSCREEN = true;
-  imgui_demo = true;
+  imgui_demo = false;
 }
 
 Engine::~Engine()
@@ -55,7 +55,6 @@ bool Engine::Initialize()
   m_currentTimeMillis = GetCurrentTimeMillis();
   
   // Setup Dear ImGui binding
-  IMGUI_CHECKVERSION();
   ImGui::CreateContext();
   ImGuiIO& imgui_io = ImGui::GetIO(); (void)imgui_io;
   ImGui_ImplSDL2_InitForOpenGL(m_window->getSDLWindow(), m_window->getGLContext());
@@ -76,6 +75,11 @@ void Engine::Run()
     // Update the DT
     m_DT = getDT();
 
+    // Start Dear ImGui frame
+    ImGui_ImplOpenGL3_NewFrame();
+    ImGui_ImplSDL2_NewFrame(m_window->getSDLWindow());
+    ImGui::NewFrame();
+    
     // Check input
     while(SDL_PollEvent(&m_event) != 0)
     {
@@ -84,32 +88,29 @@ void Engine::Run()
       Mouse();
     }
     
-    // Start Dear ImGui frame
-    ImGui_ImplOpenGL3_NewFrame();
-    ImGui_ImplSDL2_NewFrame(m_window->getSDLWindow());
-    ImGui::NewFrame();
-    
     // Demo ImGUI window
-    ImGui::ShowDemoWindow(&imgui_demo);
+    //ImGui::ShowDemoWindow(&imgui_demo);
     
-    /*{
-    ImGui::Begin("Hello, world!");
-    ImGui::Text("Some text");
+    {
+    ImGui::Begin("Debug Window");
+    if (m_graphics->getCube(1)->isDirectionReversed())
+    {
+      ImGui::Text("Direction of rotation of planet: clockwise");
+    }
+    else
+    {
+      ImGui::Text("Direction of rotation of planet: counter-clockwise");
+    }
     ImGui::End();
-    }*/
-    
-    // Dear ImGui rendering
-    //ImVec4 clear_color = ImVec4(0.45f, 0.55, 0.60f, 1.00f);
-    ImGui::Render();
-    //SDL_GL_MakeCurrent(m_window->getSDLWindow(), m_window->getGLContext());
-    //glViewport(0, 0, 500, 500);
-    //glClearColor(clear_color.x, clear_color.y, clear_color.z, clear_color.w);
-    //glClear(GL_COLOR_BUFFER_BIT);
-    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+    }
 
     // Update and render the graphics
     m_graphics->Update(m_DT);
     m_graphics->Render();
+    
+    // Dear ImGui rendering
+    ImGui::Render();
+    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
     // Swap to the Window
     m_window->Swap();
@@ -132,27 +133,27 @@ void Engine::Keyboard()
     
     if (m_event.key.keysym.sym == SDLK_a)      // Reverse direction of rotation of cube
     {
-      m_graphics->getCube(0)->reverseDirection();
+      m_graphics->getCube(1)->reverseDirection();
     }
     
     if (m_event.key.keysym.sym == SDLK_LEFT)      // Make direction of rotation of cube counter-clockwise
     {
-      m_graphics->getCube(0)->makeDirectionCounter();
+      m_graphics->getCube(1)->makeDirectionCounter();
     }
     
     if (m_event.key.keysym.sym == SDLK_RIGHT)      // Make direction of rotation of cube clockwise
     {
-      m_graphics->getCube(0)->makeDirectionClockwise();
+      m_graphics->getCube(1)->makeDirectionClockwise();
     }
     
     if (m_event.key.keysym.sym == SDLK_s)      // Stop cube orbit
     {
-      m_graphics->getCube(0)->toggleOrbit();
+      m_graphics->getCube(1)->toggleOrbit();
     }
     
     if (m_event.key.keysym.sym == SDLK_d)      // Stop cube rotation
     {
-      m_graphics->getCube(0)->toggleRotation();
+      m_graphics->getCube(1)->toggleRotation();
     }
   }
 }
@@ -168,7 +169,7 @@ void Engine::Mouse()
     // Handle mouse down events here
     if (m_event.button.button == SDL_BUTTON_LEFT) // Reverse direction of rotation of cube
     {
-      m_graphics->getCube(0)->reverseDirection();
+      m_graphics->getCube(1)->reverseDirection();
     }
   }
 }
