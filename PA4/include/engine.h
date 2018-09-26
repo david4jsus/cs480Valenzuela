@@ -11,7 +11,7 @@
 class Engine
 {
   public:
-    Engine(string name, int width, int height);
+    Engine(string name, int width, int height, std::string file);
     Engine(string name);
     ~Engine();
     bool Initialize();
@@ -37,6 +37,9 @@ class Engine
     
     // Show Dear ImGui demo window
     bool imgui_demo;
+    
+    // Model loading
+    std::string m_file;
 };
 
 #endif // ENGINE_H

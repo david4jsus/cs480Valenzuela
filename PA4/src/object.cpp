@@ -1,7 +1,45 @@
 #include "object.h"
 
 Object::Object()
-{  
+{
+  // To reverse direction of rotation based on keyboard input
+  directionReversed = false;
+  // To rotate in place
+  rotating = true;
+  // To orbit around
+  orbiting = true;
+
+  angle = 0.0f;
+  rotAngle = 0.0f;
+  
+  parent = 0;
+  orbitRadius = 5.0f;
+  orbitSpeedMultiplier = 1.0f;
+  rotateSpeedMultiplier = 1.0f;
+  size = 1;
+}
+
+Object::Object(std::string filePath, Object* objParent, float objOrbitRadius, float objOrbitMultiplier,
+  float objRotateMultiplier, float objSize): Object()
+{
+  objFilePath = filePath;
+  parent = objParent;
+  orbitRadius = objOrbitRadius;
+  orbitSpeedMultiplier = objOrbitMultiplier;
+  rotateSpeedMultiplier = objRotateMultiplier;
+  size = objSize;
+  
+  createObject();
+}
+
+Object::~Object()
+{
+  Vertices.clear();
+  Indices.clear();
+}
+
+void Object::createObject()
+{
   /*
     # Blender File for a Cube
     o Cube
@@ -59,46 +97,43 @@ Object::Object()
   {
     Indices[i] = Indices[i] - 1;
   }
-
-  angle = 0.0f;
-  rotAngle = 0.0f;
-
-  glGenBuffers(1, &VB);
-  glBindBuffer(GL_ARRAY_BUFFER, VB);
-  glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * Vertices.size(), &Vertices[0], GL_STATIC_DRAW);
-
-  glGenBuffers(1, &IB);
-  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
-  glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * Indices.size(), &Indices[0], GL_STATIC_DRAW);
   
-  // To reverse direction of rotation based on keyboard input
-  directionReversed = false;
-  // To rotate in place
-  rotating = true;
-  // To orbit around
-  orbiting = true;
+  // Load model
+  if (objFilePath == "")
+  {
+    correctModelLoad = false;
+    std::cout << "Loading default cube object..." << std::endl;
+  }
+  else
+  {
+    correctModelLoad = loadOBJ(objFilePath, myVertices, myIndices);
+  }
   
-  parent = 0;
-  orbitRadius = 5.0f;
-  orbitSpeedMultiplier = 1.0f;
-  rotateSpeedMultiplier = 1.0f;
-  size = 1;
-}
+  if (correctModelLoad) // If the object loads
+  {
+    std::cout << "Loading " << objFilePath << "..." << std::endl;
+    
+    glGenBuffers(1, &VB);
+    glBindBuffer(GL_ARRAY_BUFFER, VB);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * myVertices.size(), &myVertices[0], GL_STATIC_DRAW);
 
-Object::Object(Object* objParent, float objOrbitRadius, float objOrbitMultiplier,
-  float objRotateMultiplier, float objSize): Object()
-{
-  parent = objParent;
-  orbitRadius = objOrbitRadius;
-  orbitSpeedMultiplier = objOrbitMultiplier;
-  rotateSpeedMultiplier = objRotateMultiplier;
-  size = objSize;
-}
+    glGenBuffers(1, &IB);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * myIndices.size(),
+      &myIndices[0], GL_STATIC_DRAW);
+  }
+  else // If the object fails to load, load a cube
+  {
+    //std::cout << "ERROR: Model could not be loaded. Loading default cube object..." << std::endl;
+    
+    glGenBuffers(1, &VB);
+    glBindBuffer(GL_ARRAY_BUFFER, VB);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * Vertices.size(), &Vertices[0], GL_STATIC_DRAW);
 
-Object::~Object()
-{
-  Vertices.clear();
-  Indices.clear();
+    glGenBuffers(1, &IB);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * Indices.size(), &Indices[0], GL_STATIC_DRAW);
+  }
 }
 
 void Object::Update(unsigned int dt)
@@ -159,12 +194,10 @@ glm::mat4 Object::GetModel()
   return model;
 }
 
-
 glm::mat4 Object::GetModelForChild()
 {
   return modelForChild;
 }
-
 
 // To reverse the direction of rotation based on keyboard input
 void Object::reverseDirection()
@@ -212,8 +245,73 @@ void Object::Render()
 
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
 
-  glDrawElements(GL_TRIANGLES, Indices.size(), GL_UNSIGNED_INT, 0);
+  if (correctModelLoad)
+  {
+    glDrawElements(GL_TRIANGLES, myIndices.size(), GL_UNSIGNED_INT, 0);
+  }
+  else
+  {
+    glDrawElements(GL_TRIANGLES, Indices.size(), GL_UNSIGNED_INT, 0);
+  }
 
   glDisableVertexAttribArray(0);
   glDisableVertexAttribArray(1);
+}
+
+bool Object::loadOBJ(std::string path, std::vector<Vertex> &out_vertices,
+  std::vector<unsigned int> &out_indices)
+{
+  std::string completeFilePath = "../assets/models/" + path;
+  char filePath[completeFilePath.length() + 1];
+  strcpy(filePath, completeFilePath.c_str());
+  
+  // Open file
+  FILE *file = fopen(filePath, "r");
+  if (file == NULL)
+  {
+    std::cout << "ERROR: Unable to open file!" << std::endl;
+    return false;
+  }
+  
+  // Read file until the end
+  while (true)
+  {
+    char lineHeader[128];
+    
+    // Read the first word of the line
+    int res = fscanf(file, "%s", lineHeader);
+    if (res == EOF) // End of file reached
+    {
+      break;
+    }
+    
+    // Parse object info
+    if (strcmp(lineHeader, "v") == 0) // Vertices
+    {
+      glm::vec3 vertex;
+      glm::vec3 color;
+      fscanf(file, "%f %f %f\n", &vertex.x, &vertex.y, &vertex.z);
+      color.x = glm::sin(vertex.x);
+      color.y = glm::sin(vertex.y);
+      color.z = glm::sin(vertex.z);
+      out_vertices.push_back(Vertex(vertex, color));
+    }
+    else if (strcmp(lineHeader, "f") == 0) // Faces
+    {
+      unsigned int vertexIndex[3];
+      fscanf(file, "%d %d %d\n", &vertexIndex[0], &vertexIndex[1], &vertexIndex[2]);
+      out_indices.push_back(vertexIndex[0]);
+      out_indices.push_back(vertexIndex[1]);
+      out_indices.push_back(vertexIndex[2]);
+    }
+  }
+  fclose(file);
+  
+  // Correct indices
+  for (unsigned int i = 0; i < out_indices.size(); i++)
+  {
+    out_indices[i] = out_indices[i] - 1;
+  }
+  
+  return true;
 }

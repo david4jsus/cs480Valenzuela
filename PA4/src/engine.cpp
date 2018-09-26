@@ -3,12 +3,13 @@
 #include "imgui_impl_sdl.h"
 #include "imgui_impl_opengl3.h"
 
-Engine::Engine(string name, int width, int height)
+Engine::Engine(string name, int width, int height, std::string file)
 {
   m_WINDOW_NAME = name;
   m_WINDOW_WIDTH = width;
   m_WINDOW_HEIGHT = height;
   m_FULLSCREEN = false;
+  m_file = file;
 }
 
 Engine::Engine(string name)
@@ -45,7 +46,7 @@ bool Engine::Initialize()
 
   // Start the graphics
   m_graphics = new Graphics();
-  if(!m_graphics->Initialize(m_WINDOW_WIDTH, m_WINDOW_HEIGHT))
+  if(!m_graphics->Initialize(m_WINDOW_WIDTH, m_WINDOW_HEIGHT, m_file))
   {
     printf("The graphics failed to initialize.\n");
     return false;
@@ -71,7 +72,6 @@ void Engine::Run()
 
   while(m_running)
   {
-    
     // Update the DT
     m_DT = getDT();
 
@@ -92,16 +92,16 @@ void Engine::Run()
     //ImGui::ShowDemoWindow(&imgui_demo);
     
     {
-    ImGui::Begin("Debug Window");
-    if (m_graphics->getCube(1)->isDirectionReversed())
-    {
-      ImGui::Text("Direction of rotation of planet: clockwise");
-    }
-    else
-    {
-      ImGui::Text("Direction of rotation of planet: counter-clockwise");
-    }
-    ImGui::End();
+      ImGui::Begin("Debug Window");
+      if (m_graphics->getCube(0)->isDirectionReversed())
+      {
+        ImGui::Text("Direction of rotation of object: clockwise");
+      }
+      else
+      {
+        ImGui::Text("Direction of rotation of object: counter-clockwise");
+      }
+      ImGui::End();
     }
 
     // Update and render the graphics
@@ -133,27 +133,27 @@ void Engine::Keyboard()
     
     if (m_event.key.keysym.sym == SDLK_a)      // Reverse direction of rotation of cube
     {
-      m_graphics->getCube(1)->reverseDirection();
+      m_graphics->getCube(0)->reverseDirection();
     }
     
     if (m_event.key.keysym.sym == SDLK_LEFT)      // Make direction of rotation of cube counter-clockwise
     {
-      m_graphics->getCube(1)->makeDirectionCounter();
+      m_graphics->getCube(0)->makeDirectionCounter();
     }
     
     if (m_event.key.keysym.sym == SDLK_RIGHT)      // Make direction of rotation of cube clockwise
     {
-      m_graphics->getCube(1)->makeDirectionClockwise();
+      m_graphics->getCube(0)->makeDirectionClockwise();
     }
     
     if (m_event.key.keysym.sym == SDLK_s)      // Stop cube orbit
     {
-      m_graphics->getCube(1)->toggleOrbit();
+      m_graphics->getCube(0)->toggleOrbit();
     }
     
     if (m_event.key.keysym.sym == SDLK_d)      // Stop cube rotation
     {
-      m_graphics->getCube(1)->toggleRotation();
+      m_graphics->getCube(0)->toggleRotation();
     }
   }
 }
@@ -169,7 +169,7 @@ void Engine::Mouse()
     // Handle mouse down events here
     if (m_event.button.button == SDL_BUTTON_LEFT) // Reverse direction of rotation of cube
     {
-      m_graphics->getCube(1)->reverseDirection();
+      m_graphics->getCube(0)->reverseDirection();
     }
   }
 }

@@ -8,9 +8,10 @@ class Object
 {
   public:
     Object();
-    Object(Object* objParent, float objOrbitRadius, float objOrbitMultiplier,
+    Object(std::string filePath, Object* objParent, float objOrbitRadius, float objOrbitMultiplier,
       float objRotateMultiplier, float objSize);
     ~Object();
+    void createObject();
     void Update(unsigned int dt);
     void Render();
 
@@ -51,13 +52,19 @@ class Object
     // To orbit around
     bool orbiting;
     
-    
     // Planet/moon properties
     Object* parent;
     float orbitRadius;
     float orbitSpeedMultiplier;
     float rotateSpeedMultiplier;
     float size;
+    
+    // Object loading
+    std::string objFilePath;
+    bool correctModelLoad;
+    std::vector<Vertex> myVertices;
+    std::vector<unsigned int> myIndices;
+    bool loadOBJ(std::string path, std::vector<Vertex> &out_vertices, std::vector<unsigned int> &out_indices);
 };
 
 #endif /* OBJECT_H */

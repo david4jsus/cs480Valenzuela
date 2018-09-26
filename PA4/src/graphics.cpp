@@ -10,7 +10,7 @@ Graphics::~Graphics()
 
 }
 
-bool Graphics::Initialize(int width, int height)
+bool Graphics::Initialize(int width, int height, std::string file)
 {
   // Used for the linux OS
   #if !defined(__APPLE__) && !defined(MACOSX)
@@ -45,19 +45,23 @@ bool Graphics::Initialize(int width, int height)
   }
 
   // Create objects
-  Object* sun     = new Object(0, 0.0f, 0.1f, 0.01f, 1.5f);
+  Object* sun     = new Object(file, 0, 0.0f, 0.1f, 0.01f, 1.0f);
+  /*
   Object* planet  = new Object(0, 6.0f, 0.2f, 0.5f, 0.6f);
   Object* moon    = new Object(planet, 2.0f, 0.5f, 1.0f, 0.2f);
   Object* planet2 = new Object(0, 10.0f, 0.15f, 0.2f, 0.8f);
   Object* moon2   = new Object(planet2, 2.0f, 0.3f, 1.0f, 0.3f);
   Object* moon3   = new Object(moon2, 1.0f, 0.8f, 1.5f, 0.1f);
+  */
   
   m_cubes.push_back(sun);
+  /*
   m_cubes.push_back(planet);
   m_cubes.push_back(moon);
   m_cubes.push_back(planet2);
   m_cubes.push_back(moon2);
   m_cubes.push_back(moon3);
+  */
 
   // Set up the shaders
   m_shader = new Shader();

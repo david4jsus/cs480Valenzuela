@@ -1,4 +1,4 @@
-# PA3: Moons
+# PA4: Blender and Model Loading
 
 # Dependencies, Building, and Running
 
@@ -7,38 +7,10 @@ For both of the operating systems to run this project installation of these thre
 
 This project uses OpenGL 3.3. Some computers, such as virtual machines in the ECC, can not run this version. In in order to run OpenGL 2.7 follow the instructions at [Using OpenGL 2.7](https://github.com/HPC-Vis/computer-graphics/wiki/Using-OpenGL-2.7)
 
-### Ubuntu/Linux
-```bash
-sudo apt-get install libglew-dev libglm-dev libsdl2-dev
-```
-
-### Mac OSX
-Installation of brew is suggested to easily install the libs. Ensure that the latest version of the Developer Tools is installed.
-```bash
-brew install glew glm sdl2
-```
+This project also uses Dear ImGui (https://github.com/ocornut/imgui), but all the necessary files are already included in the project.
 
 ## Building and Running
-To build this project there are two options. One is to use CMake which makes including new libraries easier, and handles new files added automatically to the src and include directory. CMake is a small new learning curve but makes things easier in the future.
-The second option is to use the provided Makefile which is used as usual.
-
-Running the make in a separate directory will allow easy cleanup of the build data, and an easy way to prevent unnecessary data to be added to the git repository.  
-
-### CMake Instructions
-The building of the project is done using CMake, installation with apt-get or brew may be necessary. Later use with CMake and Shader files will be require the copy of a directory where those files are stored (ex. shaders). To do this in the ```add_custom_target``` function place 
-```cmake
-COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/shaders/ ${CMAKE_CURRENT_BINARY_DIR}/shaders
-```
-
-```bash
-cd build
-cmake ..
-make
-./Tutorial
-```
-
-### Makefile Instructions 
-The makefile is already available in the build folder. To create the program, simply run the make command. Then, run the program.
+To build this project there is a provided Makefile which is used as usual. It is already available in the build folder. To create the program, simply run the make command. Then, run the program.
 
 ```bash
 cd build
@@ -46,12 +18,15 @@ make
 ./Tutorial
 ```
 
-## Ubuntu.cse.unr.edu
-OpenGL 3.3 will run on the [ubuntu.cse.unr.edu](https://ubuntu.cse.unr.edu/) website. To do so follow the build instructions, but when running the Tutorial executable use this line to execute.
+# Loading a model
+
+By default, the project loads a cibe object, or in the case that a specified model could not be loaded. To load your own model, place the '**.obj**' file in the '**assets/models/**' subdirectory of the project. Then, when running the program, specify the name of the file as a command line argument (please include '.obj' in the name of the file):
+
 ```bash
-/usr/NX/scripts/vgl/vglrun ./Tutorial
-```
+./Tutorial object.obj
+
+If there is a file called 'object.obj' in the 'models/' file, it will load that file. Otherwise, a cube will be shown.
 
 # Controls
 
-To reverse the direction of rotation of the planet, click on the screen or press the '**A**' key. To make the planet rotate specifically in a counter-clockwise direction, press the **left arrow** button. To make it rotate specifically in a clockwise direction, press the **right arrow** button. You can also stop the cube from orbiting by pressing the '**S**' key, and stop it from rotating by pressing the '**D**' key. To quit the program, press the **escape button**.
+To reverse the direction of rotation of the object, click on the screen or press the '**A**' key. To make the object rotate specifically in a counter-clockwise direction, press the **left arrow** button. To make it rotate specifically in a clockwise direction, press the **right arrow** button. You can also stop the object from orbiting by pressing the '**S**' key, and stop it from rotating by pressing the '**D**' key. To quit the program, press the **escape button**. There will be an on-screen menu indicating the diretion of rotation of the object.
