@@ -10,12 +10,13 @@ class Object
 {
   public:
     Object();
-    Object(std::string filePath, Object* objParent, float objOrbitRadius, float objOrbitMultiplier,
+    Object(const std::string filePath, Object* objParent, float objOrbitRadius, float objOrbitMultiplier,
       float objRotateMultiplier, float objSize);
     ~Object();
-    void createObject();
     void Update(unsigned int dt);
     void Render();
+
+    void loadOBJ(const std::string& pFile);
 
     glm::mat4 GetModel();
     glm::mat4 GetModelForChild();
@@ -36,10 +37,10 @@ class Object
 
   private:
     glm::mat4 model;
-    std::vector<Vertex> Vertices;
-    std::vector<unsigned int> Indices;
-    GLuint VB;
-    GLuint IB;
+    std::vector<std::vector<Vertex>> Vertices;
+    std::vector<std::vector<unsigned int>> Indices;
+    std::vector<GLuint> VB;
+    std::vector<GLuint> IB;
     
     // If the object has a child, this is the matrix it should read as its center
     glm::mat4 modelForChild;
@@ -66,7 +67,6 @@ class Object
     bool correctModelLoad;
     std::vector<Vertex> myVertices;
     std::vector<unsigned int> myIndices;
-    bool loadOBJ(const std::string& pFile);
 };
 
 #endif /* OBJECT_H */

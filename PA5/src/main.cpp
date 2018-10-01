@@ -12,7 +12,7 @@ int main(int argc, char **argv)
     model = argv[1];
   }
   
-  Engine *engine = new Engine("CS 480 - David Valenzuela Gonzalez - PA4", 800, 600, model);
+  Engine *engine = new Engine("CS 480 - Specular Bois Presents - Assimp Model Loader  - PA5", 800, 600, model);
   
   if(!engine->Initialize())
   {

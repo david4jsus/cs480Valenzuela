@@ -1,5 +1,6 @@
 #include "object.h"
 #include <fstream>
+#include <algorithm>
 
 #include <assimp/Importer.hpp> //includes the importer, which is used to read our obj file
 #include <assimp/scene.h> //includes the aiScene object
@@ -25,121 +26,22 @@ Object::Object()
   size = 1;
 }
 
-Object::Object(std::string filePath, Object* objParent, float objOrbitRadius, float objOrbitMultiplier,
+Object::Object(const std::string filePath, Object* objParent, float objOrbitRadius, float objOrbitMultiplier,
   float objRotateMultiplier, float objSize): Object()
 {
-  objFilePath = filePath;
   parent = objParent;
   orbitRadius = objOrbitRadius;
   orbitSpeedMultiplier = objOrbitMultiplier;
   rotateSpeedMultiplier = objRotateMultiplier;
   size = objSize;
   
-  createObject();
+  loadOBJ(filePath);
 }
 
 Object::~Object()
 {
   Vertices.clear();
   Indices.clear();
-}
-
-void Object::createObject()
-{
-  /*
-    # Blender File for a Cube
-    o Cube
-    v 1.000000 -1.000000 -1.000000
-    v 1.000000 -1.000000 1.000000
-    v -1.000000 -1.000000 1.000000
-    v -1.000000 -1.000000 -1.000000
-    v 1.000000 1.000000 -0.999999
-    v 0.999999 1.000000 1.000001
-    v -1.000000 1.000000 1.000000
-    v -1.000000 1.000000 -1.000000
-    s off
-    f 2 3 4
-    f 8 7 6
-    f 1 5 6
-    f 2 6 7
-    f 7 8 4
-    f 1 4 8
-    f 1 2 4
-    f 5 8 6
-    f 2 1 6
-    f 3 2 7
-    f 3 7 4
-    f 5 1 8
-  */
-
-  Vertices = {
-    {{1.0f, -1.0f, -1.0f}, {0.0f, 0.0f, 0.0f}},
-    {{1.0f, -1.0f, 1.0f}, {1.0f, 0.0f, 0.0f}},
-    {{-1.0f, -1.0f, 1.0f}, {0.0f, 1.0f, 0.0f}},
-    {{-1.0f, -1.0f, -1.0f}, {0.0f, 0.0f, 1.0f}},
-    {{1.0f, 1.0f, -1.0f}, {1.0f, 1.0f, 0.0f}},
-    {{1.0f, 1.0f, 1.0f}, {1.0f, 0.0f, 1.0f}},
-    {{-1.0f, 1.0f, 1.0f}, {0.0f, 1.0f, 1.0f}},
-    {{-1.0f, 1.0f, -1.0f}, {1.0f, 1.0f, 1.0f}}
-  };
-
-  Indices = {
-    2, 3, 4,
-    8, 7, 6,
-    1, 5, 6,
-    2, 6, 7,
-    7, 8, 4,
-    1, 4, 8,
-    1, 2, 4,
-    5, 8, 6,
-    2, 1, 6,
-    3, 2, 7,
-    3, 7, 4,
-    5, 1, 8
-  };
-
-  // The index works at a 0th index
-  for(unsigned int i = 0; i < Indices.size(); i++)
-  {
-    Indices[i] = Indices[i] - 1;
-  }
-  
-  // Load model
-  if (objFilePath == "")
-  {
-    correctModelLoad = false;
-    std::cout << "Loading default cube object..." << std::endl;
-  }
-  else
-  {
-    correctModelLoad = loadOBJ(objFilePath);
-  }
-  
-  if (correctModelLoad) // If the object loads
-  {
-    std::cout << "Loading " << objFilePath << "..." << std::endl;
-    
-    glGenBuffers(1, &VB);
-    glBindBuffer(GL_ARRAY_BUFFER, VB);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * myVertices.size(), &myVertices[0], GL_STATIC_DRAW);
-
-    glGenBuffers(1, &IB);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * myIndices.size(),
-      &myIndices[0], GL_STATIC_DRAW);
-  }
-  else // If the object fails to load, load a cube
-  {
-    //std::cout << "ERROR: Model could not be loaded. Loading default cube object..." << std::endl;
-    
-    glGenBuffers(1, &VB);
-    glBindBuffer(GL_ARRAY_BUFFER, VB);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * Vertices.size(), &Vertices[0], GL_STATIC_DRAW);
-
-    glGenBuffers(1, &IB);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * Indices.size(), &Indices[0], GL_STATIC_DRAW);
-  }
 }
 
 void Object::Update(unsigned int dt)
@@ -242,33 +144,97 @@ bool Object::isDirectionReversed()
 
 void Object::Render()
 {
-  glEnableVertexAttribArray(0);
-  glEnableVertexAttribArray(1);
+/*
+    unsigned int index;
 
-  glBindBuffer(GL_ARRAY_BUFFER, VB);
-  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
-  glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex,color));
+    for( index = 0; index < std::min( VB.size(), IB.size() ); index++ )
+    {
+        glEnableVertexAttribArray( 0 );
+        glEnableVertexAttribArray( 1 );
 
-  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
+        glBindBuffer( GL_ARRAY_BUFFER, VB[ index ] );
+        glVertexAttribPointer( 0, 3, GL_FLOAT, GL_FALSE, sizeof( Vertex ), 0 );
+        glVertexAttribPointer( 1, 3, GL_FLOAT, GL_FALSE, sizeof( Vertex ), ( void* ) offsetof( Vertex, color ) );
 
-  if (correctModelLoad)
-  {
-    glDrawElements(GL_TRIANGLES, myIndices.size(), GL_UNSIGNED_INT, 0);
-  }
-  else
-  {
-    glDrawElements(GL_TRIANGLES, Indices.size(), GL_UNSIGNED_INT, 0);
-  }
+        glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, IB[ index ] );
+        glDrawElements( GL_TRIANGLES, Indices[ index ].size( ), GL_UNSIGNED_INT, 0 );
 
-  glDisableVertexAttribArray(0);
-  glDisableVertexAttribArray(1);
+        glDisableVertexAttribArray( 0 );
+        glDisableVertexAttribArray( 1 );
+    }
+*/
 }
 
-bool Object::loadOBJ(const std::string& pFile)
+void Object::loadOBJ(const std::string& pFile)
 {
     Assimp::Importer importer;
-    const aiScene* scene;
- 
-    // We're done. Everything will be cleaned up by the importer destructor
-    return true;
+Vertex tmpVert( glm::vec3( 1.0f, 1.0f, 1.0f ), glm::vec3( 1.0f, 1.0f, 1.0f ) );
+    const aiScene* scene = importer.ReadFile(pFile, aiProcess_Triangulate);
+
+aiMaterial* mtlPtr = NULL;
+aiColor4D mColor;
+
+    
+    unsigned int mIndex, fIndex, vIndex, iIndex;
+
+    if( scene == NULL )
+    {
+        std::cout << "Failed to load " << pFile << std::endl;
+    }
+
+    Vertices.clear( );
+    VB.clear( );
+    Indices.clear( );
+    IB.clear( );
+/*
+    for( mIndex = 0; mIndex < scene->mNumMeshes; mIndex++ )
+    {
+        mtlPtr = scene->mMaterials[ scene->mMeshes[ mIndex ]->mMaterialIndex ];
+
+        if( mtlPtr != NULL )
+        {
+            if( AI_SUCCESS == aiGetMaterialColor( mtlPtr, AI_MATKEY_COLOR_DIFFUSE, &mColor ) )
+            {
+                tmpVert.color.r = mColor.r;
+                tmpVert.color.g = mColor.g;
+                tmpVert.color.b = mColor.b;
+            }
+        }        
+
+        Vertices.push_back( std::vector<Vertex>( ) );
+        Indices.push_back( std::vector<unsigned int>( ) );
+
+        for( fIndex = 0; fIndex < scene->mMeshes[mIndex]->mNumFaces; fIndex++ )
+        {
+            for( iIndex = 0; iIndex < scene->mMeshes[mIndex ]->mFaces[fIndex].mNumIndices; iIndex++ )
+            {
+                vIndex = scene->mMeshes[ mIndex ]->mFaces[ fIndex ].mIndices[ iIndex ];
+                tmpVert.vertex.x = scene->mMeshes[ mIndex ]->mVertices[ vIndex ].x;
+                tmpVert.vertex.y = scene->mMeshes[ mIndex ]->mVertices[ vIndex ].y;
+                tmpVert.vertex.z = scene->mMeshes[ mIndex ]->mVertices[ vIndex ].z;                
+
+                Vertices[ mIndex ].push_back( tmpVert );
+                Indices[ mIndex ].push_back( scene->mMeshes[ mIndex ]->mFaces[fIndex].mIndices[ iIndex ] );
+
+            }
+        }
+    }
+
+    VB.resize( Vertices.size( ) );
+    IB.resize( Indices.size( ) );
+    
+    for( vIndex = 0; vIndex < VB.size( ); vIndex++ )
+    {
+        glGenBuffers( 1, &VB[ vIndex ] );
+        glBindBuffer( GL_ARRAY_BUFFER, VB[ vIndex ] );
+        glBufferData( GL_ARRAY_BUFFER, sizeof( Vertex ) * Vertices[ vIndex ].size( ), &Vertices[ vIndex ][ 0 ], GL_STATIC_DRAW );
+    }
+    
+    for( iIndex = 0; iIndex < IB.size( ); iIndex++ )
+    {
+        glGenBuffers( 1, &IB[ iIndex ] );
+        glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, IB[ iIndex ] );
+        glBufferData( GL_ELEMENT_ARRAY_BUFFER, sizeof( unsigned int ) * Indices[ iIndex ].size( ), &Indices[ iIndex ][ 0 ], GL_STATIC_DRAW );
+    }
+*/
 }

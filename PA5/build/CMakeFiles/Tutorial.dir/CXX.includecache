@@ -279,6 +279,8 @@ object.h
 /home/hrumjahn/cs480Valenzuela/PA5/src/object.h
 fstream
 -
+algorithm
+-
 assimp/Importer.hpp
 -
 assimp/scene.h
