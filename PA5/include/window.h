@@ -1,8 +1,6 @@
 #ifndef WINDOW_H
 #define WINDOW_H
 
-#define GLM_ENABLE_EXPERIMENTAL
-
 #include <SDL2/SDL.h>
 #include <string>
 using namespace std;

@@ -1,4 +1,10 @@
 #include "object.h"
+#include <fstream>
+
+#include <assimp/Importer.hpp> //includes the importer, which is used to read our obj file
+#include <assimp/scene.h> //includes the aiScene object
+#include <assimp/postprocess.h> //includes the postprocessing variables for the importer
+#include <assimp/color4.h> //includes the aiColor4 object, which is used to handle the colors from the mesh objects 
 
 Object::Object()
 {
@@ -106,7 +112,7 @@ void Object::createObject()
   }
   else
   {
-    correctModelLoad = loadOBJ(objFilePath, myVertices, myIndices);
+    correctModelLoad = loadOBJ(objFilePath);
   }
   
   if (correctModelLoad) // If the object loads
@@ -258,60 +264,11 @@ void Object::Render()
   glDisableVertexAttribArray(1);
 }
 
-bool Object::loadOBJ(std::string path, std::vector<Vertex> &out_vertices,
-  std::vector<unsigned int> &out_indices)
+bool Object::loadOBJ(const std::string& pFile)
 {
-  std::string completeFilePath = "../assets/models/" + path;
-  char filePath[completeFilePath.length() + 1];
-  strcpy(filePath, completeFilePath.c_str());
-  
-  // Open file
-  FILE *file = fopen(filePath, "r");
-  if (file == NULL)
-  {
-    std::cout << "ERROR: Unable to open file!" << std::endl;
-    return false;
-  }
-  
-  // Read file until the end
-  while (true)
-  {
-    char lineHeader[128];
-    
-    // Read the first word of the line
-    int res = fscanf(file, "%s", lineHeader);
-    if (res == EOF) // End of file reached
-    {
-      break;
-    }
-    
-    // Parse object info
-    if (strcmp(lineHeader, "v") == 0) // Vertices
-    {
-      glm::vec3 vertex;
-      glm::vec3 color;
-      fscanf(file, "%f %f %f\n", &vertex.x, &vertex.y, &vertex.z);
-      color.x = glm::sin(vertex.x);
-      color.y = glm::sin(vertex.y);
-      color.z = glm::sin(vertex.z);
-      out_vertices.push_back(Vertex(vertex, color));
-    }
-    else if (strcmp(lineHeader, "f") == 0) // Faces
-    {
-      unsigned int vertexIndex[3];
-      fscanf(file, "%d %d %d\n", &vertexIndex[0], &vertexIndex[1], &vertexIndex[2]);
-      out_indices.push_back(vertexIndex[0]);
-      out_indices.push_back(vertexIndex[1]);
-      out_indices.push_back(vertexIndex[2]);
-    }
-  }
-  fclose(file);
-  
-  // Correct indices
-  for (unsigned int i = 0; i < out_indices.size(); i++)
-  {
-    out_indices[i] = out_indices[i] - 1;
-  }
-  
-  return true;
+    Assimp::Importer importer;
+    const aiScene* scene;
+ 
+    // We're done. Everything will be cleaned up by the importer destructor
+    return true;
 }

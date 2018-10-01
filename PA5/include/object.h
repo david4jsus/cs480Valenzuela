@@ -2,11 +2,9 @@
 #define OBJECT_H
 
 #include <vector>
+#include <string>
 #include "graphics_headers.h"
-#include <assimp/Importer.hpp> //includes the importer, which is used to read our obj file
-#include <assimp/scene.h> //includes the aiScene object
-#include <assimp/postprocess.h> //includes the postprocessing variables for the importer
-#include <assimp/color4.h> //includes the aiColor4 object, which is used to handle the colors from the mesh objects 
+
 
 class Object
 {
@@ -68,7 +66,7 @@ class Object
     bool correctModelLoad;
     std::vector<Vertex> myVertices;
     std::vector<unsigned int> myIndices;
-    bool loadOBJ(std::string path, std::vector<Vertex> &out_vertices, std::vector<unsigned int> &out_indices);
+    bool loadOBJ(const std::string& pFile);
 };
 
 #endif /* OBJECT_H */
