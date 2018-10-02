@@ -1,4 +1,7 @@
 #include "object.h"
+#include <iostream>
+
+using namespace std;
 
 Object::Object()
 {
@@ -243,6 +246,7 @@ void Object::Render()
   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
   glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex,color));
 
+
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
 
   if (correctModelLoad)
@@ -261,57 +265,67 @@ void Object::Render()
 bool Object::loadOBJ(std::string path, std::vector<Vertex> &out_vertices,
   std::vector<unsigned int> &out_indices)
 {
+  // local variables
+  unsigned int meshCounter, faceLooper, verticesLooper, indicesLooper;
+  unsigned int lastValue = 0;
+  glm::vec3 vertex;
+  glm::vec3 color;
+
+  // string that contains path to object file
   std::string completeFilePath = "../assets/models/" + path;
-  char filePath[completeFilePath.length() + 1];
-  strcpy(filePath, completeFilePath.c_str());
-  
-  // Open file
-  FILE *file = fopen(filePath, "r");
-  if (file == NULL)
+
+  // access information from object file
+  scene = importer.ReadFile(completeFilePath, aiProcess_Triangulate);
+
+  // check if object file was sucessfully accessed
+  if(scene == NULL)
   {
     std::cout << "ERROR: Unable to open file!" << std::endl;
     return false;
   }
-  
-  // Read file until the end
-  while (true)
+
+  // get all meshes from object scene
+  for(meshCounter = 0; meshCounter < scene->mNumMeshes; meshCounter++)
   {
-    char lineHeader[128];
-    
-    // Read the first word of the line
-    int res = fscanf(file, "%s", lineHeader);
-    if (res == EOF) // End of file reached
-    {
-      break;
-    }
-    
-    // Parse object info
-    if (strcmp(lineHeader, "v") == 0) // Vertices
-    {
-      glm::vec3 vertex;
-      glm::vec3 color;
-      fscanf(file, "%f %f %f\n", &vertex.x, &vertex.y, &vertex.z);
-      color.x = glm::sin(vertex.x);
-      color.y = glm::sin(vertex.y);
-      color.z = glm::sin(vertex.z);
-      out_vertices.push_back(Vertex(vertex, color));
-    }
-    else if (strcmp(lineHeader, "f") == 0) // Faces
-    {
-      unsigned int vertexIndex[3];
-      fscanf(file, "%d %d %d\n", &vertexIndex[0], &vertexIndex[1], &vertexIndex[2]);
-      out_indices.push_back(vertexIndex[0]);
-      out_indices.push_back(vertexIndex[1]);
-      out_indices.push_back(vertexIndex[2]);
-    }
+    meshes.push_back(scene->mMeshes[meshCounter]);
   }
-  fclose(file);
-  
-  // Correct indices
-  for (unsigned int i = 0; i < out_indices.size(); i++)
-  {
-    out_indices[i] = out_indices[i] - 1;
-  }
-  
+
+  // loop through all meshes
+  for(meshCounter = 0; meshCounter < scene->mNumMeshes; meshCounter++)
+	{
+      // loop through all faces
+	  for(faceLooper = 0; faceLooper < meshes[meshCounter]->mNumFaces; faceLooper++)
+	  {
+		// loop through all indices
+	    for(indicesLooper = 0; indicesLooper < 3; indicesLooper++)
+		{
+          // get position of index
+		  out_indices.push_back(meshes[meshCounter]->mFaces[faceLooper].mIndices[indicesLooper] + lastValue);
+		}
+	  }
+
+      // offest new next mesh's index poisition
+	  lastValue = out_indices[out_indices.size() - 1] + 1;
+			  
+	  // loop through all vertexes
+	  for(verticesLooper = 0; verticesLooper < meshes[meshCounter]->mNumVertices; verticesLooper++)
+		{
+		  // get x, y, and z coordinates for each vertex
+		  vertex.x = meshes[meshCounter]->mVertices[verticesLooper].x;
+		  vertex.y = meshes[meshCounter]->mVertices[verticesLooper].y;
+		  vertex.z = meshes[meshCounter]->mVertices[verticesLooper].z;
+
+		  // assign color to a vertex
+		  color.x = glm::sin(vertex.x);
+		  color.y = glm::sin(vertex.y);
+		  color.z = glm::sin(vertex.z);
+
+          // store vertexes
+		  Vertex batmanVertices(vertex, color);
+		  out_vertices.push_back(batmanVertices);
+		}
+	  }
+
+  // object file sucessfully accessed
   return true;
 }
