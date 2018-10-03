@@ -24,7 +24,6 @@ By default, the project loads a cibe object, or in the case that a specified mod
 
 ```bash
 ./Tutorial object.obj
-```
 
 If there is a file called 'object.obj' in the 'models/' file, it will load that file. Otherwise, a cube will be shown.
 

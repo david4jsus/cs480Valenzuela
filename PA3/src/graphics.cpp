@@ -47,7 +47,7 @@ bool Graphics::Initialize(int width, int height)
   // Create objects
   Object* sun     = new Object(0, 0.0f, 0.1f, 0.01f, 1.5f);
   Object* planet  = new Object(0, 6.0f, 0.2f, 0.5f, 0.6f);
-  Object* moon    = new Object(planet, 2.0f, 0.5f, 1.0f, 0.2f);
+  Object* moon    = new Object(planet, 2.0f, 0.5f, 1.0f, 0.2f); // parent, orbit radius, speed of orbit, self rotation speed, size
   Object* planet2 = new Object(0, 10.0f, 0.15f, 0.2f, 0.8f);
   Object* moon2   = new Object(planet2, 2.0f, 0.3f, 1.0f, 0.3f);
   Object* moon3   = new Object(moon2, 1.0f, 0.8f, 1.5f, 0.1f);
