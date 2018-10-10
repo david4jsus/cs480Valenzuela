@@ -70,14 +70,14 @@ void Object::createObject()
   */
 
   Vertices = {
-    {{1.0f, -1.0f, -1.0f}, {0.0f, 0.0f, 0.0f}},
-    {{1.0f, -1.0f, 1.0f}, {1.0f, 0.0f, 0.0f}},
-    {{-1.0f, -1.0f, 1.0f}, {0.0f, 1.0f, 0.0f}},
-    {{-1.0f, -1.0f, -1.0f}, {0.0f, 0.0f, 1.0f}},
-    {{1.0f, 1.0f, -1.0f}, {1.0f, 1.0f, 0.0f}},
-    {{1.0f, 1.0f, 1.0f}, {1.0f, 0.0f, 1.0f}},
-    {{-1.0f, 1.0f, 1.0f}, {0.0f, 1.0f, 1.0f}},
-    {{-1.0f, 1.0f, -1.0f}, {1.0f, 1.0f, 1.0f}}
+    {{1.0f, -1.0f, -1.0f}, {0.0f, 0.0f, 0.0f}, {1.0f, 1.0f}},
+    {{1.0f, -1.0f, 1.0f}, {1.0f, 0.0f, 0.0f}, {1.0f, 1.0f}},
+    {{-1.0f, -1.0f, 1.0f}, {0.0f, 1.0f, 0.0f}, {0.0f, 0.0f}},
+    {{-1.0f, -1.0f, -1.0f}, {0.0f, 0.0f, 1.0f}, {0.0f, 0.1f}},
+    {{1.0f, 1.0f, -1.0f}, {1.0f, 1.0f, 0.0f}, {1.0f, 1.0f}},
+    {{1.0f, 1.0f, 1.0f}, {1.0f, 0.0f, 1.0f}, {1.0f, 1.0f}},
+    {{-1.0f, 1.0f, 1.0f}, {0.0f, 1.0f, 1.0f}, {0.0f, 0.0f}},
+    {{-1.0f, 1.0f, -1.0f}, {1.0f, 1.0f, 1.0f}, {0.0f, 0.1f}}
   };
 
   Indices = {
@@ -112,7 +112,7 @@ void Object::createObject()
     // Load Texture
     Magick::Blob blob;
     Magick::Image *image;
-    image = new Magick::Image("asuna.jpg");
+    image = new Magick::Image("assets/asuna.png"); // hard coded. need to have a for loop to find each texture, read, and apply
     image->write(&blob, "RGBA");
     cout << "Loaded Texture: " << image << endl;
     
@@ -121,7 +121,7 @@ void Object::createObject()
     glBindTexture(GL_TEXTURE_2D, texture);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image->columns(), image->rows(), 0, GL_RGBA, GL_UNSIGNED_BYTE, blob.data());
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FIITER, GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     delete image;
     cout << "Generated Texture" << endl;
   
@@ -320,6 +320,7 @@ bool Object::loadOBJ(std::string path, std::vector<Vertex> &out_vertices,
         
     // Check if the model has a texture
     meshes[meshCounter]->HasTextureCoords(0);
+    cout << "has texture" << endl;
   }
 
   // loop through all meshes
@@ -343,9 +344,9 @@ bool Object::loadOBJ(std::string path, std::vector<Vertex> &out_vertices,
 	  for(verticesLooper = 0; verticesLooper < meshes[meshCounter]->mNumVertices; verticesLooper++)
 		{
 		  // Texture coordinates
-        aiVector3D vert = meshes[meshCounter]->mTextureCoords[0][verticesLooper];
-        texture.x = vert.x;
-        texture.y = vert.y;		
+                  aiVector3D vert = meshes[meshCounter]->mTextureCoords[0][verticesLooper];
+                  texture.x = vert.x;
+                  texture.y = vert.y;		
 		
 		  // get x, y, and z coordinates for each vertex
 		  vertex.x = meshes[meshCounter]->mVertices[verticesLooper].x;
@@ -357,7 +358,7 @@ bool Object::loadOBJ(std::string path, std::vector<Vertex> &out_vertices,
 		  color.y = glm::sin(vertex.y);
 		  color.z = glm::sin(vertex.z);
 
-          // store vertexes
+                  // store vertexes
 		  Vertex batmanVertices(vertex, color, texture);
 		  out_vertices.push_back(batmanVertices);
 		}

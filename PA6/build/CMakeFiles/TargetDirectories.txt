@@ -1,4 +1,0 @@
-/home/hrumjahn/cs480Valenzuela/PA6/build/CMakeFiles/edit_cache.dir
-/home/hrumjahn/cs480Valenzuela/PA6/build/CMakeFiles/Tutorial_SUCCESSFUL.dir
-/home/hrumjahn/cs480Valenzuela/PA6/build/CMakeFiles/rebuild_cache.dir
-/home/hrumjahn/cs480Valenzuela/PA6/build/CMakeFiles/Tutorial.dir
