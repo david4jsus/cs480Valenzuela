@@ -75,7 +75,6 @@ class Object
 	Assimp::Importer importer;
 	const aiScene *scene;
 	std::vector<aiMesh*> meshes;
-	
 };
 
 #endif /* OBJECT_H */
