@@ -9,8 +9,6 @@
 #include <assimp/postprocess.h> //includes the postprocessing variables for the importer
 #include <assimp/color4.h> //includes the aiColor4 object, which is used to handle the colors from the mesh 
 
-#include <Magick++.h>
-
 class Object
 {
   public:
@@ -46,6 +44,8 @@ class Object
     GLuint VB;
     GLuint IB;
     
+    GLuint texture;
+    
     // If the object has a child, this is the matrix it should read as its center
     glm::mat4 modelForChild;
 
@@ -72,16 +72,14 @@ class Object
     std::vector<Vertex> myVertices;
     std::vector<unsigned int> myIndices;
     bool loadOBJ(std::string path, std::vector<Vertex> &out_vertices, std::vector<unsigned int> &out_indices);
-    void LoadTexture(std::string
-
 
 	// Assimp object loader
 	Assimp::Importer importer;
 	const aiScene *scene;
 	std::vector<aiMesh*> meshes;
 	
-	
 	Magick::Image im;
+	std::vector<unsigned int> mTextureCoords;
 	
 };
 

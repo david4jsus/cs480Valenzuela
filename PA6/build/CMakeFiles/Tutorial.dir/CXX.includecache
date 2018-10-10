@@ -51,6 +51,8 @@ glm/gtc/type_ptr.hpp
 -
 glm/gtx/rotate_vector.hpp
 -
+Magick++.h
+-
 
 ../include/imconfig.h
 
@@ -136,8 +138,6 @@ assimp/scene.h
 assimp/postprocess.h
 -
 assimp/color4.h
--
-Magick++.h
 -
 
 ../include/shader.h
