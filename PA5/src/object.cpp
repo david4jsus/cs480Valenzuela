@@ -1,4 +1,5 @@
 #include "object.h"
+<<<<<<< HEAD
 #include <fstream>
 #include <algorithm>
 
@@ -6,6 +7,11 @@
 #include <assimp/scene.h> //includes the aiScene object
 #include <assimp/postprocess.h> //includes the postprocessing variables for the importer
 #include <assimp/color4.h> //includes the aiColor4 object, which is used to handle the colors from the mesh objects 
+=======
+#include <iostream>
+
+using namespace std;
+>>>>>>> master
 
 Object::Object()
 {
@@ -152,9 +158,14 @@ void Object::Render()
         glEnableVertexAttribArray( 0 );
         glEnableVertexAttribArray( 1 );
 
+<<<<<<< HEAD
         glBindBuffer( GL_ARRAY_BUFFER, VB[ index ] );
         glVertexAttribPointer( 0, 3, GL_FLOAT, GL_FALSE, sizeof( Vertex ), 0 );
         glVertexAttribPointer( 1, 3, GL_FLOAT, GL_FALSE, sizeof( Vertex ), ( void* ) offsetof( Vertex, color ) );
+=======
+
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
+>>>>>>> master
 
         glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, IB[ index ] );
         glDrawElements( GL_TRIANGLES, Indices[ index ].size( ), GL_UNSIGNED_INT, 0 );
@@ -167,6 +178,7 @@ void Object::Render()
 
 void Object::loadOBJ(const std::string& pFile)
 {
+<<<<<<< HEAD
     Assimp::Importer importer;
 Vertex tmpVert( glm::vec3( 1.0f, 1.0f, 1.0f ), glm::vec3( 1.0f, 1.0f, 1.0f ) );
     const aiScene* scene = importer.ReadFile(pFile, aiProcess_Triangulate);
@@ -237,4 +249,69 @@ aiColor4D mColor;
         glBufferData( GL_ELEMENT_ARRAY_BUFFER, sizeof( unsigned int ) * Indices[ iIndex ].size( ), &Indices[ iIndex ][ 0 ], GL_STATIC_DRAW );
     }
 */
+=======
+  // local variables
+  unsigned int meshCounter, faceLooper, verticesLooper, indicesLooper;
+  unsigned int lastValue = 0;
+  glm::vec3 vertex;
+  glm::vec3 color;
+
+  // string that contains path to object file
+  std::string completeFilePath = "../assets/models/" + path;
+
+  // access information from object file
+  scene = importer.ReadFile(completeFilePath, aiProcess_Triangulate);
+
+  // check if object file was sucessfully accessed
+  if(scene == NULL)
+  {
+    std::cout << "ERROR: Unable to open file!" << std::endl;
+    return false;
+  }
+
+  // get all meshes from object scene
+  for(meshCounter = 0; meshCounter < scene->mNumMeshes; meshCounter++)
+  {
+    meshes.push_back(scene->mMeshes[meshCounter]);
+  }
+
+  // loop through all meshes
+  for(meshCounter = 0; meshCounter < scene->mNumMeshes; meshCounter++)
+	{
+      // loop through all faces
+	  for(faceLooper = 0; faceLooper < meshes[meshCounter]->mNumFaces; faceLooper++)
+	  {
+		// loop through all indices
+	    for(indicesLooper = 0; indicesLooper < 3; indicesLooper++)
+		{
+          // get position of index
+		  out_indices.push_back(meshes[meshCounter]->mFaces[faceLooper].mIndices[indicesLooper] + lastValue);
+		}
+	  }
+
+      // offest new next mesh's index poisition
+	  lastValue = out_indices[out_indices.size() - 1] + 1;
+			  
+	  // loop through all vertexes
+	  for(verticesLooper = 0; verticesLooper < meshes[meshCounter]->mNumVertices; verticesLooper++)
+		{
+		  // get x, y, and z coordinates for each vertex
+		  vertex.x = meshes[meshCounter]->mVertices[verticesLooper].x;
+		  vertex.y = meshes[meshCounter]->mVertices[verticesLooper].y;
+		  vertex.z = meshes[meshCounter]->mVertices[verticesLooper].z;
+
+		  // assign color to a vertex
+		  color.x = glm::sin(vertex.x);
+		  color.y = glm::sin(vertex.y);
+		  color.z = glm::sin(vertex.z);
+
+          // store vertexes
+		  Vertex batmanVertices(vertex, color);
+		  out_vertices.push_back(batmanVertices);
+		}
+	  }
+
+  // object file sucessfully accessed
+  return true;
+>>>>>>> master
 }

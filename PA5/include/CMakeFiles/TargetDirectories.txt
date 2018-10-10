@@ -1,0 +1,4 @@
+/home/jwoo/Desktop/cs480Valenzuela/PA5/include/CMakeFiles/edit_cache.dir
+/home/jwoo/Desktop/cs480Valenzuela/PA5/include/CMakeFiles/Tutorial_SUCCESSFUL.dir
+/home/jwoo/Desktop/cs480Valenzuela/PA5/include/CMakeFiles/rebuild_cache.dir
+/home/jwoo/Desktop/cs480Valenzuela/PA5/include/CMakeFiles/Tutorial.dir
