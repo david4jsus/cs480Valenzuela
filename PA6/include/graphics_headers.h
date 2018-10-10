@@ -21,6 +21,10 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtx/rotate_vector.hpp>
+<<<<<<< HEAD
+#include <Magick++.h>
+=======
+>>>>>>> master
 
 #define INVALID_UNIFORM_LOCATION 0x7fffffff
 
@@ -28,8 +32,14 @@ struct Vertex
 {
   glm::vec3 vertex;
   glm::vec3 color;
+<<<<<<< HEAD
+  glm::vec2 texture;  
+
+  Vertex(glm::vec3 v, glm::vec3 c, glm::vec2 t): vertex(v), color(c), texture(t) {}
+=======
 
   Vertex(glm::vec3 v, glm::vec3 c): vertex(v), color(c) {}
+>>>>>>> master
 };
 
 #endif /* GRAPHICS_HEADERS_H */

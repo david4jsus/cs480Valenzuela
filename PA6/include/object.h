@@ -44,6 +44,11 @@ class Object
     GLuint VB;
     GLuint IB;
     
+<<<<<<< HEAD
+    GLuint texture;
+    
+=======
+>>>>>>> master
     // If the object has a child, this is the matrix it should read as its center
     glm::mat4 modelForChild;
 
@@ -76,6 +81,12 @@ class Object
 	const aiScene *scene;
 	std::vector<aiMesh*> meshes;
 	
+<<<<<<< HEAD
+	Magick::Image im;
+	std::vector<unsigned int> mTextureCoords;
+	
+=======
+>>>>>>> master
 };
 
 #endif /* OBJECT_H */

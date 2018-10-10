@@ -70,6 +70,16 @@ void Object::createObject()
   */
 
   Vertices = {
+<<<<<<< HEAD
+    {{1.0f, -1.0f, -1.0f}, {0.0f, 0.0f, 0.0f}, {1.0f, 1.0f}},
+    {{1.0f, -1.0f, 1.0f}, {1.0f, 0.0f, 0.0f}, {1.0f, 1.0f}},
+    {{-1.0f, -1.0f, 1.0f}, {0.0f, 1.0f, 0.0f}, {0.0f, 0.0f}},
+    {{-1.0f, -1.0f, -1.0f}, {0.0f, 0.0f, 1.0f}, {0.0f, 0.1f}},
+    {{1.0f, 1.0f, -1.0f}, {1.0f, 1.0f, 0.0f}, {1.0f, 1.0f}},
+    {{1.0f, 1.0f, 1.0f}, {1.0f, 0.0f, 1.0f}, {1.0f, 1.0f}},
+    {{-1.0f, 1.0f, 1.0f}, {0.0f, 1.0f, 1.0f}, {0.0f, 0.0f}},
+    {{-1.0f, 1.0f, -1.0f}, {1.0f, 1.0f, 1.0f}, {0.0f, 0.1f}}
+=======
     {{1.0f, -1.0f, -1.0f}, {0.0f, 0.0f, 0.0f}},
     {{1.0f, -1.0f, 1.0f}, {1.0f, 0.0f, 0.0f}},
     {{-1.0f, -1.0f, 1.0f}, {0.0f, 1.0f, 0.0f}},
@@ -78,6 +88,7 @@ void Object::createObject()
     {{1.0f, 1.0f, 1.0f}, {1.0f, 0.0f, 1.0f}},
     {{-1.0f, 1.0f, 1.0f}, {0.0f, 1.0f, 1.0f}},
     {{-1.0f, 1.0f, -1.0f}, {1.0f, 1.0f, 1.0f}}
+>>>>>>> master
   };
 
   Indices = {
@@ -109,6 +120,22 @@ void Object::createObject()
   }
   else
   {
+    // Load Texture
+    Magick::Blob blob;
+    Magick::Image *image;
+    image = new Magick::Image("assets/asuna.png"); // hard coded. need to have a for loop to find each texture, read, and apply
+    image->write(&blob, "RGBA");
+    cout << "Loaded Texture: " << image << endl;
+    
+    // Generate Texture
+    glGenTextures(1, &texture);
+    glBindTexture(GL_TEXTURE_2D, texture);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image->columns(), image->rows(), 0, GL_RGBA, GL_UNSIGNED_BYTE, blob.data());
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    delete image;
+    cout << "Generated Texture" << endl;
+
     correctModelLoad = loadOBJ(objFilePath, myVertices, myIndices);
   }
   
@@ -241,25 +268,37 @@ void Object::Render()
 {
   glEnableVertexAttribArray(0);
   glEnableVertexAttribArray(1);
+  glEnableVertexAttribArray(2);
 
   glBindBuffer(GL_ARRAY_BUFFER, VB);
   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
   glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex,color));
-
+  glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex,texture));
 
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
 
   if (correctModelLoad)
   {
+    // Bind Texture
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, texture);
+    
+    // Draw
     glDrawElements(GL_TRIANGLES, myIndices.size(), GL_UNSIGNED_INT, 0);
   }
   else
   {
+    // Bind Texture
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, texture);
+    
+    // Draw
     glDrawElements(GL_TRIANGLES, Indices.size(), GL_UNSIGNED_INT, 0);
   }
 
   glDisableVertexAttribArray(0);
   glDisableVertexAttribArray(1);
+  glDisableVertexAttribArray(2);
 }
 
 bool Object::loadOBJ(std::string path, std::vector<Vertex> &out_vertices,
@@ -270,6 +309,7 @@ bool Object::loadOBJ(std::string path, std::vector<Vertex> &out_vertices,
   unsigned int lastValue = 0;
   glm::vec3 vertex;
   glm::vec3 color;
+  glm::vec2 texture;
 
   // string that contains path to object file
   std::string completeFilePath = "../assets/models/" + path;
@@ -288,6 +328,10 @@ bool Object::loadOBJ(std::string path, std::vector<Vertex> &out_vertices,
   for(meshCounter = 0; meshCounter < scene->mNumMeshes; meshCounter++)
   {
     meshes.push_back(scene->mMeshes[meshCounter]);
+        
+    // Check if the model has a texture
+    meshes[meshCounter]->HasTextureCoords(0);
+    cout << "has texture" << endl;
   }
 
   // loop through all meshes
@@ -310,6 +354,11 @@ bool Object::loadOBJ(std::string path, std::vector<Vertex> &out_vertices,
 	  // loop through all vertexes
 	  for(verticesLooper = 0; verticesLooper < meshes[meshCounter]->mNumVertices; verticesLooper++)
 		{
+		  // Texture coordinates
+                  aiVector3D vert = meshes[meshCounter]->mTextureCoords[0][verticesLooper];
+                  texture.x = vert.x;
+                  texture.y = vert.y;		
+		
 		  // get x, y, and z coordinates for each vertex
 		  vertex.x = meshes[meshCounter]->mVertices[verticesLooper].x;
 		  vertex.y = meshes[meshCounter]->mVertices[verticesLooper].y;
@@ -320,7 +369,10 @@ bool Object::loadOBJ(std::string path, std::vector<Vertex> &out_vertices,
 		  color.y = glm::sin(vertex.y);
 		  color.z = glm::sin(vertex.z);
 
-          // store vertexes
+                  // store vertexes
+		  Vertex batmanVertices(vertex, color, texture);
+
+                  // store vertexes
 		  Vertex batmanVertices(vertex, color);
 		  out_vertices.push_back(batmanVertices);
 		}
