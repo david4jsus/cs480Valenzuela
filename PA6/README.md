@@ -29,7 +29,7 @@ make
 By default, the project loads a cibe object, or in the case that a specified model could not be loaded. To load your own model, place the '**.obj**' file in the '**assets/models/**' subdirectory of the project. Then, when running the program, specify the name of the file as a command line argument (please include '.obj' in the name of the file):
 
 ```bash
-./Tutorial Buddha.obj
+./Tutorial buddha.obj
 ```
 
 If there is a file called 'object.obj' in the 'models/' file, it will load that file. If no file is provided, program will terminate.
