@@ -1,6 +1,6 @@
 #include "object.h"
 #include <iostream>
-
+//#include "Magick++/lib/Magick++.h"
 using namespace std;
 
 Object::Object()

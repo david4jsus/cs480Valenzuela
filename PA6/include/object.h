@@ -76,9 +76,6 @@ class Object
 	Assimp::Importer importer;
 	const aiScene *scene;
 	std::vector<aiMesh*> meshes;
-	
-	Magick::Image im;
-	std::vector<unsigned int> mTextureCoords;
 };
 
 #endif /* OBJECT_H */
