@@ -29,8 +29,12 @@ make
 By default, the project loads a cibe object, or in the case that a specified model could not be loaded. To load your own model, place the '**.obj**' file in the '**assets/models/**' subdirectory of the project. Then, when running the program, specify the name of the file as a command line argument (please include '.obj' in the name of the file):
 
 ```bash
+<<<<<<< HEAD
+./Tutorial object.obj
+=======
 ./Tutorial Board.obj
 ```
+>>>>>>> master
 
 If there is a file called 'object.obj' in the 'models/' file, it will load that file. Otherwise, a cube will be shown. The assets folder already contains a 'Board.obj' and 'dragon.obj' models that are available to use.
 
