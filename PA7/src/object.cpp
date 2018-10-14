@@ -1,5 +1,6 @@
 #include "object.h"
 #include <iostream>
+#include <fstream>
 
 using namespace std;
 
@@ -25,12 +26,41 @@ Object::Object()
 Object::Object(std::string filePath, Object* objParent, float objOrbitRadius, float objOrbitMultiplier,
   float objRotateMultiplier, float objSize): Object()
 {
+  ifstream fin;
+  string planetIdentifier;
+
   objFilePath = filePath;
+
+  fin.clear();
+  fin.open("../assets/planet_info.txt");
+
+  while(fin.eof() == false)
+  {
+    fin >> planetIdentifier;
+    
+
+	if(planetIdentifier == objFilePath)
+	{
+	  fin >> planetIdentifier;
+	  fin >> orbitRadius;
+
+	  fin >> planetIdentifier;
+	  fin >> orbitSpeedMultiplier;
+
+	  fin >> planetIdentifier;
+	  fin >> rotateSpeedMultiplier;
+
+	  fin >> planetIdentifier;
+	  fin >> size;
+	}
+  }
+
+  //objFilePath = filePath;
   parent = objParent;
-  orbitRadius = objOrbitRadius;
+  /*orbitRadius = objOrbitRadius;
   orbitSpeedMultiplier = objOrbitMultiplier;
   rotateSpeedMultiplier = objRotateMultiplier;
-  size = objSize;
+  size = objSize;*/
   
   createObject();
 }
@@ -286,7 +316,7 @@ bool Object::loadOBJ(std::string path, std::vector<Vertex> &out_vertices,
   glm::vec2 texture;
 
   // string that contains path to object file
-  std::string completeFilePath = "../assets/models/" + path;
+  std::string completeFilePath = "../assets/models/Planets/" + path;
 
   // access information from object file
   scene = importer.ReadFile(completeFilePath, aiProcess_Triangulate);
