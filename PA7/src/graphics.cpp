@@ -45,7 +45,7 @@ bool Graphics::Initialize(int width, int height, std::string file)
   }
 
   // Create objects
-  Object* sun     = new Object(file, 0, 0.0f, 0.1f, 0.01f, 1.0f);
+  Object* sun     = new Object(file, 0, 0.0f, 0.1f, .1f, 1.0f);
   /*
   Object* planet  = new Object(0, 6.0f, 0.2f, 0.5f, 0.6f);
   Object* moon    = new Object(planet, 2.0f, 0.5f, 1.0f, 0.2f);
@@ -132,7 +132,7 @@ void Graphics::Update(unsigned int dt)
   }
 }
 
-Object* Graphics::getCube(int index)
+Object* Graphics::GetObject(int index)
 {
   return m_cubes[index];
 }

@@ -1,4 +1,4 @@
-PROJECT(Tutorial)
+PROJECT(SolarSystemBois)
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
 
 SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/CMakeModules")
@@ -51,9 +51,6 @@ add_custom_target("${PROJECT_NAME}_SUCCESSFUL" ALL
                   COMMAND ${CMAKE_COMMAND} -E echo "  Compile complete!"
                   COMMAND ${CMAKE_COMMAND} -E echo "====================="
                   COMMAND ${CMAKE_COMMAND} -E echo "${CMAKE_CURRENT_BINARY_DIR}"
-		            COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/shaders/ ${CMAKE_CURRENT_BINARY_DIR}/shaders
-		            COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/models/ ${CMAKE_CURRENT_BINARY_DIR}/models
-		            COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/ ${CMAKE_CURRENT_BINARY_DIR}/
                  )
 
 TARGET_LINK_LIBRARIES(${PROJECT_NAME} ${OPENGL_LIBRARY} ${SDL2_LIBRARY} ${ASSIMP_LIBRARY} ${ImageMagick_LIBRARIES})

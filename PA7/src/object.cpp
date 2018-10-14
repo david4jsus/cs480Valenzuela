@@ -113,7 +113,7 @@ void Object::createObject()
     // Load Texture
     Magick::Blob blob;
     Magick::Image *image;
-    image = new Magick::Image("assets/asuna.png"); // hard coded. need to have a for loop to find each texture, read, and apply
+    image = new Magick::Image("../assets/asuna.png"); // hard coded. need to have a for loop to find each texture, read, and apply
     image->write(&blob, "RGBA");
     cout << "Loaded Texture: " << image << endl;
     
@@ -252,6 +252,11 @@ void Object::toggleOrbit()
 bool Object::isDirectionReversed()
 {
   return directionReversed;
+}
+
+void Object::UpdateSpeed(float multiplier)
+{
+ rotateSpeedMultiplier = multiplier;
 }
 
 void Object::Render()
