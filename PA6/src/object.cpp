@@ -1,6 +1,6 @@
 #include "object.h"
 #include <iostream>
-
+//#include "Magick++/lib/Magick++.h"
 using namespace std;
 
 Object::Object()
@@ -110,22 +110,6 @@ void Object::createObject()
   }
   else
   {
-    // Load Texture
-    Magick::Blob blob;
-    Magick::Image *image;
-    image = new Magick::Image("assets/asuna.png"); // hard coded. need to have a for loop to find each texture, read, and apply
-    image->write(&blob, "RGBA");
-    cout << "Loaded Texture: " << image << endl;
-    
-    // Generate Texture
-    glGenTextures(1, &texture);
-    glBindTexture(GL_TEXTURE_2D, texture);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image->columns(), image->rows(), 0, GL_RGBA, GL_UNSIGNED_BYTE, blob.data());
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    delete image;
-    cout << "Generated Texture" << endl;
-
     correctModelLoad = loadOBJ(objFilePath, myVertices, myIndices);
   }
   
@@ -267,12 +251,43 @@ void Object::Render()
 
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
 
-  if (correctModelLoad)
+  if (hasTextures)
   {
-    // Bind Texture
+	// Load Texture
+    Magick::Blob blob;
+    Magick::Image *image;
+    image = new Magick::Image(imageFilePaths[0]);
+    image->write(&blob, "RGBA");
+
+	// bind texture
+	glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, Texture);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image->columns(), image->rows(), 0, GL_RGBA, GL_UNSIGNED_BYTE, blob.data());
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glDrawArrays(GL_TRIANGLES, 0, meshes[0]->mNumVertices);
+	delete image;
+
+	// load next texture
+	image = new Magick::Image(imageFilePaths[1]);
+    image->write(&blob, "RGBA");
+
+	// bind texture
+	glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, Texture1);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image->columns(), image->rows(), 0, GL_RGBA, GL_UNSIGNED_BYTE, blob.data());
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glDrawArrays(GL_TRIANGLES, 300000, meshes[1]->mNumVertices);
+	delete image;
+  }
+
+  else if(correctModelLoad)
+  {
+	// Bind Texture
     glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, texture);
-    
+    glBindTexture(GL_TEXTURE_2D, Texture);
+
     // Draw
     glDrawElements(GL_TRIANGLES, myIndices.size(), GL_UNSIGNED_INT, 0);
   }
@@ -280,7 +295,7 @@ void Object::Render()
   {
     // Bind Texture
     glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, texture);
+    glBindTexture(GL_TEXTURE_2D, Texture);
     
     // Draw
     glDrawElements(GL_TRIANGLES, Indices.size(), GL_UNSIGNED_INT, 0);
@@ -300,6 +315,7 @@ bool Object::loadOBJ(std::string path, std::vector<Vertex> &out_vertices,
   glm::vec3 vertex;
   glm::vec3 color;
   glm::vec2 texture;
+  unsigned int textureCounter = 0;
 
   // string that contains path to object file
   std::string completeFilePath = "../assets/models/" + path;
@@ -320,14 +336,10 @@ bool Object::loadOBJ(std::string path, std::vector<Vertex> &out_vertices,
     meshes.push_back(scene->mMeshes[meshCounter]);
         
     // Check if the model has a texture
-    meshes[meshCounter]->HasTextureCoords(0);
-    cout << "has texture" << endl;
-  }
-
-  // loop through all meshes
-  for(meshCounter = 0; meshCounter < scene->mNumMeshes; meshCounter++)
-	{
-      // loop through all faces
+    hasTextures = meshes[meshCounter]->HasTextureCoords(0);
+    cout << "has texture: " << hasTextures << endl;
+    
+     // loop through all faces
 	  for(faceLooper = 0; faceLooper < meshes[meshCounter]->mNumFaces; faceLooper++)
 	  {
 		// loop through all indices
@@ -345,9 +357,9 @@ bool Object::loadOBJ(std::string path, std::vector<Vertex> &out_vertices,
 	  for(verticesLooper = 0; verticesLooper < meshes[meshCounter]->mNumVertices; verticesLooper++)
 		{
 		  // Texture coordinates
-                  aiVector3D vert = meshes[meshCounter]->mTextureCoords[0][verticesLooper];
-                  texture.x = vert.x;
-                  texture.y = vert.y;		
+        aiVector3D vert = meshes[meshCounter]->mTextureCoords[0][verticesLooper];
+        texture.x = vert.x;
+        texture.y = vert.y;		
 		
 		  // get x, y, and z coordinates for each vertex
 		  vertex.x = meshes[meshCounter]->mVertices[verticesLooper].x;
@@ -362,6 +374,21 @@ bool Object::loadOBJ(std::string path, std::vector<Vertex> &out_vertices,
         // store vertexes
 		  Vertex batmanVertices(vertex, color, texture);
 		  out_vertices.push_back(batmanVertices);
+		}
+		
+		if(hasTextures == true)
+		{
+			// Read texture file
+			aiString assimpFilePath;
+			string imageFilePath;
+			scene->mMaterials[scene->mMeshes[meshCounter]->mMaterialIndex]->Get(AI_MATKEY_TEXTURE(aiTextureType_DIFFUSE, 0), assimpFilePath);
+			imageFilePath = assimpFilePath.C_Str();
+			imageFilePath = "../assets/images/" + imageFilePath;
+			imageFilePaths.push_back(imageFilePath);
+
+			// generate texture positions
+			glGenTextures(1, &Texture);
+			glGenTextures(1, &Texture1);
 		}
 	  }
 
