@@ -92,15 +92,38 @@ void Engine::Run()
     //ImGui::ShowDemoWindow(&imgui_demo);
     
     {
-      ImGui::Begin("Debug Window");
-      if (m_graphics->getCube(0)->isDirectionReversed())
+      ImGui::Begin("Solar System Instructions and Help");
+      
+      ImGui::Text("Camera Controls");
+      
+      ImGui::Text("Planet Controls");
+      if(ImGui::Button("Toggle Direction"))
       {
-        ImGui::Text("Direction of rotation of object: clockwise");
+       m_graphics->GetObject(0)->reverseDirection();
       }
-      else
+      
+      ImGui::Text("Speed Multiplier");
+           
+      if(ImGui::Button("Normal Speed", ImVec2(100, 50)))
       {
-        ImGui::Text("Direction of rotation of object: counter-clockwise");
+       m_graphics->GetObject(0)->UpdateSpeed(0.1f);
       }
+      
+      else if(ImGui::Button("1.5x Speed", ImVec2(100, 50)))
+      {
+       m_graphics->GetObject(0)->UpdateSpeed(0.2f);
+      }
+      
+      else if(ImGui::Button("2.0x Speed", ImVec2(100, 50)))
+      {
+       m_graphics->GetObject(0)->UpdateSpeed(0.4f);
+      }
+      
+      else if(ImGui::Button("4.0x Speed", ImVec2(100, 50)))
+      {
+       m_graphics->GetObject(0)->UpdateSpeed(0.8f);
+      }
+      
       ImGui::End();
     }
 
@@ -137,7 +160,7 @@ void Engine::Keyboard()
     {
 	  for(planetCounter = 0; planetCounter < m_graphics->numberOfCubes(); planetCounter++)
 	  {
-        m_graphics->getCube(planetCounter)->reverseDirection();
+        m_graphics->GetObject(planetCounter)->reverseDirection();
 	  }
     }
     
@@ -145,7 +168,7 @@ void Engine::Keyboard()
     {
 	  for(planetCounter = 0; planetCounter < m_graphics->numberOfCubes(); planetCounter++)
 	  {
-        m_graphics->getCube(planetCounter)->makeDirectionCounter();
+        m_graphics->GetObject(planetCounter)->makeDirectionCounter();
 	  }
     }
     
@@ -153,7 +176,7 @@ void Engine::Keyboard()
     {
 	  for(planetCounter = 0; planetCounter < m_graphics->numberOfCubes(); planetCounter++)
 	  {
-        m_graphics->getCube(planetCounter)->makeDirectionClockwise();
+        m_graphics->GetObject(planetCounter)->makeDirectionClockwise();
 	  }
     }
     
@@ -161,7 +184,7 @@ void Engine::Keyboard()
     {
 	  for(planetCounter = 0; planetCounter < m_graphics->numberOfCubes(); planetCounter++)
 	  {
-        m_graphics->getCube(planetCounter)->toggleOrbit();
+        m_graphics->GetObject(planetCounter)->toggleOrbit();
 	  }
     }
     
@@ -169,7 +192,7 @@ void Engine::Keyboard()
     {
 	  for(planetCounter = 0; planetCounter < m_graphics->numberOfCubes(); planetCounter++)
 	  {
-        m_graphics->getCube(planetCounter)->toggleRotation();
+        m_graphics->GetObject(planetCounter)->toggleRotation();
 	  }
     }
   }
@@ -188,10 +211,10 @@ void Engine::Mouse()
     // Handle mouse down events here
     if (m_event.button.button == SDL_BUTTON_LEFT) // Reverse direction of rotation of cube
     {
-	  for(planetCounter = 0; planetCounter < m_graphics->numberOfCubes(); planetCounter++)
-	  {
-        m_graphics->getCube(planetCounter)->reverseDirection();
-	  }
+	  //for(planetCounter = 0; planetCounter < m_graphics->numberOfCubes(); planetCounter++)
+	  //{
+        //m_graphics->GetObject(planetCounter)->reverseDirection();
+	  //}
     }
   }
 }

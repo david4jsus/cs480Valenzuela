@@ -140,6 +140,22 @@ void Object::createObject()
   }
   else
   {
+    // Load Texture
+    Magick::Blob blob;
+    Magick::Image *image;
+    image = new Magick::Image("../assets/asuna.png"); // hard coded. need to have a for loop to find each texture, read, and apply
+    image->write(&blob, "RGBA");
+    cout << "Loaded Texture: " << image << endl;
+    
+    // Generate Texture
+    glGenTextures(1, &texture);
+    glBindTexture(GL_TEXTURE_2D, texture);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image->columns(), image->rows(), 0, GL_RGBA, GL_UNSIGNED_BYTE, blob.data());
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    delete image;
+    cout << "Generated Texture" << endl;
+
     correctModelLoad = loadOBJ(objFilePath, myVertices, myIndices);
   }
   
@@ -266,6 +282,11 @@ void Object::toggleOrbit()
 bool Object::isDirectionReversed()
 {
   return directionReversed;
+}
+
+void Object::UpdateSpeed(float multiplier)
+{
+ rotateSpeedMultiplier = multiplier;
 }
 
 void Object::Render()
