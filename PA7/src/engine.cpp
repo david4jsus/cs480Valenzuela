@@ -247,9 +247,21 @@ void Engine::Run()
          m_graphics->GetObject(index)->UpdateOrbitSpeed(4.0f);
         }
        }
-       
+      
+      ImGui::Text("Click on one of the following astal objects to teleport to it");
+      
+      for (int i = 0; i < m_graphics->numberOfCubes(); i++)
+      {
+         if (ImGui::Button(m_graphics->GetObject(i)->GetObjectName().c_str()))
+         {
+            m_graphics->getCamera()->setCamPos
+               (m_graphics->GetObject(i)->objectPosition());
+         }
+      }
+      
       ImGui::End();
     }
+    
 
     // Update and render the graphics
     m_graphics->Update(m_DT);
@@ -302,13 +314,13 @@ void Engine::Keyboard()
       movingForward  = false;
     }
         
-    if (m_event.key.keysym.sym == SDLK_q)      // Move camera up
+    if (m_event.key.keysym.sym == SDLK_e)      // Move camera up
     {
       movingUp   = true;
       movingDown = false;
     }
     
-    if (m_event.key.keysym.sym == SDLK_e)      // Move camera down
+    if (m_event.key.keysym.sym == SDLK_q)      // Move camera down
     {
       movingDown = true;
       movingUp   = false;
@@ -360,12 +372,12 @@ void Engine::Keyboard()
       movingBackward = false;
     }
         
-    if (m_event.key.keysym.sym == SDLK_q)      // Move camera up
+    if (m_event.key.keysym.sym == SDLK_e)      // Move camera up
     {
       movingUp = false;
     }
     
-    if (m_event.key.keysym.sym == SDLK_e)      // Move camera down
+    if (m_event.key.keysym.sym == SDLK_q)      // Move camera down
     {
       movingDown = false;
     }
