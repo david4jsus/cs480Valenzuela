@@ -51,10 +51,10 @@ bool Graphics::Initialize(int width, int height, std::string file)
   Object* earth = new Object("Earth.obj", 0, 0.0f, 0.0f, 0.1f, 0.07f);
   Object* earthMoon = new Object("Moon.obj", earth, 0.0f, 0.0f, 0.1f, 0.07f);
   Object* mars   = new Object("Mars.obj", 0, 0.0f, 0.0f, 0.1f, 0.07f);
-  //Object* marsMoonPhobos = new Object("Moon.obj", mars, 0.0f, 0.0f, 0.1f, 0.07f);
+  //Object* marsMoonPhobos = new Object("Phobos.obj", mars, 0.0f, 0.0f, 0.1f, 0.07f);
   //Object* marsMoonDeimos = new Object("Moon.obj", mars, 0.0f, 0.0f, 0.1f, 0.07f);
   Object* jupiter = new Object("Jupiter.obj", 0, 0.0f, 0.0f, 0.1f, 0.07f);
-  //Object* jupiterMoonGanymede = new Object("Moon.obj", jupiter, 0.0f, 0.0f, 0.1f, 0.07f);
+  //Object* jupiterMoonGanymede = new Object("Ganymede.obj", jupiter, 0.0f, 0.0f, 0.1f, 0.07f);
   //Object* jupiterCallisto = new Object("Callisto.obj", jupiter, 0.0f, 0.0f, 0.1f, 0.07f);
   //Object* jupiterMoonIo = new Object("Io.obj", jupiter, 0.0f, 0.0f, 0.1f, 0.07f);
   //Object* jupiterMoonEuropa = new Object("Europa.obj", jupiter, 0.0f, 0.0f, 0.1f, 0.07f);
