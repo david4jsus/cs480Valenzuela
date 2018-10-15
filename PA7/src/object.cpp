@@ -21,51 +21,63 @@ Object::Object()
   orbitRadius = 5.0f;
   orbitSpeedMultiplier = 1.0f;
   rotateSpeedMultiplier = 1.0f;
+  rsm = rotateSpeedMultiplier;
+  osm = orbitSpeedMultiplier;
   size = 1;
 }
 
 Object::Object(std::string filePath, Object* objParent, float objOrbitRadius, float objOrbitMultiplier,
   float objRotateMultiplier, float objSize): Object()
 {
+  // local variables
   objName = filePath;
   objName.erase(objName.end()-4, objName.end());
-  
   ifstream fin;
   string planetIdentifier;
 
+  // path to object file
   objFilePath = filePath;
 
+  // open planet configuration file
   fin.clear();
   fin.open("../assets/planet_info.txt");
 
+  // read entire file
   while(fin.eof() == false)
   {
+    // get planet name
     fin >> planetIdentifier;
-    
 
+    // check if we are going to grab correct planet information
 	if(planetIdentifier == objFilePath)
 	{
+      // get orbit radius size
 	  fin >> planetIdentifier;
 	  fin >> orbitRadius;
+	  cout << orbitRadius << endl;
 
+      // get orbiting speed
 	  fin >> planetIdentifier;
 	  fin >> orbitSpeedMultiplier;
+	  osm = orbitSpeedMultiplier;
+	  cout << orbitSpeedMultiplier << endl;
 
+	  // git local rotation rpeed
 	  fin >> planetIdentifier;
 	  fin >> rotateSpeedMultiplier;
+	  rsm = rotateSpeedMultiplier;
+	  cout << rotateSpeedMultiplier << endl;
 
+	  // get planet size
 	  fin >> planetIdentifier;
 	  fin >> size;
 	}
   }
 
-  //objFilePath = filePath;
+  // assign parent planet for moon/satelites
   parent = objParent;
-  /*orbitRadius = objOrbitRadius;
-  orbitSpeedMultiplier = objOrbitMultiplier;
-  rotateSpeedMultiplier = objRotateMultiplier;
-  size = objSize;*/
   
+  // create object
   createObject();
 }
 
@@ -283,9 +295,44 @@ std::string Object::GetObjectName()
    return objName;
 }
 
-void Object::UpdateSpeed(float multiplier)
+void Object::UpdateRotationSpeed(float rotateMultiplier)
+{  
+  // Set the new speed with the multiplier
+  float defaultSpeed;
+
+  // Get the speed that was read from the file
+  defaultSpeed = GetRotationSpeed();
+  cout << "Read In Speed: " << defaultSpeed << endl;
+ 
+  defaultSpeed *= rotateMultiplier;
+  cout << "New Speed: " << defaultSpeed << endl;
+  
+  rotateSpeedMultiplier = defaultSpeed;
+}
+
+void Object::UpdateOrbitSpeed(float orbitMultiplier)
 {
- rotateSpeedMultiplier = multiplier;
+  // Set the new speed with the multiplier
+  float defaultSpeed;
+
+  // Get the speed that was read from the file
+  defaultSpeed = GetOrbitSpeed();
+  cout << "Read In Speed: " << defaultSpeed << endl;
+ 
+  defaultSpeed *= orbitMultiplier;
+  cout << "New Speed: " << defaultSpeed << endl;
+  
+  orbitSpeedMultiplier = defaultSpeed;
+}
+
+float Object::GetRotationSpeed()
+{
+ return rsm;
+}
+
+float Object::GetOrbitSpeed()
+{
+ return osm;
 }
 
 void Object::Render()

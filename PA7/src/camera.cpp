@@ -16,6 +16,7 @@ bool Camera::Initialize(int w, int h)
   cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
   cameraUp    = glm::vec3(0.0f, 1.0f, 0.0f);
   cameraRight = glm::normalize(glm::cross(cameraFront, cameraUp));
+
   
   /*view = glm::lookAt(cameraPos,               //Eye Position
                      cameraPos + cameraFront, //Focus point

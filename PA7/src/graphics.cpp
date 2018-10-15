@@ -42,54 +42,55 @@ bool Graphics::Initialize(int width, int height, std::string file)
     return false;
   }
 
-  // Create objects
+  // Create planets
   Object* sun = new Object("Sun.obj", 0, 0.0f, 0.0f, 0.1f, 0.04f); // file path, parent, orbit radius size, orbit radius speed, local rotation speed, object size
   Object* mercury = new Object("Mercury.obj", 0, 0.0f, 0.0f, 0.1f, 0.07f);
   Object* venus  = new Object("Venus.obj", 0, 0.0f, 0.0f, 0.1f, 0.07f);
   Object* earth = new Object("Earth.obj", 0, 0.0f, 0.0f, 0.1f, 0.07f);
   Object* earthMoon = new Object("Moon.obj", earth, 0.0f, 0.0f, 0.1f, 0.07f);
   Object* mars   = new Object("Mars.obj", 0, 0.0f, 0.0f, 0.1f, 0.07f);
-  //Object* marsMoonPhobos = new Object("Phobos.obj", mars, 0.0f, 0.0f, 0.1f, 0.07f);
-  //Object* marsMoonDeimos = new Object("Moon.obj", mars, 0.0f, 0.0f, 0.1f, 0.07f);
+  Object* marsMoonPhobos = new Object("Phobos.obj", mars, 0.0f, 0.0f, 0.1f, 0.07f);
+  Object* marsMoonDeimos = new Object("Deimos.obj", mars, 0.0f, 0.0f, 0.1f, 0.07f);
   Object* jupiter = new Object("Jupiter.obj", 0, 0.0f, 0.0f, 0.1f, 0.07f);
-  //Object* jupiterMoonGanymede = new Object("Ganymede.obj", jupiter, 0.0f, 0.0f, 0.1f, 0.07f);
+  Object* jupiterMoonGanymede = new Object("Ganymede.obj", jupiter, 0.0f, 0.0f, 0.1f, 0.07f);
   //Object* jupiterCallisto = new Object("Callisto.obj", jupiter, 0.0f, 0.0f, 0.1f, 0.07f);
   //Object* jupiterMoonIo = new Object("Io.obj", jupiter, 0.0f, 0.0f, 0.1f, 0.07f);
-  //Object* jupiterMoonEuropa = new Object("Europa.obj", jupiter, 0.0f, 0.0f, 0.1f, 0.07f);
+  Object* jupiterMoonEuropa = new Object("Europa.obj", jupiter, 0.0f, 0.0f, 0.1f, 0.07f);
   Object* saturnRings = new Object("Saturn2.obj", 0, 0.0f, 0.0f, 0.1f, 0.07f);
-  //Object* saturnMoonTitan = new Object("Titan.obj", saturnRings, 0.0f, 0.0f, 0.1f, 0.07f);
-  //Object* saturnMoonRhea = new Object("Rhea.obj", saturnRings, 0.0f, 0.0f, 0.1f, 0.07f);
+  Object* saturnMoonTitan = new Object("Titan.obj", saturnRings, 0.0f, 0.0f, 0.1f, 0.07f);
+  Object* saturnMoonRhea = new Object("Rhea.obj", saturnRings, 0.0f, 0.0f, 0.1f, 0.07f);
   Object* uranus = new Object("Uranus.obj", 0, 0.0f, 0.0f, 0.1f, 0.07f);
   //Object* uranusMoonOberon = new Object("Oberon.obj", uranus, 0.0f, 0.0f, 0.1f, 0.07f);
-  //Object* uranusMoonUmbriel = new Object("Umbriel.obj", uranus, 0.0f, 0.0f, 0.1f, 0.07f);
-  //Object* uranusMoonAriel = new Object("Ariel.obj", uranus, 0.0f, 0.0f, 0.1f, 0.07f);
+  Object* uranusMoonUmbriel = new Object("Umbriel.obj", uranus, 0.0f, 0.0f, 0.1f, 0.07f);
+  Object* uranusMoonAriel = new Object("Ariel.obj", uranus, 0.0f, 0.0f, 0.1f, 0.07f);
   Object* neptune = new Object("Neptune.obj", 0, 0.0f, 0.0f, 0.1f, 0.07f);
-  //Object* neptuneMoonTriton = new Object("Triton.obj", neptune, 0.0f, 0.0f, 0.1f, 0.07f);
+  Object* neptuneMoonTriton = new Object("Triton.obj", neptune, 0.0f, 0.0f, 0.1f, 0.07f);
   //Object* neptuneMoonProteus = new Object("Proteus.obj", neptune, 0.0f, 0.0f, 0.1f, 0.07f);
   Object* pluto = new Object("Pluto.obj", 0, 0.0f, 0.0f, 0.1f, 0.07f);
   
+  // push planets onto list
   m_cubes.push_back(sun);
   m_cubes.push_back(mercury);
   m_cubes.push_back(venus);
   m_cubes.push_back(earth);
   m_cubes.push_back(earthMoon);
   m_cubes.push_back(mars);
-  //m_cubes.push_back(marsMoonPhobos);
-  //m_cubes.push_back(marsMoonDeimos);
+  m_cubes.push_back(marsMoonPhobos);
+  m_cubes.push_back(marsMoonDeimos);
   m_cubes.push_back(jupiter);
-  //m_cubes.push_back(jupiterMoonGanymede);
+  m_cubes.push_back(jupiterMoonGanymede);
   //m_cubes.push_back(jupiterCallisto);
   //m_cubes.push_back(jupiterMoonIo);
-  //m_cubes.push_back(jupiterMoonEuropa);
+  m_cubes.push_back(jupiterMoonEuropa);
   m_cubes.push_back(saturnRings);
-  //m_cubes.push_back(saturnMoonTitan);
-  //m_cubes.push_back(saturnMoonRhea);
+  m_cubes.push_back(saturnMoonTitan);
+  m_cubes.push_back(saturnMoonRhea);
   m_cubes.push_back(uranus);
   //m_cubes.push_back(uranusMoonOberon);
-  //m_cubes.push_back(uranusMoonUmbriel);
-  //m_cubes.push_back(uranusMoonAriel);
+  m_cubes.push_back(uranusMoonUmbriel);
+  m_cubes.push_back(uranusMoonAriel);
   m_cubes.push_back(neptune);
-  //m_cubes.push_back(neptuneMoonTriton);
+  m_cubes.push_back(neptuneMoonTriton);
   //m_cubes.push_back(neptuneMoonProteus);
   m_cubes.push_back(pluto);
 
