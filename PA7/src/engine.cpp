@@ -69,6 +69,7 @@ bool Engine::Initialize()
 void Engine::Run()
 {
   m_running = true;
+  int index, i;
 
   while(m_running)
   {
@@ -99,7 +100,7 @@ void Engine::Run()
       ImGui::Text("Planet Controls");
       if(ImGui::Button("Toggle Direction"))
       {
-       for(int index = 0; index < m_graphics->numberOfCubes(); index++)
+       for(index = 0; index < m_graphics->numberOfCubes(); index++)
 	    {
         m_graphics->GetObject(index)->reverseDirection();
 	    }
@@ -107,25 +108,46 @@ void Engine::Run()
       
       ImGui::Text("Speed Multiplier");
            
-      if(ImGui::Button("Normal Speed", ImVec2(100, 50)))
-      {
-       m_graphics->GetObject(0)->UpdateSpeed(0.1f);
-      }
+      if(ImGui::Button("0.5x Speed", ImVec2(100, 50)))
+       {
+        for(i = 0; i < m_graphics->numberOfCubes(); i++)
+        {
+         m_graphics->GetObject(i)->UpdateSpeed(0.05f);
+         cout << i << endl;
+        }
+       }
+       
+       else if(ImGui::Button("Normal Speed", ImVec2(100, 50)))
+       {
+        for(i = 0; i < m_graphics->numberOfCubes(); i++)
+        {
+         m_graphics->GetObject(i)->UpdateSpeed(0.1f);
+        }
+       }
       
-      else if(ImGui::Button("1.5x Speed", ImVec2(100, 50)))
-      {
-       m_graphics->GetObject(0)->UpdateSpeed(0.2f);
-      }
+       else if(ImGui::Button("1.5x Speed", ImVec2(100, 50)))
+       {
+        for(i = 0; i < m_graphics->numberOfCubes(); i++)
+        {
+         m_graphics->GetObject(i)->UpdateSpeed(0.2f);
+        }
+       }
       
-      else if(ImGui::Button("2.0x Speed", ImVec2(100, 50)))
-      {
-       m_graphics->GetObject(0)->UpdateSpeed(0.4f);
-      }
+       else if(ImGui::Button("2.0x Speed", ImVec2(100, 50)))
+       {
+        for(i = 0; i < m_graphics->numberOfCubes(); i++)
+        {
+         m_graphics->GetObject(i)->UpdateSpeed(0.4f);
+        }
+       }
       
-      else if(ImGui::Button("4.0x Speed", ImVec2(100, 50)))
-      {
-       m_graphics->GetObject(0)->UpdateSpeed(0.8f);
-      }
+       else if(ImGui::Button("4.0x Speed", ImVec2(100, 50)))
+       {
+        for(i = 0; i < m_graphics->numberOfCubes(); i++)
+        {
+         m_graphics->GetObject(i)->UpdateSpeed(0.8f);
+        }
+       }
       
       ImGui::End();
     }
