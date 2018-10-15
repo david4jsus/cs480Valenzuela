@@ -2,84 +2,84 @@ Sun.obj
 orbit_radius_size: 0.0
 orbit_radius_speed: 0.0
 local_rotation_speed: 0.7
-object_size: 0.04
+object_size: 0.08
 
 
 Mercury.obj 
-orbit_radius_size: 10.0
+orbit_radius_size: 15.0
 orbit_radius_speed: 0.05
-local_rotation_speed: 0.02
-object_size: 0.0002
+local_rotation_speed: 0.4
+object_size: 0.008
 
 
 Venus.obj 
 orbit_radius_size: 20.0
 orbit_radius_speed: 0.045
-local_rotation_speed: 0.012
-object_size: 0.0001
+local_rotation_speed: 0.3
+object_size: 0.004
 
 
 Earth.obj 
 orbit_radius_size: 30.0
 orbit_radius_speed: 0.04
 local_rotation_speed: 0.5
-object_size: 0.0065
+object_size: 0.013
 
 
 Moon.obj 
-orbit_radius_size: 1.0
+orbit_radius_size: 2.0
 orbit_radius_speed: 1.0
 local_rotation_speed: 0.1
-object_size: 0.001
+object_size: 0.002
 
 
 Mars.obj 
 orbit_radius_size: 40.0
 orbit_radius_speed: 0.035
 local_rotation_speed: 0.3
-object_size: 0.003
+object_size: 0.006
 
 
 Jupiter.obj 
 orbit_radius_size: 50.0
 orbit_radius_speed: 0.03
 local_rotation_speed: 0.65
-object_size: 0.017
+object_size: 0.034
 
 
 Saturn2.obj 
 orbit_radius_size: 60.0
 orbit_radius_speed: 0.025
 local_rotation_speed: 0.63
-object_size: 0.013
+object_size: 0.026
 
 
 Uranus.obj 
 orbit_radius_size: 70.0
 orbit_radius_speed: 0.02
 local_rotation_speed: 0.6
-object_size: 0.01
+object_size: 0.02
 
 
 Neptune.obj 
 orbit_radius_size: 80.0
 orbit_radius_speed: 0.015
 local_rotation_speed: 0.55
-object_size: 0.007
+object_size: 0.014
 
 
 Pluto.obj 
 orbit_radius_size: 90.0
 orbit_radius_speed: 0.013
-local_rotation_speed: 0.002
-object_size: 0.001
+local_rotation_speed: 0.2
+object_size: 0.002
 
 
 Phobos.obj 
 orbit_radius_size: 1.0
 orbit_radius_speed: 1.0
 local_rotation_speed: 0.1
-object_size: 0.001
+object_size: 0.002
 
 
 Deimos.obj 
@@ -114,14 +114,14 @@ Europa.obj
 orbit_radius_size: 3.0
 orbit_radius_speed: 1.0
 local_rotation_speed: 0.5
-object_size: 0.005
+object_size: 0.01
 
 
 Titan.obj 
 orbit_radius_size: 4.0
 orbit_radius_speed: 0.25
 local_rotation_speed: 0.5
-object_size: 0.005
+object_size: 0.01
 
 
 Rhea.obj 
@@ -135,7 +135,7 @@ Oberon.obj
 orbit_radius_size: 2.0
 orbit_radius_speed: 0.25
 local_rotation_speed: 0.5
-object_size: 0.005
+object_size: 0.01
 
 
 Umbriel.obj 
@@ -156,7 +156,7 @@ Triton.obj
 orbit_radius_size: 1.0
 orbit_radius_speed: 1.0
 local_rotation_speed: 0.1
-object_size: 0.001
+object_size: 0.002
 
 
 Proteus.obj 
