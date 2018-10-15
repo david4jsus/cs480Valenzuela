@@ -60,7 +60,6 @@ bool Graphics::Initialize(int width, int height, std::string file)
   Object* neptune = new Object("Neptune.obj", 0, 0.0f, 0.0f, 0.1f, 0.07f);
   Object* pluto = new Object("Pluto.obj", 0, 0.0f, 0.0f, 0.1f, 0.07f);
   
-  
   m_cubes.push_back(sun);
   m_cubes.push_back(mercury);
   m_cubes.push_back(venus);
@@ -146,7 +145,7 @@ void Graphics::Update(unsigned int dt)
   }
 }
 
-Object* Graphics::getCube(int index)
+Object* Graphics::GetObject(int index)
 {
   return m_cubes[index];
 }

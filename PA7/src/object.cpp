@@ -268,6 +268,11 @@ bool Object::isDirectionReversed()
   return directionReversed;
 }
 
+void Object::UpdateSpeed(float multiplier)
+{
+ rotateSpeedMultiplier = multiplier;
+}
+
 void Object::Render()
 {
   glEnableVertexAttribArray(0);
@@ -374,14 +379,14 @@ bool Object::loadOBJ(std::string path, std::vector<Vertex> &out_vertices,
 		  out_vertices.push_back(batmanVertices);
 		}
 		
-	  // Read texture file
-	  aiString assimpFilePath;
-	  string imageFilePath;
-	  scene->mMaterials[scene->mMeshes[meshCounter]->mMaterialIndex]->Get(AI_MATKEY_TEXTURE(aiTextureType_DIFFUSE, 0), assimpFilePath);
-	  imageFilePath = assimpFilePath.C_Str();
-	  imageFilePath = "../assets/images/" + imageFilePath;
+	    // Read texture file
+	    aiString assimpFilePath;
+	    string imageFilePath;
+	    scene->mMaterials[scene->mMeshes[meshCounter]->mMaterialIndex]->Get(AI_MATKEY_TEXTURE(aiTextureType_DIFFUSE, 0), assimpFilePath);
+	    imageFilePath = assimpFilePath.C_Str();
+	    imageFilePath = "../assets/images/" + imageFilePath;
 		
-      // Load Texture
+		  // Load Texture
       Magick::Blob blob;
       Magick::Image *image;
       image = new Magick::Image(imageFilePath);

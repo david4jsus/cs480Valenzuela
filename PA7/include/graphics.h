@@ -19,8 +19,8 @@ class Graphics
     void Render();
     
     // To get a specified cube, specified by array index
-    Object* getCube(int index);
-	int numberOfCubes();
+    Object* GetObject(int index);
+	  int numberOfCubes();
 
   private:
     std::string ErrorString(GLenum error);
