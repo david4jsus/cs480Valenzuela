@@ -6,21 +6,21 @@ object_size: 0.04
 
 
 Mercury.obj 
-orbit_radius_size: 5.0
+orbit_radius_size: 10.0
 orbit_radius_speed: 0.05
 local_rotation_speed: 0.02
 object_size: 0.0002
 
 
 Venus.obj 
-orbit_radius_size: 10.0
+orbit_radius_size: 20.0
 orbit_radius_speed: 0.045
 local_rotation_speed: 0.012
 object_size: 0.0001
 
 
 Earth.obj 
-orbit_radius_size: 15.0
+orbit_radius_size: 30.0
 orbit_radius_speed: 0.04
 local_rotation_speed: 0.5
 object_size: 0.0065
@@ -34,45 +34,160 @@ object_size: 0.001
 
 
 Mars.obj 
-orbit_radius_size: 20.0
+orbit_radius_size: 40.0
 orbit_radius_speed: 0.035
 local_rotation_speed: 0.3
 object_size: 0.003
 
 
 Jupiter.obj 
-orbit_radius_size: 25.0
+orbit_radius_size: 50.0
 orbit_radius_speed: 0.03
 local_rotation_speed: 0.65
 object_size: 0.025
 
 
 Saturn2.obj 
-orbit_radius_size: 30.0
+orbit_radius_size: 60.0
 orbit_radius_speed: 0.025
 local_rotation_speed: 0.63
 object_size: 0.02
 
 
 Uranus.obj 
-orbit_radius_size: 35.0
+orbit_radius_size: 70.0
 orbit_radius_speed: 0.02
 local_rotation_speed: 0.6
 object_size: 0.015
 
 
 Neptune.obj 
-orbit_radius_size: 40.0
+orbit_radius_size: 80.0
 orbit_radius_speed: 0.015
 local_rotation_speed: 0.55
 object_size: 0.01
 
 
 Pluto.obj 
-orbit_radius_size: 45.0
+orbit_radius_size: 90.0
 orbit_radius_speed: 0.013
 local_rotation_speed: 0.002
 object_size: 0.001
+
+
+Phobos.obj 
+orbit_radius_size: 1.0
+orbit_radius_speed: 0.5
+local_rotation_speed: 0.1
+object_size: 0.001
+
+
+Deimos.obj 
+orbit_radius_size: 0.5
+orbit_radius_speed: 1.0
+local_rotation_speed: 0.1
+object_size: 0.001
+
+
+Ganymede.obj 
+orbit_radius_size: 4.0
+orbit_radius_speed: 1.0
+local_rotation_speed: 0.5
+object_size: 0.005
+
+
+Callisto.obj 
+orbit_radius_size: 4.0
+orbit_radius_speed: 0.5
+local_rotation_speed: 1.0
+object_size: 0.001
+
+
+Io.obj 
+orbit_radius_size: 1.0
+orbit_radius_speed: 1.0
+local_rotation_speed: 0.1
+object_size: 0.001
+
+
+Europa.obj 
+orbit_radius_size: 1.0
+orbit_radius_speed: 1.0
+local_rotation_speed: 0.1
+object_size: 0.001
+
+
+Titan.obj 
+orbit_radius_size: 1.0
+orbit_radius_speed: 1.0
+local_rotation_speed: 0.1
+object_size: 0.001
+
+
+Rhea.obj 
+orbit_radius_size: 1.0
+orbit_radius_speed: 1.0
+local_rotation_speed: 0.1
+object_size: 0.001
+
+
+Oberon.obj 
+orbit_radius_size: 1.0
+orbit_radius_speed: 1.0
+local_rotation_speed: 0.1
+object_size: 0.001
+
+
+Umbriel.obj 
+orbit_radius_size: 1.0
+orbit_radius_speed: 1.0
+local_rotation_speed: 0.1
+object_size: 0.001
+
+
+Ariel.obj 
+orbit_radius_size: 1.0
+orbit_radius_speed: 1.0
+local_rotation_speed: 0.1
+object_size: 0.001
+
+
+Triton.obj 
+orbit_radius_size: 1.0
+orbit_radius_speed: 1.0
+local_rotation_speed: 0.1
+object_size: 0.001
+
+
+Proteus.obj 
+orbit_radius_size: 1.0
+orbit_radius_speed: 1.0
+local_rotation_speed: 0.1
+object_size: 0.001
+
+
+Moon.obj 
+orbit_radius_size: 1.0
+orbit_radius_speed: 1.0
+local_rotation_speed: 0.1
+object_size: 0.001
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
