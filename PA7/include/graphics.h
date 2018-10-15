@@ -34,7 +34,7 @@ class Graphics
     GLint m_modelMatrix;
 
     //Object *m_cube;
-    std::vector<Object*> m_objects;
+    std::vector<Object*> m_cubes;
 };
 
 #endif /* GRAPHICS_H */
