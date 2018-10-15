@@ -20,6 +20,8 @@ Object::Object()
   orbitRadius = 5.0f;
   orbitSpeedMultiplier = 1.0f;
   rotateSpeedMultiplier = 1.0f;
+  rsm = rotateSpeedMultiplier;
+  osm = orbitSpeedMultiplier;
   size = 1;
 }
 
@@ -49,14 +51,19 @@ Object::Object(std::string filePath, Object* objParent, float objOrbitRadius, fl
       // get orbit radius size
 	  fin >> planetIdentifier;
 	  fin >> orbitRadius;
+	  cout << orbitRadius << endl;
 
       // get orbiting speed
 	  fin >> planetIdentifier;
 	  fin >> orbitSpeedMultiplier;
+	  osm = orbitSpeedMultiplier;
+	  cout << orbitSpeedMultiplier << endl;
 
 	  // git local rotation rpeed
 	  fin >> planetIdentifier;
 	  fin >> rotateSpeedMultiplier;
+	  rsm = rotateSpeedMultiplier;
+	  cout << rotateSpeedMultiplier << endl;
 
 	  // get planet size
 	  fin >> planetIdentifier;
@@ -274,9 +281,44 @@ bool Object::isDirectionReversed()
   return directionReversed;
 }
 
-void Object::UpdateSpeed(float multiplier)
+void Object::UpdateRotationSpeed(float rotateMultiplier)
+{  
+  // Set the new speed with the multiplier
+  float defaultSpeed;
+
+  // Get the speed that was read from the file
+  defaultSpeed = GetRotationSpeed();
+  cout << "Read In Speed: " << defaultSpeed << endl;
+ 
+  defaultSpeed *= rotateMultiplier;
+  cout << "New Speed: " << defaultSpeed << endl;
+  
+  rotateSpeedMultiplier = defaultSpeed;
+}
+
+void Object::UpdateOrbitSpeed(float orbitMultiplier)
 {
- rotateSpeedMultiplier = multiplier;
+  // Set the new speed with the multiplier
+  float defaultSpeed;
+
+  // Get the speed that was read from the file
+  defaultSpeed = GetOrbitSpeed();
+  cout << "Read In Speed: " << defaultSpeed << endl;
+ 
+  defaultSpeed *= orbitMultiplier;
+  cout << "New Speed: " << defaultSpeed << endl;
+  
+  orbitSpeedMultiplier = defaultSpeed;
+}
+
+float Object::GetRotationSpeed()
+{
+ return rsm;
+}
+
+float Object::GetOrbitSpeed()
+{
+ return osm;
 }
 
 void Object::Render()

@@ -62,7 +62,7 @@ bool Engine::Initialize()
   ImGui_ImplOpenGL3_Init("#version 130"); // GL 3.0 + GLSL 130
   ImGui::StyleColorsDark(); // Setup style
   
-  // Keyboard stuff
+  // Camera movement stuff
   movingRight    = false;
   movingLeft     = false;
   movingForward  = false;
@@ -81,7 +81,8 @@ bool Engine::Initialize()
 void Engine::Run()
 {
   m_running = true;
-  int index, i;
+
+  int index;
 
   while(m_running)
   {
@@ -164,49 +165,89 @@ void Engine::Run()
 	    }
       }
       
-      ImGui::Text("Speed Multiplier");
+      ImGui::Text("Speed Multipliers");
            
-      if(ImGui::Button("0.5x Speed", ImVec2(100, 50)))
+      if(ImGui::Button("0.5x Rotation Speed", ImVec2(200, 50)))
        {
-        for(i = 0; i < m_graphics->numberOfCubes(); i++)
+        for(index = 0; index < m_graphics->numberOfCubes(); index++)
         {
-         m_graphics->GetObject(i)->UpdateSpeed(0.05f);
-         cout << i << endl;
+         m_graphics->GetObject(index)->UpdateRotationSpeed(0.5f);
         }
        }
        
-       else if(ImGui::Button("Normal Speed", ImVec2(100, 50)))
+       else if(ImGui::Button("Normal Rotation Speed", ImVec2(200, 50)))
        {
-        for(i = 0; i < m_graphics->numberOfCubes(); i++)
+        for(index = 0; index < m_graphics->numberOfCubes(); index++)
         {
-         m_graphics->GetObject(i)->UpdateSpeed(0.1f);
+         m_graphics->GetObject(index)->UpdateRotationSpeed(1.0f);
         }
        }
       
-       else if(ImGui::Button("1.5x Speed", ImVec2(100, 50)))
+       else if(ImGui::Button("1.5x Rotation Speed", ImVec2(200, 50)))
        {
-        for(i = 0; i < m_graphics->numberOfCubes(); i++)
+        for(index = 0; index < m_graphics->numberOfCubes(); index++)
         {
-         m_graphics->GetObject(i)->UpdateSpeed(0.2f);
+         m_graphics->GetObject(index)->UpdateRotationSpeed(1.5f);
         }
        }
       
-       else if(ImGui::Button("2.0x Speed", ImVec2(100, 50)))
+       else if(ImGui::Button("2.0x Rotation Speed", ImVec2(200, 50)))
        {
-        for(i = 0; i < m_graphics->numberOfCubes(); i++)
+        for(index = 0; index < m_graphics->numberOfCubes(); index++)
         {
-         m_graphics->GetObject(i)->UpdateSpeed(0.4f);
+         m_graphics->GetObject(index)->UpdateRotationSpeed(2.0f);
         }
        }
       
-       else if(ImGui::Button("4.0x Speed", ImVec2(100, 50)))
+       else if(ImGui::Button("4.0x Rotation Speed", ImVec2(200, 50)))
        {
-        for(i = 0; i < m_graphics->numberOfCubes(); i++)
+        for(index = 0; index < m_graphics->numberOfCubes(); index++)
         {
-         m_graphics->GetObject(i)->UpdateSpeed(0.8f);
+         m_graphics->GetObject(index)->UpdateRotationSpeed(4.0f);
+        }
+       }
+       
+       // Orbit Speed Multipliers
+       if(ImGui::Button("0.5x Orbit Speed", ImVec2(200, 50)))
+       {
+        for(index = 0; index < m_graphics->numberOfCubes(); index++)
+        {
+         m_graphics->GetObject(index)->UpdateOrbitSpeed(0.5f);
+        }
+       }
+       
+       else if(ImGui::Button("Normal Orbit Speed", ImVec2(200, 50)))
+       {
+        for(index = 0; index < m_graphics->numberOfCubes(); index++)
+        {
+         m_graphics->GetObject(index)->UpdateOrbitSpeed(1.0f);
         }
        }
       
+       else if(ImGui::Button("1.5x Orbit Speed", ImVec2(200, 50)))
+       {
+        for(index = 0; index < m_graphics->numberOfCubes(); index++)
+        {
+         m_graphics->GetObject(index)->UpdateOrbitSpeed(1.5f);
+        }
+       }
+      
+       else if(ImGui::Button("2.0x Orbit Speed", ImVec2(200, 50)))
+       {
+        for(index = 0; index < m_graphics->numberOfCubes(); index++)
+        {
+         m_graphics->GetObject(index)->UpdateOrbitSpeed(2.0f);
+        }
+       }
+      
+       else if(ImGui::Button("4.0x Orbit Speed", ImVec2(200, 50)))
+       {
+        for(index = 0; index < m_graphics->numberOfCubes(); index++)
+        {
+         m_graphics->GetObject(index)->UpdateOrbitSpeed(4.0f);
+        }
+       }
+       
       ImGui::End();
     }
 
@@ -224,9 +265,7 @@ void Engine::Run()
 }
 
 void Engine::Keyboard()
-{
-  int planetCounter;
-   
+{   
   if (m_event.type == SDL_QUIT)
   {
     m_running = false;

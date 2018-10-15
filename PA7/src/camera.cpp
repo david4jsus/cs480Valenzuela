@@ -12,14 +12,11 @@ bool Camera::Initialize(int w, int h)
 {
   yaw = pitch = 0.0f;
   
-  glm::vec3 target, direction;
-  
-  cameraPos       = glm::vec3(0.0f, 5.0f, 0.0f);
-  cameraFront     = glm::vec3(0.0f, 0.0f, -1.0f);
-  cameraUp        = glm::vec3(0.0f, 1.0f, 0.0f);
-  target          = glm::vec3(0.0f, 0.0f, 0.0f);
-  direction       = glm::normalize(cameraPos - target);
-  cameraRight     = glm::normalize(glm::cross(cameraUp, direction));
+  cameraPos   = glm::vec3(-20.0f, 5.0f, 0.0f);
+  cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
+  cameraUp    = glm::vec3(0.0f, 1.0f, 0.0f);
+  cameraRight = glm::normalize(glm::cross(cameraFront, cameraUp));
+
   
   view = glm::lookAt(cameraPos,               //Eye Position
                      cameraPos + cameraFront, //Focus point
