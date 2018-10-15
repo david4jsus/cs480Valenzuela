@@ -1,4 +1,4 @@
-# PA6: Assimp Model Loading with Textures
+# PA7: Solar System
 
 # Team Specular Bois
 The following students are part of the team who made this project:
@@ -15,28 +15,19 @@ This project uses OpenGL 3.3. Some computers, such as virtual machines in the EC
 
 This project also uses Dear ImGui (https://github.com/ocornut/imgui), but all the necessary files are already included in the project.
 
-Thi project alos uses ImageMagick.
+Thi project also uses the Assimp and ImageMagick libraries.
 
 ## Building and Running
 To build this project generated the make file using CMake. Navigate to the build folder to build the program. To create the program, simply run the "cmake .." than the "make" command. Then, run the program.
 
 ```bash
+mkdir build
 cd build
 cmake ..
 make
-./Tutorial
+./SolarSystemBois
 ```
-
-# Loading a model
-
-By default, the project loads a cibe object, or in the case that a specified model could not be loaded. To load your own model, place the '**.obj**' file in the '**assets/models/**' subdirectory of the project. Then, when running the program, specify the name of the file as a command line argument (please include '.obj' in the name of the file):
-
-```bash
-./Tutorial buddha.obj
-```
-
-If there is a file called 'object.obj' in the 'models/' file, it will load that file. If no file is provided, program will terminate.
 
 # Controls
 
-To reverse the direction of rotation of the object, click on the screen or press the '**A**' key. To make the object rotate specifically in a counter-clockwise direction, press the **left arrow** button. To make it rotate specifically in a clockwise direction, press the **right arrow** button. You can also stop the object from orbiting by pressing the '**S**' key, and stop it from rotating by pressing the '**D**' key. To quit the program, press the **escape button**. There will be an on-screen menu indicating the diretion of rotation of the object.
+Use **WASDQE** to move around and the **arrow keys** to rotate the view. On-screen there will be a menu with different settings for the simulation, such as simulation speed and reversing time.

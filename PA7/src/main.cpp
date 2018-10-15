@@ -12,7 +12,7 @@ int main(int argc, char **argv)
     model = argv[1];
   }
   
-  Engine *engine = new Engine("CS 480 - Team Specular Bois - PA6", 800, 600, model);
+  Engine *engine = new Engine("CS 480 - Team Specular Bois - PA6", 1680, 1050, model);
   
   if(!engine->Initialize())
   {

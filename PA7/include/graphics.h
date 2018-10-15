@@ -17,6 +17,7 @@ class Graphics
     bool Initialize(int width, int height, std::string file);
     void Update(unsigned int dt);
     void Render();
+    Camera* getCamera();
     
     // To get a specified cube, specified by array index
     Object* GetObject(int index);
@@ -34,7 +35,6 @@ class Graphics
 
     //Object *m_cube;
     std::vector<Object*> m_cubes;
-	int cats;
 };
 
 #endif /* GRAPHICS_H */

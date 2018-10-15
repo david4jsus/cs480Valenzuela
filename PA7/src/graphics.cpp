@@ -94,7 +94,6 @@ bool Graphics::Initialize(int width, int height, std::string file)
   //m_cubes.push_back(neptuneMoonTriton);
   //m_cubes.push_back(neptuneMoonProteus);
   m_cubes.push_back(pluto);
-  
 
   // Set up the shaders
   m_shader = new Shader();
@@ -159,10 +158,15 @@ bool Graphics::Initialize(int width, int height, std::string file)
 void Graphics::Update(unsigned int dt)
 {
   // Update the objects
-  for(unsigned int i = 0; i < m_cubes.size(); i++)
+  for(unsigned int i = 0; i < m_objects.size(); i++)
   {
-    m_cubes[i]->Update(dt);
+    m_objects[i]->Update(dt);
   }
+}
+
+Camera* Graphics::getCamera()
+{
+   return m_camera;
 }
 
 Object* Graphics::GetObject(int index)
@@ -189,10 +193,10 @@ void Graphics::Render()
   glUniformMatrix4fv(m_viewMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetView())); 
 
   // Render the objects
-  for(unsigned int i = 0; i < m_cubes.size(); i++)
+  for(unsigned int i = 0; i < m_objects.size(); i++)
   {
-    glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(m_cubes[i]->GetModel()));
-    m_cubes[i]->Render();
+    glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(m_objects[i]->GetModel()));
+    m_objects[i]->Render();
   }
 
   // Get any errors from OpenGL

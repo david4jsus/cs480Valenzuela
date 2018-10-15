@@ -39,6 +39,18 @@ Object::~Object()
 {
   Vertices.clear();
   Indices.clear();
+  
+  for (int i = 0; i < myVertices.size(); i++)
+  {
+    myVertices[i].clear();
+  }
+  myVertices.clear();
+  
+  for (int i = 0; i < myIndices.clear(); i++)
+  {
+    myIndices[i].clear();
+  }
+  myIndices.clear();
 }
 
 void Object::createObject()
@@ -69,7 +81,7 @@ void Object::createObject()
     f 5 1 8
   */
   
-    Vertices = {
+  Vertices = {
     {{1.0f, -1.0f, -1.0f}, {0.0f, 0.0f, 0.0f}, {1.0f, 1.0f}},
     {{1.0f, -1.0f, 1.0f}, {1.0f, 0.0f, 0.0f}, {1.0f, 1.0f}},
     {{-1.0f, -1.0f, 1.0f}, {0.0f, 1.0f, 0.0f}, {0.0f, 0.0f}},
@@ -78,7 +90,6 @@ void Object::createObject()
     {{1.0f, 1.0f, 1.0f}, {1.0f, 0.0f, 1.0f}, {1.0f, 1.0f}},
     {{-1.0f, 1.0f, 1.0f}, {0.0f, 1.0f, 1.0f}, {0.0f, 0.0f}},
     {{-1.0f, 1.0f, -1.0f}, {1.0f, 1.0f, 1.0f}, {0.0f, 1.0f}}
-
   };
 
   Indices = {
@@ -117,6 +128,7 @@ void Object::createObject()
   {
     std::cout << "Loading " << objFilePath << "..." << std::endl;
     
+    for (int i = 0; i < scene->mNumMeshes; i++)
     glGenBuffers(1, &VB);
     glBindBuffer(GL_ARRAY_BUFFER, VB);
     glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * myVertices.size(), &myVertices[0], GL_STATIC_DRAW);
@@ -287,16 +299,11 @@ void Object::Render()
 	// Bind Texture
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, Texture);
-
     // Draw
     glDrawElements(GL_TRIANGLES, myIndices.size(), GL_UNSIGNED_INT, 0);
   }
   else
-  {
-    // Bind Texture
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, Texture);
-    
+  {    
     // Draw
     glDrawElements(GL_TRIANGLES, Indices.size(), GL_UNSIGNED_INT, 0);
   }
@@ -390,6 +397,7 @@ bool Object::loadOBJ(std::string path, std::vector<Vertex> &out_vertices,
 			glGenTextures(1, &Texture);
 			glGenTextures(1, &Texture1);
 		}
+    
 	  }
 
   // object file sucessfully accessed
