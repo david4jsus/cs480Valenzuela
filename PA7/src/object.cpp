@@ -391,7 +391,7 @@ bool Object::loadOBJ(std::string path, std::vector<Vertex> &out_vertices,
       Magick::Image *image;
       image = new Magick::Image(imageFilePath);
       image->write(&blob, "RGBA");
-      cout << "Loaded Texture: " << assimpFilePath.C_Str() << endl;
+      //cout << "Loaded Texture: " << assimpFilePath.C_Str() << endl;
 
       // Generate Texture
       glGenTextures(1, &Texture);
@@ -400,7 +400,7 @@ bool Object::loadOBJ(std::string path, std::vector<Vertex> &out_vertices,
       glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
       glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
       delete image;
-      cout << "Generated Texture" << endl;
+      //cout << "Generated Texture" << endl;
 	  }
 
   // object file sucessfully accessed
