@@ -99,7 +99,10 @@ void Engine::Run()
       ImGui::Text("Planet Controls");
       if(ImGui::Button("Toggle Direction"))
       {
-       m_graphics->GetObject(0)->reverseDirection();
+       for(int index = 0; index < m_graphics->numberOfCubes(); index++)
+	    {
+        m_graphics->GetObject(index)->reverseDirection();
+	    }
       }
       
       ImGui::Text("Speed Multiplier");
@@ -143,7 +146,7 @@ void Engine::Run()
 void Engine::Keyboard()
 {
   int planetCounter;
-
+   
   if (m_event.type == SDL_QUIT)
   {
     m_running = false;
