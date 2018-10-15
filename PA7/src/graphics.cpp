@@ -45,23 +45,36 @@ bool Graphics::Initialize(int width, int height, std::string file)
   }
 
   // Create objects
-  Object* sun     = new Object(file, 0, 0.0f, 0.1f, .1f, 1.0f);
-  /*
-  Object* planet  = new Object(0, 6.0f, 0.2f, 0.5f, 0.6f);
-  Object* moon    = new Object(planet, 2.0f, 0.5f, 1.0f, 0.2f);
-  Object* planet2 = new Object(0, 10.0f, 0.15f, 0.2f, 0.8f);
-  Object* moon2   = new Object(planet2, 2.0f, 0.3f, 1.0f, 0.3f);
-  Object* moon3   = new Object(moon2, 1.0f, 0.8f, 1.5f, 0.1f);
-  */
+  Object* sun = new Object("Sun.obj", 0, 0.0f, 0.0f, 0.1f, 0.04f); // file path, parent, orbit radius size, orbit radius speed, local rotation speed, object size
+  Object* mercury = new Object("Mercury.obj", 0, 0.0f, 0.0f, 0.1f, 0.07f);
+  Object* venus  = new Object("Venus.obj", 0, 0.0f, 0.0f, 0.1f, 0.07f);
+  Object* earth = new Object("Earth.obj", 0, 0.0f, 0.0f, 0.1f, 0.07f);
+  Object* earthMoon = new Object("Moon.obj", earth, 0.0f, 0.0f, 0.1f, 0.07f);
+  Object* mars   = new Object("Mars.obj", 0, 0.0f, 0.0f, 0.1f, 0.07f);
+  //Object* marsMoonPhobos = new Object(mars, 0, 0.0f, 0.0f, 0.1f, 0.07f);
+  //Object* marsMoonDeimos = new Object(mars, 0, 0.0f, 0.0f, 0.1f, 0.07f);
+  Object* jupiter = new Object("Jupiter.obj", 0, 0.0f, 0.0f, 0.1f, 0.07f);
+  //Object* saturn = new Object("Saturn.obj", 0, 0.0f, 0.0f, 0.1f, 0.07f);
+  Object* saturnRings = new Object("Saturn2.obj", 0, 0.0f, 0.0f, 0.1f, 0.07f);
+  Object* uranus = new Object("Uranus.obj", 0, 0.0f, 0.0f, 0.1f, 0.07f);
+  Object* neptune = new Object("Neptune.obj", 0, 0.0f, 0.0f, 0.1f, 0.07f);
+  Object* pluto = new Object("Pluto.obj", 0, 0.0f, 0.0f, 0.1f, 0.07f);
   
   m_cubes.push_back(sun);
-  /*
-  m_cubes.push_back(planet);
-  m_cubes.push_back(moon);
-  m_cubes.push_back(planet2);
-  m_cubes.push_back(moon2);
-  m_cubes.push_back(moon3);
-  */
+  m_cubes.push_back(mercury);
+  m_cubes.push_back(venus);
+  m_cubes.push_back(earth);
+  m_cubes.push_back(earthMoon);
+  m_cubes.push_back(mars);
+  //m_cubes.push_back(marsMoonPhobos);
+  //m_cubes.push_back(marsMoonDeimos);
+  m_cubes.push_back(jupiter);
+  //m_cubes.push_back(saturn);
+  m_cubes.push_back(saturnRings);
+  m_cubes.push_back(uranus);
+  m_cubes.push_back(neptune);
+  m_cubes.push_back(pluto);
+  
 
   // Set up the shaders
   m_shader = new Shader();
@@ -135,6 +148,11 @@ void Graphics::Update(unsigned int dt)
 Object* Graphics::GetObject(int index)
 {
   return m_cubes[index];
+}
+
+int Graphics::numberOfCubes()
+{
+  return m_cubes.size();
 }
 
 void Graphics::Render()

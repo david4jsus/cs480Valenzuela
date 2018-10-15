@@ -20,6 +20,7 @@ class Graphics
     
     // To get a specified cube, specified by array index
     Object* GetObject(int index);
+	  int numberOfCubes();
 
   private:
     std::string ErrorString(GLenum error);

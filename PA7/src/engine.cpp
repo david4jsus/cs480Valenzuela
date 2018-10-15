@@ -142,6 +142,8 @@ void Engine::Run()
 
 void Engine::Keyboard()
 {
+  int planetCounter;
+
   if (m_event.type == SDL_QUIT)
   {
     m_running = false;
@@ -156,33 +158,50 @@ void Engine::Keyboard()
     
     if (m_event.key.keysym.sym == SDLK_a)      // Reverse direction of rotation of cube
     {
-      m_graphics->GetObject(0)->reverseDirection();
+	  for(planetCounter = 0; planetCounter < m_graphics->numberOfCubes(); planetCounter++)
+	  {
+        m_graphics->GetObject(planetCounter)->reverseDirection();
+	  }
     }
     
     if (m_event.key.keysym.sym == SDLK_LEFT)      // Make direction of rotation of cube counter-clockwise
     {
-      m_graphics->GetObject(0)->makeDirectionCounter();
+	  for(planetCounter = 0; planetCounter < m_graphics->numberOfCubes(); planetCounter++)
+	  {
+        m_graphics->GetObject(planetCounter)->makeDirectionCounter();
+	  }
     }
     
     if (m_event.key.keysym.sym == SDLK_RIGHT)      // Make direction of rotation of cube clockwise
     {
-      m_graphics->GetObject(0)->makeDirectionClockwise();
+	  for(planetCounter = 0; planetCounter < m_graphics->numberOfCubes(); planetCounter++)
+	  {
+        m_graphics->GetObject(planetCounter)->makeDirectionClockwise();
+	  }
     }
     
     if (m_event.key.keysym.sym == SDLK_s)      // Stop cube orbit
     {
-      m_graphics->GetObject(0)->toggleOrbit();
+	  for(planetCounter = 0; planetCounter < m_graphics->numberOfCubes(); planetCounter++)
+	  {
+        m_graphics->GetObject(planetCounter)->toggleOrbit();
+	  }
     }
     
     if (m_event.key.keysym.sym == SDLK_d)      // Stop cube rotation
     {
-      m_graphics->GetObject(0)->toggleRotation();
+	  for(planetCounter = 0; planetCounter < m_graphics->numberOfCubes(); planetCounter++)
+	  {
+        m_graphics->GetObject(planetCounter)->toggleRotation();
+	  }
     }
   }
 }
 
 void Engine::Mouse()
 {
+  int planetCounter;
+
   if (m_event.type == SDL_QUIT)
   {
     m_running = false;
@@ -190,10 +209,13 @@ void Engine::Mouse()
   else if (m_event.type == SDL_MOUSEBUTTONDOWN)
   {
     // Handle mouse down events here
-    //if (m_event.button.button == SDL_BUTTON_LEFT) // Reverse direction of rotation of cube
-    //{
-      //m_graphics->GetObject(0)->reverseDirection();
-    //}
+    if (m_event.button.button == SDL_BUTTON_LEFT) // Reverse direction of rotation of cube
+    {
+	  //for(planetCounter = 0; planetCounter < m_graphics->numberOfCubes(); planetCounter++)
+	  //{
+        //m_graphics->GetObject(planetCounter)->reverseDirection();
+	  //}
+    }
   }
 }
 
