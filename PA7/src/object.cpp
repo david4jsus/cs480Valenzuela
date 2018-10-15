@@ -268,9 +268,14 @@ bool Object::isDirectionReversed()
   return directionReversed;
 }
 
-void Object::UpdateSpeed(float multiplier)
+void Object::UpdateRotationSpeed(float rotateMultiplier)
 {
- rotateSpeedMultiplier = multiplier;
+ rotateSpeedMultiplier = rotateMultiplier;
+}
+
+void Object::UpdateOrbitSpeed(float orbitMultiplier)
+{
+ orbitSpeedMultiplier = orbitMultiplier;
 }
 
 void Object::Render()

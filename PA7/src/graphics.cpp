@@ -158,9 +158,9 @@ bool Graphics::Initialize(int width, int height, std::string file)
 void Graphics::Update(unsigned int dt)
 {
   // Update the objects
-  for(unsigned int i = 0; i < m_objects.size(); i++)
+  for(unsigned int i = 0; i < m_cubes.size(); i++)
   {
-    m_objects[i]->Update(dt);
+    m_cubes[i]->Update(dt);
   }
 }
 
@@ -193,10 +193,10 @@ void Graphics::Render()
   glUniformMatrix4fv(m_viewMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetView())); 
 
   // Render the objects
-  for(unsigned int i = 0; i < m_objects.size(); i++)
+  for(unsigned int i = 0; i < m_cubes.size(); i++)
   {
-    glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(m_objects[i]->GetModel()));
-    m_objects[i]->Render();
+    glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(m_cubes[i]->GetModel()));
+    m_cubes[i]->Render();
   }
 
   // Get any errors from OpenGL

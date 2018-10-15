@@ -34,8 +34,9 @@ class Object
     // Toggle cube orbiting
     void toggleOrbit();
     
-    // Speed Multiplier
-    void UpdateSpeed(float multiplier);
+    // Speed Multipliers
+    void UpdateRotationSpeed(float rotateMultiplier);
+    void UpdateOrbitSpeed(float orbitMultiplier);
     
     // Check if reverse direction for orbit
     bool isDirectionReversed();

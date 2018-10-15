@@ -164,46 +164,85 @@ void Engine::Run()
 	    }
       }
       
-      ImGui::Text("Speed Multiplier");
+      ImGui::Text("Speed Multipliers");
            
-      if(ImGui::Button("0.5x Speed", ImVec2(100, 50)))
+      if(ImGui::Button("0.5x Rotation Speed", ImVec2(100, 50)))
        {
         for(i = 0; i < m_graphics->numberOfCubes(); i++)
         {
-         m_graphics->GetObject(i)->UpdateSpeed(0.05f);
-         cout << i << endl;
+         m_graphics->GetObject(i)->UpdateRotationSpeed(0.05f);
         }
        }
        
-       else if(ImGui::Button("Normal Speed", ImVec2(100, 50)))
+       else if(ImGui::Button("Normal Rotation Speed", ImVec2(100, 50)))
        {
         for(i = 0; i < m_graphics->numberOfCubes(); i++)
         {
-         m_graphics->GetObject(i)->UpdateSpeed(0.1f);
+         m_graphics->GetObject(i)->UpdateRotationSpeed(0.1f);
         }
        }
       
-       else if(ImGui::Button("1.5x Speed", ImVec2(100, 50)))
+       else if(ImGui::Button("1.5x Rotation Speed", ImVec2(100, 50)))
        {
         for(i = 0; i < m_graphics->numberOfCubes(); i++)
         {
-         m_graphics->GetObject(i)->UpdateSpeed(0.2f);
+         m_graphics->GetObject(i)->UpdateRotationSpeed(0.2f);
         }
        }
       
-       else if(ImGui::Button("2.0x Speed", ImVec2(100, 50)))
+       else if(ImGui::Button("2.0x Rotation Speed", ImVec2(100, 50)))
        {
         for(i = 0; i < m_graphics->numberOfCubes(); i++)
         {
-         m_graphics->GetObject(i)->UpdateSpeed(0.4f);
+         m_graphics->GetObject(i)->UpdateRotationSpeed(0.4f);
         }
        }
       
-       else if(ImGui::Button("4.0x Speed", ImVec2(100, 50)))
+       else if(ImGui::Button("4.0x Rotation Speed", ImVec2(100, 50)))
        {
         for(i = 0; i < m_graphics->numberOfCubes(); i++)
         {
-         m_graphics->GetObject(i)->UpdateSpeed(0.8f);
+         m_graphics->GetObject(i)->UpdateRotationSpeed(0.8f);
+        }
+       }
+       
+       if(ImGui::Button("0.5x Orbit Speed", ImVec2(100, 50)))
+       {
+        for(i = 0; i < m_graphics->numberOfCubes(); i++)
+        {
+         m_graphics->GetObject(i)->UpdateOrbitSpeed(0.05f);
+        }
+       }
+       
+       else if(ImGui::Button("Normal Orbit Speed", ImVec2(100, 50)))
+       {
+        for(i = 0; i < m_graphics->numberOfCubes(); i++)
+        {
+         m_graphics->GetObject(i)->UpdateOrbitSpeed(0.1f);
+        }
+       }
+      
+       else if(ImGui::Button("1.5x Orbit Speed", ImVec2(100, 50)))
+       {
+        for(i = 0; i < m_graphics->numberOfCubes(); i++)
+        {
+         m_graphics->GetObject(i)->UpdateOrbitSpeed(0.2f);
+        }
+       }
+      
+       else if(ImGui::Button("2.0x Orbit Speed", ImVec2(100, 50)))
+       {
+        for(i = 0; i < m_graphics->numberOfCubes(); i++)
+        {
+         m_graphics->GetObject(i)->UpdateOrbitSpeed(0.4f);
+        }
+       }
+      
+       else if(ImGui::Button("4.0x Orbit Speed", ImVec2(100, 50)))
+       {
+        for(i = 0; i < m_graphics->numberOfCubes(); i++)
+        {
+         m_graphics->GetObject(i)->UpdateOrbitSpeed(0.8f);
         }
        }
       
