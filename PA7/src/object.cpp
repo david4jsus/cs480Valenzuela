@@ -26,42 +26,48 @@ Object::Object()
 Object::Object(std::string filePath, Object* objParent, float objOrbitRadius, float objOrbitMultiplier,
   float objRotateMultiplier, float objSize): Object()
 {
+  // local variables
   ifstream fin;
   string planetIdentifier;
 
+  // path to object file
   objFilePath = filePath;
 
+  // open planet configuration file
   fin.clear();
   fin.open("../assets/planet_info.txt");
 
+  // read entire file
   while(fin.eof() == false)
   {
+    // get planet name
     fin >> planetIdentifier;
-    
 
+    // check if we are going to grab correct planet information
 	if(planetIdentifier == objFilePath)
 	{
+      // get orbit radius size
 	  fin >> planetIdentifier;
 	  fin >> orbitRadius;
 
+      // get orbiting speed
 	  fin >> planetIdentifier;
 	  fin >> orbitSpeedMultiplier;
 
+	  // git local rotation rpeed
 	  fin >> planetIdentifier;
 	  fin >> rotateSpeedMultiplier;
 
+	  // get planet size
 	  fin >> planetIdentifier;
 	  fin >> size;
 	}
   }
 
-  //objFilePath = filePath;
+  // assign parent planet for moon/satelites
   parent = objParent;
-  /*orbitRadius = objOrbitRadius;
-  orbitSpeedMultiplier = objOrbitMultiplier;
-  rotateSpeedMultiplier = objRotateMultiplier;
-  size = objSize;*/
   
+  // create object
   createObject();
 }
 
