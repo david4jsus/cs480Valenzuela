@@ -34,6 +34,7 @@ class Graphics
 
     //Object *m_cube;
     std::vector<Object*> m_cubes;
+	int cats;
 };
 
 #endif /* GRAPHICS_H */
