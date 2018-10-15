@@ -51,13 +51,23 @@ bool Graphics::Initialize(int width, int height, std::string file)
   Object* earth = new Object("Earth.obj", 0, 0.0f, 0.0f, 0.1f, 0.07f);
   Object* earthMoon = new Object("Moon.obj", earth, 0.0f, 0.0f, 0.1f, 0.07f);
   Object* mars   = new Object("Mars.obj", 0, 0.0f, 0.0f, 0.1f, 0.07f);
-  //Object* marsMoonPhobos = new Object(mars, 0, 0.0f, 0.0f, 0.1f, 0.07f);
-  //Object* marsMoonDeimos = new Object(mars, 0, 0.0f, 0.0f, 0.1f, 0.07f);
+  //Object* marsMoonPhobos = new Object("Moon.obj", mars, 0.0f, 0.0f, 0.1f, 0.07f);
+  //Object* marsMoonDeimos = new Object("Moon.obj", mars, 0.0f, 0.0f, 0.1f, 0.07f);
   Object* jupiter = new Object("Jupiter.obj", 0, 0.0f, 0.0f, 0.1f, 0.07f);
-  //Object* saturn = new Object("Saturn.obj", 0, 0.0f, 0.0f, 0.1f, 0.07f);
+  //Object* jupiterMoonGanymede = new Object("Moon.obj", jupiter, 0.0f, 0.0f, 0.1f, 0.07f);
+  //Object* jupiterCallisto = new Object("Callisto.obj", jupiter, 0.0f, 0.0f, 0.1f, 0.07f);
+  //Object* jupiterMoonIo = new Object("Io.obj", jupiter, 0.0f, 0.0f, 0.1f, 0.07f);
+  //Object* jupiterMoonEuropa = new Object("Europa.obj", jupiter, 0.0f, 0.0f, 0.1f, 0.07f);
   Object* saturnRings = new Object("Saturn2.obj", 0, 0.0f, 0.0f, 0.1f, 0.07f);
+  //Object* saturnMoonTitan = new Object("Titan.obj", saturnRings, 0.0f, 0.0f, 0.1f, 0.07f);
+  //Object* saturnMoonRhea = new Object("Rhea.obj", saturnRings, 0.0f, 0.0f, 0.1f, 0.07f);
   Object* uranus = new Object("Uranus.obj", 0, 0.0f, 0.0f, 0.1f, 0.07f);
+  //Object* uranusMoonOberon = new Object("Oberon.obj", uranus, 0.0f, 0.0f, 0.1f, 0.07f);
+  //Object* uranusMoonUmbriel = new Object("Umbriel.obj", uranus, 0.0f, 0.0f, 0.1f, 0.07f);
+  //Object* uranusMoonAriel = new Object("Ariel.obj", uranus, 0.0f, 0.0f, 0.1f, 0.07f);
   Object* neptune = new Object("Neptune.obj", 0, 0.0f, 0.0f, 0.1f, 0.07f);
+  //Object* neptuneMoonTriton = new Object("Triton.obj", neptune, 0.0f, 0.0f, 0.1f, 0.07f);
+  //Object* neptuneMoonProteus = new Object("Proteus.obj", neptune, 0.0f, 0.0f, 0.1f, 0.07f);
   Object* pluto = new Object("Pluto.obj", 0, 0.0f, 0.0f, 0.1f, 0.07f);
   
   m_cubes.push_back(sun);
@@ -69,10 +79,20 @@ bool Graphics::Initialize(int width, int height, std::string file)
   //m_cubes.push_back(marsMoonPhobos);
   //m_cubes.push_back(marsMoonDeimos);
   m_cubes.push_back(jupiter);
-  //m_cubes.push_back(saturn);
+  //m_cubes.push_back(jupiterMoonGanymede);
+  //m_cubes.push_back(jupiterCallisto);
+  //m_cubes.push_back(jupiterMoonIo);
+  //m_cubes.push_back(jupiterMoonEuropa);
   m_cubes.push_back(saturnRings);
+  //m_cubes.push_back(saturnMoonTitan);
+  //m_cubes.push_back(saturnMoonRhea);
   m_cubes.push_back(uranus);
+  //m_cubes.push_back(uranusMoonOberon);
+  //m_cubes.push_back(uranusMoonUmbriel);
+  //m_cubes.push_back(uranusMoonAriel);
   m_cubes.push_back(neptune);
+  //m_cubes.push_back(neptuneMoonTriton);
+  //m_cubes.push_back(neptuneMoonProteus);
   m_cubes.push_back(pluto);
 
   // Set up the shaders
