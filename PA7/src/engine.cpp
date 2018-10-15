@@ -62,7 +62,7 @@ bool Engine::Initialize()
   ImGui_ImplOpenGL3_Init("#version 130"); // GL 3.0 + GLSL 130
   ImGui::StyleColorsDark(); // Setup style
   
-  // Keyboard stuff
+  // Camera movement stuff
   movingRight    = false;
   movingLeft     = false;
   movingForward  = false;
@@ -224,9 +224,7 @@ void Engine::Run()
 }
 
 void Engine::Keyboard()
-{
-  int planetCounter;
-   
+{   
   if (m_event.type == SDL_QUIT)
   {
     m_running = false;
