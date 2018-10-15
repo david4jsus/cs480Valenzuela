@@ -40,6 +40,18 @@ class Engine
     
     // Model loading
     std::string m_file;
+    
+    // Keyboard handling
+    bool movingRight;
+    bool movingLeft;
+    bool movingForward;
+    bool movingBackward;
+    bool movingUp;
+    bool movingDown;
+    bool rotatingLeft;
+    bool rotatingRight;
+    bool rotatingUp;
+    bool rotatingDown;
 };
 
 #endif // ENGINE_H
