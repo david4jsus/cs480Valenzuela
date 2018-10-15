@@ -71,7 +71,7 @@ class Object
     bool correctModelLoad;
 	bool hasTextures;
     std::vector<Vertex> myVertices;
-    std::vector<unsigned int> myIndices;
+    std::vector<unsigned int> myIndices
     bool loadOBJ(std::string path, std::vector<Vertex> &out_vertices, std::vector<unsigned int> &out_indices);
 
 	// Assimp object loader
