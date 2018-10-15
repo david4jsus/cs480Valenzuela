@@ -46,7 +46,7 @@ class Object
     std::vector<unsigned int> Indices;
     GLuint VB;
     GLuint IB;
-    GLuint texture;
+    GLuint Texture;
     
     // If the object has a child, this is the matrix it should read as its center
     glm::mat4 modelForChild;

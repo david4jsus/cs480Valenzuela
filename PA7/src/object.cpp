@@ -110,22 +110,6 @@ void Object::createObject()
   }
   else
   {
-    // Load Texture
-    Magick::Blob blob;
-    Magick::Image *image;
-    image = new Magick::Image("../assets/asuna.png"); // hard coded. need to have a for loop to find each texture, read, and apply
-    image->write(&blob, "RGBA");
-    cout << "Loaded Texture: " << image << endl;
-    
-    // Generate Texture
-    glGenTextures(1, &texture);
-    glBindTexture(GL_TEXTURE_2D, texture);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image->columns(), image->rows(), 0, GL_RGBA, GL_UNSIGNED_BYTE, blob.data());
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    delete image;
-    cout << "Generated Texture" << endl;
-
     correctModelLoad = loadOBJ(objFilePath, myVertices, myIndices);
   }
   
@@ -276,7 +260,7 @@ void Object::Render()
   {
     // Bind Texture
     glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, texture);
+    glBindTexture(GL_TEXTURE_2D, Texture);
     
     // Draw
     glDrawElements(GL_TRIANGLES, myIndices.size(), GL_UNSIGNED_INT, 0);
@@ -285,7 +269,7 @@ void Object::Render()
   {
     // Bind Texture
     glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, texture);
+    glBindTexture(GL_TEXTURE_2D, Texture);
     
     // Draw
     glDrawElements(GL_TRIANGLES, Indices.size(), GL_UNSIGNED_INT, 0);
@@ -368,6 +352,29 @@ bool Object::loadOBJ(std::string path, std::vector<Vertex> &out_vertices,
 		  Vertex batmanVertices(vertex, color, texture);
 		  out_vertices.push_back(batmanVertices);
 		}
+		
+		// Read Texture File
+		aiString assimpFilePath;
+		string imageFilePath;
+		scene->mMaterials[scene->mMeshes[meshCounter]->mMaterialIndex]->Get(AI_MATKEY_TEXTURE(aiTextureType_DIFFUSE, 0), assimpFilePath);
+		imageFilePath = assimpFilePath.C_Str();
+		imageFilePath = "assets/images/" + imageFilePath;
+		
+		// Load Texture
+      Magick::Blob blob;
+      Magick::Image *image;
+      image = new Magick::Image(imageFilePath);
+      image->write(&blob, "RGBA");
+      cout << "Loaded Texture: " << assimpFilePath.C_Str() << endl;
+
+      // Generate Texture
+      glGenTextures(1, &Texture);
+      glBindTexture(GL_TEXTURE_2D, Texture);
+      glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image->columns(), image->rows(), 0, GL_RGBA, GL_UNSIGNED_BYTE, blob.data());
+      glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+      glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+      delete image;
+      cout << "Generated Texture" << endl;
 	  }
 
   // object file sucessfully accessed
