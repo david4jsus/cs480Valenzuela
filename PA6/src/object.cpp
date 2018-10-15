@@ -1,6 +1,6 @@
 #include "object.h"
 #include <iostream>
-
+//#include "Magick++/lib/Magick++.h"
 using namespace std;
 
 Object::Object()
@@ -263,12 +263,42 @@ void Object::Render()
 
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
 
-  if (correctModelLoad)
+  if (hasTextures)
   {
-    // Bind Texture
+	// Load Texture
+    Magick::Blob blob;
+    Magick::Image *image;
+    image = new Magick::Image(imageFilePaths[0]);
+    image->write(&blob, "RGBA");
+
+	// bind texture
+	glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, Texture);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image->columns(), image->rows(), 0, GL_RGBA, GL_UNSIGNED_BYTE, blob.data());
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glDrawArrays(GL_TRIANGLES, 0, meshes[0]->mNumVertices);
+	delete image;
+
+	// load next texture
+	image = new Magick::Image(imageFilePaths[1]);
+    image->write(&blob, "RGBA");
+
+	// bind texture
+	glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, Texture1);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image->columns(), image->rows(), 0, GL_RGBA, GL_UNSIGNED_BYTE, blob.data());
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glDrawArrays(GL_TRIANGLES, 300000, meshes[1]->mNumVertices);
+	delete image;
+  }
+
+  else if(correctModelLoad)
+  {
+	// Bind Texture
     glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, Textures[0]);
-    
+    glBindTexture(GL_TEXTURE_2D, Texture);
     // Draw
     glDrawElements(GL_TRIANGLES, myIndices.size(), GL_UNSIGNED_INT, 0);
   }
@@ -292,6 +322,7 @@ bool Object::loadOBJ(std::string path, std::vector<Vertex> &out_vertices,
   glm::vec3 vertex;
   glm::vec3 color;
   glm::vec2 texture;
+  unsigned int textureCounter = 0;
 
   // string that contains path to object file
   std::string completeFilePath = "../assets/models/" + path;
@@ -312,8 +343,8 @@ bool Object::loadOBJ(std::string path, std::vector<Vertex> &out_vertices,
     meshes.push_back(scene->mMeshes[meshCounter]);
         
     // Check if the model has a texture
-    meshes[meshCounter]->HasTextureCoords(0);
-    cout << "has texture" << endl;
+    hasTextures = meshes[meshCounter]->HasTextureCoords(0);
+    cout << "has texture: " << hasTextures << endl;
     
      // loop through all faces
 	  for(faceLooper = 0; faceLooper < meshes[meshCounter]->mNumFaces; faceLooper++)
@@ -352,28 +383,21 @@ bool Object::loadOBJ(std::string path, std::vector<Vertex> &out_vertices,
 		  out_vertices.push_back(batmanVertices);
 		}
 		
-		// Read texture file
-		aiString assimpFilePath;
-		string imageFilePath;
-		scene->mMaterials[scene->mMeshes[meshCounter]->mMaterialIndex]->Get(AI_MATKEY_TEXTURE(aiTextureType_DIFFUSE, 0), assimpFilePath);
-		imageFilePath = assimpFilePath.C_Str();
-		imageFilePath = "assets/images/" + imageFilePath;
-		
-      // Load Texture
-      Magick::Blob blob;
-      Magick::Image *image;
-      image = new Magick::Image(imageFilePath);
-      image->write(&blob, "RGBA");
-      cout << "Loaded Texture: " << assimpFilePath.C_Str() << endl;
+		if(hasTextures == true)
+		{
+			// Read texture file
+			aiString assimpFilePath;
+			string imageFilePath;
+			scene->mMaterials[scene->mMeshes[meshCounter]->mMaterialIndex]->Get(AI_MATKEY_TEXTURE(aiTextureType_DIFFUSE, 0), assimpFilePath);
+			imageFilePath = assimpFilePath.C_Str();
+			imageFilePath = "../assets/images/" + imageFilePath;
+			imageFilePaths.push_back(imageFilePath);
 
-      // Generate Texture
-      glGenTextures(1, &Textures[meshCounter]);
-      glBindTexture(GL_TEXTURE_2D, Textures[meshCounter]);
-      glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image->columns(), image->rows(), 0, GL_RGBA, GL_UNSIGNED_BYTE, blob.data());
-      glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-      glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-      delete image;
-      cout << "Generated Texture" << endl;
+			// generate texture positions
+			glGenTextures(1, &Texture);
+			glGenTextures(1, &Texture1);
+		}
+    
 	  }
 
   // object file sucessfully accessed

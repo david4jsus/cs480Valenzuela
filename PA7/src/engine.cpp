@@ -150,15 +150,41 @@ void Engine::Run()
     //ImGui::ShowDemoWindow(&imgui_demo);
     
     {
-      ImGui::Begin("Debug Window");
-      if (m_graphics->getObject(0)->isDirectionReversed())
+      ImGui::Begin("Solar System Instructions and Help");
+      
+      ImGui::Text("Camera Controls");
+      
+      ImGui::Text("Planet Controls");
+      if(ImGui::Button("Toggle Direction"))
       {
-        ImGui::Text("Direction of rotation of object: clockwise");
+       for(int index = 0; index < m_graphics->numberOfCubes(); index++)
+	    {
+        m_graphics->GetObject(index)->reverseDirection();
+	    }
       }
-      else
+      
+      ImGui::Text("Speed Multiplier");
+           
+      if(ImGui::Button("Normal Speed", ImVec2(100, 50)))
       {
-        ImGui::Text("Direction of rotation of object: counter-clockwise");
+       m_graphics->GetObject(0)->UpdateSpeed(0.1f);
       }
+      
+      else if(ImGui::Button("1.5x Speed", ImVec2(100, 50)))
+      {
+       m_graphics->GetObject(0)->UpdateSpeed(0.2f);
+      }
+      
+      else if(ImGui::Button("2.0x Speed", ImVec2(100, 50)))
+      {
+       m_graphics->GetObject(0)->UpdateSpeed(0.4f);
+      }
+      
+      else if(ImGui::Button("4.0x Speed", ImVec2(100, 50)))
+      {
+       m_graphics->GetObject(0)->UpdateSpeed(0.8f);
+      }
+      
       ImGui::End();
     }
 
@@ -177,6 +203,8 @@ void Engine::Run()
 
 void Engine::Keyboard()
 {
+  int planetCounter;
+   
   if (m_event.type == SDL_QUIT)
   {
     m_running = false;
@@ -305,6 +333,8 @@ void Engine::Keyboard()
 
 void Engine::Mouse()
 {
+  int planetCounter;
+
   if (m_event.type == SDL_QUIT)
   {
     m_running = false;
@@ -314,7 +344,10 @@ void Engine::Mouse()
     // Handle mouse down events here
     if (m_event.button.button == SDL_BUTTON_LEFT) // Reverse direction of rotation of cube
     {
-      m_graphics->getObject(0)->reverseDirection();
+	  //for(planetCounter = 0; planetCounter < m_graphics->numberOfCubes(); planetCounter++)
+	  //{
+        //m_graphics->GetObject(planetCounter)->reverseDirection();
+	  //}
     }
   }
 }

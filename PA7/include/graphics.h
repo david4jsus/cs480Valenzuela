@@ -20,7 +20,8 @@ class Graphics
     Camera* getCamera();
     
     // To get a specified cube, specified by array index
-    Object* getObject(int index);
+    Object* GetObject(int index);
+	  int numberOfCubes();
 
   private:
     std::string ErrorString(GLenum error);

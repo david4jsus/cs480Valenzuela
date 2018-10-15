@@ -1,5 +1,6 @@
 #include "object.h"
 #include <iostream>
+#include <fstream>
 
 using namespace std;
 
@@ -25,12 +26,41 @@ Object::Object()
 Object::Object(std::string filePath, Object* objParent, float objOrbitRadius, float objOrbitMultiplier,
   float objRotateMultiplier, float objSize): Object()
 {
+  ifstream fin;
+  string planetIdentifier;
+
   objFilePath = filePath;
+
+  fin.clear();
+  fin.open("../assets/planet_info.txt");
+
+  while(fin.eof() == false)
+  {
+    fin >> planetIdentifier;
+    
+
+	if(planetIdentifier == objFilePath)
+	{
+	  fin >> planetIdentifier;
+	  fin >> orbitRadius;
+
+	  fin >> planetIdentifier;
+	  fin >> orbitSpeedMultiplier;
+
+	  fin >> planetIdentifier;
+	  fin >> rotateSpeedMultiplier;
+
+	  fin >> planetIdentifier;
+	  fin >> size;
+	}
+  }
+
+  //objFilePath = filePath;
   parent = objParent;
-  orbitRadius = objOrbitRadius;
+  /*orbitRadius = objOrbitRadius;
   orbitSpeedMultiplier = objOrbitMultiplier;
   rotateSpeedMultiplier = objRotateMultiplier;
-  size = objSize;
+  size = objSize;*/
   
   createObject();
 }
@@ -110,22 +140,6 @@ void Object::createObject()
   }
   else
   {
-    // Load Texture
-    Magick::Blob blob;
-    Magick::Image *image;
-    image = new Magick::Image("../assets/images/Nebula.png"); // hard coded. need to have a for loop to find each texture, read, and apply
-    image->write(&blob, "RGBA");
-    cout << "Loaded Texture: " << image << endl;
-    
-    // Generate Texture
-    glGenTextures(1, &texture);
-    glBindTexture(GL_TEXTURE_2D, texture);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image->columns(), image->rows(), 0, GL_RGBA, GL_UNSIGNED_BYTE, blob.data());
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    delete image;
-    cout << "Generated Texture" << endl;
-
     correctModelLoad = loadOBJ(objFilePath, myVertices, myIndices);
   }
   
@@ -254,6 +268,11 @@ bool Object::isDirectionReversed()
   return directionReversed;
 }
 
+void Object::UpdateSpeed(float multiplier)
+{
+ rotateSpeedMultiplier = multiplier;
+}
+
 void Object::Render()
 {
   glEnableVertexAttribArray(0);
@@ -271,7 +290,7 @@ void Object::Render()
   {
     // Bind Texture
     glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, texture);
+    glBindTexture(GL_TEXTURE_2D, Texture);
     
     // Draw
     glDrawElements(GL_TRIANGLES, myIndices.size(), GL_UNSIGNED_INT, 0);
@@ -280,7 +299,7 @@ void Object::Render()
   {
     // Bind Texture
     glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, texture);
+    glBindTexture(GL_TEXTURE_2D, Texture);
     
     // Draw
     glDrawElements(GL_TRIANGLES, Indices.size(), GL_UNSIGNED_INT, 0);
@@ -302,7 +321,7 @@ bool Object::loadOBJ(std::string path, std::vector<Vertex> &out_vertices,
   glm::vec2 texture;
 
   // string that contains path to object file
-  std::string completeFilePath = "../assets/models/" + path;
+  std::string completeFilePath = "../assets/models/Planets/" + path;
 
   // access information from object file
   scene = importer.ReadFile(completeFilePath, aiProcess_Triangulate);
@@ -322,12 +341,8 @@ bool Object::loadOBJ(std::string path, std::vector<Vertex> &out_vertices,
     // Check if the model has a texture
     meshes[meshCounter]->HasTextureCoords(0);
     cout << "has texture" << endl;
-  }
-
-  // loop through all meshes
-  for(meshCounter = 0; meshCounter < scene->mNumMeshes; meshCounter++)
-	{
-      // loop through all faces
+    
+     // loop through all faces
 	  for(faceLooper = 0; faceLooper < meshes[meshCounter]->mNumFaces; faceLooper++)
 	  {
 		// loop through all indices
@@ -345,9 +360,9 @@ bool Object::loadOBJ(std::string path, std::vector<Vertex> &out_vertices,
 	  for(verticesLooper = 0; verticesLooper < meshes[meshCounter]->mNumVertices; verticesLooper++)
 		{
 		  // Texture coordinates
-                  aiVector3D vert = meshes[meshCounter]->mTextureCoords[0][verticesLooper];
-                  texture.x = vert.x;
-                  texture.y = vert.y;		
+          aiVector3D vert = meshes[meshCounter]->mTextureCoords[0][verticesLooper];
+          texture.x = vert.x;
+          texture.y = vert.y;		
 		
 		  // get x, y, and z coordinates for each vertex
 		  vertex.x = meshes[meshCounter]->mVertices[verticesLooper].x;
@@ -359,10 +374,33 @@ bool Object::loadOBJ(std::string path, std::vector<Vertex> &out_vertices,
 		  color.y = glm::sin(vertex.y);
 		  color.z = glm::sin(vertex.z);
 
-        // store vertexes
+          // store vertexes
 		  Vertex batmanVertices(vertex, color, texture);
 		  out_vertices.push_back(batmanVertices);
 		}
+		
+	    // Read texture file
+	    aiString assimpFilePath;
+	    string imageFilePath;
+	    scene->mMaterials[scene->mMeshes[meshCounter]->mMaterialIndex]->Get(AI_MATKEY_TEXTURE(aiTextureType_DIFFUSE, 0), assimpFilePath);
+	    imageFilePath = assimpFilePath.C_Str();
+	    imageFilePath = "../assets/images/" + imageFilePath;
+		
+		  // Load Texture
+      Magick::Blob blob;
+      Magick::Image *image;
+      image = new Magick::Image(imageFilePath);
+      image->write(&blob, "RGBA");
+      cout << "Loaded Texture: " << assimpFilePath.C_Str() << endl;
+
+      // Generate Texture
+      glGenTextures(1, &Texture);
+      glBindTexture(GL_TEXTURE_2D, Texture);
+      glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image->columns(), image->rows(), 0, GL_RGBA, GL_UNSIGNED_BYTE, blob.data());
+      glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+      glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+      delete image;
+      cout << "Generated Texture" << endl;
 	  }
 
   // object file sucessfully accessed
