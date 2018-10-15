@@ -39,6 +39,18 @@ Object::~Object()
 {
   Vertices.clear();
   Indices.clear();
+  
+  for (int i = 0; i < myVertices.size(); i++)
+  {
+    myVertices[i].clear();
+  }
+  myVertices.clear();
+  
+  for (int i = 0; i < myIndices.clear(); i++)
+  {
+    myIndices[i].clear();
+  }
+  myIndices.clear();
 }
 
 void Object::createObject()
@@ -69,7 +81,7 @@ void Object::createObject()
     f 5 1 8
   */
   
-    Vertices = {
+  Vertices = {
     {{1.0f, -1.0f, -1.0f}, {0.0f, 0.0f, 0.0f}, {1.0f, 1.0f}},
     {{1.0f, -1.0f, 1.0f}, {1.0f, 0.0f, 0.0f}, {1.0f, 1.0f}},
     {{-1.0f, -1.0f, 1.0f}, {0.0f, 1.0f, 0.0f}, {0.0f, 0.0f}},
@@ -78,7 +90,6 @@ void Object::createObject()
     {{1.0f, 1.0f, 1.0f}, {1.0f, 0.0f, 1.0f}, {1.0f, 1.0f}},
     {{-1.0f, 1.0f, 1.0f}, {0.0f, 1.0f, 1.0f}, {0.0f, 0.0f}},
     {{-1.0f, 1.0f, -1.0f}, {1.0f, 1.0f, 1.0f}, {0.0f, 1.0f}}
-
   };
 
   Indices = {
@@ -117,6 +128,7 @@ void Object::createObject()
   {
     std::cout << "Loading " << objFilePath << "..." << std::endl;
     
+    for (int i = 0; i < scene->mNumMeshes; i++)
     glGenBuffers(1, &VB);
     glBindBuffer(GL_ARRAY_BUFFER, VB);
     glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * myVertices.size(), &myVertices[0], GL_STATIC_DRAW);
@@ -255,17 +267,13 @@ void Object::Render()
   {
     // Bind Texture
     glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, Texture);
+    glBindTexture(GL_TEXTURE_2D, Textures[0]);
     
     // Draw
     glDrawElements(GL_TRIANGLES, myIndices.size(), GL_UNSIGNED_INT, 0);
   }
   else
-  {
-    // Bind Texture
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, Texture);
-    
+  {    
     // Draw
     glDrawElements(GL_TRIANGLES, Indices.size(), GL_UNSIGNED_INT, 0);
   }
@@ -359,8 +367,8 @@ bool Object::loadOBJ(std::string path, std::vector<Vertex> &out_vertices,
       cout << "Loaded Texture: " << assimpFilePath.C_Str() << endl;
 
       // Generate Texture
-      glGenTextures(1, &Texture);
-      glBindTexture(GL_TEXTURE_2D, Texture);
+      glGenTextures(1, &Textures[meshCounter]);
+      glBindTexture(GL_TEXTURE_2D, Textures[meshCounter]);
       glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image->columns(), image->rows(), 0, GL_RGBA, GL_UNSIGNED_BYTE, blob.data());
       glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
       glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);

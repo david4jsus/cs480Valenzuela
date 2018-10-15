@@ -17,9 +17,10 @@ class Graphics
     bool Initialize(int width, int height, std::string file);
     void Update(unsigned int dt);
     void Render();
+    Camera* getCamera();
     
     // To get a specified cube, specified by array index
-    Object* getCube(int index);
+    Object* getObject(int index);
 
   private:
     std::string ErrorString(GLenum error);
@@ -32,7 +33,7 @@ class Graphics
     GLint m_modelMatrix;
 
     //Object *m_cube;
-    std::vector<Object*> m_cubes;
+    std::vector<Object*> m_objects;
 };
 
 #endif /* GRAPHICS_H */

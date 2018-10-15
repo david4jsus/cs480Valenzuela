@@ -61,6 +61,18 @@ bool Engine::Initialize()
   ImGui_ImplSDL2_InitForOpenGL(m_window->getSDLWindow(), m_window->getGLContext());
   ImGui_ImplOpenGL3_Init("#version 130"); // GL 3.0 + GLSL 130
   ImGui::StyleColorsDark(); // Setup style
+  
+  // Keyboard stuff
+  movingRight    = false;
+  movingLeft     = false;
+  movingForward  = false;
+  movingBackward = false;
+  movingUp       = false;
+  movingDown     = false;
+  rotatingLeft   = false;
+  rotatingRight  = false;
+  rotatingUp     = false;
+  rotatingDown   = false;
 
   // No errors
   return true;
@@ -88,12 +100,58 @@ void Engine::Run()
       Mouse();
     }
     
+    // Objects movement
+    if (movingLeft)          // Move camera left
+    {
+      m_graphics->getCamera()->updateCamPosYNeg(m_DT * 0.05);
+    }
+    else if (movingRight)    // Move camera right
+    {
+      m_graphics->getCamera()->updateCamPosYPos(m_DT * 0.05);
+    }
+        
+    if (movingForward)       // Move camera forward
+    {
+      m_graphics->getCamera()->updateCamPosXPos(m_DT * 0.05);
+    }
+    else if (movingBackward) // Move camera backward
+    {
+      m_graphics->getCamera()->updateCamPosXNeg(m_DT * 0.05);
+    }
+        
+    if (movingUp)            // Move camera up
+    {
+      m_graphics->getCamera()->updateCamPosZPos(m_DT * 0.05);
+    }
+    else if (movingDown)     // Move camera down
+    {
+      m_graphics->getCamera()->updateCamPosZNeg(m_DT * 0.05);
+    }
+        
+    if (rotatingLeft)        // Rotate camera left
+    {
+      m_graphics->getCamera()->updateCamRotYaw(m_DT * -0.1);
+    }
+    else if (rotatingRight)  // Rotate camera right
+    {
+      m_graphics->getCamera()->updateCamRotYaw(m_DT * 0.1);
+    }
+    
+    if (rotatingUp)          // Rotate camera up
+    {
+      m_graphics->getCamera()->updateCamRotPitch(m_DT * 0.1);
+    }
+    else if (rotatingDown)   // Rotate camera down
+    {
+      m_graphics->getCamera()->updateCamRotPitch(m_DT * -0.1);
+    }
+    
     // Demo ImGUI window
     //ImGui::ShowDemoWindow(&imgui_demo);
     
     {
       ImGui::Begin("Debug Window");
-      if (m_graphics->getCube(0)->isDirectionReversed())
+      if (m_graphics->getObject(0)->isDirectionReversed())
       {
         ImGui::Text("Direction of rotation of object: clockwise");
       }
@@ -131,29 +189,116 @@ void Engine::Keyboard()
       m_running = false;
     }
     
-    if (m_event.key.keysym.sym == SDLK_a)      // Reverse direction of rotation of cube
+    if (m_event.key.keysym.sym == SDLK_a)      // Move camera left
     {
-      m_graphics->getCube(0)->reverseDirection();
+      movingLeft  = true;
+      movingRight = false;
     }
     
-    if (m_event.key.keysym.sym == SDLK_LEFT)      // Make direction of rotation of cube counter-clockwise
+    if (m_event.key.keysym.sym == SDLK_d)      // Move camera right
     {
-      m_graphics->getCube(0)->makeDirectionCounter();
+      movingRight = true;
+      movingLeft  = false;
+    }
+        
+    if (m_event.key.keysym.sym == SDLK_w)      // Move camera forward
+    {
+      movingForward  = true;
+      movingBackward = false;
     }
     
-    if (m_event.key.keysym.sym == SDLK_RIGHT)      // Make direction of rotation of cube clockwise
+    if (m_event.key.keysym.sym == SDLK_s)      // Move camera backward
     {
-      m_graphics->getCube(0)->makeDirectionClockwise();
+      movingBackward = true;
+      movingForward  = false;
+    }
+        
+    if (m_event.key.keysym.sym == SDLK_q)      // Move camera up
+    {
+      movingUp   = true;
+      movingDown = false;
     }
     
-    if (m_event.key.keysym.sym == SDLK_s)      // Stop cube orbit
+    if (m_event.key.keysym.sym == SDLK_e)      // Move camera down
     {
-      m_graphics->getCube(0)->toggleOrbit();
+      movingDown = true;
+      movingUp   = false;
+    }
+        
+    if (m_event.key.keysym.sym == SDLK_LEFT)   // Rotate camera left
+    {
+      rotatingLeft  = true;
+      rotatingRight = false;
     }
     
-    if (m_event.key.keysym.sym == SDLK_d)      // Stop cube rotation
+    if (m_event.key.keysym.sym == SDLK_RIGHT)  // Rotate camera right
     {
-      m_graphics->getCube(0)->toggleRotation();
+      rotatingRight = true;
+      rotatingLeft  = false;
+    }
+    
+    if (m_event.key.keysym.sym == SDLK_UP)     // Rotate camera up
+    {
+      rotatingUp   = true;
+      rotatingDown = false;
+    }
+    
+    if (m_event.key.keysym.sym == SDLK_DOWN)   // Rotate camera down
+    {
+      rotatingDown = true;
+      rotatingUp   = false;
+    }
+  }
+  else if (m_event.type == SDL_KEYUP)
+  { 
+    if (m_event.key.keysym.sym == SDLK_a)      // Move camera left
+    {
+      movingLeft = false;
+    }
+    
+    if (m_event.key.keysym.sym == SDLK_d)      // Move camera right
+    {
+      movingRight = false;
+    }
+        
+    if (m_event.key.keysym.sym == SDLK_w)      // Move camera forward
+    {
+      movingForward = false;
+    }
+    
+    if (m_event.key.keysym.sym == SDLK_s)      // Move camera backward
+    {
+      movingBackward = false;
+    }
+        
+    if (m_event.key.keysym.sym == SDLK_q)      // Move camera up
+    {
+      movingUp = false;
+    }
+    
+    if (m_event.key.keysym.sym == SDLK_e)      // Move camera down
+    {
+      movingDown = false;
+    }
+        
+    if (m_event.key.keysym.sym == SDLK_LEFT)   // Rotate camera left
+    {
+      rotatingLeft = false;
+    }
+    
+    if (m_event.key.keysym.sym == SDLK_RIGHT)  // Rotate camera right
+    {
+      rotatingRight = false;
+    }
+    
+    if (m_event.key.keysym.sym == SDLK_UP)     // Rotate camera up
+    {
+      rotatingUp = false;
+    }
+    
+    if (m_event.key.keysym.sym == SDLK_DOWN)   // Rotate camera down
+    {
+      rotatingDown = false;
     }
   }
 }
@@ -169,7 +314,7 @@ void Engine::Mouse()
     // Handle mouse down events here
     if (m_event.button.button == SDL_BUTTON_LEFT) // Reverse direction of rotation of cube
     {
-      m_graphics->getCube(0)->reverseDirection();
+      m_graphics->getObject(0)->reverseDirection();
     }
   }
 }

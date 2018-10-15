@@ -54,13 +54,13 @@ bool Graphics::Initialize(int width, int height, std::string file)
   Object* moon3   = new Object(moon2, 1.0f, 0.8f, 1.5f, 0.1f);
   */
   
-  m_cubes.push_back(sun);
+  m_objects.push_back(sun);
   /*
-  m_cubes.push_back(planet);
-  m_cubes.push_back(moon);
-  m_cubes.push_back(planet2);
-  m_cubes.push_back(moon2);
-  m_cubes.push_back(moon3);
+  m_objects.push_back(planet);
+  m_objects.push_back(moon);
+  m_objects.push_back(planet2);
+  m_objects.push_back(moon2);
+  m_objects.push_back(moon3);
   */
 
   // Set up the shaders
@@ -126,15 +126,20 @@ bool Graphics::Initialize(int width, int height, std::string file)
 void Graphics::Update(unsigned int dt)
 {
   // Update the objects
-  for(unsigned int i = 0; i < m_cubes.size(); i++)
+  for(unsigned int i = 0; i < m_objects.size(); i++)
   {
-    m_cubes[i]->Update(dt);
+    m_objects[i]->Update(dt);
   }
 }
 
-Object* Graphics::getCube(int index)
+Camera* Graphics::getCamera()
 {
-  return m_cubes[index];
+   return m_camera;
+}
+
+Object* Graphics::getObject(int index)
+{
+  return m_objects[index];
 }
 
 void Graphics::Render()
@@ -151,10 +156,10 @@ void Graphics::Render()
   glUniformMatrix4fv(m_viewMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetView())); 
 
   // Render the objects
-  for(unsigned int i = 0; i < m_cubes.size(); i++)
+  for(unsigned int i = 0; i < m_objects.size(); i++)
   {
-    glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(m_cubes[i]->GetModel()));
-    m_cubes[i]->Render();
+    glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(m_objects[i]->GetModel()));
+    m_objects[i]->Render();
   }
 
   // Get any errors from OpenGL
