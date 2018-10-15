@@ -2,12 +2,10 @@
 
 Graphics::Graphics()
 {
-
 }
 
 Graphics::~Graphics()
 {
-
 }
 
 bool Graphics::Initialize(int width, int height, std::string file)

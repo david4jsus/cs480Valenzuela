@@ -39,9 +39,17 @@ class Object
     
     // Check if reverse direction for orbit
     bool isDirectionReversed();
+    
+    // Position of an object in space
+    glm::vec3 objectPosition();
+    
+    // Name of object
+    std::string GetObjectName();
 
   private:
+    std::string objName;
     glm::mat4 model;
+    glm::vec3 pos;
     std::vector<Vertex> Vertices;
     std::vector<unsigned int> Indices;
     GLuint VB;
