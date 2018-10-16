@@ -44,6 +44,9 @@ bool Graphics::Initialize(int width, int height, std::string file)
     return false;
   }
 
+  // Play imeperial march
+  gameSound.LoadSound("../assets/imperial_march.wav");
+
   // Create objects
   Object* sun = new Object("Sun.obj", 0, 0.0f, 0.0f, 0.1f, 0.04f); // file path, parent, orbit radius size, orbit radius speed, local rotation speed, object size
   Object* mercury = new Object("Mercury.obj", 0, 0.0f, 0.0f, 0.1f, 0.07f);
