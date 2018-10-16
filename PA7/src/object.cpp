@@ -16,6 +16,7 @@ Object::Object()
   angle = 0.0f;
   rotAngle = 0.0f;
   
+  objName = "";
   parent = 0;
   orbitRadius = 5.0f;
   orbitSpeedMultiplier = 1.0f;
@@ -28,47 +29,55 @@ Object::Object()
 Object::Object(std::string filePath, Object* objParent, float objOrbitRadius, float objOrbitMultiplier,
   float objRotateMultiplier, float objSize): Object()
 {
+  // local variables
+  objName = filePath;
+  objName.erase(objName.end()-4, objName.end());
   ifstream fin;
   string planetIdentifier;
 
+  // path to object file
   objFilePath = filePath;
 
+  // open planet configuration file
   fin.clear();
   fin.open("../assets/planet_info.txt");
 
+  // read entire file
   while(fin.eof() == false)
   {
+    // get planet name
     fin >> planetIdentifier;
-    
 
+    // check if we are going to grab correct planet information
 	if(planetIdentifier == objFilePath)
 	{
+      // get orbit radius size
 	  fin >> planetIdentifier;
 	  fin >> orbitRadius;
 	  cout << orbitRadius << endl;
 
+      // get orbiting speed
 	  fin >> planetIdentifier;
 	  fin >> orbitSpeedMultiplier;
 	  osm = orbitSpeedMultiplier;
 	  cout << orbitSpeedMultiplier << endl;
 
+	  // git local rotation rpeed
 	  fin >> planetIdentifier;
 	  fin >> rotateSpeedMultiplier;
 	  rsm = rotateSpeedMultiplier;
 	  cout << rotateSpeedMultiplier << endl;
 
+	  // get planet size
 	  fin >> planetIdentifier;
 	  fin >> size;
 	}
   }
 
-  //objFilePath = filePath;
+  // assign parent planet for moon/satelites
   parent = objParent;
-  /*orbitRadius = objOrbitRadius;
-  orbitSpeedMultiplier = objOrbitMultiplier;
-  rotateSpeedMultiplier = objRotateMultiplier;
-  size = objSize;*/
   
+  // create object
   createObject();
 }
 
@@ -144,6 +153,7 @@ void Object::createObject()
   {
     correctModelLoad = false;
     std::cout << "Loading default cube object..." << std::endl;
+    objName = "Cube";
   }
   else
   {
@@ -206,8 +216,8 @@ void Object::Update(unsigned int dt)
   }
 
   // Orbit rotation
-  model = glm::translate(center, glm::vec3(glm::sin(angle) * orbitRadius,
-    0, glm::cos(angle) * orbitRadius));
+  pos = glm::vec3(glm::sin(angle) * orbitRadius, 0, glm::cos(angle) * orbitRadius);
+  model = glm::translate(center, pos);
   
   // Pass this to any children objects
   modelForChild = model;
@@ -273,6 +283,16 @@ void Object::toggleOrbit()
 bool Object::isDirectionReversed()
 {
   return directionReversed;
+}
+
+glm::vec3 Object::objectPosition()
+{
+   return pos;
+}
+
+std::string Object::GetObjectName()
+{
+   return objName;
 }
 
 void Object::UpdateRotationSpeed(float rotateMultiplier)
@@ -350,6 +370,18 @@ void Object::Render()
   glDisableVertexAttribArray(0);
   glDisableVertexAttribArray(1);
   glDisableVertexAttribArray(2);
+  
+  // Draw orbit path
+  /*glBegin(GL_LINE_LOOP);
+  
+  for (int i = 0; i < 360; i++)
+  {
+   glColor4f(1.0f, 1.0f, 1.0f, 1.0f, 1.0f);
+   float degInRad = i * (3.14159/180);
+   glVertex2f(cos(degInRad) * orbitRadius, sin(degInRad) * orbitRadius);
+  }
+  
+  glEnd();*/
 }
 
 bool Object::loadOBJ(std::string path, std::vector<Vertex> &out_vertices,

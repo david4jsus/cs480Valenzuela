@@ -35,7 +35,7 @@ bool Window::Initialize(const string &name, int* width, int* height)
   SDL_DisplayMode current;
   SDL_GetCurrentDisplayMode(0, &current);
   
-  //use for fullscreen
+  // Use for fullscreen
   if (*height == 0 && *width == 0)
   {
     *height = current.h;
