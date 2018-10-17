@@ -40,6 +40,7 @@ This program uses keyboard input for camera interaction and the mouse to select 
 - **Down arrow**: Rotate view downwards
 - **Left arrow**: Rotate view left
 - **Right arrow**: Rotate view right
+
 The on-screen menu is scalable and has an available scrolling bar on the right side.
 
 # Extra Credit
