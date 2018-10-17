@@ -54,19 +54,19 @@ Object::Object(std::string filePath, Object* objParent, float objOrbitRadius, fl
       // get orbit radius size
 	  fin >> planetIdentifier;
 	  fin >> orbitRadius;
-	  cout << orbitRadius << endl;
+	  //cout << orbitRadius << endl;
 
       // get orbiting speed
 	  fin >> planetIdentifier;
 	  fin >> orbitSpeedMultiplier;
 	  osm = orbitSpeedMultiplier;
-	  cout << orbitSpeedMultiplier << endl;
+	  //cout << orbitSpeedMultiplier << endl;
 
 	  // git local rotation rpeed
 	  fin >> planetIdentifier;
 	  fin >> rotateSpeedMultiplier;
 	  rsm = rotateSpeedMultiplier;
-	  cout << rotateSpeedMultiplier << endl;
+	  //cout << rotateSpeedMultiplier << endl;
 
 	  // get planet size
 	  fin >> planetIdentifier;
@@ -216,7 +216,10 @@ void Object::Update(unsigned int dt)
   }
 
   // Orbit rotation
+  if (orbitRadius > 0)
+  {
   pos = glm::vec3(glm::sin(angle) * orbitRadius, 0, glm::cos(angle) * orbitRadius);
+  }
   model = glm::translate(center, pos);
   
   // Pass this to any children objects
@@ -287,7 +290,19 @@ bool Object::isDirectionReversed()
 
 glm::vec3 Object::objectPosition()
 {
-   return pos;
+   glm::vec3 objPos = pos;
+   
+   if (parent != 0)
+   {
+      objPos += parent->objectPosition();
+   }
+   
+   return objPos;
+}
+
+void Object::setPosition(glm::vec3 newPos)
+{
+   pos = newPos;
 }
 
 std::string Object::GetObjectName()
@@ -302,10 +317,10 @@ void Object::UpdateRotationSpeed(float rotateMultiplier)
 
   // Get the speed that was read from the file
   defaultSpeed = GetRotationSpeed();
-  cout << "Read In Speed: " << defaultSpeed << endl;
+  //cout << "Read In Speed: " << defaultSpeed << endl;
  
   defaultSpeed *= rotateMultiplier;
-  cout << "New Speed: " << defaultSpeed << endl;
+  //cout << "New Speed: " << defaultSpeed << endl;
   
   rotateSpeedMultiplier = defaultSpeed;
 }
@@ -317,10 +332,10 @@ void Object::UpdateOrbitSpeed(float orbitMultiplier)
 
   // Get the speed that was read from the file
   defaultSpeed = GetOrbitSpeed();
-  cout << "Read In Speed: " << defaultSpeed << endl;
+  //cout << "Read In Speed: " << defaultSpeed << endl;
  
   defaultSpeed *= orbitMultiplier;
-  cout << "New Speed: " << defaultSpeed << endl;
+  //cout << "New Speed: " << defaultSpeed << endl;
   
   orbitSpeedMultiplier = defaultSpeed;
 }
@@ -414,7 +429,7 @@ bool Object::loadOBJ(std::string path, std::vector<Vertex> &out_vertices,
         
     // Check if the model has a texture
     meshes[meshCounter]->HasTextureCoords(0);
-    cout << "has texture" << endl;
+    //cout << "has texture" << endl;
     
      // loop through all faces
 	  for(faceLooper = 0; faceLooper < meshes[meshCounter]->mNumFaces; faceLooper++)

@@ -1,3 +1,9 @@
+Skybox.obj
+orbit_radius_size: 0.0
+orbit_radius_speed: 0.0
+local_roation_speed: 0.0
+object_size: 25
+
 Sun.obj 
 orbit_radius_size: 0.0
 orbit_radius_speed: 0.0
@@ -33,28 +39,28 @@ local_rotation_speed: 0.1
 object_size: 0.002
 
 
-Mars.obj 
+Mars.obj
 orbit_radius_size: 40.0
 orbit_radius_speed: 0.035
 local_rotation_speed: 0.3
 object_size: 0.006
 
 
-Jupiter.obj 
+Jupiter.obj
 orbit_radius_size: 60.0
 orbit_radius_speed: 0.03
 local_rotation_speed: 0.65
 object_size: 0.034
 
 
-Saturn2.obj 
+Saturn.obj
 orbit_radius_size: 80.0
 orbit_radius_speed: 0.025
 local_rotation_speed: 0.63
 object_size: 0.026
 
 
-Uranus.obj 
+Uranus.obj
 orbit_radius_size: 90.0
 orbit_radius_speed: 0.02
 local_rotation_speed: 0.6

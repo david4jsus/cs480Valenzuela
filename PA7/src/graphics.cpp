@@ -47,6 +47,7 @@ bool Graphics::Initialize(int width, int height, std::string file)
 
   // Create planets
 
+  Object* Skybox = new Object("Skybox.obj", 0, 0.0f, 0.0f, 0.0f, 25.0f);
   Object* sun = new Object("Sun.obj", 0, 0.0f, 0.0f, 0.1f, 0.04f); // file path, parent, orbit radius size, orbit radius speed, local rotation speed, object size
   Object* mercury = new Object("Mercury.obj", 0, 0.0f, 0.0f, 0.1f, 0.07f);
   Object* venus  = new Object("Venus.obj", 0, 0.0f, 0.0f, 0.1f, 0.07f);
@@ -60,7 +61,7 @@ bool Graphics::Initialize(int width, int height, std::string file)
   //Object* jupiterCallisto = new Object("Callisto.obj", jupiter, 0.0f, 0.0f, 0.1f, 0.07f);
   //Object* jupiterMoonIo = new Object("Io.obj", jupiter, 0.0f, 0.0f, 0.1f, 0.07f);
   Object* jupiterMoonEuropa = new Object("Europa.obj", jupiter, 0.0f, 0.0f, 0.1f, 0.07f);
-  Object* saturnRings = new Object("Saturn2.obj", 0, 0.0f, 0.0f, 0.1f, 0.07f);
+  Object* saturnRings = new Object("Saturn.obj", 0, 0.0f, 0.0f, 0.1f, 0.07f);
   Object* saturnMoonTitan = new Object("Titan.obj", saturnRings, 0.0f, 0.0f, 0.1f, 0.07f);
   Object* saturnMoonRhea = new Object("Rhea.obj", saturnRings, 0.0f, 0.0f, 0.1f, 0.07f);
   Object* uranus = new Object("Uranus.obj", 0, 0.0f, 0.0f, 0.1f, 0.07f);
@@ -73,6 +74,7 @@ bool Graphics::Initialize(int width, int height, std::string file)
   Object* pluto = new Object("Pluto.obj", 0, 0.0f, 0.0f, 0.1f, 0.07f);
   
   // push planets onto list
+  m_cubes.push_back(Skybox);
   m_cubes.push_back(sun);
   m_cubes.push_back(mercury);
   m_cubes.push_back(venus);
