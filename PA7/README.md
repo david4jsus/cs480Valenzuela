@@ -41,3 +41,6 @@ This program uses keyboard input for camera interaction and the mouse to select 
 - **Left arrow**: Rotate view left
 - **Right arrow**: Rotate view right
 The on-screen menu is scalable and has an available scrolling bar on the right side.
+
+#Extra Credit
+This program features an on-screen menu with options for live adjustment of the simulation speed, as well as a list of astral objects to teleport to. The simulation also features a skybox and rings for the corresponding planets.
