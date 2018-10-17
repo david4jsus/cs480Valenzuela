@@ -1,4 +1,0 @@
-/home/davidvalenzuela/CS 480/cs480Valenzuela/PA7/build/CMakeFiles/edit_cache.dir
-/home/davidvalenzuela/CS 480/cs480Valenzuela/PA7/build/CMakeFiles/SolarSystemBois_SUCCESSFUL.dir
-/home/davidvalenzuela/CS 480/cs480Valenzuela/PA7/build/CMakeFiles/rebuild_cache.dir
-/home/davidvalenzuela/CS 480/cs480Valenzuela/PA7/build/CMakeFiles/SolarSystemBois.dir

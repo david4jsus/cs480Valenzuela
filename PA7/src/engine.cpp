@@ -148,6 +148,10 @@ void Engine::Run()
       m_graphics->getCamera()->updateCamRotPitch(m_DT * -0.1);
     }
     
+    // Update position of skybox
+    m_graphics->GetObject(0)->setPosition
+      (m_graphics->getCamera()->getCamPos());
+    
     // Demo ImGUI window
     //ImGui::ShowDemoWindow(&imgui_demo);
     
@@ -250,7 +254,7 @@ void Engine::Run()
       
       ImGui::Text("Click on one of the following astal objects to teleport to it");
       
-      for (int i = 0; i < m_graphics->numberOfCubes(); i++)
+      for (int i = 1; i < m_graphics->numberOfCubes(); i++)
       {
          if (ImGui::Button(m_graphics->GetObject(i)->GetObjectName().c_str()))
          {
