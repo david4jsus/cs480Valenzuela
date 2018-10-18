@@ -199,11 +199,19 @@ bool Graphics::Initialize(int width, int height, std::string file)
   glEnable(GL_DEPTH_TEST);
   glDepthFunc(GL_LESS);
 
+  // Play march indefinitely
+  gameSound.PlayMainSound();
+
   return true;
 }
 
 void Graphics::Update(unsigned int dt)
 {
+  if(gameSound.AudioStopped())
+  {
+   gameSound.LoopAudio();
+  }
+
   // Update the objects
   for(unsigned int i = 0; i < m_cubes.size(); i++)
   {

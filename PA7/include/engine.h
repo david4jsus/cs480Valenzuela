@@ -7,6 +7,7 @@
 #include "window.h"
 #include "graphics.h"
 #include "imgui.h"
+#include "sound.h"
 
 class Engine
 {
@@ -34,6 +35,8 @@ class Engine
     unsigned int m_DT;
     long long m_currentTimeMillis;
     bool m_running;
+
+    Sound gameSound;
     
     // Show Dear ImGui demo window
     bool imgui_demo;

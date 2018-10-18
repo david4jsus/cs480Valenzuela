@@ -190,7 +190,7 @@ void Engine::Run()
           {
            for(index = 0; index < m_graphics->numberOfCubes(); index++)
            {
-            m_graphics->GetObject(index)->UpdateRotationSpeed(0.5f);
+            m_graphics->GetObject(index)->UpdateRotationSpeed(0.25f);
            }
           }
           
@@ -198,7 +198,7 @@ void Engine::Run()
           {
            for(index = 0; index < m_graphics->numberOfCubes(); index++)
            {
-            m_graphics->GetObject(index)->UpdateRotationSpeed(1.0f);
+            m_graphics->GetObject(index)->UpdateRotationSpeed(0.5f);
            }
           }
          
@@ -206,7 +206,7 @@ void Engine::Run()
           {
            for(index = 0; index < m_graphics->numberOfCubes(); index++)
            {
-            m_graphics->GetObject(index)->UpdateRotationSpeed(1.5f);
+            m_graphics->GetObject(index)->UpdateRotationSpeed(1.25f);
            }
           }
          
@@ -220,6 +220,10 @@ void Engine::Run()
          
           else if(ImGui::Button("4.0x Rotation Speed", ImVec2(200, 50)))
           {
+            // Troll
+		        gameSound.LoadSound("../assets/NGGUP.wav");
+	          gameSound.PlayNGGUP();
+	          
            for(index = 0; index < m_graphics->numberOfCubes(); index++)
            {
             m_graphics->GetObject(index)->UpdateRotationSpeed(4.0f);
@@ -248,7 +252,7 @@ void Engine::Run()
        {
         for(index = 0; index < m_graphics->numberOfCubes(); index++)
         {
-         m_graphics->GetObject(index)->UpdateOrbitSpeed(0.5f);
+         m_graphics->GetObject(index)->UpdateOrbitSpeed(0.25f);
         }
        }
        
@@ -256,7 +260,7 @@ void Engine::Run()
        {
         for(index = 0; index < m_graphics->numberOfCubes(); index++)
         {
-         m_graphics->GetObject(index)->UpdateOrbitSpeed(1.0f);
+         m_graphics->GetObject(index)->UpdateOrbitSpeed(0.5f);
         }
        }
       
@@ -264,7 +268,7 @@ void Engine::Run()
        {
         for(index = 0; index < m_graphics->numberOfCubes(); index++)
         {
-         m_graphics->GetObject(index)->UpdateOrbitSpeed(1.5f);
+         m_graphics->GetObject(index)->UpdateOrbitSpeed(1.25f);
         }
        }
       

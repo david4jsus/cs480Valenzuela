@@ -11,13 +11,18 @@ class Sound
    Sound();
    ~Sound();
    void LoadSound(std::string soundPath);
-   void PlaySound();
+   void PlayMainSound();
+   void PlayNGGUP();
+   void LoopAudio();
+   bool AudioStopped();
 
   private:
    SDL_AudioSpec wavSpec;
    Uint32 wavLength;
    Uint8 *wavBuffer;
    SDL_AudioDeviceID deviceId;
+
+   bool engineIsRunning;
 };
 
 #endif
