@@ -171,26 +171,152 @@ orbit_radius_speed: 0.1
 local_rotation_speed: 0.25
 object_size: 0.001
 
+DeathStar.obj
+orbit_radius_size: 120.0
+orbit_radius_speed: 0.002
+local_rotation_speed: 0.1
+object_size: 0.001
 
+MercuryRing.obj
+orbit_radius_size: 0.0
+orbit_radius_speed: 0.0
+local_rotation_speed: 0.0
+object_size: 15
 
+VenusRing.obj
+orbit_radius_size: 0.0
+orbit_radius_speed: 0.0
+local_rotation_speed: 0.0
+object_size: 20
 
+EarthRing.obj
+orbit_radius_size: 0.0
+orbit_radius_speed: 0.0
+local_rotation_speed: 0.0
+object_size: 30
 
+MoonRing.obj
+orbit_radius_size: 0.0
+orbit_radius_speed: 0.0
+local_rotation_speed: 0.0
+object_size: 2
 
+MarsRing.obj
+orbit_radius_size: 0.0
+orbit_radius_speed: 0.0
+local_rotation_speed: 0.0
+object_size: 40
 
+JupiterRing.obj
+orbit_radius_size: 0.0
+orbit_radius_speed: 0.0
+local_rotation_speed: 0.0
+object_size: 60
 
+SaturnRing.obj
+orbit_radius_size: 0.0
+orbit_radius_speed: 0.0
+local_rotation_speed: 0.0
+object_size: 80
 
+UranusRing.obj
+orbit_radius_size: 0.0
+orbit_radius_speed: 0.0
+local_rotation_speed: 0.0
+object_size: 90
 
+NeptuneRing.obj
+orbit_radius_size: 0.0
+orbit_radius_speed: 0.0
+local_rotation_speed: 0.0
+object_size: 100
 
+PlutoRing.obj
+orbit_radius_size: 0.0
+orbit_radius_speed: 0.0
+local_rotation_speed: 0.0
+object_size: 110
 
+PhobosRing.obj
+orbit_radius_size: 0.0
+orbit_radius_speed: 0.0
+local_rotation_speed: 0.0
+object_size: 1
 
+DeimosRing.obj
+orbit_radius_size: 0.0
+orbit_radius_speed: 0.0
+local_rotation_speed: 0.0
+object_size: 0.7
 
+GanymedeRing.obj
+orbit_radius_size: 0.0
+orbit_radius_speed: 0.0
+local_rotation_speed: 0.0
+object_size: 4
 
+CallistoRing.obj
+orbit_radius_size: 0.0
+orbit_radius_speed: 0.0
+local_rotation_speed: 0.0
+object_size: 4
 
+IoRing.obj
+orbit_radius_size: 0.0
+orbit_radius_speed: 0.0
+local_rotation_speed: 0.0
+object_size: 1
 
+EuropaRing.obj
+orbit_radius_size: 0.0
+orbit_radius_speed: 0.0
+local_rotation_speed: 0.0
+object_size: 5
 
+TitanRing.obj
+orbit_radius_size: 0.0
+orbit_radius_speed: 0.0
+local_rotation_speed: 0.0
+object_size: 4
 
+RheaRing.obj
+orbit_radius_size: 0.0
+orbit_radius_speed: 0.0
+local_rotation_speed: 0.0
+object_size: 3.5
 
+OberonRing.obj
+orbit_radius_size: 0.0
+orbit_radius_speed: 0.0
+local_rotation_speed: 0.0
+object_size: 2
 
+UmbrielRing.obj
+orbit_radius_size: 0.0
+orbit_radius_speed: 0.0
+local_rotation_speed: 0.0
+object_size: 2.5
 
+ArielRing.obj
+orbit_radius_size: 0.0
+orbit_radius_speed: 0.0
+local_rotation_speed: 0.0
+object_size: 2
 
+TritonRing.obj
+orbit_radius_size: 0.0
+orbit_radius_speed: 0.0
+local_rotation_speed: 0.0
+object_size: 3.5
 
+ProteusRing.obj
+orbit_radius_size: 0.0
+orbit_radius_speed: 0.0
+local_rotation_speed: 0.0
+object_size: 2
+
+DeathStarRing.obj
+orbit_radius_size: 0.0
+orbit_radius_speed: 0.0
+local_rotation_speed: 0.0
+object_size: 120

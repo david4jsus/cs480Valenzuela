@@ -72,6 +72,27 @@ bool Graphics::Initialize(int width, int height, std::string file)
   Object* neptuneMoonTriton = new Object("Triton.obj", neptune, 0.0f, 0.0f, 0.1f, 0.07f);
   //Object* neptuneMoonProteus = new Object("Proteus.obj", neptune, 0.0f, 0.0f, 0.1f, 0.07f);
   Object* pluto = new Object("Pluto.obj", 0, 0.0f, 0.0f, 0.1f, 0.07f);
+  Object* deathstar = new Object("DeathStar.obj", 0, 3.0f, 0.2f, 0.1f, 0.001f);
+  Object* mercuryring = new Object("MercuryRing.obj", 0, 0.0f, 0.0f, 0.1, 0.1f);
+  Object* venusring = new Object("VenusRing.obj", 0, 0.0f, 0.0f, 0.1, 0.1f);
+  Object* earthring = new Object("EarthRing.obj", 0, 0.0f, 0.0f, 0.1, 0.1f);
+  Object* moonring = new Object("MoonRing.obj", earth, 0.0f, 0.0f, 0.1, 0.1f);
+  Object* marsring = new Object("MarsRing.obj", 0, 0.0f, 0.0f, 0.1, 0.1f);
+  Object* jupiterring = new Object("JupiterRing.obj", 0, 0.0f, 0.0f, 0.1, 0.1f);
+  Object* saturnring = new Object("SaturnRing.obj", 0, 0.0f, 0.0f, 0.1, 0.1f);
+  Object* uranusring = new Object("UranusRing.obj", 0, 0.0f, 0.0f, 0.1, 0.1f);
+  Object* neptunering = new Object("NeptuneRing.obj", 0, 0.0f, 0.0f, 0.1, 0.1f);
+  Object* plutoring = new Object("PlutoRing.obj", 0, 0.0f, 0.0f, 0.1, 0.1f);
+  Object* phobosring = new Object("PhobosRing.obj", mars, 0.0f, 0.0f, 0.1, 0.1f);
+  Object* deimosring = new Object("DeimosRing.obj", mars, 0.0f, 0.0f, 0.1, 0.1f);
+  Object* ganymedering = new Object("GanymedeRing.obj", jupiter, 0.0f, 0.0f, 0.1, 0.1f);
+  Object* europaring = new Object("EuropaRing.obj", jupiter, 0.0f, 0.0f, 0.1, 0.1f);
+  Object* titanring = new Object("TitanRing.obj", saturnRings, 0.0f, 0.0f, 0.1, 0.1f);
+  Object* rhearing = new Object("RheaRing.obj", saturnRings, 0.0f, 0.0f, 0.1, 0.1f);
+  Object* umbrielring = new Object("UmbrielRing.obj", uranus, 0.0f, 0.0f, 0.1, 0.1f);
+  Object* arielring = new Object("ArielRing.obj", uranus, 0.0f, 0.0f, 0.1, 0.1f);
+  Object* tritonring = new Object("TritonRing.obj", neptune, 0.0f, 0.0f, 0.1, 0.1f);
+  Object* deathstarring = new Object("DeathStarRing.obj", 0, 0.0f, 0.0f, 0.1, 0.1f);
   
   // push planets onto list
   m_cubes.push_back(Skybox);
@@ -99,6 +120,27 @@ bool Graphics::Initialize(int width, int height, std::string file)
   m_cubes.push_back(neptuneMoonTriton);
   //m_cubes.push_back(neptuneMoonProteus);
   m_cubes.push_back(pluto);
+  m_cubes.push_back(deathstar);
+  m_cubes.push_back(mercuryring);
+  m_cubes.push_back(venusring);
+  m_cubes.push_back(earthring);
+  m_cubes.push_back(moonring);
+  m_cubes.push_back(marsring);
+  m_cubes.push_back(jupiterring);
+  m_cubes.push_back(saturnring);
+  m_cubes.push_back(uranusring);
+  m_cubes.push_back(neptunering);
+  m_cubes.push_back(plutoring);
+  m_cubes.push_back(phobosring);
+  m_cubes.push_back(deimosring);
+  m_cubes.push_back(ganymedering);
+  m_cubes.push_back(europaring);
+  m_cubes.push_back(titanring);
+  m_cubes.push_back(rhearing);
+  m_cubes.push_back(umbrielring);
+  m_cubes.push_back(arielring);
+  m_cubes.push_back(tritonring);
+  m_cubes.push_back(deathstarring);
 
   // Set up the shaders
   m_shader = new Shader();

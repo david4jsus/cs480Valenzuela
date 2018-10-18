@@ -158,8 +158,6 @@ void Engine::Run()
     {
       ImGui::Begin("Solar System Instructions and Help");
       
-      ImGui::Text("Camera Controls");
-      
       ImGui::Text("Planet Controls");
       if(ImGui::Button("Toggle Direction"))
       {
@@ -170,48 +168,82 @@ void Engine::Run()
       }
       
       ImGui::Text("Speed Multipliers");
-           
-      if(ImGui::Button("0.5x Rotation Speed", ImVec2(200, 50)))
+             
+       if (showRotationControls)
        {
-        for(index = 0; index < m_graphics->numberOfCubes(); index++)
-        {
-         m_graphics->GetObject(index)->UpdateRotationSpeed(0.5f);
-        }
+          if(ImGui::Button("Hide Rotation Controls"))
+          {
+             showRotationControls = false;
+          }
+       }
+       else
+       {
+          if(ImGui::Button("Show Rotation Controls"))
+          {
+             showRotationControls = true;
+          }
+       }
+      
+      if (showRotationControls)
+      {
+         if(ImGui::Button("0.5x Rotation Speed", ImVec2(200, 50)))
+          {
+           for(index = 0; index < m_graphics->numberOfCubes(); index++)
+           {
+            m_graphics->GetObject(index)->UpdateRotationSpeed(0.5f);
+           }
+          }
+          
+          else if(ImGui::Button("Normal Rotation Speed", ImVec2(200, 50)))
+          {
+           for(index = 0; index < m_graphics->numberOfCubes(); index++)
+           {
+            m_graphics->GetObject(index)->UpdateRotationSpeed(1.0f);
+           }
+          }
+         
+          else if(ImGui::Button("1.5x Rotation Speed", ImVec2(200, 50)))
+          {
+           for(index = 0; index < m_graphics->numberOfCubes(); index++)
+           {
+            m_graphics->GetObject(index)->UpdateRotationSpeed(1.5f);
+           }
+          }
+         
+          else if(ImGui::Button("2.0x Rotation Speed", ImVec2(200, 50)))
+          {
+           for(index = 0; index < m_graphics->numberOfCubes(); index++)
+           {
+            m_graphics->GetObject(index)->UpdateRotationSpeed(2.0f);
+           }
+          }
+         
+          else if(ImGui::Button("4.0x Rotation Speed", ImVec2(200, 50)))
+          {
+           for(index = 0; index < m_graphics->numberOfCubes(); index++)
+           {
+            m_graphics->GetObject(index)->UpdateRotationSpeed(4.0f);
+           }
+          }
        }
        
-       else if(ImGui::Button("Normal Rotation Speed", ImVec2(200, 50)))
-       {
-        for(index = 0; index < m_graphics->numberOfCubes(); index++)
-        {
-         m_graphics->GetObject(index)->UpdateRotationSpeed(1.0f);
-        }
-       }
+      if (showOrbitControls)
+      {
+         if(ImGui::Button("Hide Orbit Controls"))
+         {
+            showOrbitControls = false;
+         }
+      }
+      else
+      {
+         if(ImGui::Button("Show Orbit Controls"))
+         {
+            showOrbitControls = true;
+         }
+      }
       
-       else if(ImGui::Button("1.5x Rotation Speed", ImVec2(200, 50)))
-       {
-        for(index = 0; index < m_graphics->numberOfCubes(); index++)
-        {
-         m_graphics->GetObject(index)->UpdateRotationSpeed(1.5f);
-        }
-       }
-      
-       else if(ImGui::Button("2.0x Rotation Speed", ImVec2(200, 50)))
-       {
-        for(index = 0; index < m_graphics->numberOfCubes(); index++)
-        {
-         m_graphics->GetObject(index)->UpdateRotationSpeed(2.0f);
-        }
-       }
-      
-       else if(ImGui::Button("4.0x Rotation Speed", ImVec2(200, 50)))
-       {
-        for(index = 0; index < m_graphics->numberOfCubes(); index++)
-        {
-         m_graphics->GetObject(index)->UpdateRotationSpeed(4.0f);
-        }
-       }
-       
-       // Orbit Speed Multipliers
+      if (showOrbitControls)
+      {
        if(ImGui::Button("0.5x Orbit Speed", ImVec2(200, 50)))
        {
         for(index = 0; index < m_graphics->numberOfCubes(); index++)
@@ -251,15 +283,36 @@ void Engine::Run()
          m_graphics->GetObject(index)->UpdateOrbitSpeed(4.0f);
         }
        }
+      }
       
-      ImGui::Text("Click on one of the following astal objects to teleport to it");
+      ImGui::Text("Teleportation Controls");
       
-      for (int i = 1; i < m_graphics->numberOfCubes(); i++)
+      if (showTeleportControls)
       {
-         if (ImGui::Button(m_graphics->GetObject(i)->GetObjectName().c_str()))
+         if(ImGui::Button("Hide Teleportation Controls"))
          {
-            m_graphics->getCamera()->setCamPos
-               (m_graphics->GetObject(i)->objectPosition());
+            showTeleportControls = false;
+         }
+      }
+      else
+      {
+         if(ImGui::Button("Show Teleport Controls"))
+         {
+            showTeleportControls = true;
+         }
+      }
+      
+      if (showTeleportControls)
+      {
+      
+         ImGui::Text("Click on one of the following astal objects to teleport to it");
+         for (int i = 1; i < 22; i++)
+         {
+            if (ImGui::Button(m_graphics->GetObject(i)->GetObjectName().c_str()))
+            {
+               m_graphics->getCamera()->setCamPos
+                  (m_graphics->GetObject(i)->objectPosition());
+            }
          }
       }
       

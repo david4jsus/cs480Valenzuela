@@ -451,7 +451,7 @@ bool Object::loadOBJ(std::string path, std::vector<Vertex> &out_vertices,
 		  // Texture coordinates
           aiVector3D vert = meshes[meshCounter]->mTextureCoords[0][verticesLooper];
           texture.x = vert.x;
-          texture.y = vert.y;		
+          texture.y = vert.y * -1;
 		
 		  // get x, y, and z coordinates for each vertex
 		  vertex.x = meshes[meshCounter]->mVertices[verticesLooper].x;

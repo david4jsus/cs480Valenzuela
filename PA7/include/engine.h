@@ -38,6 +38,10 @@ class Engine
     // Show Dear ImGui demo window
     bool imgui_demo;
     
+    bool showRotationControls;
+    bool showOrbitControls;
+    bool showTeleportControls;
+    
     // Model loading
     std::string m_file;
     
