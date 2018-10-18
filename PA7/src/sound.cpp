@@ -2,11 +2,11 @@
 
 Sound::Sound()
 {
+	SDL_Init(SDL_INIT_AUDIO);
 }
 
 Sound::~Sound()
 {
-    SDL_PauseAudioDevice(deviceId, 1);
     SDL_CloseAudioDevice(deviceId);
     SDL_FreeWAV(wavBuffer);
 }
@@ -19,21 +19,15 @@ void Sound::LoadSound(std::string soundPath)
 		return;
 	}
 
-    deviceId = SDL_OpenAudioDevice( NULL, 0, &wavSpec, NULL, SDL_AUDIO_ALLOW_ANY_CHANGE );
+    	deviceId = SDL_OpenAudioDevice( NULL, 0, &wavSpec, NULL, 0 );
 
-	if( deviceId == 1)
-	{
-		std::cout << "Couldn't open audio: " << SDL_GetError( ) << std::endl;
-
-	}
-
-	SDL_PauseAudioDevice( deviceId, 0 );
-	
+        int success = SDL_QueueAudio(deviceId, wavBuffer, wavLength);
+	PlaySound();	
 }
 
 void Sound::PlaySound()
 {
-    SDL_PauseAudioDevice(deviceId, 1);
-    SDL_Delay(50);
-    SDL_PauseAudioDevice(deviceId, 0);
+    	SDL_PauseAudioDevice(deviceId, 0);
+    	SDL_Delay(3000);
+	std::cout << "Playing Audio" << std::endl;
 }
