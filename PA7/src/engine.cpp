@@ -73,7 +73,7 @@ bool Engine::Initialize()
   rotatingRight  = false;
   rotatingUp     = false;
   rotatingDown   = false;
-
+  
   // No errors
   return true;
 }
@@ -82,10 +82,13 @@ void Engine::Run()
 {
   m_running = true;
 
+  // Play imeperial march
+  //gameSound.PlayMainSound();
+
   int index;
 
   while(m_running)
-  {
+  { 
     // Update the DT
     m_DT = getDT();
 
@@ -160,11 +163,14 @@ void Engine::Run()
       
       ImGui::Text("Planet Controls");
       if(ImGui::Button("Toggle Direction"))
-      {
+      {            
        for(index = 0; index < m_graphics->numberOfCubes(); index++)
 	    {
-        m_graphics->GetObject(index)->reverseDirection();
+         m_graphics->GetObject(index)->reverseDirection();
 	    }
+	    
+	     gameSound.LoadSound("../assets/grunt.wav");
+        gameSound.PlaySoundEffect();
       }
       
       ImGui::Text("Speed Multipliers");
@@ -190,7 +196,7 @@ void Engine::Run()
           {
            for(index = 0; index < m_graphics->numberOfCubes(); index++)
            {
-            m_graphics->GetObject(index)->UpdateRotationSpeed(0.25f);
+            m_graphics->GetObject(index)->UpdateRotationSpeed(0.05f);
            }
           }
           
@@ -198,7 +204,7 @@ void Engine::Run()
           {
            for(index = 0; index < m_graphics->numberOfCubes(); index++)
            {
-            m_graphics->GetObject(index)->UpdateRotationSpeed(0.5f);
+            m_graphics->GetObject(index)->UpdateRotationSpeed(0.1f);
            }
           }
          
@@ -206,7 +212,7 @@ void Engine::Run()
           {
            for(index = 0; index < m_graphics->numberOfCubes(); index++)
            {
-            m_graphics->GetObject(index)->UpdateRotationSpeed(1.25f);
+            m_graphics->GetObject(index)->UpdateRotationSpeed(1.5f);
            }
           }
          
@@ -219,15 +225,23 @@ void Engine::Run()
           }
          
           else if(ImGui::Button("4.0x Rotation Speed", ImVec2(200, 50)))
-          {
-            // Troll
-		        //gameSound.LoadSound("../assets/NGGUP.wav");
-	          //gameSound.PlayNGGUP();
-	          
+          {	          
            for(index = 0; index < m_graphics->numberOfCubes(); index++)
            {
             m_graphics->GetObject(index)->UpdateRotationSpeed(4.0f);
            }
+          }
+          
+          else if(ImGui::Button("Infinity Speed", ImVec2(200, 50)))
+          {	          
+           for(index = 0; index < m_graphics->numberOfCubes(); index++)
+           {
+            m_graphics->GetObject(index)->UpdateRotationSpeed(0.0f);
+           }
+
+             //Troll
+		       gameSound.LoadSound("../assets/NGGUP.wav");
+	          gameSound.PlayNGGUP();
           }
        }
        
@@ -252,7 +266,7 @@ void Engine::Run()
        {
         for(index = 0; index < m_graphics->numberOfCubes(); index++)
         {
-         m_graphics->GetObject(index)->UpdateOrbitSpeed(0.25f);
+         m_graphics->GetObject(index)->UpdateOrbitSpeed(0.05f);
         }
        }
        
@@ -260,7 +274,7 @@ void Engine::Run()
        {
         for(index = 0; index < m_graphics->numberOfCubes(); index++)
         {
-         m_graphics->GetObject(index)->UpdateOrbitSpeed(0.5f);
+         m_graphics->GetObject(index)->UpdateOrbitSpeed(0.1f);
         }
        }
       
@@ -314,12 +328,17 @@ void Engine::Run()
          {
             if (ImGui::Button(m_graphics->GetObject(i)->GetObjectName().c_str()))
             {
-               m_graphics->getCamera()->setCamPos
-                  (m_graphics->GetObject(i)->objectPosition());
+                // Imperial March
+                if(m_graphics->GetObject(i)->GetObjectName() == "DeathStar")
+                {
+                   gameSound.LoadSound("../assets/imperial_march.wav");
+                   gameSound.PlaySound();
+                }
+                  
+               m_graphics->getCamera()->setCamPos(m_graphics->GetObject(i)->objectPosition());                  
             }
          }
       }
-      
       ImGui::End();
     }
     

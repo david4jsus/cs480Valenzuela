@@ -42,17 +42,18 @@ bool Graphics::Initialize(int width, int height, std::string file)
     return false;
   }
 
-  // Play imeperial march
-  gameSound.LoadSound("../assets/imperial_march.wav");
-
   // Create planets
-
   Object* Skybox = new Object("Skybox.obj", 0, 0.0f, 0.0f, 0.0f, 25.0f);
   Object* sun = new Object("Sun.obj", 0, 0.0f, 0.0f, 0.1f, 0.04f); // file path, parent, orbit radius size, orbit radius speed, local rotation speed, object size
   Object* mercury = new Object("Mercury.obj", 0, 0.0f, 0.0f, 0.1f, 0.07f);
   Object* venus  = new Object("Venus.obj", 0, 0.0f, 0.0f, 0.1f, 0.07f);
   Object* earth = new Object("Earth.obj", 0, 0.0f, 0.0f, 0.1f, 0.07f);
   Object* earthMoon = new Object("Moon.obj", earth, 0.0f, 0.0f, 0.1f, 0.07f);
+  
+  // Waiting Song while the planets load
+  gameSound.LoadSound("../assets/jeopardy.wav");
+  gameSound.PlaySound();
+  
   Object* mars   = new Object("Mars.obj", 0, 0.0f, 0.0f, 0.1f, 0.07f);
   Object* marsMoonPhobos = new Object("Phobos.obj", mars, 0.0f, 0.0f, 0.1f, 0.07f);
   Object* marsMoonDeimos = new Object("Deimos.obj", mars, 0.0f, 0.0f, 0.1f, 0.07f);
@@ -205,19 +206,11 @@ bool Graphics::Initialize(int width, int height, std::string file)
   glEnable(GL_DEPTH_TEST);
   glDepthFunc(GL_LESS);
 
-  // Play march indefinitely
-  gameSound.PlayMainSound();
-
   return true;
 }
 
 void Graphics::Update(unsigned int dt)
 {
-  //if(gameSound.AudioStopped())
-  //{
-   //gameSound.LoopAudio();
-  //}
-
   // Update the objects
   for(unsigned int i = 0; i < m_cubes.size(); i++)
   {
