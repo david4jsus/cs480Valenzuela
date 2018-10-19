@@ -80,9 +80,9 @@ bool Graphics::Initialize(int width, int height, std::string file)
   Object* moonring = new Object("MoonRing.obj", earth, 0.0f, 0.0f, 0.1, 0.1f);
   Object* marsring = new Object("MarsRing.obj", 0, 0.0f, 0.0f, 0.1, 0.1f);
   Object* jupiterring = new Object("JupiterRing.obj", 0, 0.0f, 0.0f, 0.1, 0.1f);
-  Object* saturnring = new Object("SaturnRing.obj", 0, 0.0f, 0.0f, 0.1, 0.1f);
-  Object* uranusring = new Object("UranusRing.obj", 0, 0.0f, 0.0f, 0.1, 0.1f);
-  Object* neptunering = new Object("NeptuneRing.obj", 0, 0.0f, 0.0f, 0.1, 0.1f);
+  Object* saturnring = new Object("SaturnRing1.obj", 0, 0.0f, 0.0f, 0.1, 0.1f);
+  Object* uranusring = new Object("UranusRing1.obj", 0, 0.0f, 0.0f, 0.1, 0.1f);
+  Object* neptunering = new Object("NeptuneRing1.obj", 0, 0.0f, 0.0f, 0.1, 0.1f);
   Object* plutoring = new Object("PlutoRing.obj", 0, 0.0f, 0.0f, 0.1, 0.1f);
   Object* phobosring = new Object("PhobosRing.obj", mars, 0.0f, 0.0f, 0.1, 0.1f);
   Object* deimosring = new Object("DeimosRing.obj", mars, 0.0f, 0.0f, 0.1, 0.1f);
@@ -94,6 +94,9 @@ bool Graphics::Initialize(int width, int height, std::string file)
   Object* arielring = new Object("ArielRing.obj", uranus, 0.0f, 0.0f, 0.1, 0.1f);
   Object* tritonring = new Object("TritonRing.obj", neptune, 0.0f, 0.0f, 0.1, 0.1f);
   Object* deathstarring = new Object("DeathStarRing.obj", 0, 0.0f, 0.0f, 0.1, 0.1f);
+  Object* saturnRing = new Object("SaturnRing.obj", 0, 0.0f, 0.0f, 0.1, 0.1f);
+  Object* uranusRing = new Object("UranusRing.obj", 0, 0.0f, 0.0f, 0.1, 0.1f);
+  Object* neptuneRing = new Object("NeptuneRing.obj", 0, 0.0f, 0.0f, 0.1, 0.1f);
   
   // push planets onto list
   m_cubes.push_back(Skybox);
@@ -142,6 +145,9 @@ bool Graphics::Initialize(int width, int height, std::string file)
   m_cubes.push_back(arielring);
   m_cubes.push_back(tritonring);
   m_cubes.push_back(deathstarring);
+  m_cubes.push_back(saturnRing);
+  m_cubes.push_back(uranusRing);
+  m_cubes.push_back(neptuneRing);
 
   // Set up the shaders
   m_shader = new Shader();
@@ -204,7 +210,7 @@ bool Graphics::Initialize(int width, int height, std::string file)
 }
 
 void Graphics::Update(unsigned int dt)
-{  
+{
   // Update the objects
   for(unsigned int i = 0; i < m_cubes.size(); i++)
   {
