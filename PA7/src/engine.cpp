@@ -221,8 +221,8 @@ void Engine::Run()
           else if(ImGui::Button("4.0x Rotation Speed", ImVec2(200, 50)))
           {
             // Troll
-		        gameSound.LoadSound("../assets/NGGUP.wav");
-	          gameSound.PlayNGGUP();
+		        //gameSound.LoadSound("../assets/NGGUP.wav");
+	          //gameSound.PlayNGGUP();
 	          
            for(index = 0; index < m_graphics->numberOfCubes(); index++)
            {

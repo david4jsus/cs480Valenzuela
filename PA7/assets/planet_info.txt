@@ -213,7 +213,7 @@ orbit_radius_speed: 0.0
 local_rotation_speed: 0.0
 object_size: 60
 
-SaturnRing.obj
+SaturnRing1.obj
 orbit_radius_size: 0.0
 orbit_radius_speed: 0.0
 local_rotation_speed: 0.0
@@ -320,3 +320,9 @@ orbit_radius_size: 0.0
 orbit_radius_speed: 0.0
 local_rotation_speed: 0.0
 object_size: 120
+
+SaturnRing.obj
+orbit_radius_size: 80.0
+orbit_radius_speed: 0.025
+local_rotation_speed: 0.3
+object_size: 0.3
