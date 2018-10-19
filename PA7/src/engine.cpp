@@ -196,7 +196,7 @@ void Engine::Run()
           {
            for(index = 0; index < m_graphics->numberOfCubes(); index++)
            {
-            m_graphics->GetObject(index)->UpdateRotationSpeed(0.25f);
+            m_graphics->GetObject(index)->UpdateRotationSpeed(0.05f);
            }
           }
           
@@ -204,7 +204,7 @@ void Engine::Run()
           {
            for(index = 0; index < m_graphics->numberOfCubes(); index++)
            {
-            m_graphics->GetObject(index)->UpdateRotationSpeed(0.5f);
+            m_graphics->GetObject(index)->UpdateRotationSpeed(0.1f);
            }
           }
          
@@ -212,7 +212,7 @@ void Engine::Run()
           {
            for(index = 0; index < m_graphics->numberOfCubes(); index++)
            {
-            m_graphics->GetObject(index)->UpdateRotationSpeed(1.25f);
+            m_graphics->GetObject(index)->UpdateRotationSpeed(1.5f);
            }
           }
          
@@ -266,7 +266,7 @@ void Engine::Run()
        {
         for(index = 0; index < m_graphics->numberOfCubes(); index++)
         {
-         m_graphics->GetObject(index)->UpdateOrbitSpeed(0.25f);
+         m_graphics->GetObject(index)->UpdateOrbitSpeed(0.05f);
         }
        }
        
@@ -274,7 +274,7 @@ void Engine::Run()
        {
         for(index = 0; index < m_graphics->numberOfCubes(); index++)
         {
-         m_graphics->GetObject(index)->UpdateOrbitSpeed(0.5f);
+         m_graphics->GetObject(index)->UpdateOrbitSpeed(0.1f);
         }
        }
       
