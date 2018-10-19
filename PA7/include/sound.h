@@ -11,8 +11,9 @@ class Sound
    Sound();
    ~Sound();
    void LoadSound(std::string soundPath);
-   void PlayMainSound();
+   void PlaySound();
    void PlayNGGUP();
+   void PlaySoundEffect();
    void LoopAudio();
    bool AudioStopped();
 
