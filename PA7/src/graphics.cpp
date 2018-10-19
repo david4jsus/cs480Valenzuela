@@ -81,7 +81,7 @@ bool Graphics::Initialize(int width, int height, std::string file)
   Object* marsring = new Object("MarsRing.obj", 0, 0.0f, 0.0f, 0.1, 0.1f);
   Object* jupiterring = new Object("JupiterRing.obj", 0, 0.0f, 0.0f, 0.1, 0.1f);
   Object* saturnring = new Object("SaturnRing1.obj", 0, 0.0f, 0.0f, 0.1, 0.1f);
-  Object* uranusring = new Object("UranusRing1.obj", 0, 0.0f, 0.0f, 0.1, 0.1f);
+  //Object* uranusring = new Object("UranusRing1.obj", 0, 0.0f, 0.0f, 0.1, 0.1f);
   Object* neptunering = new Object("NeptuneRing1.obj", 0, 0.0f, 0.0f, 0.1, 0.1f);
   Object* plutoring = new Object("PlutoRing.obj", 0, 0.0f, 0.0f, 0.1, 0.1f);
   Object* phobosring = new Object("PhobosRing.obj", mars, 0.0f, 0.0f, 0.1, 0.1f);
@@ -132,7 +132,7 @@ bool Graphics::Initialize(int width, int height, std::string file)
   m_cubes.push_back(marsring);
   m_cubes.push_back(jupiterring);
   m_cubes.push_back(saturnring);
-  m_cubes.push_back(uranusring);
+  //m_cubes.push_back(uranusring);
   m_cubes.push_back(neptunering);
   m_cubes.push_back(plutoring);
   m_cubes.push_back(phobosring);
