@@ -63,7 +63,7 @@ object_size: 0.026
 Uranus.obj
 orbit_radius_size: 90.0
 orbit_radius_speed: 0.02
-local_rotation_speed: 0.6
+local_rotation_speed: 0.0
 object_size: 0.017
 
 
@@ -329,9 +329,9 @@ object_size: 0.3
 
 UranusRing.obj
 orbit_radius_size: 90.0
-orbit_radius_speed: 0.02
-local_rotation_speed: 0.6
-object_size: 0.25
+orbit_radius_speed: 0.0
+local_rotation_speed: 0.0
+object_size: 1.25
 
 NeptuneRing.obj 
 orbit_radius_size: 100.0
