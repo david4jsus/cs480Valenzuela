@@ -96,7 +96,7 @@ bool Graphics::Initialize(int width, int height, std::string file)
   Object* deathstarring = new Object("DeathStarRing.obj", 0, 0.0f, 0.0f, 0.1, 0.1f);
   Object* saturnRing = new Object("SaturnRing.obj", 0, 0.0f, 0.0f, 0.1, 0.1f);
   //Object* uranusRing = new Object("UranusRing.obj", 0, 0.0f, 0.0f, 0.1, 0.1f);
-  Object* neptuneRing = new Object("NeptuneRing.obj", 0, 0.0f, 0.0f, 0.1, 0.1f);
+  //Object* neptuneRing = new Object("NeptuneRing.obj", 0, 0.0f, 0.0f, 0.1, 0.1f);
   
   // push planets onto list
   m_cubes.push_back(Skybox);
@@ -147,7 +147,7 @@ bool Graphics::Initialize(int width, int height, std::string file)
   m_cubes.push_back(deathstarring);
   m_cubes.push_back(saturnRing);
   //m_cubes.push_back(uranusRing);
-  m_cubes.push_back(neptuneRing);
+  //m_cubes.push_back(neptuneRing);
 
   // Set up the shaders
   m_shader = new Shader();
