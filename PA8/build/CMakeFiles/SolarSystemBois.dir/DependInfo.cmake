@@ -15,6 +15,7 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/home/hrumjahn/Documents/cs480Valenzuela/PA8/src/imgui_widgets.cpp" "/home/hrumjahn/Documents/cs480Valenzuela/PA8/build/CMakeFiles/SolarSystemBois.dir/src/imgui_widgets.cpp.o"
   "/home/hrumjahn/Documents/cs480Valenzuela/PA8/src/main.cpp" "/home/hrumjahn/Documents/cs480Valenzuela/PA8/build/CMakeFiles/SolarSystemBois.dir/src/main.cpp.o"
   "/home/hrumjahn/Documents/cs480Valenzuela/PA8/src/object.cpp" "/home/hrumjahn/Documents/cs480Valenzuela/PA8/build/CMakeFiles/SolarSystemBois.dir/src/object.cpp.o"
+  "/home/hrumjahn/Documents/cs480Valenzuela/PA8/src/phyisics.cpp" "/home/hrumjahn/Documents/cs480Valenzuela/PA8/build/CMakeFiles/SolarSystemBois.dir/src/phyisics.cpp.o"
   "/home/hrumjahn/Documents/cs480Valenzuela/PA8/src/shader.cpp" "/home/hrumjahn/Documents/cs480Valenzuela/PA8/build/CMakeFiles/SolarSystemBois.dir/src/shader.cpp.o"
   "/home/hrumjahn/Documents/cs480Valenzuela/PA8/src/sound.cpp" "/home/hrumjahn/Documents/cs480Valenzuela/PA8/build/CMakeFiles/SolarSystemBois.dir/src/sound.cpp.o"
   "/home/hrumjahn/Documents/cs480Valenzuela/PA8/src/window.cpp" "/home/hrumjahn/Documents/cs480Valenzuela/PA8/build/CMakeFiles/SolarSystemBois.dir/src/window.cpp.o"

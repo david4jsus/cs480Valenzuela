@@ -10,6 +10,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/SolarSystemBois.dir/src/imgui_widgets.cpp.o"
   "CMakeFiles/SolarSystemBois.dir/src/main.cpp.o"
   "CMakeFiles/SolarSystemBois.dir/src/object.cpp.o"
+  "CMakeFiles/SolarSystemBois.dir/src/phyisics.cpp.o"
   "CMakeFiles/SolarSystemBois.dir/src/shader.cpp.o"
   "CMakeFiles/SolarSystemBois.dir/src/sound.cpp.o"
   "CMakeFiles/SolarSystemBois.dir/src/window.cpp.o"

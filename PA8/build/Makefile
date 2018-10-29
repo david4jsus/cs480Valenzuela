@@ -433,6 +433,33 @@ src/object.cpp.s:
 	$(MAKE) -f CMakeFiles/SolarSystemBois.dir/build.make CMakeFiles/SolarSystemBois.dir/src/object.cpp.s
 .PHONY : src/object.cpp.s
 
+src/phyisics.o: src/phyisics.cpp.o
+
+.PHONY : src/phyisics.o
+
+# target to build an object file
+src/phyisics.cpp.o:
+	$(MAKE) -f CMakeFiles/SolarSystemBois.dir/build.make CMakeFiles/SolarSystemBois.dir/src/phyisics.cpp.o
+.PHONY : src/phyisics.cpp.o
+
+src/phyisics.i: src/phyisics.cpp.i
+
+.PHONY : src/phyisics.i
+
+# target to preprocess a source file
+src/phyisics.cpp.i:
+	$(MAKE) -f CMakeFiles/SolarSystemBois.dir/build.make CMakeFiles/SolarSystemBois.dir/src/phyisics.cpp.i
+.PHONY : src/phyisics.cpp.i
+
+src/phyisics.s: src/phyisics.cpp.s
+
+.PHONY : src/phyisics.s
+
+# target to generate assembly for a file
+src/phyisics.cpp.s:
+	$(MAKE) -f CMakeFiles/SolarSystemBois.dir/build.make CMakeFiles/SolarSystemBois.dir/src/phyisics.cpp.s
+.PHONY : src/phyisics.cpp.s
+
 src/shader.o: src/shader.cpp.o
 
 .PHONY : src/shader.o
@@ -557,6 +584,9 @@ help:
 	@echo "... src/object.o"
 	@echo "... src/object.i"
 	@echo "... src/object.s"
+	@echo "... src/phyisics.o"
+	@echo "... src/phyisics.i"
+	@echo "... src/phyisics.s"
 	@echo "... src/shader.o"
 	@echo "... src/shader.i"
 	@echo "... src/shader.s"

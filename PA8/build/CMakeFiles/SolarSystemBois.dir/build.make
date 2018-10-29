@@ -321,9 +321,33 @@ CMakeFiles/SolarSystemBois.dir/src/object.cpp.o.provides: CMakeFiles/SolarSystem
 CMakeFiles/SolarSystemBois.dir/src/object.cpp.o.provides.build: CMakeFiles/SolarSystemBois.dir/src/object.cpp.o
 
 
+CMakeFiles/SolarSystemBois.dir/src/phyisics.cpp.o: CMakeFiles/SolarSystemBois.dir/flags.make
+CMakeFiles/SolarSystemBois.dir/src/phyisics.cpp.o: ../src/phyisics.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/hrumjahn/Documents/cs480Valenzuela/PA8/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/SolarSystemBois.dir/src/phyisics.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/SolarSystemBois.dir/src/phyisics.cpp.o -c /home/hrumjahn/Documents/cs480Valenzuela/PA8/src/phyisics.cpp
+
+CMakeFiles/SolarSystemBois.dir/src/phyisics.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/SolarSystemBois.dir/src/phyisics.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/hrumjahn/Documents/cs480Valenzuela/PA8/src/phyisics.cpp > CMakeFiles/SolarSystemBois.dir/src/phyisics.cpp.i
+
+CMakeFiles/SolarSystemBois.dir/src/phyisics.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/SolarSystemBois.dir/src/phyisics.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/hrumjahn/Documents/cs480Valenzuela/PA8/src/phyisics.cpp -o CMakeFiles/SolarSystemBois.dir/src/phyisics.cpp.s
+
+CMakeFiles/SolarSystemBois.dir/src/phyisics.cpp.o.requires:
+
+.PHONY : CMakeFiles/SolarSystemBois.dir/src/phyisics.cpp.o.requires
+
+CMakeFiles/SolarSystemBois.dir/src/phyisics.cpp.o.provides: CMakeFiles/SolarSystemBois.dir/src/phyisics.cpp.o.requires
+	$(MAKE) -f CMakeFiles/SolarSystemBois.dir/build.make CMakeFiles/SolarSystemBois.dir/src/phyisics.cpp.o.provides.build
+.PHONY : CMakeFiles/SolarSystemBois.dir/src/phyisics.cpp.o.provides
+
+CMakeFiles/SolarSystemBois.dir/src/phyisics.cpp.o.provides.build: CMakeFiles/SolarSystemBois.dir/src/phyisics.cpp.o
+
+
 CMakeFiles/SolarSystemBois.dir/src/shader.cpp.o: CMakeFiles/SolarSystemBois.dir/flags.make
 CMakeFiles/SolarSystemBois.dir/src/shader.cpp.o: ../src/shader.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/hrumjahn/Documents/cs480Valenzuela/PA8/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/SolarSystemBois.dir/src/shader.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/hrumjahn/Documents/cs480Valenzuela/PA8/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/SolarSystemBois.dir/src/shader.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/SolarSystemBois.dir/src/shader.cpp.o -c /home/hrumjahn/Documents/cs480Valenzuela/PA8/src/shader.cpp
 
 CMakeFiles/SolarSystemBois.dir/src/shader.cpp.i: cmake_force
@@ -347,7 +371,7 @@ CMakeFiles/SolarSystemBois.dir/src/shader.cpp.o.provides.build: CMakeFiles/Solar
 
 CMakeFiles/SolarSystemBois.dir/src/sound.cpp.o: CMakeFiles/SolarSystemBois.dir/flags.make
 CMakeFiles/SolarSystemBois.dir/src/sound.cpp.o: ../src/sound.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/hrumjahn/Documents/cs480Valenzuela/PA8/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/SolarSystemBois.dir/src/sound.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/hrumjahn/Documents/cs480Valenzuela/PA8/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/SolarSystemBois.dir/src/sound.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/SolarSystemBois.dir/src/sound.cpp.o -c /home/hrumjahn/Documents/cs480Valenzuela/PA8/src/sound.cpp
 
 CMakeFiles/SolarSystemBois.dir/src/sound.cpp.i: cmake_force
@@ -371,7 +395,7 @@ CMakeFiles/SolarSystemBois.dir/src/sound.cpp.o.provides.build: CMakeFiles/SolarS
 
 CMakeFiles/SolarSystemBois.dir/src/window.cpp.o: CMakeFiles/SolarSystemBois.dir/flags.make
 CMakeFiles/SolarSystemBois.dir/src/window.cpp.o: ../src/window.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/hrumjahn/Documents/cs480Valenzuela/PA8/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/SolarSystemBois.dir/src/window.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/hrumjahn/Documents/cs480Valenzuela/PA8/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/SolarSystemBois.dir/src/window.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/SolarSystemBois.dir/src/window.cpp.o -c /home/hrumjahn/Documents/cs480Valenzuela/PA8/src/window.cpp
 
 CMakeFiles/SolarSystemBois.dir/src/window.cpp.i: cmake_force
@@ -406,6 +430,7 @@ SolarSystemBois_OBJECTS = \
 "CMakeFiles/SolarSystemBois.dir/src/imgui_widgets.cpp.o" \
 "CMakeFiles/SolarSystemBois.dir/src/main.cpp.o" \
 "CMakeFiles/SolarSystemBois.dir/src/object.cpp.o" \
+"CMakeFiles/SolarSystemBois.dir/src/phyisics.cpp.o" \
 "CMakeFiles/SolarSystemBois.dir/src/shader.cpp.o" \
 "CMakeFiles/SolarSystemBois.dir/src/sound.cpp.o" \
 "CMakeFiles/SolarSystemBois.dir/src/window.cpp.o"
@@ -424,6 +449,7 @@ SolarSystemBois: CMakeFiles/SolarSystemBois.dir/src/imgui_impl_sdl.cpp.o
 SolarSystemBois: CMakeFiles/SolarSystemBois.dir/src/imgui_widgets.cpp.o
 SolarSystemBois: CMakeFiles/SolarSystemBois.dir/src/main.cpp.o
 SolarSystemBois: CMakeFiles/SolarSystemBois.dir/src/object.cpp.o
+SolarSystemBois: CMakeFiles/SolarSystemBois.dir/src/phyisics.cpp.o
 SolarSystemBois: CMakeFiles/SolarSystemBois.dir/src/shader.cpp.o
 SolarSystemBois: CMakeFiles/SolarSystemBois.dir/src/sound.cpp.o
 SolarSystemBois: CMakeFiles/SolarSystemBois.dir/src/window.cpp.o
@@ -448,7 +474,7 @@ SolarSystemBois: /usr/lib/x86_64-linux-gnu/libSDL2main.a
 SolarSystemBois: /usr/lib/x86_64-linux-gnu/libSDL2.so
 SolarSystemBois: /usr/local/lib/libMagick++-7.Q16HDRI.so
 SolarSystemBois: CMakeFiles/SolarSystemBois.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/hrumjahn/Documents/cs480Valenzuela/PA8/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Linking CXX executable SolarSystemBois"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/hrumjahn/Documents/cs480Valenzuela/PA8/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Linking CXX executable SolarSystemBois"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/SolarSystemBois.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -467,6 +493,7 @@ CMakeFiles/SolarSystemBois.dir/requires: CMakeFiles/SolarSystemBois.dir/src/imgu
 CMakeFiles/SolarSystemBois.dir/requires: CMakeFiles/SolarSystemBois.dir/src/imgui_widgets.cpp.o.requires
 CMakeFiles/SolarSystemBois.dir/requires: CMakeFiles/SolarSystemBois.dir/src/main.cpp.o.requires
 CMakeFiles/SolarSystemBois.dir/requires: CMakeFiles/SolarSystemBois.dir/src/object.cpp.o.requires
+CMakeFiles/SolarSystemBois.dir/requires: CMakeFiles/SolarSystemBois.dir/src/phyisics.cpp.o.requires
 CMakeFiles/SolarSystemBois.dir/requires: CMakeFiles/SolarSystemBois.dir/src/shader.cpp.o.requires
 CMakeFiles/SolarSystemBois.dir/requires: CMakeFiles/SolarSystemBois.dir/src/sound.cpp.o.requires
 CMakeFiles/SolarSystemBois.dir/requires: CMakeFiles/SolarSystemBois.dir/src/window.cpp.o.requires
