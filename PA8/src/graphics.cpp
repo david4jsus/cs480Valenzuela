@@ -2,12 +2,49 @@
 
 Graphics::Graphics()
 {
-
+	broadphase = NULL;
+	collisionConfig = NULL;
+	dispatcher = NULL;
+	solver = NULL;
+	dynamicsWorld = NULL;
 }
 
 Graphics::~Graphics()
 {
+    if( dynamicsWorld != NULL )
+    {
+        delete dynamicsWorld;
 
+        dynamicsWorld = NULL;
+    }
+
+    if( solver != NULL )
+    {
+        delete solver;
+
+        solver = NULL;
+    }
+
+    if( dispatcher != NULL )
+    {
+        delete dispatcher;
+
+        dispatcher = NULL;
+    }
+
+    if( collisionConfig != NULL )
+    {
+        delete collisionConfig;
+
+        collisionConfig = NULL;
+    }
+
+    if( broadphase != NULL )
+    {
+        delete broadphase;
+
+        broadphase = NULL;
+    }
 }
 
 bool Graphics::Initialize(int width, int height)
@@ -103,6 +140,16 @@ bool Graphics::Initialize(int width, int height)
   //enable depth testing
   glEnable(GL_DEPTH_TEST);
   glDepthFunc(GL_LESS);
+
+  // Initialize Bullet
+  broadphase = new btDbvtBroadphase();
+  collisionConfig = new btDefaultCollisionConfiguration();
+  dispatcher = new btCollisionDispatcher( collisionConfig );
+  solver = new btSequentialImpulseConstraintSolver();
+  
+  // Create Physics World
+  dynamicsWorld = new btDiscreteDynamicsWorld( dispatcher, broadphase, solver, collisionConfig );
+  dynamicsWorld->setGravity( btVector3( 0, -9.81, 0 ) );
 
   return true;
 }

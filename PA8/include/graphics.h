@@ -29,6 +29,13 @@ class Graphics
     GLint m_modelMatrix;
 
     Object *m_cube;
+
+    // Bullet Members
+    btBroadphaseInterface *broadphase;
+    btDefaultCollisionConfiguration *collisionConfig;
+    btCollisionDispatcher *dispatcher;
+    btSequentialImpulseConstraintSolver *solver;
+    btDiscreteDynamicsWorld *dynamicsWorld;
 };
 
 #endif /* GRAPHICS_H */
