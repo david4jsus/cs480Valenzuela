@@ -18,14 +18,17 @@ bool Camera::Initialize(int w, int h)
   cameraRight = glm::normalize(glm::cross(cameraFront, cameraUp));
 
   
-  view = glm::lookAt(cameraPos,               //Eye Position
+  /*view = glm::lookAt(cameraPos,               //Eye Position
                      cameraPos + cameraFront, //Focus point
-                     cameraUp);               //Positive Y is up
+                     cameraUp);               //Positive Y is up*/
 
   projection = glm::perspective( 45.0f, //the FoV typically 90 degrees is good which is what this is set to
                                  float(w)/float(h), //Aspect Ratio, so Circles stay Circular
                                  0.01f, //Distance to the near plane, normally a small value like this
-                                 100.0f); //Distance to the far plane, 
+                                 500.0f); //Distance to the far plane
+  
+  updateViewMatrix();
+  
   return true;
 }
 
@@ -97,6 +100,17 @@ void Camera::updateCamRotPitch(float deltapitch)
    }
    
    updateViewMatrix();
+}
+
+void Camera::setCamPos(glm::vec3 newPos)
+{
+   cameraPos = newPos;
+   updateViewMatrix();
+}
+
+glm::vec3 Camera::getCamPos()
+{
+   return cameraPos;
 }
 
 void Camera::updateViewMatrix()

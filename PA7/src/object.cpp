@@ -16,6 +16,7 @@ Object::Object()
   angle = 0.0f;
   rotAngle = 0.0f;
   
+  objName = "";
   parent = 0;
   orbitRadius = 5.0f;
   orbitSpeedMultiplier = 1.0f;
@@ -29,6 +30,8 @@ Object::Object(std::string filePath, Object* objParent, float objOrbitRadius, fl
   float objRotateMultiplier, float objSize): Object()
 {
   // local variables
+  objName = filePath;
+  objName.erase(objName.end()-4, objName.end());
   ifstream fin;
   string planetIdentifier;
 
@@ -51,19 +54,19 @@ Object::Object(std::string filePath, Object* objParent, float objOrbitRadius, fl
       // get orbit radius size
 	  fin >> planetIdentifier;
 	  fin >> orbitRadius;
-	  cout << orbitRadius << endl;
+	  //cout << orbitRadius << endl;
 
       // get orbiting speed
 	  fin >> planetIdentifier;
 	  fin >> orbitSpeedMultiplier;
 	  osm = orbitSpeedMultiplier;
-	  cout << orbitSpeedMultiplier << endl;
+	  //cout << orbitSpeedMultiplier << endl;
 
 	  // git local rotation rpeed
 	  fin >> planetIdentifier;
 	  fin >> rotateSpeedMultiplier;
 	  rsm = rotateSpeedMultiplier;
-	  cout << rotateSpeedMultiplier << endl;
+	  //cout << rotateSpeedMultiplier << endl;
 
 	  // get planet size
 	  fin >> planetIdentifier;
@@ -150,6 +153,7 @@ void Object::createObject()
   {
     correctModelLoad = false;
     std::cout << "Loading default cube object..." << std::endl;
+    objName = "Cube";
   }
   else
   {
@@ -212,8 +216,11 @@ void Object::Update(unsigned int dt)
   }
 
   // Orbit rotation
-  model = glm::translate(center, glm::vec3(glm::sin(angle) * orbitRadius,
-    0, glm::cos(angle) * orbitRadius));
+  if (orbitRadius > 0)
+  {
+  pos = glm::vec3(glm::sin(angle) * orbitRadius, 0, glm::cos(angle) * orbitRadius);
+  }
+  model = glm::translate(center, pos);
   
   // Pass this to any children objects
   modelForChild = model;
@@ -281,6 +288,28 @@ bool Object::isDirectionReversed()
   return directionReversed;
 }
 
+glm::vec3 Object::objectPosition()
+{
+   glm::vec3 objPos = pos;
+   
+   if (parent != 0)
+   {
+      objPos += parent->objectPosition();
+   }
+   
+   return objPos;
+}
+
+void Object::setPosition(glm::vec3 newPos)
+{
+   pos = newPos;
+}
+
+std::string Object::GetObjectName()
+{
+   return objName;
+}
+
 void Object::UpdateRotationSpeed(float rotateMultiplier)
 {  
   // Set the new speed with the multiplier
@@ -288,10 +317,10 @@ void Object::UpdateRotationSpeed(float rotateMultiplier)
 
   // Get the speed that was read from the file
   defaultSpeed = GetRotationSpeed();
-  cout << "Read In Speed: " << defaultSpeed << endl;
+  //cout << "Read In Speed: " << defaultSpeed << endl;
  
   defaultSpeed *= rotateMultiplier;
-  cout << "New Speed: " << defaultSpeed << endl;
+  //cout << "New Speed: " << defaultSpeed << endl;
   
   rotateSpeedMultiplier = defaultSpeed;
 }
@@ -303,10 +332,10 @@ void Object::UpdateOrbitSpeed(float orbitMultiplier)
 
   // Get the speed that was read from the file
   defaultSpeed = GetOrbitSpeed();
-  cout << "Read In Speed: " << defaultSpeed << endl;
+  //cout << "Read In Speed: " << defaultSpeed << endl;
  
   defaultSpeed *= orbitMultiplier;
-  cout << "New Speed: " << defaultSpeed << endl;
+  //cout << "New Speed: " << defaultSpeed << endl;
   
   orbitSpeedMultiplier = defaultSpeed;
 }
@@ -356,6 +385,18 @@ void Object::Render()
   glDisableVertexAttribArray(0);
   glDisableVertexAttribArray(1);
   glDisableVertexAttribArray(2);
+  
+  // Draw orbit path
+  /*glBegin(GL_LINE_LOOP);
+  
+  for (int i = 0; i < 360; i++)
+  {
+   glColor4f(1.0f, 1.0f, 1.0f, 1.0f, 1.0f);
+   float degInRad = i * (3.14159/180);
+   glVertex2f(cos(degInRad) * orbitRadius, sin(degInRad) * orbitRadius);
+  }
+  
+  glEnd();*/
 }
 
 bool Object::loadOBJ(std::string path, std::vector<Vertex> &out_vertices,
@@ -388,7 +429,7 @@ bool Object::loadOBJ(std::string path, std::vector<Vertex> &out_vertices,
         
     // Check if the model has a texture
     meshes[meshCounter]->HasTextureCoords(0);
-    cout << "has texture" << endl;
+    //cout << "has texture" << endl;
     
      // loop through all faces
 	  for(faceLooper = 0; faceLooper < meshes[meshCounter]->mNumFaces; faceLooper++)
@@ -410,7 +451,7 @@ bool Object::loadOBJ(std::string path, std::vector<Vertex> &out_vertices,
 		  // Texture coordinates
           aiVector3D vert = meshes[meshCounter]->mTextureCoords[0][verticesLooper];
           texture.x = vert.x;
-          texture.y = vert.y;		
+          texture.y = vert.y * -1;
 		
 		  // get x, y, and z coordinates for each vertex
 		  vertex.x = meshes[meshCounter]->mVertices[verticesLooper].x;

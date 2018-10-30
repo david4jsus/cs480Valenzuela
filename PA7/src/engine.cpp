@@ -73,7 +73,7 @@ bool Engine::Initialize()
   rotatingRight  = false;
   rotatingUp     = false;
   rotatingDown   = false;
-
+  
   // No errors
   return true;
 }
@@ -82,10 +82,13 @@ void Engine::Run()
 {
   m_running = true;
 
+  // Play imeperial march
+  //gameSound.PlayMainSound();
+
   int index;
 
   while(m_running)
-  {
+  { 
     // Update the DT
     m_DT = getDT();
 
@@ -148,71 +151,122 @@ void Engine::Run()
       m_graphics->getCamera()->updateCamRotPitch(m_DT * -0.1);
     }
     
+    // Update position of skybox
+    m_graphics->GetObject(0)->setPosition
+      (m_graphics->getCamera()->getCamPos());
+    
     // Demo ImGUI window
     //ImGui::ShowDemoWindow(&imgui_demo);
     
     {
       ImGui::Begin("Solar System Instructions and Help");
       
-      ImGui::Text("Camera Controls");
-      
       ImGui::Text("Planet Controls");
       if(ImGui::Button("Toggle Direction"))
-      {
+      {            
        for(index = 0; index < m_graphics->numberOfCubes(); index++)
 	    {
-        m_graphics->GetObject(index)->reverseDirection();
+         m_graphics->GetObject(index)->reverseDirection();
 	    }
+	    
+	     gameSound.LoadSound("../assets/grunt.wav");
+        gameSound.PlaySoundEffect();
       }
       
       ImGui::Text("Speed Multipliers");
-           
-      if(ImGui::Button("0.5x Rotation Speed", ImVec2(200, 50)))
+             
+       if (showRotationControls)
        {
-        for(index = 0; index < m_graphics->numberOfCubes(); index++)
-        {
-         m_graphics->GetObject(index)->UpdateRotationSpeed(0.5f);
-        }
+          if(ImGui::Button("Hide Rotation Controls"))
+          {
+             showRotationControls = false;
+          }
+       }
+       else
+       {
+          if(ImGui::Button("Show Rotation Controls"))
+          {
+             showRotationControls = true;
+          }
+       }
+      
+      if (showRotationControls)
+      {
+         if(ImGui::Button("0.5x Rotation Speed", ImVec2(200, 50)))
+          {
+           for(index = 0; index < m_graphics->numberOfCubes(); index++)
+           {
+            m_graphics->GetObject(index)->UpdateRotationSpeed(0.05f);
+           }
+          }
+          
+          else if(ImGui::Button("Normal Rotation Speed", ImVec2(200, 50)))
+          {
+           for(index = 0; index < m_graphics->numberOfCubes(); index++)
+           {
+            m_graphics->GetObject(index)->UpdateRotationSpeed(0.1f);
+           }
+          }
+         
+          else if(ImGui::Button("1.5x Rotation Speed", ImVec2(200, 50)))
+          {
+           for(index = 0; index < m_graphics->numberOfCubes(); index++)
+           {
+            m_graphics->GetObject(index)->UpdateRotationSpeed(1.5f);
+           }
+          }
+         
+          else if(ImGui::Button("2.0x Rotation Speed", ImVec2(200, 50)))
+          {
+           for(index = 0; index < m_graphics->numberOfCubes(); index++)
+           {
+            m_graphics->GetObject(index)->UpdateRotationSpeed(2.0f);
+           }
+          }
+         
+          else if(ImGui::Button("4.0x Rotation Speed", ImVec2(200, 50)))
+          {	          
+           for(index = 0; index < m_graphics->numberOfCubes(); index++)
+           {
+            m_graphics->GetObject(index)->UpdateRotationSpeed(4.0f);
+           }
+          }
+          
+          else if(ImGui::Button("Infinity Speed", ImVec2(200, 50)))
+          {	          
+           for(index = 0; index < m_graphics->numberOfCubes(); index++)
+           {
+            m_graphics->GetObject(index)->UpdateRotationSpeed(0.0f);
+           }
+
+             //Troll
+		       gameSound.LoadSound("../assets/NGGUP.wav");
+	          gameSound.PlayNGGUP();
+          }
        }
        
-       else if(ImGui::Button("Normal Rotation Speed", ImVec2(200, 50)))
-       {
-        for(index = 0; index < m_graphics->numberOfCubes(); index++)
-        {
-         m_graphics->GetObject(index)->UpdateRotationSpeed(1.0f);
-        }
-       }
+      if (showOrbitControls)
+      {
+         if(ImGui::Button("Hide Orbit Controls"))
+         {
+            showOrbitControls = false;
+         }
+      }
+      else
+      {
+         if(ImGui::Button("Show Orbit Controls"))
+         {
+            showOrbitControls = true;
+         }
+      }
       
-       else if(ImGui::Button("1.5x Rotation Speed", ImVec2(200, 50)))
-       {
-        for(index = 0; index < m_graphics->numberOfCubes(); index++)
-        {
-         m_graphics->GetObject(index)->UpdateRotationSpeed(1.5f);
-        }
-       }
-      
-       else if(ImGui::Button("2.0x Rotation Speed", ImVec2(200, 50)))
-       {
-        for(index = 0; index < m_graphics->numberOfCubes(); index++)
-        {
-         m_graphics->GetObject(index)->UpdateRotationSpeed(2.0f);
-        }
-       }
-      
-       else if(ImGui::Button("4.0x Rotation Speed", ImVec2(200, 50)))
-       {
-        for(index = 0; index < m_graphics->numberOfCubes(); index++)
-        {
-         m_graphics->GetObject(index)->UpdateRotationSpeed(4.0f);
-        }
-       }
-       
-       // Orbit Speed Multipliers
+      if (showOrbitControls)
+      {
        if(ImGui::Button("0.5x Orbit Speed", ImVec2(200, 50)))
        {
         for(index = 0; index < m_graphics->numberOfCubes(); index++)
         {
-         m_graphics->GetObject(index)->UpdateOrbitSpeed(0.5f);
+         m_graphics->GetObject(index)->UpdateOrbitSpeed(0.05f);
         }
        }
        
@@ -220,7 +274,7 @@ void Engine::Run()
        {
         for(index = 0; index < m_graphics->numberOfCubes(); index++)
         {
-         m_graphics->GetObject(index)->UpdateOrbitSpeed(1.0f);
+         m_graphics->GetObject(index)->UpdateOrbitSpeed(0.1f);
         }
        }
       
@@ -228,7 +282,7 @@ void Engine::Run()
        {
         for(index = 0; index < m_graphics->numberOfCubes(); index++)
         {
-         m_graphics->GetObject(index)->UpdateOrbitSpeed(1.5f);
+         m_graphics->GetObject(index)->UpdateOrbitSpeed(1.25f);
         }
        }
       
@@ -247,9 +301,47 @@ void Engine::Run()
          m_graphics->GetObject(index)->UpdateOrbitSpeed(4.0f);
         }
        }
-       
+      }
+      
+      ImGui::Text("Teleportation Controls");
+      
+      if (showTeleportControls)
+      {
+         if(ImGui::Button("Hide Teleportation Controls"))
+         {
+            showTeleportControls = false;
+         }
+      }
+      else
+      {
+         if(ImGui::Button("Show Teleport Controls"))
+         {
+            showTeleportControls = true;
+         }
+      }
+      
+      if (showTeleportControls)
+      {
+      
+         ImGui::Text("Click on one of the following astal objects to teleport to it");
+         for (int i = 1; i < 22; i++)
+         {
+            if (ImGui::Button(m_graphics->GetObject(i)->GetObjectName().c_str()))
+            {
+                // Imperial March
+                if(m_graphics->GetObject(i)->GetObjectName() == "DeathStar")
+                {
+                   gameSound.LoadSound("../assets/imperial_march.wav");
+                   gameSound.PlaySound();
+                }
+                  
+               m_graphics->getCamera()->setCamPos(m_graphics->GetObject(i)->objectPosition());                  
+            }
+         }
+      }
       ImGui::End();
     }
+    
 
     // Update and render the graphics
     m_graphics->Update(m_DT);
@@ -302,13 +394,13 @@ void Engine::Keyboard()
       movingForward  = false;
     }
         
-    if (m_event.key.keysym.sym == SDLK_q)      // Move camera up
+    if (m_event.key.keysym.sym == SDLK_e)      // Move camera up
     {
       movingUp   = true;
       movingDown = false;
     }
     
-    if (m_event.key.keysym.sym == SDLK_e)      // Move camera down
+    if (m_event.key.keysym.sym == SDLK_q)      // Move camera down
     {
       movingDown = true;
       movingUp   = false;
@@ -360,12 +452,12 @@ void Engine::Keyboard()
       movingBackward = false;
     }
         
-    if (m_event.key.keysym.sym == SDLK_q)      // Move camera up
+    if (m_event.key.keysym.sym == SDLK_e)      // Move camera up
     {
       movingUp = false;
     }
     
-    if (m_event.key.keysym.sym == SDLK_e)      // Move camera down
+    if (m_event.key.keysym.sym == SDLK_q)      // Move camera down
     {
       movingDown = false;
     }

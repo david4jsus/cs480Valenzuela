@@ -8,6 +8,7 @@ using namespace std;
 #include "camera.h"
 #include "shader.h"
 #include "object.h"
+#include "sound.h"
 
 class Graphics
 {
@@ -35,6 +36,8 @@ class Graphics
 
     //Object *m_cube;
     std::vector<Object*> m_cubes;
+
+    Sound gameSound;
 };
 
 #endif /* GRAPHICS_H */
