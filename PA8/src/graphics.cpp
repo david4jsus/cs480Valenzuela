@@ -8,7 +8,7 @@ Graphics::Graphics()
 	solver = new btSequentialImpulseConstraintSolver;
 	dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, collisionConfig);
 	
-	dynamicsWorld->setGravity(btVector3(0, -9.81, 0));
+	dynamicsWorld->setGravity(btVector3(0, -9.8, 0));
 }
 
 Graphics::~Graphics()
@@ -83,19 +83,29 @@ bool Graphics::Initialize(int width, int height, std::string file)
     return false;
   }
 
+<<<<<<< HEAD
   // Create planets
   Object* Skybox = new Object("Skybox.obj", 0, 0.0f, 0.0f, 0.0f, 25.0f);// file path, parent, orbit radius size, orbit radius speed, local rotation speed, object size
   Object* pinball = new Object("awesomeball.obj", 0, 0.0f, 0.0f, 0.0f, 0.01f); // file path, parent, orbit radius size, orbit radius speed, local rotation speed, object size
   Object* board = new Object("Disboard.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f);
   Object* cube = new Object("cube.obj", 0, 0.0f, 0.0f, 0.0f, 0.2f);
   Object* bumper = new Object("PinballBumper3.obj", 0, 0.0f, 0.0f, 0.0f, 0.3f);
+=======
+  // Create objects
+  Object* Skybox = new Object(this, "Skybox.obj",      0, 0.0f, 0.0f, 0.0f, 25.0f, 0);// file path, parent, orbit radius size, orbit radius speed, local rotation speed, object size
+  //Object* buddha = new Object("buddha.obj", 0, 0.0f, 0.0f, 0.0f, 10.0f); // file path, parent, orbit radius size, orbit radius speed, local rotation speed, object size
+  Object* board  = new Object(this, "Disboard.obj",    0, 0.0f, 0.0f, 0.0f, 1.0f,  0);
+  Object* ball   = new Object(this, "awesomeball.obj", 0, 0.0f, 0.0f, 0.0f, 0.01f, 1);
+  //Object* bumper = new Object("PinballBumper.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f);
+>>>>>>> da46ad7da6e751f893dae337903530a0ac652aa6
 
   // Waiting Song while the planets load
   gameSound.LoadSound("../assets/NGGUP.wav");
   gameSound.PlaySound();
   
-  // push planets onto list
+  // Push objects onto list
   m_cubes.push_back(Skybox);
+<<<<<<< HEAD
   m_cubes.push_back(pinball);
   m_cubes.push_back(board);
   m_cubes.push_back(cube);
@@ -105,6 +115,12 @@ bool Graphics::Initialize(int width, int height, std::string file)
   m_cubes[2]->setPosition(glm::vec3(150.0f, -100.0f, 0.0f));
   m_cubes[3]->setPosition(glm::vec3(10.0f, 0.0f, 10.0f));
   m_cubes[4]->setPosition(glm::vec3(-10.0f, 0.0f, 10.0f));
+=======
+  //m_cubes.push_back(buddha);
+  m_cubes.push_back(board);
+  m_cubes.push_back(ball);
+  //m_cubes.push_back(bumper);
+>>>>>>> da46ad7da6e751f893dae337903530a0ac652aa6
 
   // Set up the shaders
   m_shader = new Shader();
@@ -188,6 +204,11 @@ Object* Graphics::GetObject(int index)
 int Graphics::numberOfCubes()
 {
   return m_cubes.size();
+}
+
+btDiscreteDynamicsWorld* Graphics::GetDynamicsWorld()
+{
+  return dynamicsWorld;
 }
 
 void Graphics::Render()
