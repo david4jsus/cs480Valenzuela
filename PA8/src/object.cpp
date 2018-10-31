@@ -175,41 +175,6 @@ glm::mat4 Object::GetModelForChild()
   return modelForChild;
 }
 
-// To reverse the direction of rotation based on keyboard input
-void Object::reverseDirection()
-{
-  directionReversed = !directionReversed;
-}
-
-// To make direction counter-clockwise
-void Object::makeDirectionCounter()
-{
-  directionReversed = false;
-}
-
-// To make direction clockwise
-void Object::makeDirectionClockwise()
-{
-  directionReversed = true;
-}
-
-// Toggle cube rotating (self-centered)
-void Object::toggleRotation()
-{
-  rotating = !rotating;
-}
-
-// Toggle cube orbiting
-void Object::toggleOrbit()
-{
-  orbiting = !orbiting;
-}
-
-bool Object::isDirectionReversed()
-{
-  return directionReversed;
-}
-
 glm::vec3 Object::objectPosition()
 {
    glm::vec3 objPos = pos;
@@ -230,46 +195,6 @@ void Object::setPosition(glm::vec3 newPos)
 std::string Object::GetObjectName()
 {
    return objName;
-}
-
-void Object::UpdateRotationSpeed(float rotateMultiplier)
-{  
-  // Set the new speed with the multiplier
-  float defaultSpeed;
-
-  // Get the speed that was read from the file
-  defaultSpeed = GetRotationSpeed();
-  //cout << "Read In Speed: " << defaultSpeed << endl;
- 
-  defaultSpeed *= rotateMultiplier;
-  //cout << "New Speed: " << defaultSpeed << endl;
-  
-  rotateSpeedMultiplier = defaultSpeed;
-}
-
-void Object::UpdateOrbitSpeed(float orbitMultiplier)
-{
-  // Set the new speed with the multiplier
-  float defaultSpeed;
-
-  // Get the speed that was read from the file
-  defaultSpeed = GetOrbitSpeed();
-  //cout << "Read In Speed: " << defaultSpeed << endl;
- 
-  defaultSpeed *= orbitMultiplier;
-  //cout << "New Speed: " << defaultSpeed << endl;
-  
-  orbitSpeedMultiplier = defaultSpeed;
-}
-
-float Object::GetRotationSpeed()
-{
- return rsm;
-}
-
-float Object::GetOrbitSpeed()
-{
- return osm;
 }
 
 void Object::Render()
@@ -307,18 +232,6 @@ void Object::Render()
   glDisableVertexAttribArray(0);
   glDisableVertexAttribArray(1);
   glDisableVertexAttribArray(2);
-  
-  // Draw orbit path
-  /*glBegin(GL_LINE_LOOP);
-  
-  for (int i = 0; i < 360; i++)
-  {
-   glColor4f(1.0f, 1.0f, 1.0f, 1.0f, 1.0f);
-   float degInRad = i * (3.14159/180);
-   glVertex2f(cos(degInRad) * orbitRadius, sin(degInRad) * orbitRadius);
-  }
-  
-  glEnd();*/
 }
 
 bool Object::loadOBJ(std::string path, std::vector<Vertex> &out_vertices,

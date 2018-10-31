@@ -85,15 +85,26 @@ bool Graphics::Initialize(int width, int height, std::string file)
 
   // Create planets
   Object* Skybox = new Object("Skybox.obj", 0, 0.0f, 0.0f, 0.0f, 25.0f);// file path, parent, orbit radius size, orbit radius speed, local rotation speed, object size
-  Object* buddha = new Object("buddha.obj", 0, 0.0f, 0.0f, 0.0f, 25.0f); // file path, parent, orbit radius size, orbit radius speed, local rotation speed, object size
+  Object* pinball = new Object("awesomeball.obj", 0, 0.0f, 0.0f, 0.0f, 0.01f); // file path, parent, orbit radius size, orbit radius speed, local rotation speed, object size
+  Object* board = new Object("Disboard.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f);
+  Object* cube = new Object("cube.obj", 0, 0.0f, 0.0f, 0.0f, 0.2f);
+  Object* bumper = new Object("PinballBumper3.obj", 0, 0.0f, 0.0f, 0.0f, 0.3f);
 
   // Waiting Song while the planets load
-  gameSound.LoadSound("../assets/jeopardy.wav");
+  gameSound.LoadSound("../assets/NGGUP.wav");
   gameSound.PlaySound();
   
   // push planets onto list
   m_cubes.push_back(Skybox);
-  m_cubes.push_back(buddha);
+  m_cubes.push_back(pinball);
+  m_cubes.push_back(board);
+  m_cubes.push_back(cube);
+  m_cubes.push_back(bumper);
+  
+  // Set positions
+  m_cubes[2]->setPosition(glm::vec3(150.0f, -100.0f, 0.0f));
+  m_cubes[3]->setPosition(glm::vec3(10.0f, 0.0f, 10.0f));
+  m_cubes[4]->setPosition(glm::vec3(-10.0f, 0.0f, 10.0f));
 
   // Set up the shaders
   m_shader = new Shader();
