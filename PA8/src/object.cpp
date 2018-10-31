@@ -24,20 +24,23 @@ Object::Object()
   rsm = rotateSpeedMultiplier;
   osm = orbitSpeedMultiplier;
   size = 1;
+  m_mass = 0;
 }
 
-Object::Object(std::string filePath, Object* objParent, float objOrbitRadius, float objOrbitMultiplier,
-  float objRotateMultiplier, float objSize): Object()
+Object::Object(Graphics* graphicsObject, std::string filePath, Object* objParent, float objOrbitRadius, float objOrbitMultiplier,
+  float objRotateMultiplier, float objSize, float mass): Object()
 {
   // local variables
   //objName.erase(objName.end()-4, objName.end());
 
+  m_graphics = graphicsObject;
   objFilePath = filePath;
   parent = objParent;
   orbitRadius = objOrbitRadius;
   orbitSpeedMultiplier = objOrbitMultiplier;
   rotateSpeedMultiplier = objRotateMultiplier;
   size = objSize;
+  m_mass = mass;
   
   // create object
   createObject();
@@ -147,6 +150,17 @@ void Object::createObject()
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * Indices.size(), &Indices[0], GL_STATIC_DRAW);
   }
+  
+  // Collider
+  colliderShape = new btBvhTriangleMeshShape(objTriMesh, true);
+  btDefaultMotionState *shapeMotionState = new btDefaultMotionState();
+  btScalar mass(m_mass);
+  cout << m_mass << "||" << endl;
+  btVector3 inertia(0, 0, 0);
+  colliderShape->calculateLocalInertia(mass, inertia);
+  btRigidBody::btRigidBodyConstructionInfo shapeRigidBodyCI(mass, shapeMotionState, colliderShape, inertia);
+  rigidBody = new btRigidBody(shapeRigidBodyCI);
+  m_graphics->GetDynamicsWorld()->addRigidBody(rigidBody);
 }
 
 void Object::Update(unsigned int dt)
@@ -154,15 +168,24 @@ void Object::Update(unsigned int dt)
   // Determine center
   glm::mat4 center;
 
+  // Set position
   model = glm::translate(center, pos);
   
   // Pass this to any children objects
   modelForChild = model;
   
-  model = glm::rotate(model, (rotAngle), glm::vec3(0.0, 1.0, 0.0));
+  // Physics
+  btTransform trans;
+  btScalar m[16];
+  m_graphics->GetDynamicsWorld()->stepSimulation(dt, 10);
+  rigidBody->getMotionState()->getWorldTransform(trans);
+  trans.getOpenGLMatrix(m);
+  model = glm::make_mat4(m);
   
   // Scaling
   model = glm::scale(model, glm::vec3(size, size, size));
+  
+  
 }
 
 glm::mat4 Object::GetModel()
@@ -230,6 +253,11 @@ void Object::setPosition(glm::vec3 newPos)
 std::string Object::GetObjectName()
 {
    return objName;
+}
+
+btCollisionShape* Object::GetCollisionShape()
+{
+   return colliderShape;
 }
 
 void Object::UpdateRotationSpeed(float rotateMultiplier)
@@ -330,6 +358,8 @@ bool Object::loadOBJ(std::string path, std::vector<Vertex> &out_vertices,
   glm::vec3 vertex;
   glm::vec3 color;
   glm::vec2 texture;
+  btVector3 triArray[3];
+  objTriMesh = new btTriangleMesh();
 
   // string that contains path to object file
   std::string completeFilePath = "../assets/models/" + path;
@@ -344,7 +374,7 @@ bool Object::loadOBJ(std::string path, std::vector<Vertex> &out_vertices,
     return false;
   }
 
-  // get all meshes from object scene
+  // Get all meshes from object scene
   for(meshCounter = 0; meshCounter < scene->mNumMeshes; meshCounter++)
   {
     meshes.push_back(scene->mMeshes[meshCounter]);
@@ -353,15 +383,20 @@ bool Object::loadOBJ(std::string path, std::vector<Vertex> &out_vertices,
     meshes[meshCounter]->HasTextureCoords(0);
     //cout << "has texture" << endl;
     
-     // loop through all faces
+     // Loop through all faces
 	  for(faceLooper = 0; faceLooper < meshes[meshCounter]->mNumFaces; faceLooper++)
 	  {
-		// loop through all indices
+		// Loop through all indices
 	    for(indicesLooper = 0; indicesLooper < 3; indicesLooper++)
 		{
-          // get position of index
+        // Get position of index
 		  out_indices.push_back(meshes[meshCounter]->mFaces[faceLooper].mIndices[indicesLooper] + lastValue);
+		  
+		  // Add face to collider
+		  aiVector3D position = meshes[meshCounter]->mVertices[out_indices.back()];
+		  triArray[indicesLooper] = btVector3(position.x, position.y, position.z);
 		}
+		objTriMesh->addTriangle(triArray[0], triArray[1], triArray[2]);
 	  }
 
       // offest new next mesh's index poisition
