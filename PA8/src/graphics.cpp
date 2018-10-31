@@ -8,7 +8,7 @@ Graphics::Graphics()
 	solver = new btSequentialImpulseConstraintSolver;
 	dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, collisionConfig);
 	
-	dynamicsWorld->setGravity(btVector3(0, -9.81, 0));
+	dynamicsWorld->setGravity(btVector3(0, -9.8, 0));
 }
 
 Graphics::~Graphics()
@@ -83,17 +83,23 @@ bool Graphics::Initialize(int width, int height, std::string file)
     return false;
   }
 
-  // Create planets
-  Object* Skybox = new Object("Skybox.obj", 0, 0.0f, 0.0f, 0.0f, 25.0f);// file path, parent, orbit radius size, orbit radius speed, local rotation speed, object size
-  Object* buddha = new Object("buddha.obj", 0, 0.0f, 0.0f, 0.0f, 25.0f); // file path, parent, orbit radius size, orbit radius speed, local rotation speed, object size
+  // Create objects
+  Object* Skybox = new Object(this, "Skybox.obj",      0, 0.0f, 0.0f, 0.0f, 25.0f, 0);// file path, parent, orbit radius size, orbit radius speed, local rotation speed, object size
+  //Object* buddha = new Object("buddha.obj", 0, 0.0f, 0.0f, 0.0f, 10.0f); // file path, parent, orbit radius size, orbit radius speed, local rotation speed, object size
+  Object* board  = new Object(this, "Disboard.obj",    0, 0.0f, 0.0f, 0.0f, 1.0f,  0);
+  Object* ball   = new Object(this, "awesomeball.obj", 0, 0.0f, 0.0f, 0.0f, 0.01f, 1);
+  //Object* bumper = new Object("PinballBumper.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f);
 
   // Waiting Song while the planets load
   gameSound.LoadSound("../assets/jeopardy.wav");
   gameSound.PlaySound();
   
-  // push planets onto list
+  // Push objects onto list
   m_cubes.push_back(Skybox);
-  m_cubes.push_back(buddha);
+  //m_cubes.push_back(buddha);
+  m_cubes.push_back(board);
+  m_cubes.push_back(ball);
+  //m_cubes.push_back(bumper);
 
   // Set up the shaders
   m_shader = new Shader();
@@ -177,6 +183,11 @@ Object* Graphics::GetObject(int index)
 int Graphics::numberOfCubes()
 {
   return m_cubes.size();
+}
+
+btDiscreteDynamicsWorld* Graphics::GetDynamicsWorld()
+{
+  return dynamicsWorld;
 }
 
 void Graphics::Render()
