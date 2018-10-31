@@ -220,8 +220,6 @@ std::string Object::GetObjectName()
    return objName;
 }
 
-<<<<<<< HEAD
-=======
 btCollisionShape* Object::GetCollisionShape()
 {
    return colliderShape;
@@ -267,7 +265,6 @@ float Object::GetOrbitSpeed()
  return osm;
 }
 
->>>>>>> da46ad7da6e751f893dae337903530a0ac652aa6
 void Object::Render()
 {
   glEnableVertexAttribArray(0);
