@@ -1,4 +1,10 @@
-# PA1: Spinning Cube
+# PA7: Solar System
+
+# Team Specular Bois
+The following students are part of the team who made this project:
+- Hadi Rumjahn
+- David Valenzuela
+- Jay Woo
 
 # Dependencies, Building, and Running
 
@@ -7,50 +13,35 @@ For both of the operating systems to run this project installation of these thre
 
 This project uses OpenGL 3.3. Some computers, such as virtual machines in the ECC, can not run this version. In in order to run OpenGL 2.7 follow the instructions at [Using OpenGL 2.7](https://github.com/HPC-Vis/computer-graphics/wiki/Using-OpenGL-2.7)
 
-### Ubuntu/Linux
-```bash
-sudo apt-get install libglew-dev libglm-dev libsdl2-dev
-```
+This project also uses Dear ImGui (https://github.com/ocornut/imgui), but all the necessary files are already included in the project.
 
-### Mac OSX
-Installation of brew is suggested to easily install the libs. Ensure that the latest version of the Developer Tools is installed.
-```bash
-brew install glew glm sdl2
-```
+Thi project also uses the Assimp and ImageMagick libraries.
 
 ## Building and Running
-To build this project there are two options. One is to use CMake which makes including new libraries easier, and handles new files added automatically to the src and include directory. CMake is a small new learning curve but makes things easier in the future.
-The second option is to use the provided Makefile which is used as usual.
-
-Running the make in a separate directory will allow easy cleanup of the build data, and an easy way to prevent unnecessary data to be added to the git repository.  
-
-### CMake Instructions
-The building of the project is done using CMake, installation with apt-get or brew may be necessary. Later use with CMake and Shader files will be require the copy of a directory where those files are stored (ex. shaders). To do this in the ```add_custom_target``` function place 
-```cmake
-COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/shaders/ ${CMAKE_CURRENT_BINARY_DIR}/shaders
-```
+To build this project generated the make file using CMake. Navigate to the build folder to build the program. To create the program, simply run the "cmake .." than the "make" command. Then, run the program.
 
 ```bash
 mkdir build
 cd build
 cmake ..
 make
-./Tutorial
+./SolarSystemBois
 ```
 
-### Makefile Instructions 
-The makefile works as expected and must be updated with new files added in.
+# Controls
+This program uses keyboard input for camera interaction and the mouse to select items on the on-screen menu:
+- **W**: Move forward
+- **S**: Move backward
+- **A**: Move left
+- **D**: Move right
+- **Q**: Move down
+- **E**: Move up
+- **Up arrow**: Rotate view upwards
+- **Down arrow**: Rotate view downwards
+- **Left arrow**: Rotate view left
+- **Right arrow**: Rotate view right
 
-```bash
-mkdir build
-cd build
-cp ../makefile .
-make
-./Tutorial
-```
+The on-screen menu is scalable and has an available scrolling bar on the right side.
 
-## Ubuntu.cse.unr.edu
-OpenGL 3.3 will run on the [ubuntu.cse.unr.edu](https://ubuntu.cse.unr.edu/) website. To do so follow the build instructions, but when running the Tutorial executable use this line to execute.
-```bash
-/usr/NX/scripts/vgl/vglrun ./Tutorial
-```
+# Extra Credit
+This program features an on-screen menu with options for live adjustment of the simulation speed, as well as a list of astral objects to teleport to. The simulation also features a skybox and rings for the corresponding planets.

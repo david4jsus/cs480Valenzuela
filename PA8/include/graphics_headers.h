@@ -23,8 +23,6 @@
 #include <glm/gtx/rotate_vector.hpp>
 #include <Magick++.h>
 
-#include <btBulletDynamicsCommon.h>
-
 #define INVALID_UNIFORM_LOCATION 0x7fffffff
 
 struct Vertex

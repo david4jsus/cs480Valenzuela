@@ -8,15 +8,22 @@ using namespace std;
 #include "camera.h"
 #include "shader.h"
 #include "object.h"
+#include "sound.h"
+#include <btBulletDynamicsCommon.h>
 
 class Graphics
 {
   public:
     Graphics();
     ~Graphics();
-    bool Initialize(int width, int height);
+    bool Initialize(int width, int height, std::string file);
     void Update(unsigned int dt);
     void Render();
+    Camera* getCamera();
+    
+    // To get a specified cube, specified by array index
+    Object* GetObject(int index);
+	  int numberOfCubes();
 
   private:
     std::string ErrorString(GLenum error);
@@ -28,8 +35,11 @@ class Graphics
     GLint m_viewMatrix;
     GLint m_modelMatrix;
 
-    Object *m_cube;
+    //Object *m_cube;
+    std::vector<Object*> m_cubes;
 
+    Sound gameSound;
+    
     // Bullet Members
     btBroadphaseInterface *broadphase;
     btDefaultCollisionConfiguration *collisionConfig;

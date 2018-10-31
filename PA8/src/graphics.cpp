@@ -47,7 +47,7 @@ Graphics::~Graphics()
     }
 }
 
-bool Graphics::Initialize(int width, int height)
+bool Graphics::Initialize(int width, int height, std::string file)
 {
   // Used for the linux OS
   #if !defined(__APPLE__) && !defined(MACOSX)
@@ -81,8 +81,17 @@ bool Graphics::Initialize(int width, int height)
     return false;
   }
 
-  // Create the object
-  m_cube = new Object();
+  // Create planets
+  Object* Skybox = new Object("Skybox.obj", 0, 0.0f, 0.0f, 0.0f, 25.0f);// file path, parent, orbit radius size, orbit radius speed, local rotation speed, object size
+  Object* buddha = new Object("buddha.obj", 0, 0.0f, 0.0f, 0.0f, 25.0f); // file path, parent, orbit radius size, orbit radius speed, local rotation speed, object size
+
+  // Waiting Song while the planets load
+  gameSound.LoadSound("../assets/jeopardy.wav");
+  gameSound.PlaySound();
+  
+  // push planets onto list
+  m_cubes.push_back(Skybox);
+  m_cubes.push_back(buddha);
 
   // Set up the shaders
   m_shader = new Shader();
@@ -141,29 +150,37 @@ bool Graphics::Initialize(int width, int height)
   glEnable(GL_DEPTH_TEST);
   glDepthFunc(GL_LESS);
 
-  // Initialize Bullet
-  broadphase = new btDbvtBroadphase();
-  collisionConfig = new btDefaultCollisionConfiguration();
-  dispatcher = new btCollisionDispatcher( collisionConfig );
-  solver = new btSequentialImpulseConstraintSolver();
-  
-  // Create Physics World
-  dynamicsWorld = new btDiscreteDynamicsWorld( dispatcher, broadphase, solver, collisionConfig );
-  dynamicsWorld->setGravity( btVector3( 0, -9.81, 0 ) );
-
   return true;
 }
 
 void Graphics::Update(unsigned int dt)
 {
-  // Update the object
-  m_cube->Update(dt);
+  // Update the objects
+  for(unsigned int i = 0; i < m_cubes.size(); i++)
+  {
+    m_cubes[i]->Update(dt);
+  }
+}
+
+Camera* Graphics::getCamera()
+{
+   return m_camera;
+}
+
+Object* Graphics::GetObject(int index)
+{
+  return m_cubes[index];
+}
+
+int Graphics::numberOfCubes()
+{
+  return m_cubes.size();
 }
 
 void Graphics::Render()
 {
   //clear the screen
-  glClearColor(0.0, 0.0, 0.2, 1.0);
+  glClearColor(0.0, 0.0, 0.0, 1.0);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
   // Start the correct program
@@ -173,9 +190,12 @@ void Graphics::Render()
   glUniformMatrix4fv(m_projectionMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetProjection())); 
   glUniformMatrix4fv(m_viewMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetView())); 
 
-  // Render the object
-  glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(m_cube->GetModel()));
-  m_cube->Render();
+  // Render the objects
+  for(unsigned int i = 0; i < m_cubes.size(); i++)
+  {
+    glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(m_cubes[i]->GetModel()));
+    m_cubes[i]->Render();
+  }
 
   // Get any errors from OpenGL
   auto error = glGetError();
@@ -217,4 +237,3 @@ std::string Graphics::ErrorString(GLenum error)
     return "None";
   }
 }
-
