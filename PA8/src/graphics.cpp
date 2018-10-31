@@ -2,11 +2,13 @@
 
 Graphics::Graphics()
 {
-	broadphase = NULL;
-	collisionConfig = NULL;
-	dispatcher = NULL;
-	solver = NULL;
-	dynamicsWorld = NULL;
+	broadphase = new btDbvtBroadphase();
+	collisionConfig = new btDefaultCollisionConfiguration();
+	dispatcher = new btCollisionDispatcher(collisionConfig);
+	solver = new btSequentialImpulseConstraintSolver;
+	dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, collisionConfig);
+	
+	dynamicsWorld->setGravity(btVector3(0, -9.81, 0));
 }
 
 Graphics::~Graphics()
