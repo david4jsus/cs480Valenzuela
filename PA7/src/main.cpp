@@ -2,7 +2,6 @@
 
 #include "engine.h"
 
-
 int main(int argc, char **argv)
 {
   // Start an engine and run it then cleanup after
@@ -12,8 +11,8 @@ int main(int argc, char **argv)
     model = argv[1];
   }
   
-  Engine *engine = new Engine("CS 480 - Team Specular Bois - PA7", 1680, 1050, model);
-  
+  Engine *engine = new Engine("CS 480 - Team Specular Bois - PA7", 1680, 1050, model); 
+
   if(!engine->Initialize())
   {
     printf("The engine failed to start.\n");
