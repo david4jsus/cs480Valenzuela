@@ -49,6 +49,8 @@ class Object
     // Position of an object in space
     glm::vec3 objectPosition();
     
+    void setPosition(glm::vec3 newPos);
+    
     // Name of object
     std::string GetObjectName();
 

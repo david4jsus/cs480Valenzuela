@@ -29,5 +29,19 @@ make
 ```
 
 # Controls
+This program uses keyboard input for camera interaction and the mouse to select items on the on-screen menu:
+- **W**: Move forward
+- **S**: Move backward
+- **A**: Move left
+- **D**: Move right
+- **Q**: Move down
+- **E**: Move up
+- **Up arrow**: Rotate view upwards
+- **Down arrow**: Rotate view downwards
+- **Left arrow**: Rotate view left
+- **Right arrow**: Rotate view right
 
-Use **WASDQE** to move around and the **arrow keys** to rotate the view. On-screen there will be a menu with different settings for the simulation, such as simulation speed and reversing time.
+The on-screen menu is scalable and has an available scrolling bar on the right side.
+
+# Extra Credit
+This program features an on-screen menu with options for live adjustment of the simulation speed, as well as a list of astral objects to teleport to. The simulation also features a skybox and rings for the corresponding planets.

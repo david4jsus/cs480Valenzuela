@@ -2,13 +2,15 @@
 
 Sound::Sound()
 {
+	SDL_Init(SDL_INIT_AUDIO);
+	engineIsRunning = true;
 }
 
 Sound::~Sound()
 {
-    SDL_PauseAudioDevice(deviceId, 1);
-    SDL_CloseAudioDevice(deviceId);
-    SDL_FreeWAV(wavBuffer);
+	engineIsRunning = false;
+   SDL_CloseAudioDevice(deviceId);
+	SDL_FreeWAV(wavBuffer);
 }
 
 void Sound::LoadSound(std::string soundPath)
@@ -18,22 +20,38 @@ void Sound::LoadSound(std::string soundPath)
 		std::cout << "Unable to load sound" << std::endl;
 		return;
 	}
-
-    deviceId = SDL_OpenAudioDevice( NULL, 0, &wavSpec, NULL, SDL_AUDIO_ALLOW_ANY_CHANGE );
-
-	if( deviceId == 1)
-	{
-		std::cout << "Couldn't open audio: " << SDL_GetError( ) << std::endl;
-
-	}
-
-	SDL_PauseAudioDevice( deviceId, 0 );
 	
+	    	deviceId = SDL_OpenAudioDevice( NULL, 0, &wavSpec, NULL, SDL_AUDIO_ALLOW_ANY_CHANGE );
+         int success = SDL_QueueAudio(deviceId, wavBuffer, wavLength);
+	//PlaySound();	
 }
 
 void Sound::PlaySound()
+{      
+    	SDL_PauseAudioDevice(deviceId, 0);
+    	SDL_Delay(200);
+}
+
+void Sound::PlayNGGUP()
 {
-    SDL_PauseAudioDevice(deviceId, 1);
-    SDL_Delay(50);
-    SDL_PauseAudioDevice(deviceId, 0);
+    	SDL_PauseAudioDevice(deviceId, 0);
+    	SDL_Delay(200);
+}
+
+void Sound::PlaySoundEffect()
+{
+    	SDL_PauseAudioDevice(deviceId, 0);
+    	SDL_Delay(200);
+}
+
+void Sound::LoopAudio()
+{
+	LoadSound("../assets/imperial_march.wav");
+	PlaySound();
+	std::cout << "Playing Audio Again" << std::endl;
+}
+
+bool Sound::AudioStopped()
+{
+	return (SDL_GetAudioDeviceStatus(deviceId)  == 0);
 }

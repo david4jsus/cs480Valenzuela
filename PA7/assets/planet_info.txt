@@ -1,3 +1,9 @@
+Skybox.obj
+orbit_radius_size: 0.0
+orbit_radius_speed: 0.0
+local_roation_speed: 0.0
+object_size: 25
+
 Sun.obj 
 orbit_radius_size: 0.0
 orbit_radius_speed: 0.0
@@ -33,31 +39,31 @@ local_rotation_speed: 0.1
 object_size: 0.002
 
 
-Mars.obj 
+Mars.obj
 orbit_radius_size: 40.0
 orbit_radius_speed: 0.035
 local_rotation_speed: 0.3
 object_size: 0.006
 
 
-Jupiter.obj 
+Jupiter.obj
 orbit_radius_size: 60.0
 orbit_radius_speed: 0.03
 local_rotation_speed: 0.65
 object_size: 0.034
 
 
-Saturn2.obj 
+Saturn.obj
 orbit_radius_size: 80.0
 orbit_radius_speed: 0.025
 local_rotation_speed: 0.63
 object_size: 0.026
 
 
-Uranus.obj 
+Uranus.obj
 orbit_radius_size: 90.0
 orbit_radius_speed: 0.02
-local_rotation_speed: 0.6
+local_rotation_speed: 0.0
 object_size: 0.017
 
 
@@ -153,7 +159,7 @@ object_size: 0.002
 
 
 Triton.obj 
-orbit_radius_size: 3.5
+orbit_radius_size: 4.0
 orbit_radius_speed: 0.1
 local_rotation_speed: 0.25
 object_size: 0.003
@@ -165,26 +171,170 @@ orbit_radius_speed: 0.1
 local_rotation_speed: 0.25
 object_size: 0.001
 
+DeathStar.obj
+orbit_radius_size: 120.0
+orbit_radius_speed: 0.002
+local_rotation_speed: 0.1
+object_size: 0.001
 
+MercuryRing.obj
+orbit_radius_size: 0.0
+orbit_radius_speed: 0.0
+local_rotation_speed: 0.0
+object_size: 15
 
+VenusRing.obj
+orbit_radius_size: 0.0
+orbit_radius_speed: 0.0
+local_rotation_speed: 0.0
+object_size: 20
 
+EarthRing.obj
+orbit_radius_size: 0.0
+orbit_radius_speed: 0.0
+local_rotation_speed: 0.0
+object_size: 30
 
+MoonRing.obj
+orbit_radius_size: 0.0
+orbit_radius_speed: 0.0
+local_rotation_speed: 0.0
+object_size: 2
 
+MarsRing.obj
+orbit_radius_size: 0.0
+orbit_radius_speed: 0.0
+local_rotation_speed: 0.0
+object_size: 40
 
+JupiterRing.obj
+orbit_radius_size: 0.0
+orbit_radius_speed: 0.0
+local_rotation_speed: 0.0
+object_size: 60
 
+SaturnRing1.obj
+orbit_radius_size: 0.0
+orbit_radius_speed: 0.0
+local_rotation_speed: 0.0
+object_size: 80
 
+UranusRing1.obj
+orbit_radius_size: 0.0
+orbit_radius_speed: 0.0
+local_rotation_speed: 0.0
+object_size: 90
 
+NeptuneRing1.obj
+orbit_radius_size: 0.0
+orbit_radius_speed: 0.0
+local_rotation_speed: 0.0
+object_size: 100
 
+PlutoRing.obj
+orbit_radius_size: 0.0
+orbit_radius_speed: 0.0
+local_rotation_speed: 0.0
+object_size: 110
 
+PhobosRing.obj
+orbit_radius_size: 0.0
+orbit_radius_speed: 0.0
+local_rotation_speed: 0.0
+object_size: 1
 
+DeimosRing.obj
+orbit_radius_size: 0.0
+orbit_radius_speed: 0.0
+local_rotation_speed: 0.0
+object_size: 0.7
 
+GanymedeRing.obj
+orbit_radius_size: 0.0
+orbit_radius_speed: 0.0
+local_rotation_speed: 0.0
+object_size: 4
 
+CallistoRing.obj
+orbit_radius_size: 0.0
+orbit_radius_speed: 0.0
+local_rotation_speed: 0.0
+object_size: 4
 
+IoRing.obj
+orbit_radius_size: 0.0
+orbit_radius_speed: 0.0
+local_rotation_speed: 0.0
+object_size: 1
 
+EuropaRing.obj
+orbit_radius_size: 0.0
+orbit_radius_speed: 0.0
+local_rotation_speed: 0.0
+object_size: 5
 
+TitanRing.obj
+orbit_radius_size: 0.0
+orbit_radius_speed: 0.0
+local_rotation_speed: 0.0
+object_size: 4
 
+RheaRing.obj
+orbit_radius_size: 0.0
+orbit_radius_speed: 0.0
+local_rotation_speed: 0.0
+object_size: 3.5
 
+OberonRing.obj
+orbit_radius_size: 0.0
+orbit_radius_speed: 0.0
+local_rotation_speed: 0.0
+object_size: 2
 
+UmbrielRing.obj
+orbit_radius_size: 0.0
+orbit_radius_speed: 0.0
+local_rotation_speed: 0.0
+object_size: 2.5
 
+ArielRing.obj
+orbit_radius_size: 0.0
+orbit_radius_speed: 0.0
+local_rotation_speed: 0.0
+object_size: 2
 
+TritonRing.obj
+orbit_radius_size: 0.0
+orbit_radius_speed: 0.0
+local_rotation_speed: 0.0
+object_size: 3.5
 
+ProteusRing.obj
+orbit_radius_size: 0.0
+orbit_radius_speed: 0.0
+local_rotation_speed: 0.0
+object_size: 2
+
+DeathStarRing.obj
+orbit_radius_size: 0.0
+orbit_radius_speed: 0.0
+local_rotation_speed: 0.0
+object_size: 120
+
+SaturnRing.obj
+orbit_radius_size: 80.0
+orbit_radius_speed: 0.025
+local_rotation_speed: 0.3
+object_size: 0.3
+
+UranusRing.obj
+orbit_radius_size: 90.0
+orbit_radius_speed: 0.0
+local_rotation_speed: 0.0
+object_size: 1.25
+
+NeptuneRing.obj 
+orbit_radius_size: 100.0
+orbit_radius_speed: 0.015
+local_rotation_speed: 0.55
+object_size: 0.17

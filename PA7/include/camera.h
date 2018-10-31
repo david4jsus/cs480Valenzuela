@@ -22,6 +22,7 @@ class Camera
     void updateCamRotPitch(float deltapitch);
     
     void setCamPos(glm::vec3 newPos);
+    glm::vec3 getCamPos();
   
   private:
     void updateViewMatrix();
