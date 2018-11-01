@@ -105,7 +105,14 @@ void Object::createObject()
     shapeMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 0, 0)));
   }
   
-  else if(modelNum == 5)
+  else if(modelNum == 3)
+  {
+    btScalar radius = 2.0;
+    colliderShape = new btSphereShape(radius);
+    shapeMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 0, 0)));
+  }
+  
+  else if(modelNum == 4)
   {
     btVector3 planeNormal = btVector3(0, 0, 1);
     btScalar planeConstant = 0.0; 
@@ -113,7 +120,7 @@ void Object::createObject()
     shapeMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 0, -45)));
   }
   
-  else if(modelNum == 6)
+  else if(modelNum == 5)
   {
     btVector3 planeNormal = btVector3(0, 0, -1);
     btScalar planeConstant = 0.0; 
@@ -121,7 +128,7 @@ void Object::createObject()
     shapeMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 0, 45)));
   }
   
-  else if(modelNum == 7)
+  else if(modelNum == 6)
   {
     btVector3 planeNormal = btVector3(1, 0, 0);
     btScalar planeConstant = 0.0; 
@@ -129,7 +136,7 @@ void Object::createObject()
     shapeMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(-45, 0, 0)));
   }
   
-  else if(modelNum == 8)
+  else if(modelNum == 7)
   {
     btVector3 planeNormal = btVector3(-1, 0, 0);
     btScalar planeConstant = 0.0; 
