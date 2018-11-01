@@ -18,7 +18,7 @@ class Object
   public:
     Object();
     Object(Graphics* graphicsObject, std::string filePath, Object* objParent, float objOrbitRadius, float objOrbitMultiplier,
-      float objRotateMultiplier, float objSize, float mass);
+      float objRotateMultiplier, float objSize, float mass, int whichModel);
     ~Object();
     void createObject();
     void Update(unsigned int dt);
@@ -60,6 +60,9 @@ class Object
     
     // Collider getter
     btCollisionShape* GetCollisionShape();
+    
+    // rigidbody getter
+    btRigidBody* GetRigidBody();
 
   private:
     Graphics* m_graphics;
@@ -116,6 +119,8 @@ class Object
 	
 	Magick::Image im;
 	std::vector<unsigned int> mTextureCoords;
+	
+	int modelNum;
 };
 
 #endif /* OBJECT_H */

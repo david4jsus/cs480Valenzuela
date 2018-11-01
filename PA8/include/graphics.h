@@ -29,6 +29,8 @@ class Graphics
 	 
 	 // Bullet 
 	 btDiscreteDynamicsWorld* GetDynamicsWorld();
+	 
+	 btRigidBody* rigidBody;
 
   private:
     std::string ErrorString(GLenum error);

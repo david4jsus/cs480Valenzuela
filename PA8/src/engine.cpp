@@ -74,6 +74,8 @@ bool Engine::Initialize()
   rotatingUp     = false;
   rotatingDown   = false;
   
+  rigidBody = m_graphics->rigidBody;
+  
   // No errors
   return true;
 }
@@ -245,6 +247,36 @@ void Engine::Keyboard()
     {
       rotatingDown = true;
       rotatingUp   = false;
+    }
+    
+    if (m_event.key.keysym.sym == SDLK_o)   // Rotate camera down
+    {
+      rigidBody->applyCentralImpulse(btVector3(0.0f, 10.0f, 0.0f));
+      //rigidBody->applyForce(btVector3(0, 10, 0), btVector3(0, 10, 0));
+    }
+    
+    if (m_event.key.keysym.sym == SDLK_i)   // Rotate camera down
+    {
+      rigidBody->applyCentralImpulse(btVector3(3.0f, 0.0f, 0.0f));
+      //rigidBody->applyForce(btVector3(0, 10, 0), btVector3(0, 10, 0));
+    }
+    
+    if (m_event.key.keysym.sym == SDLK_j)   // Rotate camera down
+    {
+      rigidBody->applyCentralImpulse(btVector3(0.0f, 0.0f, -3.0f));
+      //rigidBody->applyForce(btVector3(0, 10, 0), btVector3(0, 10, 0));
+    }
+    
+    if (m_event.key.keysym.sym == SDLK_k)   // Rotate camera down
+    {
+      rigidBody->applyCentralImpulse(btVector3(-3.0f, 0.0f, 0.0f));
+      //rigidBody->applyForce(btVector3(0, 10, 0), btVector3(0, 10, 0));
+    }
+    
+    if (m_event.key.keysym.sym == SDLK_l)   // Rotate camera down
+    {
+      rigidBody->applyCentralImpulse(btVector3(0.0f, 0.0f, 3.0f));
+      //rigidBody->applyForce(btVector3(0, 10, 0), btVector3(0, 10, 0));
     }
   }
   else if (m_event.type == SDL_KEYUP)

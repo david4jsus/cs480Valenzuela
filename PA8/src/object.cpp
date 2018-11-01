@@ -28,7 +28,7 @@ Object::Object()
 }
 
 Object::Object(Graphics* graphicsObject, std::string filePath, Object* objParent, float objOrbitRadius, float objOrbitMultiplier,
-  float objRotateMultiplier, float objSize, float mass): Object()
+  float objRotateMultiplier, float objSize, float mass, int whichModel): Object()
 {
   // local variables
   //objName.erase(objName.end()-4, objName.end());
@@ -41,6 +41,7 @@ Object::Object(Graphics* graphicsObject, std::string filePath, Object* objParent
   rotateSpeedMultiplier = objRotateMultiplier;
   size = objSize;
   m_mass = mass;
+  modelNum = whichModel;
   
   // create object
   createObject();
@@ -54,105 +55,22 @@ Object::~Object()
 
 void Object::createObject()
 {
-  /*
-    # Blender File for a Cube
-    o Cube
-    v 1.000000 -1.000000 -1.000000
-    v 1.000000 -1.000000 1.000000
-    v -1.000000 -1.000000 1.000000
-    v -1.000000 -1.000000 -1.000000
-    v 1.000000 1.000000 -0.999999
-    v 0.999999 1.000000 1.000001
-    v -1.000000 1.000000 1.000000
-    v -1.000000 1.000000 -1.000000
-    s off
-    f 2 3 4
-    f 8 7 6
-    f 1 5 6
-    f 2 6 7
-    f 7 8 4
-    f 1 4 8
-    f 1 2 4
-    f 5 8 6
-    f 2 1 6
-    f 3 2 7
-    f 3 7 4
-    f 5 1 8
-  */
   
-    Vertices = {
-    {{1.0f, -1.0f, -1.0f}, {0.0f, 0.0f, 0.0f}, {1.0f, 1.0f}},
-    {{1.0f, -1.0f, 1.0f}, {1.0f, 0.0f, 0.0f}, {1.0f, 1.0f}},
-    {{-1.0f, -1.0f, 1.0f}, {0.0f, 1.0f, 0.0f}, {0.0f, 0.0f}},
-    {{-1.0f, -1.0f, -1.0f}, {0.0f, 0.0f, 1.0f}, {0.0f, 1.0f}},
-    {{1.0f, 1.0f, -1.0f}, {1.0f, 1.0f, 0.0f}, {1.0f, 1.0f}},
-    {{1.0f, 1.0f, 1.0f}, {1.0f, 0.0f, 1.0f}, {1.0f, 1.0f}},
-    {{-1.0f, 1.0f, 1.0f}, {0.0f, 1.0f, 1.0f}, {0.0f, 0.0f}},
-    {{-1.0f, 1.0f, -1.0f}, {1.0f, 1.0f, 1.0f}, {0.0f, 1.0f}}
-
-  };
-
-  Indices = {
-    2, 3, 4,
-    8, 7, 6,
-    1, 5, 6,
-    2, 6, 7,
-    7, 8, 4,
-    1, 4, 8,
-    1, 2, 4,
-    5, 8, 6,
-    2, 1, 6,
-    3, 2, 7,
-    3, 7, 4,
-    5, 1, 8
-  };
-
-  // The index works at a 0th index
-  for(unsigned int i = 0; i < Indices.size(); i++)
-  {
-    Indices[i] = Indices[i] - 1;
-  }
+  correctModelLoad = loadOBJ(objFilePath, myVertices, myIndices);
   
-  // Load model
-  if (objFilePath == "")
-  {
-    correctModelLoad = false;
-    std::cout << "Loading default cube object..." << std::endl;
-    objName = "Cube";
-  }
-  else
-  {
-    correctModelLoad = loadOBJ(objFilePath, myVertices, myIndices);
-  }
+  std::cout << "Loading " << objFilePath << "..." << std::endl;
   
-  if (correctModelLoad) // If the object loads
-  {
-    std::cout << "Loading " << objFilePath << "..." << std::endl;
-    
-    glGenBuffers(1, &VB);
-    glBindBuffer(GL_ARRAY_BUFFER, VB);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * myVertices.size(), &myVertices[0], GL_STATIC_DRAW);
+  glGenBuffers(1, &VB);
+  glBindBuffer(GL_ARRAY_BUFFER, VB);
+  glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * myVertices.size(), &myVertices[0], GL_STATIC_DRAW);
 
-    glGenBuffers(1, &IB);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * myIndices.size(),
-      &myIndices[0], GL_STATIC_DRAW);
-  }
-  else // If the object fails to load, load a cube
-  {
-    //std::cout << "ERROR: Model could not be loaded. Loading default cube object..." << std::endl;
-    
-    glGenBuffers(1, &VB);
-    glBindBuffer(GL_ARRAY_BUFFER, VB);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * Vertices.size(), &Vertices[0], GL_STATIC_DRAW);
-
-    glGenBuffers(1, &IB);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * Indices.size(), &Indices[0], GL_STATIC_DRAW);
-  }
+  glGenBuffers(1, &IB);
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
+  glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * myIndices.size(),
+    &myIndices[0], GL_STATIC_DRAW);
   
   // Collider
-  colliderShape = new btBvhTriangleMeshShape(objTriMesh, true);
+  /*colliderShape = new btBvhTriangleMeshShape(objTriMesh, true);
   btDefaultMotionState *shapeMotionState = new btDefaultMotionState();
   btScalar mass(m_mass);
   cout << m_mass << "||" << endl;
@@ -160,7 +78,73 @@ void Object::createObject()
   colliderShape->calculateLocalInertia(mass, inertia);
   btRigidBody::btRigidBodyConstructionInfo shapeRigidBodyCI(mass, shapeMotionState, colliderShape, inertia);
   rigidBody = new btRigidBody(shapeRigidBodyCI);
+  m_graphics->GetDynamicsWorld()->addRigidBody(rigidBody);*/
+  
+  
+  btDefaultMotionState *shapeMotionState;
+  
+  if(modelNum == 0)
+  {
+    btVector3 planeNormal = btVector3(0, 1.0, 0);
+    btScalar planeConstant = 0.0; 
+    colliderShape = new btStaticPlaneShape(planeNormal, planeConstant);
+    shapeMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 0, 0)));
+  }
+  
+  else if(modelNum == 1)
+  {
+    btScalar radius = 1.0;
+    colliderShape = new btSphereShape(radius);
+    shapeMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 0, 0)));
+  }
+  
+  else if(modelNum == 2)
+  {
+    btVector3 boxHalfExtents = btVector3(1.0, 1.0, 1.0);
+    colliderShape = new btBoxShape(boxHalfExtents);
+    shapeMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 0, 0)));
+  }
+  
+  else if(modelNum == 5)
+  {
+    btVector3 planeNormal = btVector3(0, 0, 1);
+    btScalar planeConstant = 0.0; 
+    colliderShape = new btStaticPlaneShape(planeNormal, planeConstant);
+    shapeMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 0, -45)));
+  }
+  
+  else if(modelNum == 6)
+  {
+    btVector3 planeNormal = btVector3(0, 0, -1);
+    btScalar planeConstant = 0.0; 
+    colliderShape = new btStaticPlaneShape(planeNormal, planeConstant);
+    shapeMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 0, 45)));
+  }
+  
+  else if(modelNum == 7)
+  {
+    btVector3 planeNormal = btVector3(1, 0, 0);
+    btScalar planeConstant = 0.0; 
+    colliderShape = new btStaticPlaneShape(planeNormal, planeConstant);
+    shapeMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(-45, 0, 0)));
+  }
+  
+  else if(modelNum == 8)
+  {
+    btVector3 planeNormal = btVector3(-1, 0, 0);
+    btScalar planeConstant = 0.0; 
+    colliderShape = new btStaticPlaneShape(planeNormal, planeConstant);
+    shapeMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(45, 0, 0)));
+  }
+  
+  btScalar mass(m_mass);
+  btVector3 inertia(0, 0, 0);
+  colliderShape->calculateLocalInertia(mass, inertia);
+  btRigidBody::btRigidBodyConstructionInfo shapeRigidBodyCI(mass, shapeMotionState, colliderShape, inertia);
+  rigidBody = new btRigidBody(shapeRigidBodyCI);
+  //rigidBody->setRestitution(0.0);
   m_graphics->GetDynamicsWorld()->addRigidBody(rigidBody);
+  rigidBody->setActivationState(DISABLE_DEACTIVATION);
 }
 
 void Object::Update(unsigned int dt)
@@ -346,10 +330,10 @@ bool Object::loadOBJ(std::string path, std::vector<Vertex> &out_vertices,
 		  out_indices.push_back(meshes[meshCounter]->mFaces[faceLooper].mIndices[indicesLooper] + lastValue);
 		  
 		  // Add face to collider
-		  aiVector3D position = meshes[meshCounter]->mVertices[out_indices.back()];
-		  triArray[indicesLooper] = btVector3(position.x, position.y, position.z);
+		  //aiVector3D position = meshes[meshCounter]->mVertices[out_indices.back()];
+		  //triArray[indicesLooper] = btVector3(position.x, position.y, position.z);
 		}
-		objTriMesh->addTriangle(triArray[0], triArray[1], triArray[2]);
+		//objTriMesh->addTriangle(triArray[0], triArray[1], triArray[2]);
 	  }
 
       // offest new next mesh's index poisition
@@ -405,3 +389,15 @@ bool Object::loadOBJ(std::string path, std::vector<Vertex> &out_vertices,
   // object file sucessfully accessed
   return true;
 }
+
+btRigidBody* Object::GetRigidBody()
+{
+  return rigidBody;
+}
+
+
+
+
+
+
+
