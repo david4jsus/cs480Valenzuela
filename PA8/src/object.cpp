@@ -80,77 +80,129 @@ void Object::createObject()
   rigidBody = new btRigidBody(shapeRigidBodyCI);
   m_graphics->GetDynamicsWorld()->addRigidBody(rigidBody);*/
   
-  
+  // motion state 
   btDefaultMotionState *shapeMotionState;
   
+  // bottom of the board
   if(modelNum == 0)
   {
-    btVector3 planeNormal = btVector3(0, 1.0, 0);
+    // create a plane collider
+      // btVector3(0, 1, 0) means normal is facing upward so the plane is on the bottom
+      // Note: plane colliders extend out infinitely
+    btVector3 planeNormal = btVector3(0, 1, 0);
     btScalar planeConstant = 0.0; 
     colliderShape = new btStaticPlaneShape(planeNormal, planeConstant);
+    
+    // set orientation and position of object
     shapeMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 0, 0)));
   }
   
+  // pinball
   else if(modelNum == 1)
   {
+    // create a sphere collider
     btScalar radius = 1.0;
     colliderShape = new btSphereShape(radius);
+    
+    // set orientation and position of object
     shapeMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 0, 0)));
   }
   
+  // cube
   else if(modelNum == 2)
   {
+    // create a box collider
     btVector3 boxHalfExtents = btVector3(1.0, 1.0, 1.0);
     colliderShape = new btBoxShape(boxHalfExtents);
+    
+    // set orientation and position of object
     shapeMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 0, 0)));
   }
   
+  // cylinder
   else if(modelNum == 3)
   {
+    // create sphere collider
     btScalar radius = 2.0;
     colliderShape = new btSphereShape(radius);
+    
+    // set orientation and position of object
     shapeMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 0, 0)));
   }
   
+  // wall on far end of board
   else if(modelNum == 4)
   {
+    // create a plane collider
+      // btVector3(0, 0, -1) means normal is facing outwards out of the screen
+      // Note: positive on the z-axis means towards the user out of the screen
     btVector3 planeNormal = btVector3(0, 0, 1);
     btScalar planeConstant = 0.0; 
     colliderShape = new btStaticPlaneShape(planeNormal, planeConstant);
+    
+    // set orientation and position of object
     shapeMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 0, -45)));
   }
   
+  // wall which is close to the viewer
   else if(modelNum == 5)
   {
+    // create a plane collider
+      // btVector3(0, 0, -1) means normal is facing inwards into the screen
     btVector3 planeNormal = btVector3(0, 0, -1);
     btScalar planeConstant = 0.0; 
     colliderShape = new btStaticPlaneShape(planeNormal, planeConstant);
+    
+    // set orientation and position of object
     shapeMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 0, 45)));
   }
   
+  // left wall for board
   else if(modelNum == 6)
   {
+    // create a plane collider
+      // btVector3(1, 0, 0) means normal is facing towards the right
     btVector3 planeNormal = btVector3(1, 0, 0);
     btScalar planeConstant = 0.0; 
     colliderShape = new btStaticPlaneShape(planeNormal, planeConstant);
+    
+    // set orientation and position of object
     shapeMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(-45, 0, 0)));
   }
   
+  // right wall for board
   else if(modelNum == 7)
   {
+    // create a plane collider
+      // btVector3(-1, 0, 0) means normal is facing towards the left 
     btVector3 planeNormal = btVector3(-1, 0, 0);
     btScalar planeConstant = 0.0; 
     colliderShape = new btStaticPlaneShape(planeNormal, planeConstant);
+    
+    // set orientation and position of object
     shapeMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(45, 0, 0)));
   }
   
+  // set mass and inertia
   btScalar mass(m_mass);
   btVector3 inertia(0, 0, 0);
+  
+  // calculate inertia
   colliderShape->calculateLocalInertia(mass, inertia);
+  
+  // brind together all data needed to create a rigidbody
   btRigidBody::btRigidBodyConstructionInfo shapeRigidBodyCI(mass, shapeMotionState, colliderShape, inertia);
+  
+  // create rigidbody
   rigidBody = new btRigidBody(shapeRigidBodyCI);
+  
+  // set bounciness of rigidbody
   //rigidBody->setRestitution(0.0);
+  
+  // add rigidbody to world
   m_graphics->GetDynamicsWorld()->addRigidBody(rigidBody);
+  
+  // disable the deactivation of the rigidbody
   rigidBody->setActivationState(DISABLE_DEACTIVATION);
 }
 
@@ -175,8 +227,6 @@ void Object::Update(unsigned int dt)
   
   // Scaling
   model = glm::scale(model, glm::vec3(size, size, size));
-  
-  
 }
 
 glm::mat4 Object::GetModel()
@@ -330,16 +380,17 @@ bool Object::loadOBJ(std::string path, std::vector<Vertex> &out_vertices,
      // Loop through all faces
 	  for(faceLooper = 0; faceLooper < meshes[meshCounter]->mNumFaces; faceLooper++)
 	  {
-		// Loop through all indices
+		  // Loop through all indices
 	    for(indicesLooper = 0; indicesLooper < 3; indicesLooper++)
-		{
+		  {
         // Get position of index
-		  out_indices.push_back(meshes[meshCounter]->mFaces[faceLooper].mIndices[indicesLooper] + lastValue);
+		    out_indices.push_back(meshes[meshCounter]->mFaces[faceLooper].mIndices[indicesLooper] + lastValue);
 		  
-		  // Add face to collider
-		  //aiVector3D position = meshes[meshCounter]->mVertices[out_indices.back()];
-		  //triArray[indicesLooper] = btVector3(position.x, position.y, position.z);
-		}
+		    // Add face to collider
+		    //aiVector3D position = meshes[meshCounter]->mVertices[out_indices.back()];
+		    //triArray[indicesLooper] = btVector3(position.x, position.y, position.z);
+		  }
+		
 		//objTriMesh->addTriangle(triArray[0], triArray[1], triArray[2]);
 	  }
 
@@ -350,9 +401,9 @@ bool Object::loadOBJ(std::string path, std::vector<Vertex> &out_vertices,
 	  for(verticesLooper = 0; verticesLooper < meshes[meshCounter]->mNumVertices; verticesLooper++)
 		{
 		  // Texture coordinates
-          aiVector3D vert = meshes[meshCounter]->mTextureCoords[0][verticesLooper];
-          texture.x = vert.x;
-          texture.y = vert.y * -1;
+      aiVector3D vert = meshes[meshCounter]->mTextureCoords[0][verticesLooper];
+      texture.x = vert.x;
+      texture.y = vert.y * -1;
 		
 		  // get x, y, and z coordinates for each vertex
 		  vertex.x = meshes[meshCounter]->mVertices[verticesLooper].x;
@@ -364,7 +415,7 @@ bool Object::loadOBJ(std::string path, std::vector<Vertex> &out_vertices,
 		  color.y = glm::sin(vertex.y);
 		  color.z = glm::sin(vertex.z);
 
-          // store vertexes
+      // store vertexes
 		  Vertex batmanVertices(vertex, color, texture);
 		  out_vertices.push_back(batmanVertices);
 		}

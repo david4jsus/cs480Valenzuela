@@ -84,18 +84,15 @@ bool Graphics::Initialize(int width, int height, std::string file)
   }
 
   // Create objects
-  //Object* Skybox = new Object(this, "Skybox.obj",      0, 0.0f, 0.0f, 0.0f, 25.0f, 0, 0);// file path, parent, orbit radius size, orbit radius speed, local rotation speed, object size
-  //Object* buddha = new Object("buddha.obj", 0, 0.0f, 0.0f, 0.0f, 10.0f); // file path, parent, orbit radius size, orbit radius speed, local rotation speed, object size
+  //Object* Skybox = new Object(this, "Skybox.obj",      0, 0.0f, 0.0f, 0.0f, 25.0f, 0, 0);
   Object* board  = new Object(this, "Disboard.obj",    0, 0.0f, 0.0f, 0.0f, 1.0f,  0, 0);
   Object* ball   = new Object(this, "awesomeball.obj", 0, 0.0f, 0.0f, 0.0f, 0.01f, 1, 1);
   Object* cube = new Object(this, "awesomeball.obj", 0, 0.0f, 0.0f, 0.0f, 0.04f, 1, 2);
   Object* cylinder = new Object(this, "awesomeball.obj", 0, 0.0f, 0.0f, 0.0f, 0.02f, 0, 3);
-  Object* frontWall   = new Object(this, "awesomeball.obj", 0, 0.0f, 0.0f, 0.0f, 0.0f, 0, 4);
-  Object* backWall   = new Object(this, "awesomeball.obj", 0, 0.0f, 0.0f, 0.0f, 0.0f, 0, 5);
+  Object* backWall   = new Object(this, "awesomeball.obj", 0, 0.0f, 0.0f, 0.0f, 0.0f, 0, 4);
+  Object* frontWall   = new Object(this, "awesomeball.obj", 0, 0.0f, 0.0f, 0.0f, 0.0f, 0, 5);
   Object* leftWall   = new Object(this, "awesomeball.obj", 0, 0.0f, 0.0f, 0.0f, 0.0f, 0, 6);
   Object* rightWall   = new Object(this, "awesomeball.obj", 0, 0.0f, 0.0f, 0.0f, 0.0f, 0, 7);
-  
- 
 
   // Waiting Song while the planets load
   gameSound.LoadSound("../assets/NGGUP.wav");
@@ -103,22 +100,17 @@ bool Graphics::Initialize(int width, int height, std::string file)
   
   // Push objects onto list
   //m_cubes.push_back(Skybox);
-  //m_cubes.push_back(buddha);
   m_cubes.push_back(board);
   m_cubes.push_back(ball);
   m_cubes.push_back(cube);
   m_cubes.push_back(cylinder);
-  m_cubes.push_back(frontWall);
   m_cubes.push_back(backWall);
+  m_cubes.push_back(frontWall);
   m_cubes.push_back(leftWall);
   m_cubes.push_back(rightWall);
   
+  // get rigidbody for the cube
   rigidBody = m_cubes[2]->GetRigidBody();
-  
-  // Set positions
-  //m_cubes[0]->setPosition(glm::vec3(10.0f, -1000.0f, 10.0f));
-  //m_cubes[3]->setPosition(glm::vec3(10.0f, 0.0f, 10.0f));
-  //m_cubes[4]->setPosition(glm::vec3(-10.0f, 0.0f, 10.0f));
 
   // Set up the shaders
   m_shader = new Shader();
