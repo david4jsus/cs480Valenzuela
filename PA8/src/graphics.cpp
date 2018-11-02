@@ -87,8 +87,8 @@ bool Graphics::Initialize(int width, int height, std::string file)
   //Object* Skybox = new Object(this, "Skybox.obj",      0, 0.0f, 0.0f, 0.0f, 25.0f, 0, 0);
   Object* board  = new Object(this, "Disboard.obj",    0, 0.0f, 0.0f, 0.0f, 1.0f,  0, 0);
   Object* ball   = new Object(this, "awesomeball.obj", 0, 0.0f, 0.0f, 0.0f, 0.01f, 1, 1);
-  Object* cube = new Object(this, "awesomeball.obj", 0, 0.0f, 0.0f, 0.0f, 0.04f, 1, 2);
-  Object* cylinder = new Object(this, "awesomeball.obj", 0, 0.0f, 0.0f, 0.0f, 0.02f, 0, 3);
+  Object* cube = new Object(this, "cube.obj", 0, 0.0f, 0.0f, 0.0f, 0.5f, 1, 2);
+  Object* cylinder = new Object(this, "PinballBumper3.obj", 0, 0.0f, 0.0f, 0.0f, 0.1f, 0, 3);
   Object* backWall   = new Object(this, "awesomeball.obj", 0, 0.0f, 0.0f, 0.0f, 0.0f, 0, 4);
   Object* frontWall   = new Object(this, "awesomeball.obj", 0, 0.0f, 0.0f, 0.0f, 0.0f, 0, 5);
   Object* leftWall   = new Object(this, "awesomeball.obj", 0, 0.0f, 0.0f, 0.0f, 0.0f, 0, 6);

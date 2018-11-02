@@ -112,7 +112,7 @@ void Object::createObject()
   else if(modelNum == 2)
   {
     // create a box collider
-    btVector3 boxHalfExtents = btVector3(1.0, 1.0, 1.0);
+    btVector3 boxHalfExtents = btVector3(2.0, 2.0, 2.0);
     colliderShape = new btBoxShape(boxHalfExtents);
     
     // set orientation and position of object
@@ -197,7 +197,12 @@ void Object::createObject()
   rigidBody = new btRigidBody(shapeRigidBodyCI);
   
   // set bounciness of rigidbody
-  //rigidBody->setRestitution(0.0);
+  rigidBody->setRestitution(1.0);
+  
+  if(modelNum == 2)
+  {
+   rigidBody->setRestitution(0.0);
+  }
   
   // add rigidbody to world
   m_graphics->GetDynamicsWorld()->addRigidBody(rigidBody);
