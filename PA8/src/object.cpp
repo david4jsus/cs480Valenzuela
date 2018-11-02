@@ -123,11 +123,11 @@ void Object::createObject()
   else if(modelNum == 3)
   {
     // create sphere collider
-    btScalar radius = 2.0;
+    btScalar radius = 5.0;
     colliderShape = new btSphereShape(radius);
     
     // set orientation and position of object
-    shapeMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 0, 0)));
+    shapeMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(40, 0, 0)));
   }
   
   // wall on far end of board
