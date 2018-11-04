@@ -9,6 +9,8 @@
 #include "imgui.h"
 #include "sound.h"
 
+#include <btBulletDynamicsCommon.h>
+
 class Engine
 {
   public:
@@ -21,6 +23,8 @@ class Engine
     void Mouse();
     unsigned int getDT();
     long long GetCurrentTimeMillis();
+    
+    btRigidBody* rigidBody;
   
   private:
     // Window related variables

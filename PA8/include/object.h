@@ -2,19 +2,23 @@
 #define OBJECT_H
 
 #include <vector>
-#include "graphics_headers.h"
+#include "graphics.h"
 
 #include <assimp/Importer.hpp> //includes the importer, which is used to read our obj file
 #include <assimp/scene.h> //includes the aiScene object
 #include <assimp/postprocess.h> //includes the postprocessing variables for the importer
 #include <assimp/color4.h> //includes the aiColor4 object, which is used to handle the colors from the mesh 
 
+#include <btBulletDynamicsCommon.h>
+
+class Graphics;
+
 class Object
 {
   public:
     Object();
-    Object(std::string filePath, Object* objParent, float objOrbitRadius, float objOrbitMultiplier,
-      float objRotateMultiplier, float objSize);
+    Object(Graphics* graphicsObject, std::string filePath, Object* objParent, float objOrbitRadius, float objOrbitMultiplier,
+      float objRotateMultiplier, float objSize, float mass, int whichModel);
     ~Object();
     void createObject();
     void Update(unsigned int dt);
@@ -53,8 +57,15 @@ class Object
     
     // Name of object
     std::string GetObjectName();
+    
+    // Collider getter
+    btCollisionShape* GetCollisionShape();
+    
+    // rigidbody getter
+    btRigidBody* GetRigidBody();
 
   private:
+    Graphics* m_graphics;
     std::string objName;
     glm::mat4 model;
     glm::vec3 pos;
@@ -63,6 +74,12 @@ class Object
     GLuint VB;
     GLuint IB;
     GLuint Texture;
+    
+    // Collider
+    btCollisionShape *colliderShape;
+    btTriangleMesh *objTriMesh;
+    btRigidBody* rigidBody;
+    int m_mass;
     
     // If the object has a child, this is the matrix it should read as its center
     glm::mat4 modelForChild;
@@ -102,6 +119,8 @@ class Object
 	
 	Magick::Image im;
 	std::vector<unsigned int> mTextureCoords;
+	
+	int modelNum;
 };
 
 #endif /* OBJECT_H */

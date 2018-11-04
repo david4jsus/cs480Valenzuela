@@ -11,6 +11,8 @@ using namespace std;
 #include "sound.h"
 #include <btBulletDynamicsCommon.h>
 
+class Object;
+
 class Graphics
 {
   public:
@@ -23,7 +25,12 @@ class Graphics
     
     // To get a specified cube, specified by array index
     Object* GetObject(int index);
-	  int numberOfCubes();
+	 int numberOfCubes();
+	 
+	 // Bullet 
+	 btDiscreteDynamicsWorld* GetDynamicsWorld();
+	 
+	 btRigidBody* rigidBody;
 
   private:
     std::string ErrorString(GLenum error);
