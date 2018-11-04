@@ -1,4 +1,4 @@
-# PA8: Pinball Part I - Bullet Basics
+# PA9: Pinball Part II - Lighting Basics
 
 # Team Specular Bois
 The following students are part of the team who made this project:
