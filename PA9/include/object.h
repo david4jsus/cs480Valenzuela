@@ -42,7 +42,6 @@ class Object
     void UpdateRotationSpeed(float rotateMultiplier);
     void UpdateOrbitSpeed(float orbitMultiplier);
     
-    
     // Get Speeds
     float GetRotationSpeed();
     float GetOrbitSpeed();

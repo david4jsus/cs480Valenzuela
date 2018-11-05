@@ -40,12 +40,25 @@ class Graphics
     Shader *m_PerVertexShader;
     Shader *m_PerFragmentShader;
 
+    // Per vertex
     GLint m_vprojectionMatrix;
     GLint m_vviewMatrix;
     GLint m_vmodelMatrix;
+    GLint m_vlightPos;
+    GLint m_vambientColor;
+    GLint m_vdiffuseColor;
+    GLint m_vspecularColor;
+    GLint m_vshininess;
+    
+    // Per fragment
     GLint m_fprojectionMatrix;
     GLint m_fviewMatrix;
     GLint m_fmodelMatrix;
+    GLint m_flightPos;
+    GLint m_fambientColor;
+    GLint m_fdiffuseColor;
+    GLint m_fspecularColor;
+    GLint m_fshininess;
 
     //Object *m_cube;
     std::vector<Object*> m_cubes;
