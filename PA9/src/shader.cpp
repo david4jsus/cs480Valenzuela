@@ -34,78 +34,16 @@ bool Shader::Initialize()
 }
 
 // Use this method to add shaders to the program. When finished - call finalize()
-bool Shader::AddShader(GLenum ShaderType)
+bool Shader::AddShader(GLenum ShaderType, const std::string &fileName)
 {
   std::string s;
 
-  if(ShaderType == GL_VERTEX_SHADER)
+  if(!LoadShaderSource(fileName, s))
   {
-    /*
-    s = "#version 330\n \
-          \
-          layout (location = 0) in vec3 v_position; \
-          layout (location = 1) in vec3 v_color; \
-          \
-          smooth out vec3 color; \
-          \
-          uniform mat4 projectionMatrix; \
-          uniform mat4 viewMatrix; \
-          uniform mat4 modelMatrix; \
-          \
-          void main(void) \
-          { \
-            vec4 v = vec4(v_position, 1.0); \
-            gl_Position = (projectionMatrix * viewMatrix * modelMatrix) * v; \
-            color = v_color; \
-          } \
-          ";
-    */
-    
-    // == Shader loader == //
-    std::ifstream shaderFile("../assets/shaders/vertex.shader");
-    
-    std::string temp;
-    while(!shaderFile.eof())
-    {
-      std::getline(shaderFile, temp);
-      s.append(temp);
-      s.append("\n");
-    }
-    
-    shaderFile.close();
-    // =================== //
+     std::cerr << "Error opening: " << fileName << std::endl;
+     return false;
   }
-  else if(ShaderType == GL_FRAGMENT_SHADER)
-  {
-    /*
-    s = "#version 330\n \
-          \
-          smooth in vec3 color; \
-          \
-          out vec4 frag_color; \
-          \
-          void main(void) \
-          { \
-             frag_color = vec4(color.rgb, 1.0); \
-          } \
-          ";
-    */
-    
-    // == Shader loader == //
-    std::ifstream shaderFile("../assets/shaders/fragment.shader");
-    
-    std::string temp;
-    while(!shaderFile.eof())
-    {
-      std::getline(shaderFile, temp);
-      s.append(temp);
-      s.append("\n");
-    }
-    
-    shaderFile.close();
-    // =================== //
-  }
-
+  
   GLuint ShaderObj = glCreateShader(ShaderType);
 
   if (ShaderObj == 0) 
@@ -148,10 +86,9 @@ bool Shader::Finalize()
 {
   GLint Success = 0;
   GLchar ErrorLog[1024] = { 0 };
-
   glLinkProgram(m_shaderProg);
-
   glGetProgramiv(m_shaderProg, GL_LINK_STATUS, &Success);
+  
   if (Success == 0)
   {
     glGetProgramInfoLog(m_shaderProg, sizeof(ErrorLog), NULL, ErrorLog);
@@ -161,6 +98,7 @@ bool Shader::Finalize()
 
   glValidateProgram(m_shaderProg);
   glGetProgramiv(m_shaderProg, GL_VALIDATE_STATUS, &Success);
+  
   if (!Success)
   {
     glGetProgramInfoLog(m_shaderProg, sizeof(ErrorLog), NULL, ErrorLog);
@@ -196,3 +134,30 @@ GLint Shader::GetUniformLocation(const char* pUniformName)
 
     return Location;
 }
+
+bool Shader::LoadShaderSource(const std::string &fileName, std::string &shaderSourceString)
+{
+    std::ifstream fin(fileName.c_str());
+    
+    if(fin.fail())
+    {
+       fin.close();
+       return false;
+    }
+    
+    shaderSourceString = std::string(std::istreambuf_iterator<char>(fin), std::istreambuf_iterator<char>());
+    
+    fin.close();
+    
+    if(shaderSourceString.empty())
+    {
+     return false;
+    }
+    
+    return true;
+}
+
+
+
+
+
