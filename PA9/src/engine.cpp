@@ -159,9 +159,9 @@ void Engine::Run()
     {
       ImGui::Begin("Pinball Instructions and Help");
       
-      if(ImGui::Button("Switch Vertex Shader"))
+      if (ImGui::Button("Switch Shaders"))
       {
-      
+    	  m_graphics->switchShaders();
       }
       
       ImGui::End();

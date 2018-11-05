@@ -9,6 +9,8 @@ Graphics::Graphics()
 	dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, collisionConfig);
 	
 	dynamicsWorld->setGravity(btVector3(0, -9.81, 0));
+	
+	shaderToggle = true;
 }
 
 Graphics::~Graphics()
@@ -112,56 +114,111 @@ bool Graphics::Initialize(int width, int height, std::string file)
   // get rigidbody for the cube
   rigidBody = m_cubes[2]->GetRigidBody();
 
+  // PER VERTEX SHADER
   // Set up the shaders
-  m_shader = new Shader();
-  if(!m_shader->Initialize())
+  m_PerVertexShader = new Shader();
+  if(!m_PerVertexShader->Initialize())
   {
     printf("Shader Failed to Initialize\n");
     return false;
   }
 
   // Add the vertex shader
-  if(!m_shader->AddShader(GL_VERTEX_SHADER, "../assets/shaders/vertex.shader"))
+  if(!m_PerVertexShader->AddShader(GL_VERTEX_SHADER, "../assets/shaders/vertex.shader"))
   {
     printf("Vertex Shader failed to Initialize\n");
     return false;
   }
 
   // Add the fragment shader
-  if(!m_shader->AddShader(GL_FRAGMENT_SHADER, "../assets/shaders/fragment.shader"))
+  if(!m_PerVertexShader->AddShader(GL_FRAGMENT_SHADER, "../assets/shaders/fragment.shader"))
   {
     printf("Fragment Shader failed to Initialize\n");
     return false;
   }
 
   // Connect the program
-  if(!m_shader->Finalize())
+  if(!m_PerVertexShader->Finalize())
+  {
+    printf("Program to Finalize\n");
+    return false;
+  }
+  
+  // PER FRAGMENT SHADER
+  // Setup the shaders
+  m_PerFragmentShader = new Shader();
+  if(!m_PerFragmentShader->Initialize())
+  {
+    printf("Shader Failed to Initialize\n");
+    return false;
+  }
+
+  // Add the vertex shader
+  if(!m_PerFragmentShader->AddShader(GL_VERTEX_SHADER, "../assets/shaders/fLightingVertex.shader"))
+  {
+    printf("Vertex Shader failed to Initialize\n");
+    return false;
+  }
+
+  // Add the fragment shader
+  if(!m_PerFragmentShader->AddShader(GL_FRAGMENT_SHADER, "../assets/shaders/fLightingFragment.shader"))
+  {
+    printf("Fragment Shader failed to Initialize\n");
+    return false;
+  }
+
+  // Connect the program
+  if(!m_PerFragmentShader->Finalize())
   {
     printf("Program to Finalize\n");
     return false;
   }
 
-  // Locate the projection matrix in the shader
-  m_projectionMatrix = m_shader->GetUniformLocation("projectionMatrix");
-  if (m_projectionMatrix == INVALID_UNIFORM_LOCATION) 
+  // Locate the projection matrix in the per vertex shader
+  m_vprojectionMatrix = m_PerVertexShader->GetUniformLocation("projectionMatrix");
+  if (m_vprojectionMatrix == INVALID_UNIFORM_LOCATION) 
   {
-    printf("m_projectionMatrix not found\n");
+    printf("m_vprojectionMatrix not found\n");
     return false;
   }
 
-  // Locate the view matrix in the shader
-  m_viewMatrix = m_shader->GetUniformLocation("viewMatrix");
-  if (m_viewMatrix == INVALID_UNIFORM_LOCATION) 
+  // Locate the view matrix in the per vertex shader
+  m_vviewMatrix = m_PerVertexShader->GetUniformLocation("viewMatrix");
+  if (m_vviewMatrix == INVALID_UNIFORM_LOCATION) 
   {
-    printf("m_viewMatrix not found\n");
+    printf("m_vviewMatrix not found\n");
     return false;
   }
 
-  // Locate the model matrix in the shader
-  m_modelMatrix = m_shader->GetUniformLocation("modelMatrix");
-  if (m_modelMatrix == INVALID_UNIFORM_LOCATION) 
+  // Locate the model matrix in the per vertex shader
+  m_vmodelMatrix = m_PerVertexShader->GetUniformLocation("modelMatrix");
+  if (m_vmodelMatrix == INVALID_UNIFORM_LOCATION) 
   {
-    printf("m_modelMatrix not found\n");
+    printf("m_vmodelMatrix not found\n");
+    return false;
+  }
+  
+  // Locate the projection matrix in the per fragment shader
+  m_fprojectionMatrix = m_PerFragmentShader->GetUniformLocation("projectionMatrix");
+  if (m_fprojectionMatrix == INVALID_UNIFORM_LOCATION) 
+  {
+    printf("m_fprojectionMatrix not found\n");
+    return false;
+  }
+
+  // Locate the view matrix in the per fragment shader
+  m_fviewMatrix = m_PerFragmentShader->GetUniformLocation("viewMatrix");
+  if (m_fviewMatrix == INVALID_UNIFORM_LOCATION) 
+  {
+    printf("m_fviewMatrix not found\n");
+    return false;
+  }
+
+  // Locate the model matrix in the per fragment shader
+  m_fmodelMatrix = m_PerFragmentShader->GetUniformLocation("modelMatrix");
+  if (m_fmodelMatrix == INVALID_UNIFORM_LOCATION) 
+  {
+    printf("m_fmodelMatrix not found\n");
     return false;
   }
 
@@ -170,6 +227,11 @@ bool Graphics::Initialize(int width, int height, std::string file)
   glDepthFunc(GL_LESS);
 
   return true;
+}
+
+void Graphics::switchShaders()
+{
+	shaderToggle = !shaderToggle;
 }
 
 void Graphics::Update(unsigned int dt)
@@ -208,18 +270,38 @@ void Graphics::Render()
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
   // Start the correct program
-  m_shader->Enable();
-
-  // Send in the projection and view to the shader
-  glUniformMatrix4fv(m_projectionMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetProjection())); 
-  glUniformMatrix4fv(m_viewMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetView())); 
-
-  // Render the objects
-  for(unsigned int i = 0; i < m_cubes.size(); i++)
+  // Start the correct program
+  if (shaderToggle)
   {
-    glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(m_cubes[i]->GetModel()));
-    m_cubes[i]->Render();
+	  m_PerFragmentShader->Enable();
+	  
+	  // Send in the projection and view to the shader
+	  glUniformMatrix4fv(m_fprojectionMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetProjection())); 
+	  glUniformMatrix4fv(m_fviewMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetView())); 
+	
+	  // Render the objects
+	  for(unsigned int i = 0; i < m_cubes.size(); i++)
+	  {
+		glUniformMatrix4fv(m_fmodelMatrix, 1, GL_FALSE, glm::value_ptr(m_cubes[i]->GetModel()));
+		m_cubes[i]->Render();
+	  }
   }
+  else
+  {
+	  m_PerVertexShader->Enable();
+	  
+	  // Send in the projection and view to the shader
+	  glUniformMatrix4fv(m_vprojectionMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetProjection())); 
+	  glUniformMatrix4fv(m_vviewMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetView())); 
+	
+	  // Render the objects
+	  for(unsigned int i = 0; i < m_cubes.size(); i++)
+	  {
+		glUniformMatrix4fv(m_vmodelMatrix, 1, GL_FALSE, glm::value_ptr(m_cubes[i]->GetModel()));
+		m_cubes[i]->Render();
+	  }
+  }
+
 
   // Get any errors from OpenGL
   auto error = glGetError();

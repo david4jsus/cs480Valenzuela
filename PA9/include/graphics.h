@@ -22,6 +22,7 @@ class Graphics
     void Update(unsigned int dt);
     void Render();
     Camera* getCamera();
+    void switchShaders();
     
     // To get a specified cube, specified by array index
     Object* GetObject(int index);
@@ -36,11 +37,15 @@ class Graphics
     std::string ErrorString(GLenum error);
 
     Camera *m_camera;
-    Shader *m_shader;
+    Shader *m_PerVertexShader;
+    Shader *m_PerFragmentShader;
 
-    GLint m_projectionMatrix;
-    GLint m_viewMatrix;
-    GLint m_modelMatrix;
+    GLint m_vprojectionMatrix;
+    GLint m_vviewMatrix;
+    GLint m_vmodelMatrix;
+    GLint m_fprojectionMatrix;
+    GLint m_fviewMatrix;
+    GLint m_fmodelMatrix;
 
     //Object *m_cube;
     std::vector<Object*> m_cubes;
@@ -53,6 +58,9 @@ class Graphics
     btCollisionDispatcher *dispatcher;
     btSequentialImpulseConstraintSolver *solver;
     btDiscreteDynamicsWorld *dynamicsWorld;
+    
+    // Shader switching
+    bool shaderToggle;
 };
 
 #endif /* GRAPHICS_H */
