@@ -74,6 +74,8 @@ bool Engine::Initialize()
   rotatingUp     = false;
   rotatingDown   = false;
   
+  rigidBody = m_graphics->rigidBody;
+  
   // No errors
   return true;
 }
@@ -151,99 +153,11 @@ void Engine::Run()
       m_graphics->getCamera()->updateCamRotPitch(m_DT * -0.1);
     }
     
-    // Update position of skybox
-    m_graphics->GetObject(0)->setPosition
-      (m_graphics->getCamera()->getCamPos());
-    
     // Demo ImGUI window
     //ImGui::ShowDemoWindow(&imgui_demo);
     
     {
-      ImGui::Begin("Solar System Instructions and Help");
-      
-      /*ImGui::Text("Planet Controls");
-      if(ImGui::Button("Toggle Direction"))
-      {            
-       for(index = 0; index < m_graphics->numberOfCubes(); index++)
-	     {
-         m_graphics->GetObject(index)->reverseDirection();
-	     }
-	    
-	     gameSound.LoadSound("../assets/grunt.wav");
-       gameSound.PlaySoundEffect();
-      }
-      
-      ImGui::Text("Speed Multipliers");
-             
-       if (showRotationControls)
-       {
-          if(ImGui::Button("Hide Rotation Controls"))
-          {
-             showRotationControls = false;
-          }
-       }
-       else
-       {
-          if(ImGui::Button("Show Rotation Controls"))
-          {
-             showRotationControls = true;
-          }
-       }
-      
-      if (showRotationControls)
-      {
-         if(ImGui::Button("0.5x Rotation Speed", ImVec2(200, 50)))
-          {
-           for(index = 0; index < m_graphics->numberOfCubes(); index++)
-           {
-            m_graphics->GetObject(index)->UpdateRotationSpeed(0.05f);
-           }
-          }
-          
-          else if(ImGui::Button("Normal Rotation Speed", ImVec2(200, 50)))
-          {
-           for(index = 0; index < m_graphics->numberOfCubes(); index++)
-           {
-            m_graphics->GetObject(index)->UpdateRotationSpeed(0.1f);
-           }
-          }
-         
-          else if(ImGui::Button("1.5x Rotation Speed", ImVec2(200, 50)))
-          {
-           for(index = 0; index < m_graphics->numberOfCubes(); index++)
-           {
-            m_graphics->GetObject(index)->UpdateRotationSpeed(1.5f);
-           }
-          }
-         
-          else if(ImGui::Button("2.0x Rotation Speed", ImVec2(200, 50)))
-          {
-           for(index = 0; index < m_graphics->numberOfCubes(); index++)
-           {
-            m_graphics->GetObject(index)->UpdateRotationSpeed(2.0f);
-           }
-          }
-         
-          else if(ImGui::Button("4.0x Rotation Speed", ImVec2(200, 50)))
-          {	          
-           for(index = 0; index < m_graphics->numberOfCubes(); index++)
-           {
-            m_graphics->GetObject(index)->UpdateRotationSpeed(4.0f);
-           }
-          }
-          
-          else if(ImGui::Button("Infinity Speed", ImVec2(200, 50)))
-          {	          
-           for(index = 0; index < m_graphics->numberOfCubes(); index++)
-           {
-            m_graphics->GetObject(index)->UpdateRotationSpeed(0.0f);
-           }
-
-             //Troll
-		       gameSound.LoadSound("../assets/NGGUP.wav");
-	          gameSound.PlayNGGUP();
-          }
-       }*/
+      ImGui::Begin("Pinball Instructions and Help");
       
       ImGui::End();
     }
@@ -333,6 +247,36 @@ void Engine::Keyboard()
     {
       rotatingDown = true;
       rotatingUp   = false;
+    }
+    
+    if (m_event.key.keysym.sym == SDLK_o)   // Rotate camera down
+    {
+      rigidBody->applyCentralImpulse(btVector3(0.0f, 10.0f, 0.0f));
+      //rigidBody->applyForce(btVector3(0, 10, 0), btVector3(0, 10, 0));
+    }
+    
+    if (m_event.key.keysym.sym == SDLK_i)   // Rotate camera down
+    {
+      rigidBody->applyCentralImpulse(btVector3(3.0f, 0.0f, 0.0f));
+      //rigidBody->applyForce(btVector3(0, 10, 0), btVector3(0, 10, 0));
+    }
+    
+    if (m_event.key.keysym.sym == SDLK_j)   // Rotate camera down
+    {
+      rigidBody->applyCentralImpulse(btVector3(0.0f, 0.0f, -3.0f));
+      //rigidBody->applyForce(btVector3(0, 10, 0), btVector3(0, 10, 0));
+    }
+    
+    if (m_event.key.keysym.sym == SDLK_k)   // Rotate camera down
+    {
+      rigidBody->applyCentralImpulse(btVector3(-3.0f, 0.0f, 0.0f));
+      //rigidBody->applyForce(btVector3(0, 10, 0), btVector3(0, 10, 0));
+    }
+    
+    if (m_event.key.keysym.sym == SDLK_l)   // Rotate camera down
+    {
+      rigidBody->applyCentralImpulse(btVector3(0.0f, 0.0f, 3.0f));
+      //rigidBody->applyForce(btVector3(0, 10, 0), btVector3(0, 10, 0));
     }
   }
   else if (m_event.type == SDL_KEYUP)

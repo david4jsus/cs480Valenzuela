@@ -1,4 +1,4 @@
-# PA7: Solar System
+# PA8: Pinball Part I - Bullet Basics
 
 # Team Specular Bois
 The following students are part of the team who made this project:
@@ -15,7 +15,7 @@ This project uses OpenGL 3.3. Some computers, such as virtual machines in the EC
 
 This project also uses Dear ImGui (https://github.com/ocornut/imgui), but all the necessary files are already included in the project.
 
-Thi project also uses the Assimp and ImageMagick libraries.
+Thi project also uses the Assimp, ImageMagick, and Bullet physics libraries.
 
 ## Building and Running
 To build this project generated the make file using CMake. Navigate to the build folder to build the program. To create the program, simply run the "cmake .." than the "make" command. Then, run the program.
@@ -25,23 +25,26 @@ mkdir build
 cd build
 cmake ..
 make
-./SolarSystemBois
+./PA8
 ```
 
 # Controls
 This program uses keyboard input for camera interaction and the mouse to select items on the on-screen menu:
-- **W**: Move forward
-- **S**: Move backward
-- **A**: Move left
-- **D**: Move right
-- **Q**: Move down
-- **E**: Move up
+- **W**: Move view forward
+- **S**: Move view backward
+- **A**: Move view left
+- **D**: Move view right
+- **Q**: Move view down
+- **E**: Move view up
 - **Up arrow**: Rotate view upwards
 - **Down arrow**: Rotate view downwards
 - **Left arrow**: Rotate view left
 - **Right arrow**: Rotate view right
+- **I**: Move cube forward
+- **J**: Move cube left
+- **K**: Move cube backward
+- **L**: Move cube right
+- **O**: Make cube jump
+
 
 The on-screen menu is scalable and has an available scrolling bar on the right side.
-
-# Extra Credit
-This program features an on-screen menu with options for live adjustment of the simulation speed, as well as a list of astral objects to teleport to. The simulation also features a skybox and rings for the corresponding planets.
