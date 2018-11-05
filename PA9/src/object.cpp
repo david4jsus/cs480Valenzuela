@@ -359,7 +359,13 @@ bool Object::loadOBJ(std::string path, std::vector<Vertex> &out_vertices,
   glm::vec2 texture;
   glm::vec3 vertexNormal;
   btVector3 triArray[3];
-  objTriMesh = new btTriangleMesh();
+  aiColor3D materialDiffuse (1.0, 1.0, 1.0);
+  glm::vec3 vertexDiffuse (2.0, 2.0, 2.0);
+  aiColor3D materialAmbient (1.0, 1.0, 1.0);
+  glm::vec3 vertexAmbient (2.0, 2.0, 2.0);
+  aiColor3D materialSpecular (1.0, 1.0, 1.0);
+  glm::vec3 vertexSpecular (2.0, 2.0, 2.0);
+  //objTriMesh = new btTriangleMesh();
 
   // string that contains path to object file
   std::string completeFilePath = "../assets/models/" + path;
@@ -374,11 +380,35 @@ bool Object::loadOBJ(std::string path, std::vector<Vertex> &out_vertices,
     return false;
   }
 
+  //diffuse.x = meshes[0]->mVertices[verticesLooper].x;
+
   // Get all meshes from object scene
   for(meshCounter = 0; meshCounter < scene->mNumMeshes; meshCounter++)
   {
+    // put mesh into list of meshes
     meshes.push_back(scene->mMeshes[meshCounter]);
-        
+    
+    // get diffuse properties from .mtl file
+    /*scene->mMaterials[scene->mMeshes[meshCounter]->mMaterialIndex]->Get(AI_MATKEY_COLOR_DIFFUSE, materialDiffuse);
+    vertexDiffuse.x = materialDiffuse.r;
+    vertexDiffuse.y = materialDiffuse.g;
+    vertexDiffuse.z = materialDiffuse.b;
+    //cout << "Diffuse Values:  " << vertexDiffuse.x << "  " << vertexDiffuse.y << "  " << vertexDiffuse.z << "  " << endl;
+    
+    // get ambient properties from .mtl file
+    scene->mMaterials[scene->mMeshes[meshCounter]->mMaterialIndex]->Get(AI_MATKEY_COLOR_AMBIENT, materialAmbient);
+    vertexAmbient.x = materialAmbient.r;
+    vertexAmbient.y = materialAmbient.g;
+    vertexAmbient.z = materialAmbient.b;
+    //cout << "Ambient values:  " << vertexAmbient.x << "  " << vertexAmbient.y << "  " << vertexAmbient.z << "  " << endl;
+    
+    // get specular properties from .mtl file
+    scene->mMaterials[scene->mMeshes[meshCounter]->mMaterialIndex]->Get(AI_MATKEY_COLOR_SPECULAR, materialSpecular);
+    vertexSpecular.x = materialSpecular.r;
+    vertexSpecular.y = materialSpecular.g;
+    vertexSpecular.z = materialSpecular.b;*/
+    //cout << "Specular values:  " << vertexSpecular.x << "  " << vertexSpecular.y << "  " << vertexSpecular.z << "  " << endl;
+    
     // Check if the model has a texture
     meshes[meshCounter]->HasTextureCoords(0);
     //cout << "has texture" << endl;
