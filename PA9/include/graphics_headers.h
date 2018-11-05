@@ -30,8 +30,9 @@ struct Vertex
   glm::vec3 vertex;
   glm::vec3 color;
   glm::vec2 texture;  
+  glm::vec3 vertexNormal;
 
-  Vertex(glm::vec3 v, glm::vec3 c, glm::vec2 t): vertex(v), color(c), texture(t) {}
+  Vertex(glm::vec3 v, glm::vec3 c, glm::vec2 t, glm::vec3 vn): vertex(v), color(c), texture(t),  vertexNormal(vn) {}
 };
 
 #endif /* GRAPHICS_HEADERS_H */

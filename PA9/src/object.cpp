@@ -357,6 +357,7 @@ bool Object::loadOBJ(std::string path, std::vector<Vertex> &out_vertices,
   glm::vec3 vertex;
   glm::vec3 color;
   glm::vec2 texture;
+  glm::vec3 vertexNormal;
   btVector3 triArray[3];
   objTriMesh = new btTriangleMesh();
 
@@ -401,6 +402,8 @@ bool Object::loadOBJ(std::string path, std::vector<Vertex> &out_vertices,
 
       // offest new next mesh's index poisition
 	  lastValue = out_indices[out_indices.size() - 1] + 1;
+	  
+	  //cout << meshes[meshCounter]->mNumVertices << endl;
 			  
 	  // loop through all vertexes
 	  for(verticesLooper = 0; verticesLooper < meshes[meshCounter]->mNumVertices; verticesLooper++)
@@ -416,12 +419,20 @@ bool Object::loadOBJ(std::string path, std::vector<Vertex> &out_vertices,
 		  vertex.z = meshes[meshCounter]->mVertices[verticesLooper].z;
 
 		  // assign color to a vertex
-		  color.x = glm::sin(vertex.x);
-		  color.y = glm::sin(vertex.y);
-		  color.z = glm::sin(vertex.z);
+		  //color.x = glm::sin(vertex.x);
+		  //color.y = glm::sin(vertex.y);
+		  //color.z = glm::sin(vertex.z);
+		  
+		  // grab the normals from the object file
+		  vertexNormal.x = meshes[meshCounter]->mNormals[verticesLooper].x;
+		  vertexNormal.y = meshes[meshCounter]->mNormals[verticesLooper].y;
+		  vertexNormal.z = meshes[meshCounter]->mNormals[verticesLooper].z;
+		  
+		  //cout << verticesLooper << "   " << vertex.x << " " << vertex.y << " " << vertex.z << endl;
+		  //cout << verticesLooper << "   " << vertexNormal.x << " " << vertexNormal.y << " " << vertexNormal.z << endl;
 
       // store vertexes
-		  Vertex batmanVertices(vertex, color, texture);
+		  Vertex batmanVertices(vertex, color, texture, vertexNormal);
 		  out_vertices.push_back(batmanVertices);
 		}
 		
