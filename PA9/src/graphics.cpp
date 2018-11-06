@@ -9,6 +9,8 @@ Graphics::Graphics()
 	dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, collisionConfig);
 	
 	dynamicsWorld->setGravity(btVector3(0, -9.81, 0));
+	
+	shaderToggle = true;
 }
 
 Graphics::~Graphics()
@@ -112,56 +114,195 @@ bool Graphics::Initialize(int width, int height, std::string file)
   // get rigidbody for the cube
   rigidBody = m_cubes[2]->GetRigidBody();
 
+  // PER VERTEX SHADER
   // Set up the shaders
-  m_shader = new Shader();
-  if(!m_shader->Initialize())
+  m_PerVertexShader = new Shader();
+  if(!m_PerVertexShader->Initialize())
   {
     printf("Shader Failed to Initialize\n");
     return false;
   }
 
   // Add the vertex shader
-  if(!m_shader->AddShader(GL_VERTEX_SHADER, "../assets/shaders/vertex.shader"))
+  if(!m_PerVertexShader->AddShader(GL_VERTEX_SHADER, "../assets/shaders/vertex.shader"))
   {
     printf("Vertex Shader failed to Initialize\n");
     return false;
   }
 
   // Add the fragment shader
-  if(!m_shader->AddShader(GL_FRAGMENT_SHADER, "../assets/shaders/fragment.shader"))
+  if(!m_PerVertexShader->AddShader(GL_FRAGMENT_SHADER, "../assets/shaders/fragment.shader"))
+  {
+    printf("Fragment Shader failed to Initialize\n");
+    return false;
+  }
+
+  // PER VERTEX SHADER //
+  
+  // Connect the program
+  if(!m_PerVertexShader->Finalize())
+  {
+    printf("Program to Finalize\n");
+    return false;
+  }
+  
+  // PER FRAGMENT SHADER
+  // Setup the shaders
+  m_PerFragmentShader = new Shader();
+  if(!m_PerFragmentShader->Initialize())
+  {
+    printf("Shader Failed to Initialize\n");
+    return false;
+  }
+
+  // Add the vertex shader
+  if(!m_PerFragmentShader->AddShader(GL_VERTEX_SHADER, "../assets/shaders/fLightingVertex.shader"))
+  {
+    printf("Vertex Shader failed to Initialize\n");
+    return false;
+  }
+
+  // Add the fragment shader
+  if(!m_PerFragmentShader->AddShader(GL_FRAGMENT_SHADER, "../assets/shaders/fLightingFragment.shader"))
   {
     printf("Fragment Shader failed to Initialize\n");
     return false;
   }
 
   // Connect the program
-  if(!m_shader->Finalize())
+  if(!m_PerFragmentShader->Finalize())
   {
     printf("Program to Finalize\n");
     return false;
   }
 
-  // Locate the projection matrix in the shader
-  m_projectionMatrix = m_shader->GetUniformLocation("projectionMatrix");
-  if (m_projectionMatrix == INVALID_UNIFORM_LOCATION) 
+  // Locate the projection matrix in the per vertex shader
+  m_vprojectionMatrix = m_PerVertexShader->GetUniformLocation("projectionMatrix");
+  if (m_vprojectionMatrix == INVALID_UNIFORM_LOCATION) 
   {
-    printf("m_projectionMatrix not found\n");
+    printf("m_vprojectionMatrix not found\n");
     return false;
   }
 
-  // Locate the view matrix in the shader
-  m_viewMatrix = m_shader->GetUniformLocation("viewMatrix");
-  if (m_viewMatrix == INVALID_UNIFORM_LOCATION) 
+  // Locate the view matrix in the per vertex shader
+  m_vviewMatrix = m_PerVertexShader->GetUniformLocation("viewMatrix");
+  if (m_vviewMatrix == INVALID_UNIFORM_LOCATION) 
   {
-    printf("m_viewMatrix not found\n");
+    printf("m_vviewMatrix not found\n");
     return false;
   }
 
-  // Locate the model matrix in the shader
-  m_modelMatrix = m_shader->GetUniformLocation("modelMatrix");
-  if (m_modelMatrix == INVALID_UNIFORM_LOCATION) 
+  // Locate the model matrix in the per vertex shader
+  m_vmodelMatrix = m_PerVertexShader->GetUniformLocation("modelMatrix");
+  if (m_vmodelMatrix == INVALID_UNIFORM_LOCATION) 
   {
-    printf("m_modelMatrix not found\n");
+    printf("m_vmodelMatrix not found\n");
+    return false;
+  }
+  
+  // Locate the light position in the per vertex shader
+  m_vlightPos = m_PerVertexShader->GetUniformLocation("lightPos");
+  if (m_vlightPos == INVALID_UNIFORM_LOCATION) 
+  {
+    printf("m_vlightPos not found\n");
+    return false;
+  }
+  
+  // Locate the ambient color in the per vertex shader
+  m_vambientColor = m_PerVertexShader->GetUniformLocation("ambientColor");
+  if (m_vlightPos == INVALID_UNIFORM_LOCATION) 
+  {
+    printf("m_vambientColor not found\n");
+    return false;
+  }
+  
+  // Locate the diffuse color in the per fragment shader
+  m_vdiffuseColor = m_PerFragmentShader->GetUniformLocation("diffuseColor");
+  if (m_vdiffuseColor == INVALID_UNIFORM_LOCATION)
+  {
+    printf("m_vdiffuseColor not found\n");
+    return false;
+  }
+  
+  // Locate the specular color in the per fragment shader
+  m_vspecularColor = m_PerFragmentShader->GetUniformLocation("specularColor");
+  if (m_vspecularColor == INVALID_UNIFORM_LOCATION)
+  {
+    printf("m_vspecularColor not found\n");
+    return false;
+  }
+  
+  // Locate the shininess in the per fragment shader
+  m_vshininess = m_PerFragmentShader->GetUniformLocation("shininess");
+  if (m_vshininess == INVALID_UNIFORM_LOCATION)
+  {
+    printf("m_vshininess not found\n");
+    return false;
+  }
+  
+  // PER FRAGMENT SHADER //
+  
+  // Locate the projection matrix in the per fragment shader
+  m_fprojectionMatrix = m_PerFragmentShader->GetUniformLocation("projectionMatrix");
+  if (m_fprojectionMatrix == INVALID_UNIFORM_LOCATION) 
+  {
+    printf("m_fprojectionMatrix not found\n");
+    return false;
+  }
+
+  // Locate the view matrix in the per fragment shader
+  m_fviewMatrix = m_PerFragmentShader->GetUniformLocation("viewMatrix");
+  if (m_fviewMatrix == INVALID_UNIFORM_LOCATION) 
+  {
+    printf("m_fviewMatrix not found\n");
+    return false;
+  }
+
+  // Locate the model matrix in the per fragment shader
+  m_fmodelMatrix = m_PerFragmentShader->GetUniformLocation("modelMatrix");
+  if (m_fmodelMatrix == INVALID_UNIFORM_LOCATION) 
+  {
+    printf("m_fmodelMatrix not found\n");
+    return false;
+  }
+  
+  // Locate the light position in the per fragment shader
+  m_flightPos = m_PerFragmentShader->GetUniformLocation("lightPos");
+  if (m_flightPos == INVALID_UNIFORM_LOCATION)
+  {
+    printf("m_flightPos not found\n");
+    return false;
+  }
+  
+  // Locate the ambient color in the per fragment shader
+  m_fambientColor = m_PerFragmentShader->GetUniformLocation("ambientColor");
+  if (m_flightPos == INVALID_UNIFORM_LOCATION)
+  {
+    printf("m_fambientColor not found\n");
+    return false;
+  }
+  
+  // Locate the diffuse color in the per fragment shader
+  m_fdiffuseColor = m_PerFragmentShader->GetUniformLocation("diffuseColor");
+  if (m_fdiffuseColor == INVALID_UNIFORM_LOCATION)
+  {
+    printf("m_fdiffuseColor not found\n");
+    return false;
+  }
+  
+  // Locate the specular color in the per fragment shader
+  m_fspecularColor = m_PerFragmentShader->GetUniformLocation("specularColor");
+  if (m_fspecularColor == INVALID_UNIFORM_LOCATION)
+  {
+    printf("m_fspecularColor not found\n");
+    return false;
+  }
+  
+  // Locate the shininess in the per fragment shader
+  m_fshininess = m_PerFragmentShader->GetUniformLocation("shininess");
+  if (m_fshininess == INVALID_UNIFORM_LOCATION)
+  {
+    printf("m_fshininess not found\n");
     return false;
   }
 
@@ -170,6 +311,11 @@ bool Graphics::Initialize(int width, int height, std::string file)
   glDepthFunc(GL_LESS);
 
   return true;
+}
+
+void Graphics::switchShaders()
+{
+	shaderToggle = !shaderToggle;
 }
 
 void Graphics::Update(unsigned int dt)
@@ -208,18 +354,67 @@ void Graphics::Render()
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
   // Start the correct program
-  m_shader->Enable();
-
-  // Send in the projection and view to the shader
-  glUniformMatrix4fv(m_projectionMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetProjection())); 
-  glUniformMatrix4fv(m_viewMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetView())); 
-
-  // Render the objects
-  for(unsigned int i = 0; i < m_cubes.size(); i++)
+  if (shaderToggle) // PER FRAGMENT SHADERS
   {
-    glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(m_cubes[i]->GetModel()));
-    m_cubes[i]->Render();
+	  m_PerFragmentShader->Enable();
+	  
+	  // Send in the projection and view to the shader
+	  glUniformMatrix4fv(m_fprojectionMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetProjection()));
+	  glUniformMatrix4fv(m_fviewMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetView()));
+	
+	  // Render the objects
+	  for(unsigned int i = 0; i < m_cubes.size(); i++)
+	  {
+		glUniformMatrix4fv(m_fmodelMatrix, 1, GL_FALSE, glm::value_ptr(m_cubes[i]->GetModel()));
+		m_cubes[i]->Render();
+	  }
+	  
+	  // Send light position
+	  glUniform4f(m_flightPos, 0.0f, 5.0f, 0.0f, 1.0f);
+	  
+	  // Send ambient color
+	  glUniform4f(m_fambientColor, 0.75f, 0.75f, 0.75f, 1.0f);
+	  
+	  // Send diffuse color
+	  glUniform4f(m_fdiffuseColor, 0.0f, 0.5f, 0.5f, 1.0f);
+	  
+	  // Send specular color
+	  glUniform4f(m_fspecularColor, 0.5f, 0.0f, 0.5f, 1.0f);
+	  
+	  // Send shininess
+	  glUniform1f(m_fshininess, 75.0f);
   }
+  else // PER VERTEX SHADERS
+  {
+	  m_PerVertexShader->Enable();
+	  
+	  // Send in the projection and view to the shader
+	  glUniformMatrix4fv(m_vprojectionMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetProjection())); 
+	  glUniformMatrix4fv(m_vviewMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetView())); 
+	
+	  // Render the objects
+	  for(unsigned int i = 0; i < m_cubes.size(); i++)
+	  {
+		glUniformMatrix4fv(m_vmodelMatrix, 1, GL_FALSE, glm::value_ptr(m_cubes[i]->GetModel()));
+		m_cubes[i]->Render();
+	  }
+	  
+	  // Send light position
+	  glUniform4f(m_vlightPos, 0.0f, 10.0f, 0.0f, 1.0f);
+	  
+	  // Send ambient color
+	  glUniform4f(m_vambientColor, 0.75f, 0.75f, 0.75f, 1.0f);
+	  
+	  // Send diffuse color
+	  glUniform4f(m_vdiffuseColor, 0.0f, 0.5f, 0.5f, 1.0f);
+	  
+	  // Send specular color
+	  glUniform4f(m_vspecularColor, 0.5f, 0.0f, 0.5f, 1.0f);
+	  
+	  // Send shininess
+	  glUniform1f(m_vshininess, 75.0f);
+  }
+
 
   // Get any errors from OpenGL
   auto error = glGetError();
