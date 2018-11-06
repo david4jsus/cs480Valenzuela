@@ -11,6 +11,7 @@ Graphics::Graphics()
 	dynamicsWorld->setGravity(btVector3(0, -9.81, 0));
 	
 	shaderToggle = true;
+	ambientLightingScale = 0.0;
 }
 
 Graphics::~Graphics()
@@ -124,14 +125,14 @@ bool Graphics::Initialize(int width, int height, std::string file)
   }
 
   // Add the vertex shader
-  if(!m_PerVertexShader->AddShader(GL_VERTEX_SHADER, "../assets/shaders/vertex.shader"))
+  if(!m_PerVertexShader->AddShader(GL_VERTEX_SHADER, "../assets/shaders/vLightingVertex.shader"))
   {
     printf("Vertex Shader failed to Initialize\n");
     return false;
   }
 
   // Add the fragment shader
-  if(!m_PerVertexShader->AddShader(GL_FRAGMENT_SHADER, "../assets/shaders/fragment.shader"))
+  if(!m_PerVertexShader->AddShader(GL_FRAGMENT_SHADER, "../assets/shaders/vLightingFragment.shader"))
   {
     printf("Fragment Shader failed to Initialize\n");
     return false;
@@ -370,19 +371,19 @@ void Graphics::Render()
 	  }
 	  
 	  // Send light position
-	  glUniform4f(m_flightPos, 0.0f, 5.0f, 0.0f, 1.0f);
+	  glUniform4f(m_flightPos, 25.0, 5.0, 0.0, 1.0);
 	  
 	  // Send ambient color
-	  glUniform4f(m_fambientColor, 0.75f, 0.75f, 0.75f, 1.0f);
+	  glUniform4f(m_fambientColor, ambientLightingScale, ambientLightingScale, ambientLightingScale, 1.0);
 	  
 	  // Send diffuse color
-	  glUniform4f(m_fdiffuseColor, 0.0f, 0.5f, 0.5f, 1.0f);
+	  glUniform4f(m_fdiffuseColor, 1.0, 1.0, 1.0, 1.0);
 	  
 	  // Send specular color
-	  glUniform4f(m_fspecularColor, 0.5f, 0.0f, 0.5f, 1.0f);
+	  glUniform4f(m_fspecularColor, 0.1, 0.1, 0.1, 1.0);
 	  
 	  // Send shininess
-	  glUniform1f(m_fshininess, 75.0f);
+	  glUniform1f(m_fshininess, 0.5);
   }
   else // PER VERTEX SHADERS
   {
@@ -400,19 +401,19 @@ void Graphics::Render()
 	  }
 	  
 	  // Send light position
-	  glUniform4f(m_vlightPos, 0.0f, 10.0f, 0.0f, 1.0f);
+	  glUniform4f(m_vlightPos, 25.0f, 5.0f, 0.0f, 1.0f);
 	  
 	  // Send ambient color
-	  glUniform4f(m_vambientColor, 0.75f, 0.75f, 0.75f, 1.0f);
+	  glUniform4f(m_vambientColor, ambientLightingScale, ambientLightingScale, ambientLightingScale, 1.0f);
 	  
 	  // Send diffuse color
-	  glUniform4f(m_vdiffuseColor, 0.0f, 0.5f, 0.5f, 1.0f);
+	  glUniform4f(m_vdiffuseColor, 0.0f, 0.0f, 0.0f, 1.0f);
 	  
 	  // Send specular color
-	  glUniform4f(m_vspecularColor, 0.5f, 0.0f, 0.5f, 1.0f);
+	  glUniform4f(m_vspecularColor, 0.0f, 0.0f, 0.0f, 1.0f);
 	  
 	  // Send shininess
-	  glUniform1f(m_vshininess, 75.0f);
+	  glUniform1f(m_vshininess, 0.0f);
   }
 
 
@@ -455,4 +456,14 @@ std::string Graphics::ErrorString(GLenum error)
   {
     return "None";
   }
+}
+
+float Graphics::getAmbientLightingScale()
+{
+  return ambientLightingScale;
+}
+
+float Graphics::setAmbientLightingScale(float setAmbientLighting)
+{
+  ambientLightingScale = setAmbientLighting;
 }

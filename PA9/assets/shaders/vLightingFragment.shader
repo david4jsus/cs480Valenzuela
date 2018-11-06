@@ -1,6 +1,6 @@
 #version 330
 
-smooth in vec3 color;
+smooth in vec4 color;
 smooth in vec2 texture;
 
 uniform sampler2D sampler;
