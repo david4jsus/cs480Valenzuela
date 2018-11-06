@@ -164,6 +164,22 @@ void Engine::Run()
     	  m_graphics->switchShaders();
       }
       
+      else if (ImGui::Button("Increase Ambient Lighting"))
+      {
+        if(m_graphics->getAmbientLightingScale() < 1.0)
+        {
+          m_graphics->setAmbientLightingScale(m_graphics->getAmbientLightingScale() + 0.1);
+        }
+      }
+      
+      else if (ImGui::Button("Decrease Ambient Lighting"))
+      {
+        if(m_graphics->getAmbientLightingScale() > 0.0)
+        {
+          m_graphics->setAmbientLightingScale(m_graphics->getAmbientLightingScale() - 0.1);
+        }
+      }
+      
       ImGui::End();
     }
     

@@ -26,12 +26,15 @@ class Graphics
     
     // To get a specified cube, specified by array index
     Object* GetObject(int index);
-	 int numberOfCubes();
+	  int numberOfCubes();
 	 
 	 // Bullet 
 	 btDiscreteDynamicsWorld* GetDynamicsWorld();
 	 
 	 btRigidBody* rigidBody;
+	 
+	 float getAmbientLightingScale();
+	 float setAmbientLightingScale(float setAmbientLighting);
 
   private:
     std::string ErrorString(GLenum error);
@@ -74,6 +77,9 @@ class Graphics
     
     // Shader switching
     bool shaderToggle;
+    
+    // ambient lighting values
+    float ambientLightingScale;
 };
 
 #endif /* GRAPHICS_H */
