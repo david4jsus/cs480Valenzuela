@@ -91,15 +91,15 @@ bool Graphics::Initialize(int width, int height, std::string file)
   //Object* Skybox = new Object(this, "Skybox.obj",      0, 0.0f, 0.0f, 0.0f, 25.0f, 0, 0);
   Object* board  = new Object(this, "Disboard.obj",    0, 0.0f, 0.0f, 0.0f, 1.0f,  0, 0);
   Object* ball   = new Object(this, "awesomeball.obj", 0, 0.0f, 0.0f, 0.0f, 0.01f, 1, 1);
-  //Object* cube = new Object(this, "cube.obj", 0, 0.0f, 0.0f, 0.0f, 0.5f, 1, 2);
+  Object* cube = new Object(this, "cube.obj", 0, 0.0f, 0.0f, 0.0f, 0.5f, 1, 2);
   Object* cylinder = new Object(this, "cylinder.obj", 0, 0.0f, 0.0f, 0.0f, 0.5f, 0, 3);
   Object* backWall   = new Object(this, "awesomeball.obj", 0, 0.0f, 0.0f, 0.0f, 0.0f, 0, 4);
   Object* frontWall   = new Object(this, "awesomeball.obj", 0, 0.0f, 0.0f, 0.0f, 0.0f, 0, 5);
   Object* leftWall   = new Object(this, "awesomeball.obj", 0, 0.0f, 0.0f, 0.0f, 0.0f, 0, 6);
   Object* rightWall   = new Object(this, "awesomeball.obj", 0, 0.0f, 0.0f, 0.0f, 0.0f, 0, 7);
   Object* aboveWall   = new Object(this, "awesomeball.obj", 0, 0.0f, 0.0f, 0.0f, 0.0f, 0, 8);
-  Object* rightPaddle   = new Object(this, "cube.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 50, 9);
-  rightPaddle->GetRigidBody()->setGravity(btVector3(0.0f, -1.0f, 0.0f));
+  //Object* rightPaddle   = new Object(this, "cube.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 50, 9);
+  //rightPaddle->GetRigidBody()->setGravity(btVector3(0.0f, -1.0f, 0.0f));
   //Object* leftPaddle   = new Object(this, "cube.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 1, 10);
 
   // Waiting Song while the planets load
@@ -110,14 +110,14 @@ bool Graphics::Initialize(int width, int height, std::string file)
   //m_cubes.push_back(Skybox);
   m_cubes.push_back(board);
   m_cubes.push_back(ball);
-  //m_cubes.push_back(cube);
+  m_cubes.push_back(cube);
   m_cubes.push_back(cylinder);
   m_cubes.push_back(backWall);
   m_cubes.push_back(frontWall);
   m_cubes.push_back(leftWall);
   m_cubes.push_back(rightWall);
   m_cubes.push_back(aboveWall);
-  m_cubes.push_back(rightPaddle);
+  //m_cubes.push_back(rightPaddle);
   //m_cubes.push_back(leftPaddle);
   
   // get rigidbody for the cube
