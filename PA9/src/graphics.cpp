@@ -12,6 +12,7 @@ Graphics::Graphics()
 	
 	shaderToggle = true;
 	ambientLightingScale = 0.0;
+	pinballPos = glm::vec3(0.0, 0.0, 0.0);
 }
 
 Graphics::~Graphics()
@@ -319,6 +320,16 @@ void Graphics::switchShaders()
 	shaderToggle = !shaderToggle;
 }
 
+void Graphics::setVertexShader()
+{
+	shaderToggle = false;
+}
+
+void Graphics::setFragmentShader()
+{
+	shaderToggle = true;
+}
+
 void Graphics::Update(unsigned int dt)
 {
   // Update the objects
@@ -326,6 +337,12 @@ void Graphics::Update(unsigned int dt)
   {
     m_cubes[i]->Update(dt);
   }
+  
+  // Get the pinball position every frame
+  pinballPos = m_cubes[1]->objectPosition();
+  
+  // Set the spot light position to the pinball position
+  //glUniform4f(m_flightPos, pinballPos.x, pinballPos.y, pinballPos.z, 1.0);
 }
 
 Camera* Graphics::getCamera()
@@ -371,7 +388,9 @@ void Graphics::Render()
 	  }
 	  
 	  // Send light position
-	  glUniform4f(m_flightPos, 25.0, 5.0, 0.0, 1.0);
+	  //glUniform4f(m_flightPos, 10.0, 5.0, 0.0, 1.0);
+	  glUniform4f(m_flightPos, pinballPos.x, pinballPos.y, pinballPos.z, 1.0);
+	  //cout << "x: " << pinballPos.x << " y: " << pinballPos.y << " z: " << pinballPos.z << endl;
 	  
 	  // Send ambient color
 	  glUniform4f(m_fambientColor, ambientLightingScale, ambientLightingScale, ambientLightingScale, 1.0);
@@ -380,7 +399,7 @@ void Graphics::Render()
 	  glUniform4f(m_fdiffuseColor, 1.0, 1.0, 1.0, 1.0);
 	  
 	  // Send specular color
-	  glUniform4f(m_fspecularColor, 0.1, 0.1, 0.1, 1.0);
+	  glUniform4f(m_fspecularColor, specularScale, specularScale, specularScale, 1.0);
 	  
 	  // Send shininess
 	  glUniform1f(m_fshininess, 0.5);
@@ -401,19 +420,19 @@ void Graphics::Render()
 	  }
 	  
 	  // Send light position
-	  glUniform4f(m_vlightPos, 25.0f, 5.0f, 0.0f, 1.0f);
+	  glUniform4f(m_flightPos, pinballPos.x, pinballPos.y, pinballPos.z, 1.0);
 	  
 	  // Send ambient color
-	  glUniform4f(m_vambientColor, ambientLightingScale, ambientLightingScale, ambientLightingScale, 1.0f);
+	  glUniform4f(m_vambientColor, ambientLightingScale, ambientLightingScale, ambientLightingScale, 1.0);
 	  
 	  // Send diffuse color
-	  glUniform4f(m_vdiffuseColor, 0.0f, 0.0f, 0.0f, 1.0f);
+	  glUniform4f(m_vdiffuseColor, 1.0, 1.0, 1.0, 1.0);
 	  
 	  // Send specular color
-	  glUniform4f(m_vspecularColor, 0.0f, 0.0f, 0.0f, 1.0f);
+	  glUniform4f(m_vspecularColor, specularScale, specularScale, specularScale, 1.0);
 	  
 	  // Send shininess
-	  glUniform1f(m_vshininess, 0.0f);
+	  glUniform1f(m_vshininess, 0.5);
   }
 
 
@@ -460,10 +479,20 @@ std::string Graphics::ErrorString(GLenum error)
 
 float Graphics::getAmbientLightingScale()
 {
-  return ambientLightingScale;
+	return ambientLightingScale;
+}
+
+float Graphics::GetSpecularScale()
+{
+	return specularScale;
 }
 
 float Graphics::setAmbientLightingScale(float setAmbientLighting)
 {
   ambientLightingScale = setAmbientLighting;
+}
+
+float Graphics::SetSpecularScale(float setSpecularScale)
+{
+	specularScale = setSpecularScale;
 }

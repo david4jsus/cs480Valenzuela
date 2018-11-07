@@ -5,21 +5,27 @@ layout (location = 1) in vec3 v_color;
 layout (location = 2) in vec2 v_texture;
 layout (location = 3) in vec3 v_normal;
 
-smooth out vec2 texture;
-smooth out vec3 fN;
-smooth out vec3 fE;
-smooth out vec3 fL;
-
 uniform mat4 projectionMatrix;
 uniform mat4 viewMatrix;
 uniform mat4 modelMatrix;
 uniform vec4 lightPos;
 
+smooth out vec2 texture;
+smooth out vec3 fN;
+smooth out vec3 fE;
+smooth out vec3 fL;
+
+smooth out vec3 sfL;
+smooth out vec3 spotPosition;
+
 void main(void)
 {
-   fN = v_normal;
-   fE = v_position;
-   fL = lightPos.xyz;
+   sfL = vec3(0, 0, 0);
+   spotPosition = vec3(0, 0, 0);
+
+   fN = mat3(transpose(inverse(modelMatrix))) * v_normal;
+   fE = vec3(modelMatrix * vec4(v_position, 1.0));
+   fL = vec3(lightPos);
    
    texture = v_texture;
 

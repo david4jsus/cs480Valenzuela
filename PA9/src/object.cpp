@@ -232,6 +232,10 @@ void Object::Update(unsigned int dt)
   
   // Scaling
   model = glm::scale(model, glm::vec3(size, size, size));
+  
+  btVector3 ballTransform = trans.getOrigin();
+  
+  pos = glm::vec3(ballTransform.getX(), ballTransform.getY(), ballTransform.getZ());
 }
 
 glm::mat4 Object::GetModel()
