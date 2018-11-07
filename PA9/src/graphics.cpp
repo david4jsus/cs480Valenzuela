@@ -420,19 +420,19 @@ void Graphics::Render()
 	  }
 	  
 	  // Send light position
-	  glUniform4f(m_vlightPos, 25.0f, 5.0f, 0.0f, 1.0f);
+	  glUniform4f(m_flightPos, pinballPos.x, pinballPos.y, pinballPos.z, 1.0);
 	  
 	  // Send ambient color
-	  glUniform4f(m_vambientColor, ambientLightingScale, ambientLightingScale, ambientLightingScale, 1.0f);
+	  glUniform4f(m_vambientColor, ambientLightingScale, ambientLightingScale, ambientLightingScale, 1.0);
 	  
 	  // Send diffuse color
-	  glUniform4f(m_vdiffuseColor, 0.0f, 0.0f, 0.0f, 1.0f);
+	  glUniform4f(m_vdiffuseColor, 1.0, 1.0, 1.0, 1.0);
 	  
 	  // Send specular color
-	  glUniform4f(m_vspecularColor, specularScale, specularScale, specularScale, 1.0f);
+	  glUniform4f(m_vspecularColor, specularScale, specularScale, specularScale, 1.0);
 	  
 	  // Send shininess
-	  glUniform1f(m_vshininess, 0.0f);
+	  glUniform1f(m_vshininess, 0.5);
   }
 
 

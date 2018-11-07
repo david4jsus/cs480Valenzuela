@@ -20,6 +20,9 @@ smooth out vec3 spotPosition;
 
 void main(void)
 {
+   sfL = vec3(0, 0, 0);
+   spotPosition = vec3(0, 0, 0);
+
    fN = mat3(transpose(inverse(modelMatrix))) * v_normal;
    fE = vec3(modelMatrix * vec4(v_position, 1.0));
    fL = vec3(lightPos);
