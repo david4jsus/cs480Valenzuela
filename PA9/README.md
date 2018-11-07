@@ -25,11 +25,14 @@ mkdir build
 cd build
 cmake ..
 make
-./PA8
+./PA9
 ```
 
 # Controls
-This program uses keyboard input for camera interaction and the mouse to select items on the on-screen menu:
+This program uses keyboard input and the mouse to select items on the on-screen menu:
+
+Moving the camera
+
 - **W**: Move view forward
 - **S**: Move view backward
 - **A**: Move view left
@@ -40,11 +43,20 @@ This program uses keyboard input for camera interaction and the mouse to select 
 - **Down arrow**: Rotate view downwards
 - **Left arrow**: Rotate view left
 - **Right arrow**: Rotate view right
+
+Moving the cube
+
 - **I**: Move cube forward
 - **J**: Move cube left
 - **K**: Move cube backward
 - **L**: Move cube right
 - **O**: Make cube jump
 
+Changing ambient and specular brightness
+
+- **Numpad 8**: Increase ambient brightness
+- **Numpad 2**: Decrease ambient brightness
+- **Numpad 4**: Decrease specular brightness
+- **Numpad 6**: Increase specular brightness
 
 The on-screen menu is scalable and has an available scrolling bar on the right side.
