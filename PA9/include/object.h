@@ -120,6 +120,8 @@ class Object
 	std::vector<unsigned int> mTextureCoords;
 	
 	int modelNum;
+	
+	glm::vec3 objectPos;
 };
 
 #endif /* OBJECT_H */

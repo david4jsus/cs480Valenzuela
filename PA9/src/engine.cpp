@@ -159,6 +159,27 @@ void Engine::Run()
     {
       ImGui::Begin("Pinball Instructions and Help");
       
+      ImGui::Separator();
+      ImGui::Separator();
+      
+      ImGui::Text("Tab -- Switch between Vertex and Fragment Shaders");
+      
+      ImGui::Separator();
+      ImGui::Separator();
+      
+      ImGui::Text("Numbad 8 -- Increase Ambient Intesity");
+      ImGui::Text("Numbad 2 -- Decrease Ambient Intesity");
+      
+      ImGui::Separator();
+      ImGui::Separator();
+      
+      ImGui::Text("Numbad 6 -- Increase Specular Intensity");
+      ImGui::Text("Numbad 4 -- Decrease Specular Intensity");
+      
+      ImGui::Separator();
+      ImGui::Separator();
+      
+      /*
       if (ImGui::Button("Use per vertex lighting"))
       {
     	  m_graphics->setVertexShader();
@@ -184,6 +205,8 @@ void Engine::Run()
           m_graphics->setAmbientLightingScale(m_graphics->getAmbientLightingScale() - 0.1);
         }
       }
+      
+      */
       
       ImGui::End();
     }
@@ -309,6 +332,40 @@ void Engine::Keyboard()
     {
     	m_graphics->switchShaders();
     }
+    
+    if(m_event.key.keysym.sym == SDLK_KP_8)
+    {
+        if(m_graphics->getAmbientLightingScale() < 1.0)
+        {
+          m_graphics->setAmbientLightingScale(m_graphics->getAmbientLightingScale() + 0.1);
+        }
+    }
+    
+    if(m_event.key.keysym.sym == SDLK_KP_2)
+    {
+        if(m_graphics->getAmbientLightingScale() > 0.0)
+        {
+          m_graphics->setAmbientLightingScale(m_graphics->getAmbientLightingScale() - 0.1);
+        }
+    }
+    
+    // Cheese Specular Scale
+    if(m_event.key.keysym.sym == SDLK_KP_6)
+    {
+        if(m_graphics->GetSpecularScale() < 1.0)
+        {
+          m_graphics->SetSpecularScale(m_graphics->GetSpecularScale() + 0.1);
+        }
+    }
+    
+    if(m_event.key.keysym.sym == SDLK_KP_4)
+    {
+        if(m_graphics->GetSpecularScale() > 0.0)
+        {
+          m_graphics->SetSpecularScale(m_graphics->GetSpecularScale() - 0.1);
+        }
+    }
+    
   }
   else if (m_event.type == SDL_KEYUP)
   { 

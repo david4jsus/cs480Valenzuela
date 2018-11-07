@@ -37,6 +37,9 @@ class Graphics
 	 
 	 float getAmbientLightingScale();
 	 float setAmbientLightingScale(float setAmbientLighting);
+	 
+	 float GetSpecularScale();
+	 float SetSpecularScale(float setSpecularScale);
 
   private:
     std::string ErrorString(GLenum error);
@@ -82,6 +85,9 @@ class Graphics
     
     // ambient lighting values
     float ambientLightingScale;
+    float specularScale;
+    
+    glm::vec3 pinballPos;
 };
 
 #endif /* GRAPHICS_H */

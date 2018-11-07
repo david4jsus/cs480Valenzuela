@@ -31,6 +31,6 @@ void main(void)
       specular = vec4(0.0, 0.0, 0.0, 1.0);
    }
    
-   frag_color = (ambientColor + diffuse + specularColor) * texture2D(sampler, texture);
+   frag_color = (ambientColor + diffuse + specular) * texture2D(sampler, texture);
    frag_color.a = 1.0;
 }

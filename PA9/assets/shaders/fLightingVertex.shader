@@ -15,6 +15,9 @@ smooth out vec3 fN;
 smooth out vec3 fE;
 smooth out vec3 fL;
 
+smooth out vec3 sfL;
+smooth out vec3 spotPosition;
+
 void main(void)
 {
    fN = mat3(transpose(inverse(modelMatrix))) * v_normal;
