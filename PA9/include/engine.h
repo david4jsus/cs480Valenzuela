@@ -11,6 +11,10 @@
 
 #include <btBulletDynamicsCommon.h>
 
+#include <chrono>
+
+using namespace std::chrono;
+
 class Engine
 {
   public:
@@ -24,7 +28,7 @@ class Engine
     unsigned int getDT();
     long long GetCurrentTimeMillis();
     
-    btRigidBody* rigidBody;
+    btRigidBody* getObjectRigidBody(int objectIndex);
   
   private:
     // Window related variables
@@ -63,6 +67,14 @@ class Engine
     bool rotatingRight;
     bool rotatingUp;
     bool rotatingDown;
+    
+    bool usedRightPaddle;
+    bool firstRightPaddleUse;
+    
+    high_resolution_clock::time_point startTime;
+    high_resolution_clock::time_point endTime;
+    high_resolution_clock::time_point startAgainTime;
+    duration<double, std::milli> time_span;
 };
 
 #endif // ENGINE_H

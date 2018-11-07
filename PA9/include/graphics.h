@@ -33,13 +33,13 @@ class Graphics
 	 // Bullet 
 	 btDiscreteDynamicsWorld* GetDynamicsWorld();
 	 
-	 btRigidBody* rigidBody;
-	 
 	 float getAmbientLightingScale();
 	 float setAmbientLightingScale(float setAmbientLighting);
 	 
 	 float GetSpecularScale();
 	 float SetSpecularScale(float setSpecularScale);
+	 
+	 btRigidBody* getRigidBody(int objectIndex);
 
   private:
     std::string ErrorString(GLenum error);
@@ -88,6 +88,8 @@ class Graphics
     float specularScale;
     
     glm::vec3 pinballPos;
+    
+    std::vector<btRigidBody*> rigidBodies;
 };
 
 #endif /* GRAPHICS_H */

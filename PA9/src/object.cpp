@@ -105,7 +105,7 @@ void Object::createObject()
     colliderShape = new btSphereShape(radius);
     
     // set orientation and position of object
-    shapeMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 0, 0)));
+    shapeMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 0, 10)));
   }
   
   // cube
@@ -183,6 +183,41 @@ void Object::createObject()
     shapeMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(45, 0, 0)));
   }
   
+  // wall above board
+  else if(modelNum == 8)
+  {
+    // create a plane collider
+      // btVector3(-1, 0, 0) means normal is facing towards the left 
+    btVector3 planeNormal = btVector3(0, -1, 0);
+    btScalar planeConstant = 0.0; 
+    colliderShape = new btStaticPlaneShape(planeNormal, planeConstant);
+    
+    // set orientation and position of object
+    shapeMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 5, 0)));
+  }
+  
+  // right paddle
+  else if(modelNum == 9)
+  {
+    // create a box collider
+    btVector3 boxHalfExtents = btVector3(10.0, 1.0, 15.0);
+    colliderShape = new btBoxShape(boxHalfExtents);
+    
+    // set orientation and position of object
+    shapeMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 0, 0)));
+  }
+  
+  // right wall for board
+  else if(modelNum == 10)
+  {
+    // create a box collider
+    btVector3 boxHalfExtents = btVector3(2.0, 2.0, 2.0);
+    colliderShape = new btBoxShape(boxHalfExtents);
+    
+    // set orientation and position of object
+    shapeMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 0, 0)));
+  }
+  
   // set mass and inertia
   btScalar mass(m_mass);
   btVector3 inertia(0, 0, 0);
@@ -231,7 +266,15 @@ void Object::Update(unsigned int dt)
   model = glm::make_mat4(m);
   
   // Scaling
-  model = glm::scale(model, glm::vec3(size, size, size));
+  if(objFilePath == "cube.obj")
+  {
+    model = glm::scale(model, glm::vec3(size, size, 4 * size));
+  }
+  
+  else
+  {
+    model = glm::scale(model, glm::vec3(size, size, size));
+  }
   
   btVector3 ballTransform = trans.getOrigin();
   

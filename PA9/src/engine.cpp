@@ -74,7 +74,8 @@ bool Engine::Initialize()
   rotatingUp     = false;
   rotatingDown   = false;
   
-  rigidBody = m_graphics->rigidBody;
+  usedRightPaddle = false;
+  firstRightPaddleUse = false;
   
   // No errors
   return true;
@@ -300,32 +301,27 @@ void Engine::Keyboard()
     
     if (m_event.key.keysym.sym == SDLK_o)   // Rotate camera down
     {
-      rigidBody->applyCentralImpulse(btVector3(0.0f, 10.0f, 0.0f));
-      //rigidBody->applyForce(btVector3(0, 10, 0), btVector3(0, 10, 0));
+      getObjectRigidBody(1)->applyCentralImpulse(btVector3(0.0f, 10.0f, 0.0f));
     }
     
     if (m_event.key.keysym.sym == SDLK_i)   // Rotate camera down
     {
-      rigidBody->applyCentralImpulse(btVector3(3.0f, 0.0f, 0.0f));
-      //rigidBody->applyForce(btVector3(0, 10, 0), btVector3(0, 10, 0));
+      getObjectRigidBody(1)->applyCentralImpulse(btVector3(1.0f, 0.0f, 0.0f));
     }
     
     if (m_event.key.keysym.sym == SDLK_j)   // Rotate camera down
     {
-      rigidBody->applyCentralImpulse(btVector3(0.0f, 0.0f, -3.0f));
-      //rigidBody->applyForce(btVector3(0, 10, 0), btVector3(0, 10, 0));
+      getObjectRigidBody(1)->applyCentralImpulse(btVector3(0.0f, 0.0f, -1.0f));
     }
     
     if (m_event.key.keysym.sym == SDLK_k)   // Rotate camera down
     {
-      rigidBody->applyCentralImpulse(btVector3(-3.0f, 0.0f, 0.0f));
-      //rigidBody->applyForce(btVector3(0, 10, 0), btVector3(0, 10, 0));
+      getObjectRigidBody(1)->applyCentralImpulse(btVector3(-1.0f, 0.0f, 0.0f));
     }
     
     if (m_event.key.keysym.sym == SDLK_l)   // Rotate camera down
     {
-      rigidBody->applyCentralImpulse(btVector3(0.0f, 0.0f, 3.0f));
-      //rigidBody->applyForce(btVector3(0, 10, 0), btVector3(0, 10, 0));
+      getObjectRigidBody(1)->applyCentralImpulse(btVector3(0.0f, 0.0f, 1.0f));
     }
     
     if (m_event.key.keysym.sym == SDLK_TAB) // Switch shaders
@@ -364,6 +360,18 @@ void Engine::Keyboard()
         {
           m_graphics->SetSpecularScale(m_graphics->GetSpecularScale() - 0.1);
         }
+    }
+    
+    startAgainTime = high_resolution_clock::now();
+    time_span = startAgainTime - endTime;
+
+    if ((m_event.key.keysym.sym == SDLK_m && usedRightPaddle == false && time_span.count() >= 60.0) || 
+        (m_event.key.keysym.sym == SDLK_m && usedRightPaddle == false && firstRightPaddleUse == false))
+    {
+      getObjectRigidBody(8)->applyTorqueImpulse(btVector3(0.0f, -1000.0f, 0.0f));
+      usedRightPaddle = true;
+      firstRightPaddleUse = true;
+      startTime = high_resolution_clock::now();
     }
     
   }
@@ -444,6 +452,19 @@ void Engine::Mouse()
 
 unsigned int Engine::getDT()
 {
+  if(usedRightPaddle == true)
+  {
+    endTime = high_resolution_clock::now();
+    time_span = endTime - startTime;
+  
+    if (m_event.key.keysym.sym == SDLK_m && time_span.count() >= 60.0)
+    {
+      getObjectRigidBody(8)->applyTorqueImpulse(btVector3(0.0f, 1000.0f, 0.0f));
+      usedRightPaddle = false;
+    }
+  }
+
+
   long long TimeNowMillis = GetCurrentTimeMillis();
   assert(TimeNowMillis >= m_currentTimeMillis);
   unsigned int DeltaTimeMillis = (unsigned int)(TimeNowMillis - m_currentTimeMillis);
@@ -457,4 +478,9 @@ long long Engine::GetCurrentTimeMillis()
   gettimeofday(&t, NULL);
   long long ret = t.tv_sec * 1000 + t.tv_usec / 1000;
   return ret;
+}
+
+btRigidBody* Engine::getObjectRigidBody(int objectIndex)
+{
+  return m_graphics->getRigidBody(objectIndex);
 }
