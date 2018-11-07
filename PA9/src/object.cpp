@@ -265,16 +265,7 @@ void Object::Update(unsigned int dt)
   trans.getOpenGLMatrix(m);
   model = glm::make_mat4(m);
   
-  // Scaling
-  if(objFilePath == "cube.obj")
-  {
-    model = glm::scale(model, glm::vec3(size, size, 4 * size));
-  }
-  
-  else
-  {
-    model = glm::scale(model, glm::vec3(size, size, size));
-  }
+  model = glm::scale(model, glm::vec3(size, size, size));
   
   btVector3 ballTransform = trans.getOrigin();
   
