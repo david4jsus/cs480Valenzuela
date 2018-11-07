@@ -23,6 +23,8 @@ class Graphics
     void Render();
     Camera* getCamera();
     void switchShaders();
+    void setVertexShader();
+    void setFragmentShader();
     
     // To get a specified cube, specified by array index
     Object* GetObject(int index);

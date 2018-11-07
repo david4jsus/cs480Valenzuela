@@ -159,9 +159,14 @@ void Engine::Run()
     {
       ImGui::Begin("Pinball Instructions and Help");
       
-      if (ImGui::Button("Switch Shaders"))
+      if (ImGui::Button("Use per vertex lighting"))
       {
-    	  m_graphics->switchShaders();
+    	  m_graphics->setVertexShader();
+      }
+      
+      if (ImGui::Button("Use per fragment lighting"))
+      {
+    	  m_graphics->setFragmentShader();
       }
       
       else if (ImGui::Button("Increase Ambient Lighting"))
@@ -298,6 +303,11 @@ void Engine::Keyboard()
     {
       rigidBody->applyCentralImpulse(btVector3(0.0f, 0.0f, 3.0f));
       //rigidBody->applyForce(btVector3(0, 10, 0), btVector3(0, 10, 0));
+    }
+    
+    if (m_event.key.keysym.sym == SDLK_TAB) // Switch shaders
+    {
+    	m_graphics->switchShaders();
     }
   }
   else if (m_event.type == SDL_KEYUP)

@@ -319,6 +319,16 @@ void Graphics::switchShaders()
 	shaderToggle = !shaderToggle;
 }
 
+void Graphics::setVertexShader()
+{
+	shaderToggle = false;
+}
+
+void Graphics::setFragmentShader()
+{
+	shaderToggle = true;
+}
+
 void Graphics::Update(unsigned int dt)
 {
   // Update the objects
