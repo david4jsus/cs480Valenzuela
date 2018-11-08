@@ -111,17 +111,17 @@ class Object
     std::vector<unsigned int> myIndices;
     bool loadOBJ(std::string path, std::vector<Vertex> &out_vertices, std::vector<unsigned int> &out_indices);
 
-	// Assimp object loader
-	Assimp::Importer importer;
-	const aiScene *scene;
-	std::vector<aiMesh*> meshes;
+	  // Assimp object loader
+	  Assimp::Importer importer;
+	  const aiScene *scene;
+	  std::vector<aiMesh*> meshes;
 	
-	Magick::Image im;
-	std::vector<unsigned int> mTextureCoords;
+	  Magick::Image im;
+	  std::vector<unsigned int> mTextureCoords;
 	
-	int modelNum;
+	  int modelNum;
 	
-	glm::vec3 objectPos;
+	  glm::vec3 objectPos;
 };
 
 #endif /* OBJECT_H */

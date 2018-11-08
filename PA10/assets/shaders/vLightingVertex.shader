@@ -21,13 +21,6 @@ smooth out vec2 texture;
 void main(void)
 {
   vec4 v = vec4(v_position, 1.0);
-  
-  vec3 fL = vec3(lightPos);
- 
-  if(lightPos.w != 0.0)
-  {
-      fL = lightPos.xyz - v.xyz;
-  }
  
   vec3 pos = vec3(modelMatrix * vec4(v_position, 1.0));
   vec3 nN = normalize(mat3(transpose(inverse(modelMatrix))) * v_normal);

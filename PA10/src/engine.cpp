@@ -368,7 +368,8 @@ void Engine::Keyboard()
     if ((m_event.key.keysym.sym == SDLK_m && usedRightPaddle == false && time_span.count() >= 60.0) || 
         (m_event.key.keysym.sym == SDLK_m && usedRightPaddle == false && firstRightPaddleUse == false))
     {
-      getObjectRigidBody(8)->applyTorqueImpulse(btVector3(0.0f, -1000.0f, 0.0f));
+      getObjectRigidBody(8)->applyTorqueImpulse(btVector3(0.0f, -1200.0f, 0.0f));
+      //getObjectRigidBody(8)->applyCentralImpulse(btVector3(90.0f, 0.0f, 0.0f));
       usedRightPaddle = true;
       firstRightPaddleUse = true;
       startTime = high_resolution_clock::now();
@@ -457,9 +458,10 @@ unsigned int Engine::getDT()
     endTime = high_resolution_clock::now();
     time_span = endTime - startTime;
   
-    if (m_event.key.keysym.sym == SDLK_m && time_span.count() >= 60.0)
+    if (m_event.key.keysym.sym == SDLK_m && time_span.count() >= 150.0)
     {
-      getObjectRigidBody(8)->applyTorqueImpulse(btVector3(0.0f, 1000.0f, 0.0f));
+      //getObjectRigidBody(8)->applyCentralImpulse(btVector3(-90.0f, 0.0f, 0.0f));
+      getObjectRigidBody(8)->applyTorqueImpulse(btVector3(0.0f, 1200.0f, 0.0f));
       usedRightPaddle = false;
     }
   }
