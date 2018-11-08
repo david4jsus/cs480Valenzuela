@@ -136,14 +136,14 @@ bool Graphics::Initialize(int width, int height, std::string file)
   }
 
   // Add the vertex shader
-  if(!m_PerVertexShader->AddShader(GL_VERTEX_SHADER, "../assets/shaders/fLightingVertex.shader"))
+  if(!m_PerVertexShader->AddShader(GL_VERTEX_SHADER, "../assets/shaders/vLightingVertex.shader"))
   {
     printf("Vertex Shader failed to Initialize\n");
     return false;
   }
 
   // Add the fragment shader
-  if(!m_PerVertexShader->AddShader(GL_FRAGMENT_SHADER, "../assets/shaders/fLightingFragment.shader"))
+  if(!m_PerVertexShader->AddShader(GL_FRAGMENT_SHADER, "../assets/shaders/vLightingFragment.shader"))
   {
     printf("Fragment Shader failed to Initialize\n");
     return false;
@@ -168,14 +168,14 @@ bool Graphics::Initialize(int width, int height, std::string file)
   }
 
   // Add the vertex shader
-  if(!m_PerFragmentShader->AddShader(GL_VERTEX_SHADER, "../assets/shaders/vLightingVertex.shader"))
+  if(!m_PerFragmentShader->AddShader(GL_VERTEX_SHADER, "../assets/shaders/fLightingVertex.shader"))
   {
     printf("Vertex Shader failed to Initialize\n");
     return false;
   }
 
   // Add the fragment shader
-  if(!m_PerFragmentShader->AddShader(GL_FRAGMENT_SHADER, "../assets/shaders/vLightingFragment.shader"))
+  if(!m_PerFragmentShader->AddShader(GL_FRAGMENT_SHADER, "../assets/shaders/fLightingFragment.shader"))
   {
     printf("Fragment Shader failed to Initialize\n");
     return false;
@@ -229,7 +229,7 @@ bool Graphics::Initialize(int width, int height, std::string file)
   }
   
   // Locate the diffuse color in the per fragment shader
-  m_vdiffuseColor = m_PerFragmentShader->GetUniformLocation("diffuseColor");
+  m_vdiffuseColor = m_PerVertexShader->GetUniformLocation("diffuseColor");
   if (m_vdiffuseColor == INVALID_UNIFORM_LOCATION)
   {
     printf("m_vdiffuseColor not found\n");
@@ -237,7 +237,7 @@ bool Graphics::Initialize(int width, int height, std::string file)
   }
   
   // Locate the specular color in the per fragment shader
-  m_vspecularColor = m_PerFragmentShader->GetUniformLocation("specularColor");
+  m_vspecularColor = m_PerVertexShader->GetUniformLocation("specularColor");
   if (m_vspecularColor == INVALID_UNIFORM_LOCATION)
   {
     printf("m_vspecularColor not found\n");
@@ -245,7 +245,7 @@ bool Graphics::Initialize(int width, int height, std::string file)
   }
   
   // Locate the shininess in the per fragment shader
-  m_vshininess = m_PerFragmentShader->GetUniformLocation("shininess");
+  m_vshininess = m_PerVertexShader->GetUniformLocation("shininess");
   if (m_vshininess == INVALID_UNIFORM_LOCATION)
   {
     printf("m_vshininess not found\n");
@@ -461,8 +461,6 @@ void Graphics::Render()
 	  
 	  // Send light position
 	  glUniform4f(m_vlightPos, pinballPos.x, pinballPos.y, pinballPos.z, 1.0);
-	  
-	  cout << pinballPos.x << endl;
 	  
 	  // Send ambient color
 	  glUniform4f(m_vambientColor, ambientLightingScale, ambientLightingScale, ambientLightingScale, 1.0);
