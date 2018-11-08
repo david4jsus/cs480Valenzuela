@@ -136,14 +136,14 @@ bool Graphics::Initialize(int width, int height, std::string file)
   }
 
   // Add the vertex shader
-  if(!m_PerVertexShader->AddShader(GL_VERTEX_SHADER, "../assets/shaders/vLightingVertex.shader"))
+  if(!m_PerVertexShader->AddShader(GL_VERTEX_SHADER, "../assets/shaders/fLightingVertex.shader"))
   {
     printf("Vertex Shader failed to Initialize\n");
     return false;
   }
 
   // Add the fragment shader
-  if(!m_PerVertexShader->AddShader(GL_FRAGMENT_SHADER, "../assets/shaders/vLightingFragment.shader"))
+  if(!m_PerVertexShader->AddShader(GL_FRAGMENT_SHADER, "../assets/shaders/fLightingFragment.shader"))
   {
     printf("Fragment Shader failed to Initialize\n");
     return false;
@@ -168,14 +168,14 @@ bool Graphics::Initialize(int width, int height, std::string file)
   }
 
   // Add the vertex shader
-  if(!m_PerFragmentShader->AddShader(GL_VERTEX_SHADER, "../assets/shaders/fLightingVertex.shader"))
+  if(!m_PerFragmentShader->AddShader(GL_VERTEX_SHADER, "../assets/shaders/vLightingVertex.shader"))
   {
     printf("Vertex Shader failed to Initialize\n");
     return false;
   }
 
   // Add the fragment shader
-  if(!m_PerFragmentShader->AddShader(GL_FRAGMENT_SHADER, "../assets/shaders/fLightingFragment.shader"))
+  if(!m_PerFragmentShader->AddShader(GL_FRAGMENT_SHADER, "../assets/shaders/vLightingFragment.shader"))
   {
     printf("Fragment Shader failed to Initialize\n");
     return false;
@@ -222,7 +222,7 @@ bool Graphics::Initialize(int width, int height, std::string file)
   
   // Locate the ambient color in the per vertex shader
   m_vambientColor = m_PerVertexShader->GetUniformLocation("ambientColor");
-  if (m_vlightPos == INVALID_UNIFORM_LOCATION) 
+  if (m_vambientColor == INVALID_UNIFORM_LOCATION) 
   {
     printf("m_vambientColor not found\n");
     return false;
@@ -288,7 +288,7 @@ bool Graphics::Initialize(int width, int height, std::string file)
   
   // Locate the ambient color in the per fragment shader
   m_fambientColor = m_PerFragmentShader->GetUniformLocation("ambientColor");
-  if (m_flightPos == INVALID_UNIFORM_LOCATION)
+  if (m_fambientColor == INVALID_UNIFORM_LOCATION)
   {
     printf("m_fambientColor not found\n");
     return false;
@@ -353,6 +353,36 @@ void Graphics::Update(unsigned int dt)
   
   // Set the spot light position to the pinball position
   //glUniform4f(m_flightPos, pinballPos.x, pinballPos.y, pinballPos.z, 1.0);
+  
+  /*int numManifolds = dynamicsWorld->getDispatcher()->getNumManifolds();
+  for (int i=0;i<numManifolds;i++)
+  {
+      btPersistentManifold* contactManifold =  dynamicsWorld->getDispatcher()->getManifoldByIndexInternal(i);
+      btCollisionObject* obA = const_cast<btCollisionObject*>(contactManifold->getBody0());
+      btCollisionObject* obB = const_cast<btCollisionObject*>(contactManifold->getBody1());
+
+      obA->setCollisionShape(m_cubes[1]->GetCollisionShape());
+      obB->setCollisionShape(m_cubes[8]->GetCollisionShape());
+
+      int numContacts = contactManifold->getNumContacts();
+      for (int j=0;j<numContacts;j++)
+      {
+          btManifoldPoint& pt = contactManifold->getContactPoint(j);
+          cout << pt.getDistance() << endl;
+          if (pt.getDistance()<0.f)
+          {
+              const btVector3& ptA = pt.getPositionWorldOnA();
+              const btVector3& ptB = pt.getPositionWorldOnB();
+              const btVector3& normalOnB = pt.m_normalWorldOnB;
+              bool x = false;
+              x = (ContactProcessedCallback)(pt,rigidBodies[1],rigidBodies[8]);
+              if(x)
+              {
+            }
+                  //cout << "collision" << endl;
+          }
+      }
+  }*/
 }
 
 Camera* Graphics::getCamera()
@@ -393,8 +423,8 @@ void Graphics::Render()
 	  // Render the objects
 	  for(unsigned int i = 0; i < m_cubes.size(); i++)
 	  {
-		glUniformMatrix4fv(m_fmodelMatrix, 1, GL_FALSE, glm::value_ptr(m_cubes[i]->GetModel()));
-		m_cubes[i]->Render();
+		  glUniformMatrix4fv(m_fmodelMatrix, 1, GL_FALSE, glm::value_ptr(m_cubes[i]->GetModel()));
+		  m_cubes[i]->Render();
 	  }
 	  
 	  // Send light position
@@ -425,12 +455,14 @@ void Graphics::Render()
 	  // Render the objects
 	  for(unsigned int i = 0; i < m_cubes.size(); i++)
 	  {
-		glUniformMatrix4fv(m_vmodelMatrix, 1, GL_FALSE, glm::value_ptr(m_cubes[i]->GetModel()));
-		m_cubes[i]->Render();
+		  glUniformMatrix4fv(m_vmodelMatrix, 1, GL_FALSE, glm::value_ptr(m_cubes[i]->GetModel()));
+		  m_cubes[i]->Render();
 	  }
 	  
 	  // Send light position
-	  glUniform4f(m_flightPos, pinballPos.x, pinballPos.y, pinballPos.z, 1.0);
+	  glUniform4f(m_vlightPos, pinballPos.x, pinballPos.y, pinballPos.z, 1.0);
+	  
+	  cout << pinballPos.x << endl;
 	  
 	  // Send ambient color
 	  glUniform4f(m_vambientColor, ambientLightingScale, ambientLightingScale, ambientLightingScale, 1.0);

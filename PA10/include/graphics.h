@@ -67,6 +67,8 @@ class Graphics
     GLint m_fdiffuseColor;
     GLint m_fspecularColor;
     GLint m_fshininess;
+    
+
 
     //Object *m_cube;
     std::vector<Object*> m_cubes;
