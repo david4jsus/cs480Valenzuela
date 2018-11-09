@@ -428,9 +428,7 @@ void Graphics::Render()
 	  }
 	  
 	  // Send light position
-	  //glUniform4f(m_flightPos, 10.0, 5.0, 0.0, 1.0);
-	  glUniform4f(m_flightPos, pinballPos.x, pinballPos.y, pinballPos.z, 1.0);
-	  //cout << "x: " << pinballPos.x << " y: " << pinballPos.y << " z: " << pinballPos.z << endl;
+	  glUniform4f(m_flightPos, pinballPos.x, pinballPos.y + 1, pinballPos.z, 1.0);
 	  
 	  // Send ambient color
 	  glUniform4f(m_fambientColor, ambientLightingScale, ambientLightingScale, ambientLightingScale, 1.0);
@@ -460,7 +458,7 @@ void Graphics::Render()
 	  }
 	  
 	  // Send light position
-	  glUniform4f(m_vlightPos, pinballPos.x, pinballPos.y, pinballPos.z, 1.0);
+	  glUniform4f(m_vlightPos, pinballPos.x, pinballPos.y + 1, pinballPos.z, 1.0);
 	  
 	  // Send ambient color
 	  glUniform4f(m_vambientColor, ambientLightingScale, ambientLightingScale, ambientLightingScale, 1.0);
@@ -529,7 +527,7 @@ float Graphics::GetSpecularScale()
 
 float Graphics::setAmbientLightingScale(float setAmbientLighting)
 {
-  ambientLightingScale = setAmbientLighting;
+	ambientLightingScale = setAmbientLighting;
 }
 
 float Graphics::SetSpecularScale(float setSpecularScale)
