@@ -40,16 +40,7 @@ Object::~Object()
   Vertices.clear();
   Indices.clear();
   
-  for (int i = 0; i < myVertices.size(); i++)
-  {
-    myVertices[i].clear();
-  }
   myVertices.clear();
-  
-  for (int i = 0; i < myIndices.clear(); i++)
-  {
-    myIndices[i].clear();
-  }
   myIndices.clear();
 }
 
@@ -265,48 +256,35 @@ void Object::Render()
 
   if (hasTextures)
   {
-	// Load Texture
-    Magick::Blob blob;
-    Magick::Image *image;
-    image = new Magick::Image(imageFilePaths[0]);
-    image->write(&blob, "RGBA");
-
-	// bind texture
-	glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, Texture);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image->columns(), image->rows(), 0, GL_RGBA, GL_UNSIGNED_BYTE, blob.data());
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glDrawArrays(GL_TRIANGLES, 0, meshes[0]->mNumVertices);
-	delete image;
-
-	// load next texture
-	image = new Magick::Image(imageFilePaths[1]);
-    image->write(&blob, "RGBA");
-
-	// bind texture
-	glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, Texture1);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image->columns(), image->rows(), 0, GL_RGBA, GL_UNSIGNED_BYTE, blob.data());
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glDrawArrays(GL_TRIANGLES, 300000, meshes[1]->mNumVertices);
-	delete image;
+	for(int i = 0; i < Texture.size(); i++)
+	{
+		// Load Texture
+		Magick::Blob blob;
+		Magick::Image *image;
+		image = new Magick::Image(imageFilePaths[i]);
+		image->write(&blob, "RGBA");
+	
+		// bind texture
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, Texture[i]);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image->columns(), image->rows(), 0, GL_RGBA, GL_UNSIGNED_BYTE, blob.data());
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		
+		if(i == 0)
+		{
+		  glDrawArrays(GL_TRIANGLES, 0, meshes[0]->mNumVertices);
+		}
+		
+		else
+		{
+			glDrawArrays(GL_TRIANGLES, meshes[i - 1]->mNumVertices, meshes[i]->mNumVertices);
+		}
+	
+		delete image;
+	}
   }
 
-  else if(correctModelLoad)
-  {
-	// Bind Texture
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, Texture);
-    // Draw
-    glDrawElements(GL_TRIANGLES, myIndices.size(), GL_UNSIGNED_INT, 0);
-  }
-  else
-  {    
-    // Draw
-    glDrawElements(GL_TRIANGLES, Indices.size(), GL_UNSIGNED_INT, 0);
-  }
 
   glDisableVertexAttribArray(0);
   glDisableVertexAttribArray(1);
@@ -394,8 +372,9 @@ bool Object::loadOBJ(std::string path, std::vector<Vertex> &out_vertices,
 			imageFilePaths.push_back(imageFilePath);
 
 			// generate texture positions
-			glGenTextures(1, &Texture);
-			glGenTextures(1, &Texture1);
+			GLuint tempTexture;
+			glGenTextures(1, &tempTexture);
+			Texture.push_back(tempTexture);
 		}
     
 	  }

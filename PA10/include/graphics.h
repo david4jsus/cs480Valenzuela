@@ -81,6 +81,7 @@ class Graphics
     btCollisionDispatcher *dispatcher;
     btSequentialImpulseConstraintSolver *solver;
     btDiscreteDynamicsWorld *dynamicsWorld;
+    btCollisionWorld *collisionWorld;
     
     // Shader switching
     bool shaderToggle;

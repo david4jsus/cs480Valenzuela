@@ -1,8 +1,18 @@
-newmtl initialShadingGroup
+newmtl M_SandSG
 illum 4
-Kd 0.50 0.50 0.50
+Kd 0.00 0.00 0.00
 Ka 0.00 0.00 0.00
 Tf 1.00 1.00 1.00
+map_Kd Sand-Background.jpg
+Ni 1.00
+Ks 0.00 0.00 0.00
+Ns 18.00
+newmtl initialShadingGroup
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd Camouflage-Green-Army-Texture.jpg
 Ni 1.00
 Ks 0.00 0.00 0.00
 Ns 18.00
@@ -20,15 +30,6 @@ Kd 0.00 0.00 0.00
 Ka 0.00 0.00 0.00
 Tf 1.00 1.00 1.00
 map_Kd Carbon-Fiber-Background.jpg
-Ni 1.00
-Ks 0.00 0.00 0.00
-Ns 18.00
-newmtl phong4SG
-illum 4
-Kd 0.00 0.00 0.00
-Ka 0.00 0.00 0.00
-Tf 1.00 1.00 1.00
-map_Kd Camouflage-Green-Army-Texture.jpg
 Ni 1.00
 Ks 0.00 0.00 0.00
 Ns 18.00
@@ -68,15 +69,6 @@ map_Kd dg.jpg
 Ni 1.00
 Ks 0.00 0.00 0.00
 Ns 18.00
-newmtl phong9SG
-illum 4
-Kd 0.00 0.00 0.00
-Ka 0.00 0.00 0.00
-Tf 1.00 1.00 1.00
-map_Kd Sand-Background.jpg
-Ni 1.00
-Ks 0.00 0.00 0.00
-Ns 18.00
 newmtl phong10SG
 illum 4
 Kd 0.00 0.00 0.00
@@ -101,15 +93,6 @@ Kd 0.00 0.00 0.00
 Ka 0.00 0.00 0.00
 Tf 1.00 1.00 1.00
 map_Kd SBC_Glocken.png
-Ni 1.00
-Ks 0.00 0.00 0.00
-Ns 18.00
-newmtl phong13SG
-illum 4
-Kd 0.00 0.00 0.00
-Ka 0.00 0.00 0.00
-Tf 1.00 1.00 1.00
-map_Kd SBC_Glocken_Sky.PNG
 Ni 1.00
 Ks 0.00 0.00 0.00
 Ns 18.00
@@ -140,18 +123,3 @@ map_Kd keyhole.jpg
 Ni 1.00
 Ks 0.00 0.00 0.00
 Ns 18.00
-newmtl phong17SG
-illum 4
-Kd 0.00 0.00 0.00
-Ka 0.00 0.00 0.00
-Tf 1.00 1.00 1.00
-map_Kd insert_coin.jpg
-Ni 1.00
-Ks 0.00 0.00 0.00
-Ns 18.00
-newmtl tinker:color_15277357
-illum 4
-Kd 0.91 0.11 0.18
-Ka 0.00 0.00 0.00
-Tf 1.00 1.00 1.00
-Ni 1.00

@@ -1,4 +1,4 @@
-# PA9: Pinball Part II - Lighting Basics
+# PA9: Pinball Part III - Final Pinball Machine
 
 # Team Specular Bois
 The following students are part of the team who made this project:
@@ -25,7 +25,7 @@ mkdir build
 cd build
 cmake ..
 make
-./PA9
+./Pinball
 ```
 
 # Controls
