@@ -43,8 +43,7 @@ class Object
     std::vector<unsigned int> Indices;
     GLuint VB;
     GLuint IB;
-    GLuint Texture;
-	GLuint Texture1;
+    std::vector<GLuint> Texture;
     
     // If the object has a child, this is the matrix it should read as its center
     glm::mat4 modelForChild;
@@ -71,7 +70,7 @@ class Object
     bool correctModelLoad;
 	bool hasTextures;
     std::vector<Vertex> myVertices;
-    std::vector<unsigned int> myIndices
+    std::vector<unsigned int> myIndices; 
     bool loadOBJ(std::string path, std::vector<Vertex> &out_vertices, std::vector<unsigned int> &out_indices);
 
 	// Assimp object loader
