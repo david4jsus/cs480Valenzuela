@@ -211,7 +211,7 @@ vn 0.000000 0.997573 0.069630
 vn 0.000000 0.997573 0.069630
 vn 0.000000 0.997573 0.069630
 s 1
-g Bumper_4 PinballInternals PinballMachine
+g Bumper_4
 usemtl phong10SG
 f 1/21/1 2/22/2 21/42/3
 f 21/42/3 2/22/2 22/43/4
