@@ -550,10 +550,3 @@ btRigidBody* Object::GetRigidBody()
 {
   return rigidBody;
 }
-
-
-
-
-
-
-

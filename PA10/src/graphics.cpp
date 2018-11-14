@@ -7,6 +7,7 @@ Graphics::Graphics()
 	dispatcher = new btCollisionDispatcher(collisionConfig);
 	solver = new btSequentialImpulseConstraintSolver;
 	dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, collisionConfig);
+	collisionWorld = new btCollisionWorld(dispatcher, broadphase, collisionConfig);
 	
 	dynamicsWorld->setGravity(btVector3(-0.001, -1.0, 0.0));
 	
@@ -91,15 +92,15 @@ bool Graphics::Initialize(int width, int height, std::string file)
   //Object* Skybox = new Object(this, "Skybox.obj",      0, 0.0f, 0.0f, 0.0f, 25.0f, 0, 0);
   Object* board  = new Object(this, "Disboard.obj",    0, 0.0f, 0.0f, 0.0f, 1.0f,  0, 0);
   Object* ball   = new Object(this, "awesomeball.obj", 0, 0.0f, 0.0f, 0.0f, 0.01f, 1, 1);
-  //Object* cube = new Object(this, "cube.obj", 0, 0.0f, 0.0f, 0.0f, 0.5f, 1, 2);
+  Object* cube = new Object(this, "cube.obj", 0, 0.0f, 0.0f, 0.0f, 0.5f, 1, 2);
   Object* cylinder = new Object(this, "cylinder.obj", 0, 0.0f, 0.0f, 0.0f, 0.5f, 0, 3);
   Object* backWall   = new Object(this, "awesomeball.obj", 0, 0.0f, 0.0f, 0.0f, 0.0f, 0, 4);
   Object* frontWall   = new Object(this, "awesomeball.obj", 0, 0.0f, 0.0f, 0.0f, 0.0f, 0, 5);
   Object* leftWall   = new Object(this, "awesomeball.obj", 0, 0.0f, 0.0f, 0.0f, 0.0f, 0, 6);
   Object* rightWall   = new Object(this, "awesomeball.obj", 0, 0.0f, 0.0f, 0.0f, 0.0f, 0, 7);
   Object* aboveWall   = new Object(this, "awesomeball.obj", 0, 0.0f, 0.0f, 0.0f, 0.0f, 0, 8);
-  Object* rightPaddle   = new Object(this, "cube.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 50, 9);
-  rightPaddle->GetRigidBody()->setGravity(btVector3(0.0f, -1.0f, 0.0f));
+  //Object* rightPaddle   = new Object(this, "cube.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 50, 9);
+  //rightPaddle->GetRigidBody()->setGravity(btVector3(0.0f, -1.0f, 0.0f));
   //Object* leftPaddle   = new Object(this, "cube.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 1, 10);
 
   // Waiting Song while the planets load
@@ -110,14 +111,14 @@ bool Graphics::Initialize(int width, int height, std::string file)
   //m_cubes.push_back(Skybox);
   m_cubes.push_back(board);
   m_cubes.push_back(ball);
-  //m_cubes.push_back(cube);
+  m_cubes.push_back(cube);
   m_cubes.push_back(cylinder);
   m_cubes.push_back(backWall);
   m_cubes.push_back(frontWall);
   m_cubes.push_back(leftWall);
   m_cubes.push_back(rightWall);
   m_cubes.push_back(aboveWall);
-  m_cubes.push_back(rightPaddle);
+  //m_cubes.push_back(rightPaddle);
   //m_cubes.push_back(leftPaddle);
   
   // get rigidbody for the cube
@@ -354,35 +355,32 @@ void Graphics::Update(unsigned int dt)
   // Set the spot light position to the pinball position
   //glUniform4f(m_flightPos, pinballPos.x, pinballPos.y, pinballPos.z, 1.0);
   
-  /*int numManifolds = dynamicsWorld->getDispatcher()->getNumManifolds();
-  for (int i=0;i<numManifolds;i++)
-  {
-      btPersistentManifold* contactManifold =  dynamicsWorld->getDispatcher()->getManifoldByIndexInternal(i);
-      btCollisionObject* obA = const_cast<btCollisionObject*>(contactManifold->getBody0());
-      btCollisionObject* obB = const_cast<btCollisionObject*>(contactManifold->getBody1());
-
-      obA->setCollisionShape(m_cubes[1]->GetCollisionShape());
-      obB->setCollisionShape(m_cubes[8]->GetCollisionShape());
-
-      int numContacts = contactManifold->getNumContacts();
-      for (int j=0;j<numContacts;j++)
+  // Collision detection
+  collisionWorld->performDiscreteCollisionDetection();
+  
+  int numManifolds = collisionWorld->getDispatcher()->getNumManifolds();
+  //For each contact manifold
+  for (int i = 0; i < numManifolds; i++) {
+    btPersistentManifold* contactManifold = collisionWorld->getDispatcher()->getManifoldByIndexInternal(i);
+    const btCollisionObject* obA = contactManifold->getBody0();
+    const btCollisionObject* obB = contactManifold->getBody1();
+    contactManifold->refreshContactPoints(obA->getWorldTransform(), obB->getWorldTransform());
+    int numContacts = contactManifold->getNumContacts();
+    //For each contact point in that manifold
+    for (int j = 0; j < numContacts; j++) {
+      //Get the contact information
+      //btManifoldPoint& pt = contactManifold->getContactPoint(j);
+      //btVector3 ptA = pt.getPositionWorldOnA();
+      //btVector3 ptB = pt.getPositionWorldOnB();
+      //double ptdist = pt.getDistance();
+      const btCollisionShape* wall = m_cubes[5]->GetCollisionShape();
+      const btCollisionShape* ball = m_cubes[1]->GetCollisionShape();
+      if (obA->getCollisionShape() == ball && obB->getCollisionShape() == wall)
       {
-          btManifoldPoint& pt = contactManifold->getContactPoint(j);
-          cout << pt.getDistance() << endl;
-          if (pt.getDistance()<0.f)
-          {
-              const btVector3& ptA = pt.getPositionWorldOnA();
-              const btVector3& ptB = pt.getPositionWorldOnB();
-              const btVector3& normalOnB = pt.m_normalWorldOnB;
-              bool x = false;
-              x = (ContactProcessedCallback)(pt,rigidBodies[1],rigidBodies[8]);
-              if(x)
-              {
-            }
-                  //cout << "collision" << endl;
-          }
+         cout << "||" << "Ball collision with front wall" << endl;
       }
-  }*/
+    }
+  }
 }
 
 Camera* Graphics::getCamera()
