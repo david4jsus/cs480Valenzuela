@@ -21,7 +21,7 @@ void main(void)
    vec3 halfVec = normalize(nL + nE);
    
    float Kd = max(dot(nL, nN), 0.0);
-   vec4 diffuse = Kd * texture2D(sampler, texture);
+   vec4 diffuse = Kd * diffuseColor;
    
    float Ks = pow(max(dot(nN, halfVec), 0.0), shininess);
    vec4 specular = Ks * specularColor;

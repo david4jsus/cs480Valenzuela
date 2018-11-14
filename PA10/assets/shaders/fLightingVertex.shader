@@ -15,26 +15,15 @@ smooth out vec3 fN;
 smooth out vec3 fE;
 smooth out vec3 fL;
 
-smooth out vec3 sfL;
-smooth out vec3 spotPosition;
-
 void main(void)
 {
-   sfL = vec3(0, 0, 0);
-   spotPosition = vec3(0, 0, 0);
-
+   vec4 vPos = vec4(v_position, 1.0);
+   
    fN = mat3(transpose(inverse(modelMatrix))) * v_normal;
-   fE = vec3(modelMatrix * vec4(v_position, 1.0));
-   fL = vec3(lightPos);
+   fE = vec3(modelMatrix * vPos);
+   fL = lightPos.xyz - fE;
    
    texture = v_texture;
-
-   vec4 vPos = vec4(v_position, 1.0);
-
-   if(lightPos.w != 0.0)
-   {
-       fL = lightPos.xyz - vPos.xyz;
-   }
 
    gl_Position = (projectionMatrix * viewMatrix * modelMatrix) * vPos;
 }
