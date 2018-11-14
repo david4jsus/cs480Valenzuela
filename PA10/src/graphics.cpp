@@ -90,19 +90,50 @@ bool Graphics::Initialize(int width, int height, std::string file)
 
   // Create objects
   //Object* Skybox = new Object(this, "Skybox.obj",      0, 0.0f, 0.0f, 0.0f, 25.0f, 0, 0);
-  Object* board  = new Object(this, "Disboard.obj",    0, 0.0f, 0.0f, 0.0f, 1.0f,  0, 0);
-  Object* ball   = new Object(this, "awesomeball.obj", 0, 0.0f, 0.0f, 0.0f, 0.01f, 1, 1);
-  Object* cube = new Object(this, "cube.obj", 0, 0.0f, 0.0f, 0.0f, 0.5f, 1, 2);
-  Object* cylinder = new Object(this, "cylinder.obj", 0, 0.0f, 0.0f, 0.0f, 0.5f, 0, 3);
-  Object* backWall   = new Object(this, "awesomeball.obj", 0, 0.0f, 0.0f, 0.0f, 0.0f, 0, 4);
-  Object* frontWall   = new Object(this, "awesomeball.obj", 0, 0.0f, 0.0f, 0.0f, 0.0f, 0, 5);
-  Object* leftWall   = new Object(this, "awesomeball.obj", 0, 0.0f, 0.0f, 0.0f, 0.0f, 0, 6);
-  Object* rightWall   = new Object(this, "awesomeball.obj", 0, 0.0f, 0.0f, 0.0f, 0.0f, 0, 7);
-  Object* aboveWall   = new Object(this, "awesomeball.obj", 0, 0.0f, 0.0f, 0.0f, 0.0f, 0, 8);
-  //Object* rightPaddle   = new Object(this, "cube.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 50, 9);
-  //rightPaddle->GetRigidBody()->setGravity(btVector3(0.0f, -1.0f, 0.0f));
-  //Object* leftPaddle   = new Object(this, "cube.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 1, 10);
+  Object* board  = new Object(this, "PinballBody.obj",    0, 0.0f, 0.0f, 0.0f, 1.0f,  0, 0);
+  Object* ball   = new Object(this, "awesomeball.obj", 0, 0.0f, 0.0f, 0.0f, 0.1f, 1, 1);
+  Object* cube = new Object(this, "Base.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 1, 2);
+  Object* cylinder = new Object(this, "Blockers.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 3);
+  Object* backWall   = new Object(this, "Barrier.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 4);
+  Object* frontWall   = new Object(this, "Bumper_1.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 5);
+  Object* leftWall   = new Object(this, "Bumper_2.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 6);
+  Object* rightWall   = new Object(this, "Bumper_3.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 7);
+  Object* aboveWall   = new Object(this, "Backboard.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 8);
 
+  // Load Static Objects
+  //Object* backboard = new Object(this, "Backboard.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 9);
+
+  // Load Physics Objects
+
+  // Paddles
+  Object* rightPaddle   = new Object(this, "RightPaddle.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 9);
+  rightPaddle->GetRigidBody()->setGravity(btVector3(0.0f, -1.0f, 0.0f));
+  Object* leftPaddle   = new Object(this, "LeftPaddle.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 10);
+  leftPaddle->GetRigidBody()->setGravity(btVector3(0.0f, -1.0f, 0.0f));
+
+/*
+  // Base
+  Object* base = new Object(this, "Base.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 12);
+
+  // Blockers
+  Object* blockers = new Object(this, "Blockers.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 13);
+
+  // Barrier
+  Object* barrier = new Object(this, "Barrier.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 14);
+
+  // Bumpers
+  Object* bumper1 = new Object(this, "Bumper_1.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 15);
+  Object* bumper2 = new Object(this, "Bumper_2.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 16);
+  Object* bumper3 = new Object(this, "Bumper_3.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 17);
+  Object* bumper4 = new Object(this, "Bumper_4.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 18);
+
+  // Pinball Hole
+  Object* pinballhole = new Object(this, "PinballHole.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 19);
+
+  // Plunger
+  Object* plungerBase = new Object(this, "PlungerBase.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 20);
+  Object* plungerHead = new Object(this, "PlungerHead.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 21);
+*/
   // Waiting Song while the planets load
   gameSound.LoadSound("../assets/NGGUP.wav");
   gameSound.PlaySound();
@@ -118,9 +149,23 @@ bool Graphics::Initialize(int width, int height, std::string file)
   m_cubes.push_back(leftWall);
   m_cubes.push_back(rightWall);
   m_cubes.push_back(aboveWall);
-  //m_cubes.push_back(rightPaddle);
-  //m_cubes.push_back(leftPaddle);
-  
+  //m_cubes.push_back(backboard);
+  m_cubes.push_back(rightPaddle);
+  m_cubes.push_back(leftPaddle);
+
+/*
+  m_cubes.push_back(base);
+  m_cubes.push_back(blockers);
+  m_cubes.push_back(barrier);
+  m_cubes.push_back(bumper1);
+  m_cubes.push_back(bumper2);
+  m_cubes.push_back(bumper3);
+  m_cubes.push_back(bumper4);
+  m_cubes.push_back(pinballhole);
+  m_cubes.push_back(plungerBase);
+  m_cubes.push_back(plungerHead);
+*/
+
   // get rigidbody for the cube
   for(int i = 0; i < m_cubes.size(); i++)
   {
