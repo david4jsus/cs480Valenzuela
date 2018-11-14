@@ -355,24 +355,36 @@ void Graphics::Update(unsigned int dt)
   // Set the spot light position to the pinball position
   //glUniform4f(m_flightPos, pinballPos.x, pinballPos.y, pinballPos.z, 1.0);
   
+	
+	
+	
+	/////////////////////////////////////////////////////////////////////////////
+	// HERE // HERE // HERE // HERE //HERE //HERE //HERE //HERE //HERE // HERE //
+	// HERE // HERE // HERE // HERE //HERE //HERE //HERE //HERE //HERE // HERE //
+	// HERE // HERE // HERE // HERE //HERE //HERE //HERE //HERE //HERE // HERE //
+	// HERE // HERE // HERE // HERE //HERE //HERE //HERE //HERE //HERE // HERE //
+	// HERE // HERE // HERE // HERE //HERE //HERE //HERE //HERE //HERE // HERE //
+	// HERE // HERE // HERE // HERE //HERE //HERE //HERE //HERE //HERE // HERE //
+	/////////////////////////////////////////////////////////////////////////////
+	
+	
+	
+	
   // Collision detection
   collisionWorld->performDiscreteCollisionDetection();
   
   int numManifolds = collisionWorld->getDispatcher()->getNumManifolds();
   //For each contact manifold
-  for (int i = 0; i < numManifolds; i++) {
+  for (int i = 0; i < numManifolds; i++)
+  {
     btPersistentManifold* contactManifold = collisionWorld->getDispatcher()->getManifoldByIndexInternal(i);
     const btCollisionObject* obA = contactManifold->getBody0();
     const btCollisionObject* obB = contactManifold->getBody1();
     contactManifold->refreshContactPoints(obA->getWorldTransform(), obB->getWorldTransform());
     int numContacts = contactManifold->getNumContacts();
     //For each contact point in that manifold
-    for (int j = 0; j < numContacts; j++) {
-      //Get the contact information
-      //btManifoldPoint& pt = contactManifold->getContactPoint(j);
-      //btVector3 ptA = pt.getPositionWorldOnA();
-      //btVector3 ptB = pt.getPositionWorldOnB();
-      //double ptdist = pt.getDistance();
+    for (int j = 0; j < numContacts; j++)
+    {
       const btCollisionShape* wall = m_cubes[5]->GetCollisionShape();
       const btCollisionShape* ball = m_cubes[1]->GetCollisionShape();
       if (obA->getCollisionShape() == ball && obB->getCollisionShape() == wall)
@@ -381,6 +393,21 @@ void Graphics::Update(unsigned int dt)
       }
     }
   }
+	
+	
+	
+	
+	/////////////////////////////////////////////////////////////////////////////
+	// HERE // HERE // HERE // HERE //HERE //HERE //HERE //HERE //HERE // HERE //
+	// HERE // HERE // HERE // HERE //HERE //HERE //HERE //HERE //HERE // HERE //
+	// HERE // HERE // HERE // HERE //HERE //HERE //HERE //HERE //HERE // HERE //
+	// HERE // HERE // HERE // HERE //HERE //HERE //HERE //HERE //HERE // HERE //
+	// HERE // HERE // HERE // HERE //HERE //HERE //HERE //HERE //HERE // HERE //
+	// HERE // HERE // HERE // HERE //HERE //HERE //HERE //HERE //HERE // HERE //
+	/////////////////////////////////////////////////////////////////////////////
+	
+	
+	
 }
 
 Camera* Graphics::getCamera()
