@@ -125,7 +125,6 @@ bool Graphics::Initialize(int width, int height, std::string file)
   Object* testBall   = new Object(this, "awesomeball.obj", 0, 0.0f, 0.0f, 0.0f, 0.1f, 1, 9);
   testBall->GetRigidBody()->setGravity(btVector3(0.0f, 0.0f, 0.0f));
 
-
   // Waiting Song while the planets load
   gameSound.LoadSound("../assets/NGGUP.wav");
   gameSound.PlaySound();
