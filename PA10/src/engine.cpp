@@ -2,6 +2,7 @@
 #include "imgui.h"
 #include "imgui_impl_sdl.h"
 #include "imgui_impl_opengl3.h"
+#include <string.h>
 
 Engine::Engine(string name, int width, int height, std::string file)
 {
@@ -180,6 +181,15 @@ void Engine::Run()
       ImGui::Separator();
       ImGui::Separator();
       
+      int score = m_graphics->getScore();
+      std::string scoreText = "Score: ";
+      scoreText.append(std::to_string(score));
+      const char* displayScoreText = scoreText.c_str();
+      ImGui::Text(displayScoreText);
+      
+      ImGui::Separator();
+      ImGui::Separator();
+      
       /*
       if (ImGui::Button("Use per vertex lighting"))
       {
@@ -299,29 +309,24 @@ void Engine::Keyboard()
       rotatingUp   = false;
     }
     
-    if (m_event.key.keysym.sym == SDLK_o)   // Rotate camera down
-    {
-      getObjectRigidBody(1)->applyCentralImpulse(btVector3(0.0f, 10.0f, 0.0f));
-    }
-    
     if (m_event.key.keysym.sym == SDLK_i)   // Rotate camera down
     {
-      getObjectRigidBody(1)->applyCentralImpulse(btVector3(1.0f, 0.0f, 0.0f));
+      getObjectRigidBody(1)->applyCentralImpulse(btVector3(0.5f, 0.0f, 0.0f));
     }
     
     if (m_event.key.keysym.sym == SDLK_j)   // Rotate camera down
     {
-      getObjectRigidBody(1)->applyCentralImpulse(btVector3(0.0f, 0.0f, -1.0f));
+      getObjectRigidBody(1)->applyCentralImpulse(btVector3(0.0f, 0.0f, -0.5f));
     }
     
     if (m_event.key.keysym.sym == SDLK_k)   // Rotate camera down
     {
-      getObjectRigidBody(1)->applyCentralImpulse(btVector3(-1.0f, 0.0f, 0.0f));
+      getObjectRigidBody(1)->applyCentralImpulse(btVector3(-0.5f, 0.0f, 0.0f));
     }
     
     if (m_event.key.keysym.sym == SDLK_l)   // Rotate camera down
     {
-      getObjectRigidBody(1)->applyCentralImpulse(btVector3(0.0f, 0.0f, 1.0f));
+      getObjectRigidBody(1)->applyCentralImpulse(btVector3(0.0f, 0.0f, 0.5f));
     }
     
     if (m_event.key.keysym.sym == SDLK_TAB) // Switch shaders
@@ -368,8 +373,7 @@ void Engine::Keyboard()
     if ((m_event.key.keysym.sym == SDLK_m && usedRightPaddle == false && time_span.count() >= 60.0) || 
         (m_event.key.keysym.sym == SDLK_m && usedRightPaddle == false && firstRightPaddleUse == false))
     {
-      getObjectRigidBody(8)->applyTorqueImpulse(btVector3(0.0f, -1200.0f, 0.0f));
-      //getObjectRigidBody(8)->applyCentralImpulse(btVector3(90.0f, 0.0f, 0.0f));
+      getObjectRigidBody(12)->applyTorqueImpulse(btVector3(0.0f, -1200.0f, 0.0f));
       usedRightPaddle = true;
       firstRightPaddleUse = true;
       startTime = high_resolution_clock::now();
@@ -458,10 +462,9 @@ unsigned int Engine::getDT()
     endTime = high_resolution_clock::now();
     time_span = endTime - startTime;
   
-    if (m_event.key.keysym.sym == SDLK_m && time_span.count() >= 150.0)
+    if (m_event.key.keysym.sym == SDLK_m && time_span.count() >= 60.0)
     {
-      //getObjectRigidBody(8)->applyCentralImpulse(btVector3(-90.0f, 0.0f, 0.0f));
-      getObjectRigidBody(8)->applyTorqueImpulse(btVector3(0.0f, 1200.0f, 0.0f));
+      getObjectRigidBody(12)->applyTorqueImpulse(btVector3(0.0f, 1200.0f, 0.0f));
       usedRightPaddle = false;
     }
   }

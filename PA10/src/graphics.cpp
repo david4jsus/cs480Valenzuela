@@ -12,8 +12,9 @@ Graphics::Graphics()
 	dynamicsWorld->setGravity(btVector3(-0.001, -1.0, 0.0));
 	
 	shaderToggle = true;
-	ambientLightingScale = 0.0;
+	ambientLightingScale = 1.0;
 	pinballPos = glm::vec3(0.0, 0.0, 0.0);
+	score = 0;
 }
 
 Graphics::~Graphics()
@@ -89,83 +90,71 @@ bool Graphics::Initialize(int width, int height, std::string file)
   }
 
   // Create objects
-  //Object* Skybox = new Object(this, "Skybox.obj",      0, 0.0f, 0.0f, 0.0f, 25.0f, 0, 0);
-  Object* board  = new Object(this, "PinballBody.obj",    0, 0.0f, 0.0f, 0.0f, 1.0f,  0, 0);
+  Object* base  = new Object(this, "Base.obj",    0, 0.0f, 0.0f, 0.0f, 1.0f,  0, 10);
   Object* ball   = new Object(this, "awesomeball.obj", 0, 0.0f, 0.0f, 0.0f, 0.1f, 1, 1);
-  Object* cube = new Object(this, "Base.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 1, 2);
-  Object* cylinder = new Object(this, "Blockers.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 3);
-  Object* backWall   = new Object(this, "Barrier.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 4);
-  Object* frontWall   = new Object(this, "Bumper_1.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 5);
-  Object* leftWall   = new Object(this, "Bumper_2.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 6);
-  Object* rightWall   = new Object(this, "Bumper_3.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 7);
-  Object* aboveWall   = new Object(this, "Backboard.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 8);
+  Object* blockers = new Object(this, "Blockers.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 10);
+  Object* backBoard = new Object(this, "Backboard.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 10);
+  Object* innerBackBoard = new Object(this, "InnerBackboard.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 10);
+  Object* barrier = new Object(this, "Barrier.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 10);
+  Object* bumper2 = new Object(this, "Bumper_2.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 10);
+  Object* leftPaddle = new Object(this, "LeftPaddle.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 10);
+  Object* rightPaddle = new Object(this, "RightPaddle.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 10);
+  Object* pinballBody = new Object(this, "PinballBody.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 10);
+  Object* plungerBase = new Object(this, "PlungerBase.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 10);
+  Object* plungerHead = new Object(this, "PlungerHead.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 10);
+  Object* sideTriggers = new Object(this, "SideTriggers.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 10);
+  Object* speakers = new Object(this, "Speakers.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 10);
+  Object* title = new Object(this, "Title.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 10);
+  Object* titleBackboard = new Object(this, "TitleBackboard.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 10);
+  Object* wallsFront = new Object(this, "WallsFront.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 10);
+  Object* bumper1 = new Object(this, "Bumper_1.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 10);
+  Object* bumper3 = new Object(this, "Bumper_3.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 10);
+  Object* bumper4 = new Object(this, "Bumper_4.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 10);
+  Object* ballRamp = new Object(this, "BallRamp.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 10);
+  Object* ramp = new Object(this, "Ramp.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 10);
+  
+  
+  
+  Object* baseCollisionPosition   = new Object(this, "awesomeball.obj", 0, 0.0f, 0.0f, 0.0f, 0.0f, 0, 0);
+  //Object* plungerCollisionPosition   = new Object(this, "awesomeball.obj", 0, 0.0f, 0.0f, 0.0f, 0.0f, 0, 2);
+  Object* bumperCollisionPosition   = new Object(this, "awesomeball.obj", 0, 0.0f, 0.0f, 0.0f, 0.0f, 0, 3);
+  Object* backWall   = new Object(this, "awesomeball.obj", 0, 0.0f, 0.0f, 0.0f, 0.0f, 0, 4);
+  Object* frontWall   = new Object(this, "awesomeball.obj", 0, 0.0f, 0.0f, 0.0f, 0.0f, 0, 5);
+  Object* leftWall   = new Object(this, "awesomeball.obj", 0, 0.0f, 0.0f, 0.0f, 0.0f, 0, 6);
+  Object* rightWall   = new Object(this, "awesomeball.obj", 0, 0.0f, 0.0f, 0.0f, 0.0f, 0, 7);
+  Object* testBall   = new Object(this, "awesomeball.obj", 0, 0.0f, 0.0f, 0.0f, 0.1f, 1, 9);
+  testBall->GetRigidBody()->setGravity(btVector3(0.0f, 0.0f, 0.0f));
 
-  // Load Static Objects
-  //Object* backboard = new Object(this, "Backboard.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 9);
-
-  // Load Physics Objects
-
-  // Paddles
-  Object* rightPaddle   = new Object(this, "RightPaddle.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 9);
-  rightPaddle->GetRigidBody()->setGravity(btVector3(0.0f, -1.0f, 0.0f));
-  Object* leftPaddle   = new Object(this, "LeftPaddle.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 10);
-  leftPaddle->GetRigidBody()->setGravity(btVector3(0.0f, -1.0f, 0.0f));
-
-/*
-  // Base
-  Object* base = new Object(this, "Base.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 12);
-
-  // Blockers
-  Object* blockers = new Object(this, "Blockers.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 13);
-
-  // Barrier
-  Object* barrier = new Object(this, "Barrier.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 14);
-
-  // Bumpers
-  Object* bumper1 = new Object(this, "Bumper_1.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 15);
-  Object* bumper2 = new Object(this, "Bumper_2.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 16);
-  Object* bumper3 = new Object(this, "Bumper_3.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 17);
-  Object* bumper4 = new Object(this, "Bumper_4.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 18);
-
-  // Pinball Hole
-  Object* pinballhole = new Object(this, "PinballHole.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 19);
-
-  // Plunger
-  Object* plungerBase = new Object(this, "PlungerBase.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 20);
-  Object* plungerHead = new Object(this, "PlungerHead.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 21);
-*/
   // Waiting Song while the planets load
   gameSound.LoadSound("../assets/NGGUP.wav");
   gameSound.PlaySound();
   
   // Push objects onto list
-  //m_cubes.push_back(Skybox);
-  m_cubes.push_back(board);
-  m_cubes.push_back(ball);
-  m_cubes.push_back(cube);
-  m_cubes.push_back(cylinder);
-  m_cubes.push_back(backWall);
-  m_cubes.push_back(frontWall);
-  m_cubes.push_back(leftWall);
-  m_cubes.push_back(rightWall);
-  m_cubes.push_back(aboveWall);
-  //m_cubes.push_back(backboard);
-  m_cubes.push_back(rightPaddle);
-  m_cubes.push_back(leftPaddle);
-
-/*
-  m_cubes.push_back(base);
-  m_cubes.push_back(blockers);
-  m_cubes.push_back(barrier);
-  m_cubes.push_back(bumper1);
-  m_cubes.push_back(bumper2);
-  m_cubes.push_back(bumper3);
-  m_cubes.push_back(bumper4);
-  m_cubes.push_back(pinballhole);
-  m_cubes.push_back(plungerBase);
-  m_cubes.push_back(plungerHead);
-*/
-
+  m_cubes.push_back(base);  // 0
+  m_cubes.push_back(ball);  // 1
+  m_cubes.push_back(blockers);  // 2 
+  m_cubes.push_back(backBoard); // 3
+  m_cubes.push_back(innerBackBoard);  // 4
+  m_cubes.push_back(barrier); // 5
+  m_cubes.push_back(bumper2); // 6
+  m_cubes.push_back(leftPaddle);  // 7
+  m_cubes.push_back(rightPaddle); // 8
+  m_cubes.push_back(pinballBody); // 9
+  m_cubes.push_back(plungerBase); // 10
+  m_cubes.push_back(plungerHead); // 11
+  m_cubes.push_back(sideTriggers);  // 12
+  m_cubes.push_back(speakers);  // 13
+  m_cubes.push_back(title); // 14
+  m_cubes.push_back(titleBackboard);  // 15
+  m_cubes.push_back(wallsFront);  // 16
+  //m_cubes.push_back(testBall);
+  m_cubes.push_back(bumperCollisionPosition); // 17
+  m_cubes.push_back(bumper1); 
+  m_cubes.push_back(bumper3); 
+  m_cubes.push_back(bumper4); 
+  m_cubes.push_back(ballRamp); 
+  m_cubes.push_back(ramp);  
+  
   // get rigidbody for the cube
   for(int i = 0; i < m_cubes.size(); i++)
   {
@@ -419,8 +408,10 @@ void Graphics::Update(unsigned int dt)
   collisionWorld->performDiscreteCollisionDetection();
   
   int numManifolds = collisionWorld->getDispatcher()->getNumManifolds();
+  
+  //cout << numManifolds << endl;
   //For each contact manifold
-  for (int i = 0; i < numManifolds; i++)
+  /*for (int i = 0; i < numManifolds; i++)
   {
     btPersistentManifold* contactManifold = collisionWorld->getDispatcher()->getManifoldByIndexInternal(i);
     const btCollisionObject* obA = contactManifold->getBody0();
@@ -430,13 +421,18 @@ void Graphics::Update(unsigned int dt)
     //For each contact point in that manifold
     for (int j = 0; j < numContacts; j++)
     {
-      const btCollisionShape* wall = m_cubes[5]->GetCollisionShape();
+      const btCollisionShape* bumper = m_cubes[17]->GetCollisionShape();
       const btCollisionShape* ball = m_cubes[1]->GetCollisionShape();
-      if (obA->getCollisionShape() == ball && obB->getCollisionShape() == wall)
+      if (obA->getCollisionShape() == ball && obB->getCollisionShape() == bumper)
       {
          cout << "||" << "Ball collision with front wall" << endl;
       }
     }
+  }*/
+  
+  if(numManifolds == 11)
+  {
+    score = score + 100; 
   }
 	
 	
@@ -499,6 +495,7 @@ void Graphics::Render()
 	  
 	  // Send light position
 	  glUniform4f(m_flightPos, pinballPos.x, pinballPos.y + 1, pinballPos.z, 1.0);
+	  //glUniform4f(m_flightPos, 0, 0, 0, 1.0);
 	  
 	  // Send ambient color
 	  glUniform4f(m_fambientColor, ambientLightingScale, ambientLightingScale, ambientLightingScale, 1.0);
@@ -529,6 +526,7 @@ void Graphics::Render()
 	  
 	  // Send light position
 	  glUniform4f(m_vlightPos, pinballPos.x, pinballPos.y + 1, pinballPos.z, 1.0);
+	  //glUniform4f(m_vlightPos, 0, 0, 0, 1.0);
 	  
 	  // Send ambient color
 	  glUniform4f(m_vambientColor, ambientLightingScale, ambientLightingScale, ambientLightingScale, 1.0);
@@ -608,4 +606,9 @@ float Graphics::SetSpecularScale(float setSpecularScale)
 btRigidBody* Graphics::getRigidBody(int objectIndex)
 {
   return rigidBodies[objectIndex];
+}
+
+int Graphics::getScore()
+{
+  return score;
 }

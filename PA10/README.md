@@ -44,14 +44,6 @@ Moving the camera
 - **Left arrow**: Rotate view left
 - **Right arrow**: Rotate view right
 
-Moving the cube
-
-- **I**: Move cube forward
-- **J**: Move cube left
-- **K**: Move cube backward
-- **L**: Move cube right
-- **O**: Make cube jump
-
 Changing ambient and specular brightness
 
 - **Numpad 8**: Increase ambient brightness

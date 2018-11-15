@@ -101,33 +101,33 @@ void Object::createObject()
   else if(modelNum == 1)
   {
     // create a sphere collider
-    btScalar radius = 1.0;
+    btScalar radius = 5.0;
     colliderShape = new btSphereShape(radius);
     
     // set orientation and position of object
-    shapeMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 0, 10)));
+    shapeMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(-130, 0, 85)));
   }
   
   // cube
   else if(modelNum == 2)
   {
     // create a box collider
-    btVector3 boxHalfExtents = btVector3(2.0, 2.0, 2.0);
+    btVector3 boxHalfExtents = btVector3(5.0, 5.0, 5.0);
     colliderShape = new btBoxShape(boxHalfExtents);
     
     // set orientation and position of object
-    shapeMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 0, 0)));
+    shapeMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(-140, 0, 80)));
   }
   
   // cylinder
   else if(modelNum == 3)
   {
-    // create sphere collider
-    btScalar radius = 5.0;
+    // create a sphere collider
+    btScalar radius = 12.0;
     colliderShape = new btSphereShape(radius);
     
     // set orientation and position of object
-    shapeMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(40, 0, 0)));
+    shapeMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(93, 10, 26)));
   }
   
   // wall on far end of board
@@ -141,7 +141,7 @@ void Object::createObject()
     colliderShape = new btStaticPlaneShape(planeNormal, planeConstant);
     
     // set orientation and position of object
-    shapeMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 0, -45)));
+    shapeMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 0, -95)));
   }
   
   // wall which is close to the viewer
@@ -154,7 +154,7 @@ void Object::createObject()
     colliderShape = new btStaticPlaneShape(planeNormal, planeConstant);
     
     // set orientation and position of object
-    shapeMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 0, 45)));
+    shapeMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 0, 95)));
   }
   
   // left wall for board
@@ -167,7 +167,7 @@ void Object::createObject()
     colliderShape = new btStaticPlaneShape(planeNormal, planeConstant);
     
     // set orientation and position of object
-    shapeMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(-45, 0, 0)));
+    shapeMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(-240, 0, 0)));
   }
   
   // right wall for board
@@ -180,7 +180,7 @@ void Object::createObject()
     colliderShape = new btStaticPlaneShape(planeNormal, planeConstant);
     
     // set orientation and position of object
-    shapeMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(45, 0, 0)));
+    shapeMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(240, 0, 0)));
   }
   
   // wall above board
@@ -199,23 +199,23 @@ void Object::createObject()
   // right paddle
   else if(modelNum == 9)
   {
-    // create a box collider
-    btVector3 boxHalfExtents = btVector3(10.0, 1.0, 15.0);
-    colliderShape = new btBoxShape(boxHalfExtents);
+    // create a sphere collider
+    btScalar radius = 5.0;
+    colliderShape = new btSphereShape(radius);
     
     // set orientation and position of object
-    shapeMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 0, 0)));
+    shapeMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(93, 10, 26)));
   }
   
   // right wall for board
   else if(modelNum == 10)
   {
     // create a box collider
-    btVector3 boxHalfExtents = btVector3(2.0, 2.0, 2.0);
+    btVector3 boxHalfExtents = btVector3(0.0, 0.0, 0.0);
     colliderShape = new btBoxShape(boxHalfExtents);
     
     // set orientation and position of object
-    shapeMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 0, 0)));
+    shapeMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, -1, 0, 1), btVector3(0, 102, 0)));
   }
   
   // set mass and inertia
@@ -395,6 +395,7 @@ void Object::Render()
   glDisableVertexAttribArray(0);
   glDisableVertexAttribArray(1);
   glDisableVertexAttribArray(2);
+  glDisableVertexAttribArray(3);
 }
 
 bool Object::loadOBJ(std::string path, std::vector<Vertex> &out_vertices,
@@ -496,19 +497,11 @@ bool Object::loadOBJ(std::string path, std::vector<Vertex> &out_vertices,
 		  vertex.x = meshes[meshCounter]->mVertices[verticesLooper].x;
 		  vertex.y = meshes[meshCounter]->mVertices[verticesLooper].y;
 		  vertex.z = meshes[meshCounter]->mVertices[verticesLooper].z;
-
-		  // assign color to a vertex
-		  //color.x = glm::sin(vertex.x);
-		  //color.y = glm::sin(vertex.y);
-		  //color.z = glm::sin(vertex.z);
 		  
 		  // grab the normals from the object file
 		  vertexNormal.x = meshes[meshCounter]->mNormals[verticesLooper].x;
 		  vertexNormal.y = meshes[meshCounter]->mNormals[verticesLooper].y;
 		  vertexNormal.z = meshes[meshCounter]->mNormals[verticesLooper].z;
-		  
-		  //cout << verticesLooper << "   " << vertex.x << " " << vertex.y << " " << vertex.z << endl;
-		  //cout << verticesLooper << "   " << vertexNormal.x << " " << vertexNormal.y << " " << vertexNormal.z << endl;
 
       // store vertexes
 		  Vertex batmanVertices(vertex, color, texture, vertexNormal);
@@ -538,9 +531,6 @@ bool Object::loadOBJ(std::string path, std::vector<Vertex> &out_vertices,
       delete image;
       //cout << "Generated Texture" << endl;
 	  }
-  
-  //cout << out_vertices[0].vertexNormal.x << "  " << out_vertices[0].vertexNormal.y << "  " << out_vertices[0].vertexNormal.z <<  endl;
-  
 
   // object file sucessfully accessed
   return true;
