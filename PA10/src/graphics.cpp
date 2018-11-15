@@ -90,29 +90,58 @@ bool Graphics::Initialize(int width, int height, std::string file)
   }
 
   // Create objects
+  // bottom of the pinball machine
   Object* base  = new Object(this, "Base.obj",    0, 0.0f, 0.0f, 0.0f, 1.0f,  0, 10);
+  
+  // pinball
   Object* ball   = new Object(this, "awesomeball.obj", 0, 0.0f, 0.0f, 0.0f, 0.1f, 1, 1);
+  
+  // blockers
   Object* blockers = new Object(this, "Blockers.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 10);
+  
+  // backboard
   Object* backBoard = new Object(this, "Backboard.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 10);
   Object* innerBackBoard = new Object(this, "InnerBackboard.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 10);
+  
+  // barrier
   Object* barrier = new Object(this, "Barrier.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 10);
+  
+  // bumpers
   Object* bumper2 = new Object(this, "Bumper_2.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 10);
+  
+  // paddles
   Object* leftPaddle = new Object(this, "LeftPaddle.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 10);
   Object* rightPaddle = new Object(this, "RightPaddle.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 10);
+  
+  // pinball machine chasis
   Object* pinballBody = new Object(this, "PinballBody.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 10);
+  
+  // plunger
   Object* plungerBase = new Object(this, "PlungerBase.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 10);
   Object* plungerHead = new Object(this, "PlungerHead.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 10);
+  
+  // side triggers
   Object* sideTriggers = new Object(this, "SideTriggers.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 10);
+  
+  // speakers
   Object* speakers = new Object(this, "Speakers.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 10);
+  
+  // titles
   Object* title = new Object(this, "Title.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 10);
   Object* titleBackboard = new Object(this, "TitleBackboard.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 10);
+  
+  // pinball obstacle
+  Object* pinballHole = new Object(this, "PinballHole.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 10);
+  
+  // front walls
   Object* wallsFront = new Object(this, "WallsFront.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 10);
+  
+  // upper level objects
   Object* bumper1 = new Object(this, "Bumper_1.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 10);
   Object* bumper3 = new Object(this, "Bumper_3.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 10);
   Object* bumper4 = new Object(this, "Bumper_4.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 10);
   Object* ballRamp = new Object(this, "BallRamp.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 10);
   Object* ramp = new Object(this, "Ramp.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 10);
-  
   
   
   Object* baseCollisionPosition   = new Object(this, "awesomeball.obj", 0, 0.0f, 0.0f, 0.0f, 0.0f, 0, 0);
@@ -124,7 +153,6 @@ bool Graphics::Initialize(int width, int height, std::string file)
   Object* rightWall   = new Object(this, "awesomeball.obj", 0, 0.0f, 0.0f, 0.0f, 0.0f, 0, 7);
   Object* testBall   = new Object(this, "awesomeball.obj", 0, 0.0f, 0.0f, 0.0f, 0.1f, 1, 9);
   testBall->GetRigidBody()->setGravity(btVector3(0.0f, 0.0f, 0.0f));
-
 
   // Waiting Song while the planets load
   gameSound.LoadSound("../assets/NGGUP.wav");
@@ -147,9 +175,10 @@ bool Graphics::Initialize(int width, int height, std::string file)
   m_cubes.push_back(speakers);  // 13
   m_cubes.push_back(title); // 14
   m_cubes.push_back(titleBackboard);  // 15
-  m_cubes.push_back(wallsFront);  // 16
+  m_cubes.push_back(pinballHole);  // 16
+  m_cubes.push_back(wallsFront);  // 17
   //m_cubes.push_back(testBall);
-  m_cubes.push_back(bumperCollisionPosition); // 17
+  m_cubes.push_back(bumperCollisionPosition); // 18
   m_cubes.push_back(bumper1); 
   m_cubes.push_back(bumper3); 
   m_cubes.push_back(bumper4); 

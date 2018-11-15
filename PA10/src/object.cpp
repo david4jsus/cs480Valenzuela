@@ -218,6 +218,17 @@ void Object::createObject()
     shapeMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, -1, 0, 1), btVector3(0, 102, 0)));
   }
   
+  // right wall for board
+  else if(modelNum == 11)
+  {
+    // create a box collider
+    btVector3 boxHalfExtents = btVector3(0.0, 0.0, 0.0);
+    colliderShape = new btBoxShape(boxHalfExtents);
+    
+    // set orientation and position of object
+    shapeMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, -0.5, 0, 1), btVector3(0, 102, 0)));
+  }
+  
   // set mass and inertia
   btScalar mass(m_mass);
   btVector3 inertia(0, 0, 0);
