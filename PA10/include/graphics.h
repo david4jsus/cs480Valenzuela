@@ -40,6 +40,8 @@ class Graphics
 	 float SetSpecularScale(float setSpecularScale);
 	 
 	 btRigidBody* getRigidBody(int objectIndex);
+	 
+	 int getScore();
 
   private:
     std::string ErrorString(GLenum error);
@@ -93,6 +95,8 @@ class Graphics
     glm::vec3 pinballPos;
     
     std::vector<btRigidBody*> rigidBodies;
+    
+    int score;
 };
 
 #endif /* GRAPHICS_H */

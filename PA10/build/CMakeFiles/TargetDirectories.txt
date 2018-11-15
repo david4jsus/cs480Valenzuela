@@ -1,4 +1,0 @@
-/home/davidvalenzuela/CS 480/cs480Valenzuela/PA10/build/CMakeFiles/rebuild_cache.dir
-/home/davidvalenzuela/CS 480/cs480Valenzuela/PA10/build/CMakeFiles/edit_cache.dir
-/home/davidvalenzuela/CS 480/cs480Valenzuela/PA10/build/CMakeFiles/PA9_SUCCESSFUL.dir
-/home/davidvalenzuela/CS 480/cs480Valenzuela/PA10/build/CMakeFiles/PA9.dir
