@@ -59,4 +59,11 @@ Launch ball with plunger
 
 - **Spacebar**: Increase specular brightness
 
+Move ball 
+
+- **I**: Move ball forward
+- **K**: Move ball backward
+- **J**: Move ball left
+- **L**: Move ball right
+
 The on-screen menu is scalable and has an available scrolling bar on the right side.
