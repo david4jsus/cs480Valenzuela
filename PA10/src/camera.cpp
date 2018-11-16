@@ -12,7 +12,7 @@ bool Camera::Initialize(int w, int h)
 {
   yaw = pitch = 0.0f;
   
-  cameraPos   = glm::vec3(-20.0f, 5.0f, 0.0f);
+  cameraPos   = glm::vec3(-500.0f, 200.0f, 0.0f);
   cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
   cameraUp    = glm::vec3(0.0f, 1.0f, 0.0f);
   cameraRight = glm::normalize(glm::cross(cameraFront, cameraUp));
@@ -25,7 +25,7 @@ bool Camera::Initialize(int w, int h)
   projection = glm::perspective( 45.0f, //the FoV typically 90 degrees is good which is what this is set to
                                  float(w)/float(h), //Aspect Ratio, so Circles stay Circular
                                  0.01f, //Distance to the near plane, normally a small value like this
-                                 500.0f); //Distance to the far plane
+                                 750.0f); //Distance to the far plane
   
   updateViewMatrix();
   

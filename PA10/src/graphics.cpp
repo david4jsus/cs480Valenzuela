@@ -13,7 +13,7 @@ Graphics::Graphics()
 	
 	shaderToggle = true;
 	ambientLightingScale = 1.0;
-	specularScale = 1.0f;
+	specularScale = 0.5f;
 	pinballPos = glm::vec3(0.0, 0.0, 0.0);
 	score = 0;
 }
@@ -112,6 +112,7 @@ bool Graphics::Initialize(int width, int height, std::string file)
   
   // paddles
   Object* leftPaddle = new Object(this, "LeftPaddle.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 10);
+  //leftPaddle->GetRigidBody()->setGravity(btVector3(0.0f, 0.0f, 0.0f));
   Object* rightPaddle = new Object(this, "RightPaddle.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 10);
   
   // pinball machine chasis
@@ -461,7 +462,7 @@ void Graphics::Update(unsigned int dt)
     }
   }*/
   
-  if(numManifolds == 11)
+  if(numManifolds == 16)
   {
     score = score + 100; 
   }
