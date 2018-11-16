@@ -12,8 +12,8 @@ Graphics::Graphics()
 	dynamicsWorld->setGravity(btVector3(-0.001, -1.0, 0.0));
 	
 	shaderToggle = true;
-	ambientLightingScale = 1.0;
-	specularScale = 0.5f;
+	ambientLightingScale = .2;
+	specularScale = 0.0f;
 	pinballPos = glm::vec3(0.0, 0.0, 0.0);
 	score = 0;
 	lives = 3;
@@ -106,7 +106,7 @@ bool Graphics::Initialize(int width, int height, std::string file)
   Object* innerBackBoard = new Object(this, "InnerBackboard.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 10);
   
   // barrier
-  Object* barrier = new Object(this, "Barrier.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 10);
+  Object* barrier = new Object(this, "Barrier.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 2);
   
   // bumpers
   Object* bumper2 = new Object(this, "Bumper_2.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 10);
@@ -147,7 +147,12 @@ bool Graphics::Initialize(int width, int height, std::string file)
   Object* bumper4 = new Object(this, "Bumper_4.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 10);
   Object* ballRamp = new Object(this, "BallRamp.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 10);
   Object* ramp = new Object(this, "Ramp.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 10);
-  
+
+  // the rest of the machine
+  Object* key = new Object(this, "Keyhole.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 10);
+  Object* buttonCoin = new Object(this, "Button_Coin_Yellow.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 10);
+  Object* carbonfiber = new Object(this, "CarbonFiberParts.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 10);
+  Object* glass = new Object(this, "CarbonFiberParts.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 10);
   
   Object* baseCollisionPosition   = new Object(this, "awesomeball.obj", 0, 0.0f, 0.0f, 0.0f, 0.0f, 0, 0);
   //Object* plungerCollisionPosition   = new Object(this, "awesomeball.obj", 0, 0.0f, 0.0f, 0.0f, 0.0f, 0, 2);
@@ -185,6 +190,10 @@ bool Graphics::Initialize(int width, int height, std::string file)
   m_cubes.push_back(bumper4); 
   m_cubes.push_back(ballRamp); 
   m_cubes.push_back(ramp);  
+  m_cubes.push_back(key); 
+  m_cubes.push_back(buttonCoin); 
+  m_cubes.push_back(carbonfiber);  
+  m_cubes.push_back(glass); 
       
   gameSound.LoadSound("../assets/Ryuusei.wav");
   gameSound.PlaySound();

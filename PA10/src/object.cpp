@@ -64,7 +64,7 @@ void Object::createObject()
   
   correctModelLoad = loadOBJ(objFilePath, myVertices, myIndices);
   
-  std::cout << "Loading " << objFilePath << "..." << std::endl;
+  //std::cout << "Loading " << objFilePath << "..." << std::endl;
   
   glGenBuffers(1, &VB);
   glBindBuffer(GL_ARRAY_BUFFER, VB);
@@ -114,15 +114,16 @@ void Object::createObject()
     shapeMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(-130, 0, 85)));
   }
   
-  // cube
+  // barrier
   else if(modelNum == 2)
   {
+    btVector3 boxHalfExtents = btVector3(0.0, 102.0, 0.0);
     // create a box collider
-    btVector3 boxHalfExtents = btVector3(5.0, 5.0, 5.0);
+
     colliderShape = new btBoxShape(boxHalfExtents);
     
     // set orientation and position of object
-    shapeMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(-140, 0, 80)));
+    shapeMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, -1, 0, 1), btVector3(0, 102, 0)));
   }
   
   // cylinder
