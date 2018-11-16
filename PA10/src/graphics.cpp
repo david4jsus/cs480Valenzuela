@@ -185,6 +185,8 @@ bool Graphics::Initialize(int width, int height, std::string file)
   m_cubes.push_back(ballRamp); 
   m_cubes.push_back(ramp);  
       
+  gameSound.LoadSound("../assets/Ryuusei.wav");
+  gameSound.PlaySound();
   // get rigidbody for the cube
   for(int i = 0; i < m_cubes.size(); i++)
   {
@@ -412,14 +414,10 @@ void Graphics::Update(unsigned int dt)
   {
     m_cubes[i]->Update(dt);
   }
-  gameSound.PlaySound();
+  
   // Get the pinball position every frame
   pinballPos = m_cubes[1]->objectPosition();
   
-  if(gameSound.AudioStopped())
-  {
-      gameSound.LoopAudio();
-  }
   // Set the spot light position to the pinball position
   //glUniform4f(m_flightPos, pinballPos.x, pinballPos.y, pinballPos.z, 1.0);
   
