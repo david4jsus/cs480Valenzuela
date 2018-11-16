@@ -13,6 +13,7 @@ Graphics::Graphics()
 	
 	shaderToggle = true;
 	ambientLightingScale = 1.0;
+	specularScale = 1.0f;
 	pinballPos = glm::vec3(0.0, 0.0, 0.0);
 	score = 0;
 }
