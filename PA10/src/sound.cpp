@@ -46,7 +46,7 @@ void Sound::PlaySoundEffect()
 
 void Sound::LoopAudio()
 {
-	LoadSound("../assets/imperial_march.wav");
+	LoadSound("../assets/Ryuusei.wav");
 	PlaySound();
 	std::cout << "Playing Audio Again" << std::endl;
 }

@@ -229,6 +229,17 @@ void Object::createObject()
     shapeMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, -0.5, 0, 1), btVector3(0, 102, 0)));
   }
   
+  // Paddles
+  else if(modelNum == 12)
+  {
+    // create a box collider
+    btVector3 boxHalfExtents = btVector3(0.0, 0.0, 0.0);
+    colliderShape = new btBoxShape(boxHalfExtents);
+    
+    // set orientation and position of object
+    shapeMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, -1, 0, 1), btVector3(0, 105, 0)));
+  }
+  
   // set mass and inertia
   btScalar mass(m_mass);
   btVector3 inertia(0, 0, 0);
@@ -495,7 +506,7 @@ bool Object::loadOBJ(std::string path, std::vector<Vertex> &out_vertices,
 	  lastValue = out_indices[out_indices.size() - 1] + 1;
 	  
 	  //cout << meshes[meshCounter]->mNumVertices << endl;
-			  
+    
 	  // loop through all vertexes
 	  for(verticesLooper = 0; verticesLooper < meshes[meshCounter]->mNumVertices; verticesLooper++)
 		{
