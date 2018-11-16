@@ -500,9 +500,9 @@ bool Object::loadOBJ(std::string path, std::vector<Vertex> &out_vertices,
 	  for(verticesLooper = 0; verticesLooper < meshes[meshCounter]->mNumVertices; verticesLooper++)
 		{
 		  // Texture coordinates
-      aiVector3D vert = meshes[meshCounter]->mTextureCoords[0][verticesLooper];
-      texture.x = vert.x;
-      texture.y = vert.y * -1;
+		  aiVector3D vert = meshes[meshCounter]->mTextureCoords[0][verticesLooper];
+      	  texture.x = vert.x;
+      	  texture.y = vert.y * -1;
 		
 		  // get x, y, and z coordinates for each vertex
 		  vertex.x = meshes[meshCounter]->mVertices[verticesLooper].x;
@@ -514,7 +514,7 @@ bool Object::loadOBJ(std::string path, std::vector<Vertex> &out_vertices,
 		  vertexNormal.y = meshes[meshCounter]->mNormals[verticesLooper].y;
 		  vertexNormal.z = meshes[meshCounter]->mNormals[verticesLooper].z;
 
-      // store vertexes
+		  // store vertices
 		  Vertex batmanVertices(vertex, color, texture, vertexNormal);
 		  out_vertices.push_back(batmanVertices);
 		}
