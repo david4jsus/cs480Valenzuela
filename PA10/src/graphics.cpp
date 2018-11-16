@@ -472,7 +472,7 @@ void Graphics::Update(unsigned int dt)
       }
     }
   }*/
-  if(numManifolds == 16)
+  if(numManifolds == 18)
   {
     score = score + 100; 
     hitSound.LoadSound("../assets/grenade.wav");
