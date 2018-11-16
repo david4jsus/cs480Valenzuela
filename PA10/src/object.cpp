@@ -25,6 +25,7 @@ Object::Object()
   osm = orbitSpeedMultiplier;
   size = 1;
   m_mass = 0;
+  usesTriMeshes = false;
 }
 
 Object::Object(Graphics* graphicsObject, std::string filePath, Object* objParent, float objOrbitRadius, float objOrbitMultiplier,
@@ -42,6 +43,11 @@ Object::Object(Graphics* graphicsObject, std::string filePath, Object* objParent
   size = objSize;
   m_mass = mass;
   modelNum = whichModel;
+  
+  if (modelNum == 20)
+  {
+	  usesTriMeshes = true;
+  }
   
   // create object
   createObject();
@@ -229,6 +235,16 @@ void Object::createObject()
     shapeMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, -0.5, 0, 1), btVector3(0, 102, 0)));
   }
   
+  // Tri meshes
+  else if(modelNum == 20)
+  {
+    // create a box collider
+    colliderShape = new btBvhTriangleMeshShape(objTriMesh, true);
+    
+    // set orientation and position of object
+    shapeMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, -1, 0, 1), btVector3(0, 102, 0)));
+  }
+  
   // set mass and inertia
   btScalar mass(m_mass);
   btVector3 inertia(0, 0, 0);
@@ -270,6 +286,7 @@ void Object::Update(unsigned int dt)
   
   // Physics
   btTransform trans;
+
   btScalar m[16];
   m_graphics->GetDynamicsWorld()->stepSimulation(dt, 10);
   rigidBody->getMotionState()->getWorldTransform(trans);
@@ -317,6 +334,11 @@ glm::vec3 Object::objectPosition()
 void Object::setPosition(glm::vec3 newPos)
 {
    pos = newPos;
+   
+   btTransform trans;
+   rigidBody->getMotionState()->getWorldTransform(trans);
+   trans.setOrigin(btVector3(pos.x, pos.y, pos.z));
+   rigidBody->getMotionState()->setWorldTransform(trans);
 }
 
 std::string Object::GetObjectName()
@@ -419,14 +441,14 @@ bool Object::loadOBJ(std::string path, std::vector<Vertex> &out_vertices,
   glm::vec3 color;
   glm::vec2 texture;
   glm::vec3 vertexNormal;
-  btVector3 triArray[3];
   aiColor3D materialDiffuse (1.0, 1.0, 1.0);
   glm::vec3 vertexDiffuse (2.0, 2.0, 2.0);
   aiColor3D materialAmbient (1.0, 1.0, 1.0);
   glm::vec3 vertexAmbient (2.0, 2.0, 2.0);
   aiColor3D materialSpecular (1.0, 1.0, 1.0);
   glm::vec3 vertexSpecular (2.0, 2.0, 2.0);
-  //objTriMesh = new btTriangleMesh();
+  objTriMesh = new btTriangleMesh();
+  btVector3 triArray[3];
 
   // string that contains path to object file
   std::string completeFilePath = "../assets/models/" + path;
@@ -483,12 +505,18 @@ bool Object::loadOBJ(std::string path, std::vector<Vertex> &out_vertices,
         // Get position of index
 		    out_indices.push_back(meshes[meshCounter]->mFaces[faceLooper].mIndices[indicesLooper] + lastValue);
 		  
-		    // Add face to collider
-		    //aiVector3D position = meshes[meshCounter]->mVertices[out_indices.back()];
-		    //triArray[indicesLooper] = btVector3(position.x, position.y, position.z);
+		    /*if (usesTriMeshes)
+		    {
+				// Add face to collider
+				aiVector3D position = meshes[meshCounter]->mVertices[out_indices.back()];
+				triArray[indicesLooper] = btVector3(position.x, position.y, position.z);
+		    }*/
 		  }
 		
-		//objTriMesh->addTriangle(triArray[0], triArray[1], triArray[2]);
+	    /*if (usesTriMeshes)
+	    {
+	    	objTriMesh->addTriangle(triArray[0], triArray[1], triArray[2]);
+	    }*/
 	  }
 
       // offest new next mesh's index poisition
@@ -526,7 +554,7 @@ bool Object::loadOBJ(std::string path, std::vector<Vertex> &out_vertices,
 	    imageFilePath = assimpFilePath.C_Str();
 	    imageFilePath = "../assets/images/" + imageFilePath;
 		
-		  // Load Texture
+	  // Load Texture
       Magick::Blob blob;
       Magick::Image *image;
       image = new Magick::Image(imageFilePath);
@@ -541,7 +569,28 @@ bool Object::loadOBJ(std::string path, std::vector<Vertex> &out_vertices,
       glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
       delete image;
       //cout << "Generated Texture" << endl;
-	  }
+      
+      // Triangle meshes
+      if (usesTriMeshes)
+      {
+    	  for (int i = 0; i < scene->mMeshes[meshCounter]->mNumFaces; i++)
+    	  {
+    		  unsigned int index0 = scene->mMeshes[meshCounter]->mFaces[i].mIndices[i];
+    		  unsigned int index1 = scene->mMeshes[meshCounter]->mFaces[i].mIndices[i + 1];
+    		  unsigned int index2 = scene->mMeshes[meshCounter]->mFaces[i].mIndices[i + 2];
+    		  
+    		  aiVector3D pos0 = scene->mMeshes[meshCounter]->mVertices[index0];
+    		  aiVector3D pos1 = scene->mMeshes[meshCounter]->mVertices[index1];
+    		  aiVector3D pos2 = scene->mMeshes[meshCounter]->mVertices[index2];
+    		  
+    		  btVector3 v0(pos0.x, pos0.y, pos0.z);
+    		  btVector3 v1(pos1.x, pos1.y, pos1.z);
+    		  btVector3 v2(pos2.x, pos2.y, pos2.z);
+    		  
+    		  objTriMesh->addTriangle(v0, v1, v2);
+    	  }
+      }
+	}
 
   // object file sucessfully accessed
   return true;
