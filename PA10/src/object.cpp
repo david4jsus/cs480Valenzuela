@@ -218,6 +218,17 @@ void Object::createObject()
     shapeMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, -1, 0, 1), btVector3(0, 102, 0)));
   }
   
+  // right wall for board
+  else if(modelNum == 11)
+  {
+    // create a box collider
+    btVector3 boxHalfExtents = btVector3(0.0, 0.0, 0.0);
+    colliderShape = new btBoxShape(boxHalfExtents);
+    
+    // set orientation and position of object
+    shapeMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, -0.5, 0, 1), btVector3(0, 102, 0)));
+  }
+  
   // set mass and inertia
   btScalar mass(m_mass);
   btVector3 inertia(0, 0, 0);
@@ -489,9 +500,9 @@ bool Object::loadOBJ(std::string path, std::vector<Vertex> &out_vertices,
 	  for(verticesLooper = 0; verticesLooper < meshes[meshCounter]->mNumVertices; verticesLooper++)
 		{
 		  // Texture coordinates
-      aiVector3D vert = meshes[meshCounter]->mTextureCoords[0][verticesLooper];
-      texture.x = vert.x;
-      texture.y = vert.y * -1;
+		  aiVector3D vert = meshes[meshCounter]->mTextureCoords[0][verticesLooper];
+      	  texture.x = vert.x;
+      	  texture.y = vert.y * -1;
 		
 		  // get x, y, and z coordinates for each vertex
 		  vertex.x = meshes[meshCounter]->mVertices[verticesLooper].x;
@@ -503,7 +514,7 @@ bool Object::loadOBJ(std::string path, std::vector<Vertex> &out_vertices,
 		  vertexNormal.y = meshes[meshCounter]->mNormals[verticesLooper].y;
 		  vertexNormal.z = meshes[meshCounter]->mNormals[verticesLooper].z;
 
-      // store vertexes
+		  // store vertices
 		  Vertex batmanVertices(vertex, color, texture, vertexNormal);
 		  out_vertices.push_back(batmanVertices);
 		}
