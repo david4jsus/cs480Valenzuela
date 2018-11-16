@@ -16,6 +16,7 @@ Graphics::Graphics()
 	specularScale = 1.0f;
 	pinballPos = glm::vec3(0.0, 0.0, 0.0);
 	score = 0;
+	lives = 3;
 }
 
 Graphics::~Graphics()
@@ -187,6 +188,7 @@ bool Graphics::Initialize(int width, int height, std::string file)
       
   gameSound.LoadSound("../assets/Ryuusei.wav");
   gameSound.PlaySound();
+  
   // get rigidbody for the cube
   for(int i = 0; i < m_cubes.size(); i++)
   {
@@ -461,16 +463,13 @@ void Graphics::Update(unsigned int dt)
       }
     }
   }*/
-  
+ 
   if(numManifolds == 17)
   {
     score = score + 100; 
-    gameSound.LoadSound("../assets/grenade.wav");
-    gameSound.PlaySound();
+    hitSound.LoadSound("../assets/grenade.wav");
+    hitSound.PlayBumperHit();
   }
-	
-	
-	
 	
 	/////////////////////////////////////////////////////////////////////////////
 	// HERE // HERE // HERE // HERE //HERE //HERE //HERE //HERE //HERE // HERE //
@@ -645,4 +644,9 @@ btRigidBody* Graphics::getRigidBody(int objectIndex)
 int Graphics::getScore()
 {
   return score;
+}
+
+int Graphics::GetLives()
+{
+  return lives;
 }

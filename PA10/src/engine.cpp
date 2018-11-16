@@ -190,6 +190,12 @@ void Engine::Run()
       ImGui::Separator();
       ImGui::Separator();
       
+      int lives = m_graphics->GetLives();
+      std::string liveText = "Lives Remaining: ";
+      liveText.append(std::to_string(lives));
+      const char* displayLivesRemainingText = liveText.c_str();
+      ImGui::Text(displayLivesRemainingText);
+      
       /*
       if (ImGui::Button("Use per vertex lighting"))
       {
