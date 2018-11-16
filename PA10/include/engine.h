@@ -44,6 +44,16 @@ class Engine
     long long m_currentTimeMillis;
     bool m_running;
 
+    // Game states
+    bool playing;
+    void Play();
+    
+    // Plunger stuff
+    float plungerForce;
+    glm::vec3 initialPlungerPos1;
+    glm::vec3 initialPlungerPos2;
+    void ManagePlunger();
+    
     Sound gameSound;
     
     // Show Dear ImGui demo window
@@ -70,6 +80,8 @@ class Engine
     
     bool usedRightPaddle;
     bool firstRightPaddleUse;
+    
+    bool pressingSpaceBar;
     
     high_resolution_clock::time_point startTime;
     high_resolution_clock::time_point endTime;

@@ -79,6 +79,9 @@ class Object
     btTriangleMesh *objTriMesh;
     btRigidBody* rigidBody;
     float m_mass;
+
+    bool usesTriMeshes;
+
     
     // If the object has a child, this is the matrix it should read as its center
     glm::mat4 modelForChild;

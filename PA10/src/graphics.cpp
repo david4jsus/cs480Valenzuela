@@ -13,7 +13,7 @@ Graphics::Graphics()
 	
 	shaderToggle = true;
 	ambientLightingScale = 1.0;
-	specularScale = 1.0f;
+	specularScale = 0.5f;
 	pinballPos = glm::vec3(0.0, 0.0, 0.0);
 	score = 0;
 	lives = 3;
@@ -463,8 +463,7 @@ void Graphics::Update(unsigned int dt)
       }
     }
   }*/
- 
-  if(numManifolds == 17)
+  if(numManifolds == 16)
   {
     score = score + 100; 
     hitSound.LoadSound("../assets/grenade.wav");

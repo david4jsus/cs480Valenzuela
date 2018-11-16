@@ -77,6 +77,12 @@ bool Engine::Initialize()
   
   usedRightPaddle = false;
   firstRightPaddleUse = false;
+  playing = false;
+  pressingSpaceBar = false;
+  
+  plungerForce = 0.0f;
+  
+  m_graphics->getCamera()->updateCamRotPitch(-17);
   
   // No errors
   return true;
@@ -153,6 +159,12 @@ void Engine::Run()
     else if (rotatingDown)   // Rotate camera down
     {
       m_graphics->getCamera()->updateCamRotPitch(m_DT * -0.1);
+    }
+    
+    if (!playing)
+    {
+    	// Manage plunger
+    	ManagePlunger();
     }
     
     // Demo ImGUI window
@@ -373,14 +385,22 @@ void Engine::Keyboard()
         }
     }
     
+    if (m_event.key.keysym.sym == SDLK_SPACE) // Holding space bar
+    {
+    	if (!pressingSpaceBar)
+    	{
+			pressingSpaceBar = true;
+			initialPlungerPos1 = m_graphics->GetObject(10)->objectPosition();
+			initialPlungerPos2 = m_graphics->GetObject(11)->objectPosition();
+    	}
+    }
+    
     startAgainTime = high_resolution_clock::now();
     time_span = startAgainTime - endTime;
 
     if ((m_event.key.keysym.sym == SDLK_m && usedRightPaddle == false && time_span.count() >= 60.0) || 
         (m_event.key.keysym.sym == SDLK_m && usedRightPaddle == false && firstRightPaddleUse == false))
     {
-
-      //getObjectRigidBody(7)->applyTorqueImpulse(getObjectRigidBody(7)->getWorldTransform().getBasis().getColumn(2) * 1200 * 1000.0f);
       usedRightPaddle = true;
       firstRightPaddleUse = true;
       startTime = high_resolution_clock::now();
@@ -438,6 +458,16 @@ void Engine::Keyboard()
     {
       rotatingDown = false;
     }
+    
+    if (m_event.key.keysym.sym == SDLK_SPACE)  // Release space bar
+	{
+	  pressingSpaceBar = false;
+	  
+	  if (!playing)
+	  {
+		Play();
+	  }
+	}
   }
 }
 
@@ -473,8 +503,6 @@ unsigned int Engine::getDT()
   
     if (m_event.key.keysym.sym == SDLK_m && time_span.count() >= 60.0)
     {
-      //getObjectRigidBody(7)->applyTorqueImpulse(getObjectRigidBody(7)->getWorldTransform().getBasis().getColumn(2) * 1200 * 1000.0f);
-
       usedRightPaddle = false;
     }
   }
@@ -498,4 +526,26 @@ long long Engine::GetCurrentTimeMillis()
 btRigidBody* Engine::getObjectRigidBody(int objectIndex)
 {
   return m_graphics->getRigidBody(objectIndex);
+}
+
+void Engine::Play()
+{
+//	playing = true;
+	
+    getObjectRigidBody(1)->applyCentralImpulse(btVector3(plungerForce, 0.0f, 0.0f));
+    
+    plungerForce = 0;
+    m_graphics->GetObject(10)->setPosition(initialPlungerPos1);
+    m_graphics->GetObject(11)->setPosition(initialPlungerPos2);
+}
+
+void Engine::ManagePlunger()
+{
+	// Can hold up to 5 seconds
+	if (pressingSpaceBar && plungerForce < 5.0f)
+	{
+		plungerForce += m_DT / 1000.0f;
+		m_graphics->GetObject(10)->setPosition(initialPlungerPos1 + glm::vec3(-plungerForce, 0, 0));
+		m_graphics->GetObject(11)->setPosition(initialPlungerPos2 + glm::vec3(-plungerForce, 0, 0));
+	}
 }
