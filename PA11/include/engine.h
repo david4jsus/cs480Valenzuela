@@ -28,6 +28,8 @@ class Engine
     long long GetCurrentTimeMillis();
     
     btRigidBody* GetObjectRigidBody(int objectIndex);
+    
+    void loadConfigurationFileInfo();
   
   private:
     // Window related variables
@@ -67,6 +69,22 @@ class Engine
     high_resolution_clock::time_point startTime;
     high_resolution_clock::time_point endTime;
     duration<double, std::milli> time_span;
+    
+    // configuration file variables
+      // per vertex lighting
+    string storedVLightingVertexShaderFilePath;
+    string storedVLightingFragmentShaderFilePath;
+    
+      // per fragment lighting
+    string storedFLightingVertexShaderFilePath;
+    string storedFLightingFragmentShaderFilePath;
+    
+      // camera starting position
+    glm::vec3 storedEngineStartingCameraPos;
+    
+      // camera starting orientation
+    float storedEngineYaw;
+    float storedEnginePitch;
 };
 
 #endif // ENGINE_H

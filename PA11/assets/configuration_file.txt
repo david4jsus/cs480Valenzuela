@@ -1,0 +1,27 @@
+GROUP PROJECT CONFIGURATION FILE
+
+Per Vertex Lighting Shaders
+../assets/shaders/vLightingVertex.shader
+../assets/shaders/vLightingFragment.shader
+
+Per Fragment Lighting Shaders
+../assets/shaders/fLightingVertex.shader
+../assets/shaders/fLightingFragment.shader
+
+Camera Starting Position
+x-axis: -20.0
+y-axis: 5.0
+z-axis: 0.0
+
+Camera Starting Orientation
+yaw: 0.0
+pitch: 0.0
+
+Objects
+object file name:
+object position:
+collision shape size:
+
+object file name:
+object position:
+collision shape size:

@@ -2,6 +2,10 @@
 #include "imgui.h"
 #include "imgui_impl_sdl.h"
 #include "imgui_impl_opengl3.h"
+#include <fstream>
+#include <iostream>
+
+using namespace std;
 
 Engine::Engine(string name, int width, int height)
 {
@@ -27,6 +31,9 @@ Engine::~Engine()
 
 bool Engine::Initialize()
 {
+  // read configuration file
+  loadConfigurationFileInfo();
+
   // Start a window
   m_window = new Window();
   if(!m_window->Initialize(m_WINDOW_NAME, &m_WINDOW_WIDTH, &m_WINDOW_HEIGHT))
@@ -36,7 +43,8 @@ bool Engine::Initialize()
   }
 
   // Start the graphics
-  m_graphics = new Graphics();
+  m_graphics = new Graphics(storedVLightingVertexShaderFilePath, storedVLightingFragmentShaderFilePath, storedFLightingVertexShaderFilePath, storedFLightingFragmentShaderFilePath, 
+                            storedEngineStartingCameraPos, storedEngineYaw, storedEnginePitch);
   if(!m_graphics->Initialize(m_WINDOW_WIDTH, m_WINDOW_HEIGHT, m_file))
   {
     printf("The graphics failed to initialize.\n");
@@ -389,4 +397,89 @@ long long Engine::GetCurrentTimeMillis()
 btRigidBody* Engine::GetObjectRigidBody(int objectIndex)
 {
   return m_graphics->GetRigidBody(objectIndex);
+}
+
+void Engine::loadConfigurationFileInfo()
+{
+  // local variables
+  ifstream fin;
+  string configFileInfo;
+  float floatInfo;
+  
+  // clear and open file
+  fin.clear();
+  fin.open("../assets/configuration_file.txt");
+  
+  // run until end of file
+  while(fin.eof() == false)
+  {
+    // read in first information segment
+    fin >> configFileInfo;
+    
+    // check if we are about to read in per vertex lighting information
+    if(configFileInfo == "Vertex")
+    {
+      // read in sub-title information
+      fin >> configFileInfo;
+      fin >> configFileInfo;
+      
+      // read in vertex shader file path
+      fin >> configFileInfo;
+      storedVLightingVertexShaderFilePath = configFileInfo;
+      
+      // read in fragment shader file path
+      fin >> configFileInfo;
+      storedVLightingFragmentShaderFilePath = configFileInfo;
+    }
+    
+    // check if we are about to read in per fragment lighting information
+    else if(configFileInfo == "Fragment")
+    {
+      // read in sub-title information
+      fin >> configFileInfo;
+      fin >> configFileInfo;
+      
+      // read in vertex shader file path
+      fin >> configFileInfo;
+      storedFLightingVertexShaderFilePath = configFileInfo;
+      
+      // read in fragment shader file path
+      fin >> configFileInfo;
+      storedFLightingFragmentShaderFilePath = configFileInfo;
+    }
+    
+    // check if we are about to read in camera starting position information
+    else if(configFileInfo == "x-axis:")
+    {
+      // get camera x-axis starting position
+      fin >> floatInfo;
+      storedEngineStartingCameraPos.x = floatInfo;
+      
+      // get camera y-axis starting position
+      fin >> configFileInfo;
+      fin >> floatInfo;
+      storedEngineStartingCameraPos.y = floatInfo;
+      
+      // get camera z-axis starting position
+      fin >> configFileInfo;
+      fin >> floatInfo;
+      storedEngineStartingCameraPos.z = floatInfo;
+    }
+    
+    // check if we are about to read in camera starting orientation information
+    else if(configFileInfo == "yaw:")
+    {
+      // get camera starting yaw orientation 
+      fin >> floatInfo;
+      storedEngineYaw = floatInfo;
+      
+      // get camera starting pitch orientation 
+      fin >> configFileInfo;
+      fin >> floatInfo;
+      storedEngineYaw = floatInfo;
+    }
+  }
+  
+  // close file
+  fin.close();
 }
