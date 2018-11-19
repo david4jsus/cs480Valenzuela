@@ -97,7 +97,7 @@ bool Graphics::Initialize(int width, int height, std::string file)
 	  // Waiting Song while the planets load
 	  gameSound.LoadSound("../assets/NGGUP.wav");
 	  gameSound.PlaySound();
-	  
+    
 	  // Push objects onto list
 	  m_objects.push_back(board);
 	  

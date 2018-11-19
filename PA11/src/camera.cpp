@@ -17,11 +17,6 @@ bool Camera::Initialize(int w, int h)
   cameraUp    = glm::vec3(0.0f, 1.0f, 0.0f);
   cameraRight = glm::normalize(glm::cross(cameraFront, cameraUp));
 
-  
-  /*view = glm::lookAt(cameraPos,               //Eye Position
-                     cameraPos + cameraFront, //Focus point
-                     cameraUp);               //Positive Y is up*/
-
   projection = glm::perspective( 45.0f, //the FoV typically 90 degrees is good which is what this is set to
                                  float(w)/float(h), //Aspect Ratio, so Circles stay Circular
                                  0.01f, //Distance to the near plane, normally a small value like this
