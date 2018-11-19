@@ -42,6 +42,7 @@ class Graphics
 	 btRigidBody* getRigidBody(int objectIndex);
 	 
 	 int getScore();
+	 int GetLives();
 
   private:
     std::string ErrorString(GLenum error);
@@ -76,6 +77,7 @@ class Graphics
     std::vector<Object*> m_cubes;
 
     Sound gameSound;
+    Sound hitSound;
     
     // Bullet Members
     btBroadphaseInterface *broadphase;
@@ -97,6 +99,7 @@ class Graphics
     std::vector<btRigidBody*> rigidBodies;
     
     int score;
+    int lives;
 };
 
 #endif /* GRAPHICS_H */

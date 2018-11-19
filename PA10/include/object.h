@@ -78,7 +78,10 @@ class Object
     btCollisionShape *colliderShape;
     btTriangleMesh *objTriMesh;
     btRigidBody* rigidBody;
-    int m_mass;
+    float m_mass;
+
+    bool usesTriMeshes;
+
     
     // If the object has a child, this is the matrix it should read as its center
     glm::mat4 modelForChild;

@@ -1,4 +1,4 @@
-# PA9: Pinball Part III - Final Pinball Machine
+# PA10: Pinball Part III - Final Pinball Machine
 
 # Team Specular Bois
 The following students are part of the team who made this project:
@@ -50,5 +50,20 @@ Changing ambient and specular brightness
 - **Numpad 2**: Decrease ambient brightness
 - **Numpad 4**: Decrease specular brightness
 - **Numpad 6**: Increase specular brightness
+
+Switch between per fragment and per vertex lighting
+
+- **Tab**: Increase specular brightness
+
+Launch ball with plunger
+
+- **Spacebar**: Increase specular brightness
+
+Move ball 
+
+- **I**: Move ball forward
+- **K**: Move ball backward
+- **J**: Move ball left
+- **L**: Move ball right
 
 The on-screen menu is scalable and has an available scrolling bar on the right side.

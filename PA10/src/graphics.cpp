@@ -12,10 +12,11 @@ Graphics::Graphics()
 	dynamicsWorld->setGravity(btVector3(-0.001, -1.0, 0.0));
 	
 	shaderToggle = true;
-	ambientLightingScale = 1.0;
-	specularScale = 1.0f;
+	ambientLightingScale = .2;
+	specularScale = 0.0f;
 	pinballPos = glm::vec3(0.0, 0.0, 0.0);
 	score = 0;
+	lives = 3;
 }
 
 Graphics::~Graphics()
@@ -105,14 +106,17 @@ bool Graphics::Initialize(int width, int height, std::string file)
   Object* innerBackBoard = new Object(this, "InnerBackboard.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 10);
   
   // barrier
-  Object* barrier = new Object(this, "Barrier.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 10);
+  Object* barrier = new Object(this, "Barrier.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 2);
   
   // bumpers
   Object* bumper2 = new Object(this, "Bumper_2.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 10);
   
   // paddles
-  Object* leftPaddle = new Object(this, "LeftPaddle.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 10);
-  Object* rightPaddle = new Object(this, "RightPaddle.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 10);
+  Object* leftPaddle = new Object(this, "LeftPaddle.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 12);
+  Object* rightPaddle = new Object(this, "RightPaddle.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 12);
+  
+  leftPaddle->GetRigidBody()->setGravity(btVector3(0.0f, 0.0, 0.0f));
+  rightPaddle->GetRigidBody()->setGravity(btVector3(0.0f, 0.0, 0.0f));
   
   // pinball machine chasis
   Object* pinballBody = new Object(this, "PinballBody.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 10);
@@ -143,7 +147,12 @@ bool Graphics::Initialize(int width, int height, std::string file)
   Object* bumper4 = new Object(this, "Bumper_4.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 10);
   Object* ballRamp = new Object(this, "BallRamp.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 10);
   Object* ramp = new Object(this, "Ramp.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 10);
-  
+
+  // the rest of the machine
+  Object* key = new Object(this, "Keyhole.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 10);
+  Object* buttonCoin = new Object(this, "Button_Coin_Yellow.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 10);
+  Object* carbonfiber = new Object(this, "CarbonFiberParts.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 10);
+  Object* glass = new Object(this, "CarbonFiberParts.obj", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 10);
   
   Object* baseCollisionPosition   = new Object(this, "awesomeball.obj", 0, 0.0f, 0.0f, 0.0f, 0.0f, 0, 0);
   //Object* plungerCollisionPosition   = new Object(this, "awesomeball.obj", 0, 0.0f, 0.0f, 0.0f, 0.0f, 0, 2);
@@ -154,10 +163,6 @@ bool Graphics::Initialize(int width, int height, std::string file)
   Object* rightWall   = new Object(this, "awesomeball.obj", 0, 0.0f, 0.0f, 0.0f, 0.0f, 0, 7);
   Object* testBall   = new Object(this, "awesomeball.obj", 0, 0.0f, 0.0f, 0.0f, 0.1f, 1, 9);
   testBall->GetRigidBody()->setGravity(btVector3(0.0f, 0.0f, 0.0f));
-
-  // Waiting Song while the planets load
-  gameSound.LoadSound("../assets/NGGUP.wav");
-  gameSound.PlaySound();
   
   // Push objects onto list
   m_cubes.push_back(base);  // 0
@@ -185,6 +190,13 @@ bool Graphics::Initialize(int width, int height, std::string file)
   m_cubes.push_back(bumper4); 
   m_cubes.push_back(ballRamp); 
   m_cubes.push_back(ramp);  
+  m_cubes.push_back(key); 
+  m_cubes.push_back(buttonCoin); 
+  m_cubes.push_back(carbonfiber);  
+  m_cubes.push_back(glass); 
+      
+  gameSound.LoadSound("../assets/Ryuusei.wav");
+  gameSound.PlaySound();
   
   // get rigidbody for the cube
   for(int i = 0; i < m_cubes.size(); i++)
@@ -460,14 +472,12 @@ void Graphics::Update(unsigned int dt)
       }
     }
   }*/
-  
-  if(numManifolds == 11)
+  if(numManifolds == 18)
   {
     score = score + 100; 
+    hitSound.LoadSound("../assets/grenade.wav");
+    hitSound.PlayBumperHit();
   }
-	
-	
-	
 	
 	/////////////////////////////////////////////////////////////////////////////
 	// HERE // HERE // HERE // HERE //HERE //HERE //HERE //HERE //HERE // HERE //
@@ -642,4 +652,9 @@ btRigidBody* Graphics::getRigidBody(int objectIndex)
 int Graphics::getScore()
 {
   return score;
+}
+
+int Graphics::GetLives()
+{
+  return lives;
 }

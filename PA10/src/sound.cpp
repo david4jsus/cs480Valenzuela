@@ -44,9 +44,15 @@ void Sound::PlaySoundEffect()
     	SDL_Delay(200);
 }
 
+void Sound::PlayBumperHit()
+{
+    	SDL_PauseAudioDevice(deviceId, 0);
+    	SDL_Delay(.01);
+}
+
 void Sound::LoopAudio()
 {
-	LoadSound("../assets/imperial_march.wav");
+	LoadSound("../assets/Ryuusei.wav");
 	PlaySound();
 	std::cout << "Playing Audio Again" << std::endl;
 }

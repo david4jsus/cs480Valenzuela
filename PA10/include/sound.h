@@ -15,6 +15,7 @@ class Sound
    void PlayNGGUP();
    void PlaySoundEffect();
    void LoopAudio();
+   void PlayBumperHit();
    bool AudioStopped();
 
   private:
