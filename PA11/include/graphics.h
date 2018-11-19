@@ -28,8 +28,9 @@ class Graphics
     void SetVertexShader();
     void SetFragmentShader();
     
-    // To get a specified cube, specified by array index
+    // To get a specified object, specified by array index
     Object* GetObject(int index);
+    
 	int GetNumberOfObjects();
 	 
 	// Bullet 
@@ -93,8 +94,6 @@ class Graphics
     // ambient lighting values
     float ambientLightingScale;
     float specularScale;
-    
-    glm::vec3 pinballPos;
     
     std::vector<btRigidBody*> rigidBodies;
     

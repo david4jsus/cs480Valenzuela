@@ -73,9 +73,6 @@ bool Engine::Initialize()
   rotatingUp     = false;
   rotatingDown   = false;
   
-  usedRightPaddle = false;
-  firstRightPaddleUse = false;
-  
   // No errors
   return true;
 }
@@ -83,9 +80,6 @@ bool Engine::Initialize()
 void Engine::Run()
 {
   m_running = true;
-
-  // Play imeperial march
-  //gameSound.PlayMainSound();
 
   int index;
 
@@ -154,24 +148,12 @@ void Engine::Run()
     }
     
     {
-      ImGui::Begin("Pinball Instructions and Help");
+      ImGui::Begin("Joust Instructions and Help");
       
       ImGui::Separator();
       ImGui::Separator();
       
       ImGui::Text("Tab -- Switch between Vertex and Fragment Shaders");
-      
-      ImGui::Separator();
-      ImGui::Separator();
-      
-      ImGui::Text("Numbad 8 -- Increase Ambient Intesity");
-      ImGui::Text("Numbad 2 -- Decrease Ambient Intesity");
-      
-      ImGui::Separator();
-      ImGui::Separator();
-      
-      ImGui::Text("Numbad 6 -- Increase Specular Intensity");
-      ImGui::Text("Numbad 4 -- Decrease Specular Intensity");
       
       ImGui::Separator();
       ImGui::Separator();
@@ -329,19 +311,6 @@ void Engine::Keyboard()
         }
     }
     
-    startAgainTime = high_resolution_clock::now();
-    time_span = startAgainTime - endTime;
-
-    if ((m_event.key.keysym.sym == SDLK_m && usedRightPaddle == false && time_span.count() >= 60.0) || 
-        (m_event.key.keysym.sym == SDLK_m && usedRightPaddle == false && firstRightPaddleUse == false))
-    {
-      GetObjectRigidBody(8)->applyTorqueImpulse(btVector3(0.0f, -1200.0f, 0.0f));
-      //GetObjectRigidBody(8)->applyCentralImpulse(btVector3(90.0f, 0.0f, 0.0f));
-      usedRightPaddle = true;
-      firstRightPaddleUse = true;
-      startTime = high_resolution_clock::now();
-    }
-    
   }
   else if (m_event.type == SDL_KEYUP)
   { 
@@ -407,19 +376,8 @@ void Engine::Mouse()
 
 unsigned int Engine::getDT()
 {
-  if(usedRightPaddle == true)
-  {
-    endTime = high_resolution_clock::now();
-    time_span = endTime - startTime;
-  
-    if (m_event.key.keysym.sym == SDLK_m && time_span.count() >= 150.0)
-    {
-      //GetObjectRigidBody(8)->applyCentralImpulse(btVector3(-90.0f, 0.0f, 0.0f));
-      GetObjectRigidBody(8)->applyTorqueImpulse(btVector3(0.0f, 1200.0f, 0.0f));
-      usedRightPaddle = false;
-    }
-  }
-
+  endTime = high_resolution_clock::now();
+  time_span = endTime - startTime;
 
   long long TimeNowMillis = GetCurrentTimeMillis();
   assert(TimeNowMillis >= m_currentTimeMillis);

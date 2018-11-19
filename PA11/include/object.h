@@ -13,61 +13,61 @@ class Object
 {
   public:
     Object();
+    Object(std::string filename, glm::vec3 position, Graphics* graphics);
     ~Object();
     void Update(unsigned int dt);
     void Render();
     
-    // Test
+    // Initialize object
     bool Init();
 
+    // Object model matrices getters
     glm::mat4 GetModel();
     glm::mat4 GetModelForChild();
     
-    // Position of an object in space
-    glm::vec3 objectPosition();
-    
+    // Object position getter & setter
+    glm::vec3 GetObjectPosition();
     void setPosition(glm::vec3 newPos);
     
-    // Name of object
+    // Object name getter
     std::string GetObjectName();
     
-    // Collider getter
+    // Object collider getter
     btCollisionShape* GetCollisionShape();
     
-    // rigidbody getter
+    // Object Rigidbody getter
     btRigidBody* GetRigidBody();
 
   private:
+    // Pointer to graphics class
     Graphics* m_graphics;
-    std::string objName;
-    glm::mat4 model;
-    glm::vec3 pos;
+
+    // Object info
+    std::string objectName;
+	glm::vec3 objectPosition;
+    int modelNum;
+    
+    // If the object has a child, this is the matrix it should read as its center
+    glm::mat4 modelForChild;
+    Object* parent;
+    
+    // Object loading
+    Mesh* m_pMesh;
+    std::string objFilePath;
+    
+    // Model info
     std::vector<Vertex> Vertices;
     std::vector<unsigned int> Indices;
     GLuint VB;
     GLuint IB;
     GLuint Texture;
+    glm::mat4 model;
     
     // Collider
     btCollisionShape *colliderShape;
     btTriangleMesh *objTriMesh;
     btRigidBody* rigidBody;
     int m_mass;
-    
-    // If the object has a child, this is the matrix it should read as its center
-    glm::mat4 modelForChild;
-
-    Object* parent;
-    
-    // Object loading
-    Mesh* m_pMesh;
-    std::string objFilePath;
-    bool correctModelLoad;
-
-	
-	  int modelNum;
-	
-	  glm::vec3 objectPos;
 };
 
 #endif /* OBJECT_H */

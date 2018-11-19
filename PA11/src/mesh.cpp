@@ -27,8 +27,8 @@ void Mesh::MeshEntry::Init(const std::vector<Vertex>& Vertices,
     NumIndices = Indices.size();
 
     glGenBuffers(1, &VB);
-  	glBindBuffer(GL_ARRAY_BUFFER, VB);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * Vertices.size(), &Vertices[0], GL_STATIC_DRAW);
+  	 glBindBuffer(GL_ARRAY_BUFFER, VB);
+	 glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * Vertices.size(), &Vertices[0], GL_STATIC_DRAW);
 
     glGenBuffers(1, &IB);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
@@ -165,7 +165,7 @@ bool Mesh::InitMaterials(const aiScene* pScene, const std::string& Filename)
 
         // Load a white texture in case the model does not include its own texture
         if (!m_Textures[i]) {
-            m_Textures[i] = new Texture(GL_TEXTURE_2D, "../Content/white.png");
+            m_Textures[i] = new Texture(GL_TEXTURE_2D, "../assets/models/White.jpeg");
 
             Ret = m_Textures[i]->Load();
         }

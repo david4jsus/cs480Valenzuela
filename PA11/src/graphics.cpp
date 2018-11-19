@@ -13,7 +13,6 @@ Graphics::Graphics()
 	
 	shaderToggle = true;
 	ambientLightingScale = 0.0;
-	pinballPos = glm::vec3(0.0, 0.0, 0.0);
 }
 
 Graphics::Graphics(string vLightingVertFilePath, string vLightingFragFilePath, string fLightingVertFilePath, string fLightingFragFilePath, glm::vec3 storedEngineStartingCameraPos, 
@@ -111,21 +110,24 @@ bool Graphics::Initialize(int width, int height, std::string file)
   m_camera->updateCamRotPitch(storedGraphicsPitch);
 
   // Create objects
-  //Object* pinballMachine  = new Object(this, "Plunger.obj",    0, 0.0f, 0.0f, 0.0f, 1.0f,  0, 0);
+  Object* board = new Object("Disboard.obj", glm::vec3(0, 0, 0), this);
+
+  meshLoaded = true;
+  
   if(meshLoaded)
   {
 	  // Waiting Song while the planets load
 	  gameSound.LoadSound("../assets/NGGUP.wav");
 	  gameSound.PlaySound();
-	  
+    
 	  // Push objects onto list
-	  //m_objects.push_back(pinballMachine);
+	  m_objects.push_back(board);
 	  
 	  // get rigidbody for the cube
-	  for(int i = 0; i < m_objects.size(); i++)
+	  /*for(int i = 0; i < m_objects.size(); i++)
 	  {
-	    //rigidBodies.push_back(m_objects[i]->GetRigidBody());
-	  }
+	    rigidBodies.push_back(m_objects[i]->GetRigidBody());
+	  }*/
 
 	  // PER VERTEX SHADER
 	  // Set up the shaders
@@ -362,7 +364,7 @@ void Graphics::Render()
 	  }
 	  
 	  // Send light position
-	  glUniform4f(m_flightPos, pinballPos.x, pinballPos.y + 1, pinballPos.z, 1.0);
+	  glUniform4f(m_flightPos, 0, 0, 0, 1.0);
 	  
 	  // Send ambient color
 	  glUniform4f(m_fambientColor, ambientLightingScale, ambientLightingScale, ambientLightingScale, 1.0);
@@ -392,7 +394,7 @@ void Graphics::Render()
 	  }
 	  
 	  // Send light position
-	  glUniform4f(m_vlightPos, pinballPos.x, pinballPos.y + 1, pinballPos.z, 1.0);
+	  glUniform4f(m_vlightPos, 0, 0, 0, 1.0);
 	  
 	  // Send ambient color
 	  glUniform4f(m_vambientColor, ambientLightingScale, ambientLightingScale, ambientLightingScale, 1.0);
@@ -431,8 +433,6 @@ void Graphics::SetFragmentShader()
 {
 	shaderToggle = true;
 }
-
-
 
 Camera* Graphics::GetCamera()
 {
