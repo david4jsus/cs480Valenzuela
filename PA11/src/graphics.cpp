@@ -89,21 +89,11 @@ bool Graphics::Initialize(int width, int height, std::string file)
   }
 
   // Create objects
-  //Object* pinballMachine  = new Object(this, "Plunger.obj",    0, 0.0f, 0.0f, 0.0f, 1.0f,  0, 0);
   if(meshLoaded)
   {
 	  // Waiting Song while the planets load
 	  gameSound.LoadSound("../assets/NGGUP.wav");
 	  gameSound.PlaySound();
-	  
-	  // Push objects onto list
-	  //m_objects.push_back(pinballMachine);
-	  
-	  // get rigidbody for the cube
-	  for(int i = 0; i < m_objects.size(); i++)
-	  {
-	    //rigidBodies.push_back(m_objects[i]->GetRigidBody());
-	  }
 
 	  // PER VERTEX SHADER
 	  // Set up the shaders
@@ -409,8 +399,6 @@ void Graphics::SetFragmentShader()
 {
 	shaderToggle = true;
 }
-
-
 
 Camera* Graphics::GetCamera()
 {
