@@ -16,6 +16,25 @@ Graphics::Graphics()
 	pinballPos = glm::vec3(0.0, 0.0, 0.0);
 }
 
+Graphics::Graphics(string vLightingVertFilePath, string vLightingFragFilePath, string fLightingVertFilePath, string fLightingFragFilePath, glm::vec3 storedEngineStartingCameraPos, 
+                   float storedEngineYaw, float storedEnginePitch) : Graphics()
+{
+  // per vertex lighting vertex and fragment shader filepaths
+  vLightingVertexShaderFilePath = vLightingVertFilePath;
+  vLightingFragmentShaderFilePath = vLightingFragFilePath;
+  
+  // per fragment lighting vertex and fragment shader filepaths
+  fLightingVertexShaderFilePath = fLightingVertFilePath;
+  fLightingFragmentShaderFilePath = fLightingFragFilePath;
+  
+  // camera starting pos
+  storedGraphicsStartingCameraPos = storedEngineStartingCameraPos;
+  
+  // camera starting orientation
+  storedGraphicsYaw = storedEngineYaw;
+  storedGraphicsPitch = storedEnginePitch;
+}
+
 Graphics::~Graphics()
 {
     if( dynamicsWorld != NULL )
@@ -87,6 +106,9 @@ bool Graphics::Initialize(int width, int height, std::string file)
     printf("Camera Failed to Initialize\n");
     return false;
   }
+  setCameraStartingPos();
+  m_camera->updateCamRotYaw(storedGraphicsYaw);
+  m_camera->updateCamRotPitch(storedGraphicsPitch);
 
   // Create objects
   //Object* pinballMachine  = new Object(this, "Plunger.obj",    0, 0.0f, 0.0f, 0.0f, 1.0f,  0, 0);
@@ -115,14 +137,14 @@ bool Graphics::Initialize(int width, int height, std::string file)
 	  }
 
 	  // Add the vertex shader
-	  if(!m_PerVertexShader->AddShader(GL_VERTEX_SHADER, "../assets/shaders/vLightingVertex.shader"))
+	  if(!m_PerVertexShader->AddShader(GL_VERTEX_SHADER, vLightingVertexShaderFilePath))
 	  {
 	    printf("Vertex Shader failed to Initialize\n");
 	    return false;
 	  }
 
 	  // Add the fragment shader
-	  if(!m_PerVertexShader->AddShader(GL_FRAGMENT_SHADER, "../assets/shaders/vLightingFragment.shader"))
+	  if(!m_PerVertexShader->AddShader(GL_FRAGMENT_SHADER, vLightingFragmentShaderFilePath))
 	  {
 	    printf("Fragment Shader failed to Initialize\n");
 	    return false;
@@ -147,14 +169,14 @@ bool Graphics::Initialize(int width, int height, std::string file)
 	  }
 
 	  // Add the vertex shader
-	  if(!m_PerFragmentShader->AddShader(GL_VERTEX_SHADER, "../assets/shaders/fLightingVertex.shader"))
+	  if(!m_PerFragmentShader->AddShader(GL_VERTEX_SHADER, fLightingVertexShaderFilePath))
 	  {
 	    printf("Vertex Shader failed to Initialize\n");
 	    return false;
 	  }
 
 	  // Add the fragment shader
-	  if(!m_PerFragmentShader->AddShader(GL_FRAGMENT_SHADER, "../assets/shaders/fLightingFragment.shader"))
+	  if(!m_PerFragmentShader->AddShader(GL_FRAGMENT_SHADER, fLightingFragmentShaderFilePath))
 	  {
 	    printf("Fragment Shader failed to Initialize\n");
 	    return false;
@@ -487,4 +509,9 @@ std::string Graphics::ErrorString(GLenum error)
   {
     return "None";
   }
+}
+
+void Graphics::setCameraStartingPos()
+{
+  m_camera->setCamPos(storedGraphicsStartingCameraPos);
 }

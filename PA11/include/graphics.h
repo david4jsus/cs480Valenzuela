@@ -17,6 +17,8 @@ class Graphics
 {
   public:
     Graphics();
+    Graphics(string vLightingVertFilePath, string vLightingFragFilePath, string fLightingVertFilePath, string fLightingFragFilePath, glm::vec3 storedEngineStartingCameraPos, 
+             float storedEngineYaw, float storedEnginePitch);
     ~Graphics();
     bool Initialize(int width, int height, std::string file);
     void Update(unsigned int dt);
@@ -40,6 +42,8 @@ class Graphics
 	float SetSpecularScale(float setSpecularScale);
 	 
 	btRigidBody* GetRigidBody(int objectIndex);
+	
+	void setCameraStartingPos();
 
   private:
     std::string ErrorString(GLenum error);
@@ -49,6 +53,8 @@ class Graphics
     Shader *m_PerFragmentShader;
 
     // Per vertex
+    string vLightingVertexShaderFilePath;
+    string vLightingFragmentShaderFilePath;
     GLint m_vprojectionMatrix;
     GLint m_vviewMatrix;
     GLint m_vmodelMatrix;
@@ -59,6 +65,8 @@ class Graphics
     GLint m_vshininess;
     
     // Per fragment
+    string fLightingVertexShaderFilePath;
+    string fLightingFragmentShaderFilePath;
     GLint m_fprojectionMatrix;
     GLint m_fviewMatrix;
     GLint m_fmodelMatrix;
@@ -91,6 +99,13 @@ class Graphics
     std::vector<btRigidBody*> rigidBodies;
     
     bool meshLoaded;
+    
+    // camera starting position
+    glm::vec3 storedGraphicsStartingCameraPos;
+    
+    // camera starting orientation
+    float storedGraphicsYaw;
+    float storedGraphicsPitch;
 };
 
 #endif /* GRAPHICS_H */
