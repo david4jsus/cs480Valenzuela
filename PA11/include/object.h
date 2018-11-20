@@ -4,6 +4,7 @@
 #include <vector>
 #include "graphics.h"
 #include "mesh.h"
+#include "objectInfo.h"
 
 #include <btBulletDynamicsCommon.h>
 
@@ -13,7 +14,7 @@ class Object
 {
   public:
     Object();
-    Object(std::string filename, glm::vec3 position, float size, Graphics* graphics);
+    Object(std::string filename, glm::vec3 position, Graphics* graphics, ObjectInfo anObject);
     ~Object();
     void Update(unsigned int dt);
     void Render();

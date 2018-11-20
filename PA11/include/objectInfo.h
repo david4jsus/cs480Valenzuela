@@ -1,19 +1,37 @@
-#ifndef OBJECT_INFO_H
-#define OBJECT_INFO_H
+#ifndef OBJECT_INFO_CPP
+#define OBJECT_INFO_CPP
 
 #include <btBulletDynamicsCommon.h>
 
 struct ObjectInfo
 {
-  string objectName;
-  btVector3 objectPos;
-  btQuaternion objectOrientation;
-  string collisionShape;
-  float scale;
-  float mass;
-  float xBoxSize, yBoxSize, zBoxSize;
-  float sphereRadius;
-  float planeDirection, planeConstant;
+    // object name
+    string objectName;
+    
+    // object position
+    btVector3 objectPos;
+    
+    // object orientation
+    btQuaternion objectOrientation;
+    
+    // collision shape stype
+    string collisionShapeType;
+    
+    // objcet scaled size
+    float scale;
+    
+    // object mass
+    float mass;
+    
+    // collision box parameters
+    btVector3 boxSize;
+    
+    // collision sphere parameter
+    btScalar sphereRadius;
+    
+    // collision plane parameters
+    btVector3 planeDirection;
+    btScalar planeConstant;
 };
 
 #endif // OBJECT_INFO_H

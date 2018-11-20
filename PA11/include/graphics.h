@@ -107,6 +107,7 @@ class Graphics
     float storedGraphicsYaw;
     float storedGraphicsPitch;
     
+    // information on all objects
     std::vector<ObjectInfo> objectsInfo;
 };
 

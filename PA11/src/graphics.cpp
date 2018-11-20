@@ -115,9 +115,11 @@ bool Graphics::Initialize(int width, int height, std::string file)
   m_camera->updateCamRotPitch(storedGraphicsPitch);
 
   // Create objects
-  Object* board = new Object("Disboard.obj", glm::vec3(0, 0, 0), 1.0f, this);
-  Object* ball1 = new Object("awesomeball.obj", glm::vec3(0, 1, -3), 0.05f, this);
-  Object* ball2 = new Object("awesomeball.obj", glm::vec3(0, 1, 3), 0.05f, this);
+  for(int i = 0; i < objectsInfo.size(); i++)
+  {
+    m_objects.push_back(new Object(objectsInfo[i].objectName, glm::vec3(0, 0, 0), this, objectsInfo[i]));
+  }
+
 
   meshLoaded = true;
   
@@ -126,11 +128,6 @@ bool Graphics::Initialize(int width, int height, std::string file)
 	  // Waiting Song while the planets load
 	  gameSound.LoadSound("../assets/NGGUP.wav");
 	  gameSound.PlaySound();
-    
-	  // Push objects onto list
-	  m_objects.push_back(board);
-	  m_objects.push_back(ball1);
-	  m_objects.push_back(ball2);
 	  
 	  // get rigidbody for the cube
 	  /*for(int i = 0; i < m_objects.size(); i++)

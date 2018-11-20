@@ -28,9 +28,11 @@ Object::Object()
     m_mass = 0;
 }
 
-Object::Object(std::string filename, glm::vec3 position, float size, Graphics* graphics) : Object()
+Object::Object(std::string filename, glm::vec3 position, Graphics* graphics, ObjectInfo anObject) : Object()
 {
 	// Set variables
+	float deafaultInertia = 0.0;
+	float defaultBounciness = 1.0;
 	m_graphics = graphics;
 	objFilePath = "../assets/models/" + filename;
 	objectPosition = position;
@@ -38,6 +40,65 @@ Object::Object(std::string filename, glm::vec3 position, float size, Graphics* g
 	
 	objectName = filename;
 	objectName.erase(objectName.end() - 4, objectName.end());
+	
+	
+	
+	
+	// motion state 
+  btDefaultMotionState *shapeMotionState;
+	
+	// check if collision shape type is a box
+	if(anObject.collisionShapeType == "box")
+	{
+	  // create a box collider
+	  colliderShape = new btBoxShape(anObject.boxSize);
+	  
+	  // set orientation and position of object
+	  shapeMotionState = new btDefaultMotionState(btTransform(anObject.objectOrientation, anObject.objectPos));
+	}
+	
+	// check if collision shape type is a sphere
+	else if(anObject.collisionShapeType == "sphere")
+	{
+	  // create a sphere collider
+	  colliderShape = new btSphereShape(anObject.sphereRadius);
+	  
+	  // set orientation and position of object
+	  shapeMotionState = new btDefaultMotionState(btTransform(anObject.objectOrientation, anObject.objectPos));
+	}
+	
+	// check if collision shape type is a plane
+  else if(anObject.collisionShapeType == "plane")
+	{
+	  // create a plane collider
+    colliderShape = new btStaticPlaneShape(anObject.planeDirection, anObject.planeConstant);
+    
+    // set orientation and position of object
+    shapeMotionState = new btDefaultMotionState(btTransform(anObject.objectOrientation, anObject.objectPos));
+	}
+	
+	// set mass and inertia
+  btScalar mass(anObject.mass);
+  btVector3 inertia(deafaultInertia, deafaultInertia, deafaultInertia);
+  
+  // calculate inertia
+  colliderShape->calculateLocalInertia(mass, inertia);
+  
+  // brind together all data needed to create a rigidbody
+  btRigidBody::btRigidBodyConstructionInfo shapeRigidBodyCI(mass, shapeMotionState, colliderShape, inertia);
+  
+  // create rigidbody
+  rigidBody = new btRigidBody(shapeRigidBodyCI);
+  
+  // set bounciness of rigidbody
+  rigidBody->setRestitution(defaultBounciness);
+  
+  // add rigidbody to world
+  m_graphics->GetDynamicsWorld()->addRigidBody(rigidBody);
+  
+  // disable the deactivation of the rigidbody
+  rigidBody->setActivationState(DISABLE_DEACTIVATION);
+  
 	
 	// Initialize object
 	if (!Init())
@@ -55,7 +116,7 @@ Object::~Object()
 void Object::Update(unsigned int dt)
 {  
   // Physics
-  /*btTransform trans;
+  btTransform trans;
   btScalar m[16];
   m_graphics->GetDynamicsWorld()->stepSimulation(dt, 10);
   rigidBody->getMotionState()->getWorldTransform(trans);
@@ -63,8 +124,8 @@ void Object::Update(unsigned int dt)
   model = glm::make_mat4(m);
   
   btVector3 transform = trans.getOrigin();
-  
-  objectPosition = glm::vec3(transform.getX(), transform.getY(), transform.getZ());*/
+ 
+  objectPosition = glm::vec3(transform.getX(), transform.getY(), transform.getZ());
   
   // Default origin
   glm::mat4 center;
@@ -74,6 +135,7 @@ void Object::Update(unsigned int dt)
   
   // Scale the object
   model = glm::scale(model, glm::vec3(objectSize, objectSize, objectSize));
+
 }
 
 void Object::Render()
