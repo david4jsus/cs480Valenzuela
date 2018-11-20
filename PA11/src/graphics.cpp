@@ -43,36 +43,37 @@ Graphics::~Graphics()
     if( dynamicsWorld != NULL )
     {
         delete dynamicsWorld;
-
         dynamicsWorld = NULL;
     }
-
+    
     if( solver != NULL )
     {
         delete solver;
-
         solver = NULL;
     }
-
+    
     if( dispatcher != NULL )
     {
         delete dispatcher;
-
         dispatcher = NULL;
     }
-
+    
     if( collisionConfig != NULL )
     {
         delete collisionConfig;
-
         collisionConfig = NULL;
     }
-
+    
     if( broadphase != NULL )
     {
         delete broadphase;
-
         broadphase = NULL;
+    }
+    
+    if (m_camera != NULL)
+    {
+    	delete m_camera;
+    	m_camera = NULL;
     }
 }
 
@@ -119,6 +120,7 @@ bool Graphics::Initialize(int width, int height, std::string file)
     m_objects.push_back(new Object(objectsInfo[i].objectName, glm::vec3(0, 0, 0), this, objectsInfo[i]));
   }
 
+
   meshLoaded = true;
   
   if(meshLoaded)
@@ -126,9 +128,6 @@ bool Graphics::Initialize(int width, int height, std::string file)
 	  // Waiting Song while the planets load
 	  gameSound.LoadSound("../assets/NGGUP.wav");
 	  gameSound.PlaySound();
-    
-	  // Push objects onto list
-	  //m_objects.push_back(board);
 	  
 	  // get rigidbody for the cube
 	  /*for(int i = 0; i < m_objects.size(); i++)
@@ -371,7 +370,7 @@ void Graphics::Render()
 	  }
 	  
 	  // Send light position
-	  glUniform4f(m_flightPos, 0, 0, 0, 1.0);
+	  glUniform4f(m_flightPos, 0, 5, 0, 1.0);
 	  
 	  // Send ambient color
 	  glUniform4f(m_fambientColor, ambientLightingScale, ambientLightingScale, ambientLightingScale, 1.0);
