@@ -403,7 +403,7 @@ void Graphics::Render()
 	  }
 	  
 	  // Send light position
-	  glUniform4f(m_vlightPos, 0, 0, 0, 1.0);
+	  glUniform4f(m_vlightPos, 0, 5, 0, 1.0);
 	  
 	  // Send ambient color
 	  glUniform4f(m_vambientColor, ambientLightingScale, ambientLightingScale, ambientLightingScale, 1.0);
