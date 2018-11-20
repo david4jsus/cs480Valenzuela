@@ -11,6 +11,7 @@ Object::Object()
 
     // Object info
     objectName = "";
+    objectSize = 1;
     modelNum = -1;
     
     // If the object has a child, this is the matrix it should read as its center
@@ -27,12 +28,13 @@ Object::Object()
     m_mass = 0;
 }
 
-Object::Object(std::string filename, glm::vec3 position, Graphics* graphics) : Object()
+Object::Object(std::string filename, glm::vec3 position, float size, Graphics* graphics) : Object()
 {
 	// Set variables
 	m_graphics = graphics;
 	objFilePath = "../assets/models/" + filename;
 	objectPosition = position;
+	objectSize = size;
 	
 	objectName = filename;
 	objectName.erase(objectName.end() - 4, objectName.end());
@@ -63,6 +65,15 @@ void Object::Update(unsigned int dt)
   btVector3 transform = trans.getOrigin();
   
   objectPosition = glm::vec3(transform.getX(), transform.getY(), transform.getZ());*/
+  
+  // Default origin
+  glm::mat4 center;
+  
+  // Translate to position
+  model = glm::translate(center, objectPosition);
+  
+  // Scale the object
+  model = glm::scale(model, glm::vec3(objectSize, objectSize, objectSize));
 }
 
 void Object::Render()

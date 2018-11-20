@@ -13,7 +13,7 @@ class Object
 {
   public:
     Object();
-    Object(std::string filename, glm::vec3 position, Graphics* graphics);
+    Object(std::string filename, glm::vec3 position, float size, Graphics* graphics);
     ~Object();
     void Update(unsigned int dt);
     void Render();
@@ -44,7 +44,8 @@ class Object
 
     // Object info
     std::string objectName;
-	  glm::vec3 objectPosition;
+	glm::vec3 objectPosition;
+	float objectSize;
     int modelNum;
     
     // If the object has a child, this is the matrix it should read as its center
