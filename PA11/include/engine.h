@@ -9,11 +9,9 @@
 #include "imgui.h"
 #include "sound.h"
 
+#include "objectInfo.h"
+
 #include <btBulletDynamicsCommon.h>
-
-#include <chrono>
-
-using namespace std::chrono;
 
 class Engine
 {
@@ -50,7 +48,6 @@ class Engine
     // Show Dear ImGui demo window
     bool imgui_demo;
 
-    
     // Model loading
     std::string m_file;
     
@@ -65,10 +62,6 @@ class Engine
     bool rotatingRight;
     bool rotatingUp;
     bool rotatingDown;
-    
-    high_resolution_clock::time_point startTime;
-    high_resolution_clock::time_point endTime;
-    duration<double, std::milli> time_span;
     
     // configuration file variables
       // per vertex lighting
@@ -85,6 +78,9 @@ class Engine
       // camera starting orientation
     float storedEngineYaw;
     float storedEnginePitch;
+    
+      // information on all objects
+    std::vector<ObjectInfo> allObjectsInfo;
 };
 
 #endif // ENGINE_H
