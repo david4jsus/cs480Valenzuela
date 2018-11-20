@@ -50,6 +50,14 @@ bool Engine::Initialize()
     printf("The graphics failed to initialize.\n");
     return false;
   }
+  
+  // Start the input
+  m_input = new Input();
+  if(!m_input->Initialize())
+  {
+     printf("The input failed to initialize.\n");
+     return false;
+  }
 
   // Set the time
   m_currentTimeMillis = GetCurrentTimeMillis();
@@ -61,6 +69,7 @@ bool Engine::Initialize()
   ImGui_ImplOpenGL3_Init("#version 130"); // GL 3.0 + GLSL 130
   ImGui::StyleColorsDark(); // Setup style
   
+  /*
   // Camera movement stuff
   movingRight    = false;
   movingLeft     = false;
@@ -72,6 +81,7 @@ bool Engine::Initialize()
   rotatingRight  = false;
   rotatingUp     = false;
   rotatingDown   = false;
+  */
   
   // No errors
   return true;
@@ -97,56 +107,14 @@ void Engine::Run()
     while(SDL_PollEvent(&m_event) != 0)
     {
       ImGui_ImplSDL2_ProcessEvent(&m_event); // Dear ImGui input
-      Keyboard();
-      Mouse();
+      m_input->Keyboard(m_event, m_running);
     }
     
-    // Objects movement
-    if (movingLeft)          // Move camera left
-    {
-      m_graphics->GetCamera()->updateCamPosYNeg(m_DT * 0.05);
-    }
-    else if (movingRight)    // Move camera right
-    {
-      m_graphics->GetCamera()->updateCamPosYPos(m_DT * 0.05);
-    }
-        
-    if (movingForward)       // Move camera forward
-    {
-      m_graphics->GetCamera()->updateCamPosXPos(m_DT * 0.05);
-    }
-    else if (movingBackward) // Move camera backward
-    {
-      m_graphics->GetCamera()->updateCamPosXNeg(m_DT * 0.05);
-    }
-        
-    if (movingUp)            // Move camera up
-    {
-      m_graphics->GetCamera()->updateCamPosZPos(m_DT * 0.05);
-    }
-    else if (movingDown)     // Move camera down
-    {
-      m_graphics->GetCamera()->updateCamPosZNeg(m_DT * 0.05);
-    }
-        
-    if (rotatingLeft)        // Rotate camera left
-    {
-      m_graphics->GetCamera()->updateCamRotYaw(m_DT * -0.1);
-    }
-    else if (rotatingRight)  // Rotate camera right
-    {
-      m_graphics->GetCamera()->updateCamRotYaw(m_DT * 0.1);
-    }
+    m_input->CheckCameraMovement(m_DT);
     
-    if (rotatingUp)          // Rotate camera up
-    {
-      m_graphics->GetCamera()->updateCamRotPitch(m_DT * 0.1);
-    }
-    else if (rotatingDown)   // Rotate camera down
-    {
-      m_graphics->GetCamera()->updateCamRotPitch(m_DT * -0.1);
-    }
-    
+    /////////////////////////////////////////////////
+    /////////////// IMGUI MENU SYSTEM ///////////////
+    /////////////////////////////////////////////////
     {
       ImGui::Begin("Joust Instructions and Help");
       
@@ -160,6 +128,8 @@ void Engine::Run()
       
       ImGui::End();
     }
+    /////////////////////////////////////////////////
+    /////////////////////////////////////////////////
     
     // Update and render the graphics
     m_graphics->Update(m_DT);
@@ -171,206 +141,6 @@ void Engine::Run()
 
     // Swap to the Window
     m_window->Swap();
-  }
-}
-
-void Engine::Keyboard()
-{   
-  if (m_event.type == SDL_QUIT)
-  {
-    m_running = false;
-  }
-  else if (m_event.type == SDL_KEYDOWN)
-  {
-    // Handle key down events here
-    if (m_event.key.keysym.sym == SDLK_ESCAPE) // Quit program
-    {
-      m_running = false;
-    }
-    
-    if (m_event.key.keysym.sym == SDLK_a)      // Move camera left
-    {
-      movingLeft  = true;
-      movingRight = false;
-    }
-    
-    if (m_event.key.keysym.sym == SDLK_d)      // Move camera right
-    {
-      movingRight = true;
-      movingLeft  = false;
-    }
-        
-    if (m_event.key.keysym.sym == SDLK_w)      // Move camera forward
-    {
-      movingForward  = true;
-      movingBackward = false;
-    }
-    
-    if (m_event.key.keysym.sym == SDLK_s)      // Move camera backward
-    {
-      movingBackward = true;
-      movingForward  = false;
-    }
-        
-    if (m_event.key.keysym.sym == SDLK_e)      // Move camera up
-    {
-      movingUp   = true;
-      movingDown = false;
-    }
-    
-    if (m_event.key.keysym.sym == SDLK_q)      // Move camera down
-    {
-      movingDown = true;
-      movingUp   = false;
-    }
-        
-    if (m_event.key.keysym.sym == SDLK_LEFT)   // Rotate camera left
-    {
-      rotatingLeft  = true;
-      rotatingRight = false;
-    }
-    
-    if (m_event.key.keysym.sym == SDLK_RIGHT)  // Rotate camera right
-    {
-      rotatingRight = true;
-      rotatingLeft  = false;
-    }
-    
-    if (m_event.key.keysym.sym == SDLK_UP)     // Rotate camera up
-    {
-      rotatingUp   = true;
-      rotatingDown = false;
-    }
-    
-    if (m_event.key.keysym.sym == SDLK_DOWN)   // Rotate camera down
-    {
-      rotatingDown = true;
-      rotatingUp   = false;
-    }
-    
-    if (m_event.key.keysym.sym == SDLK_o)   // Rotate camera down
-    {
-      GetObjectRigidBody(1)->applyCentralImpulse(btVector3(0.0f, 10.0f, 0.0f));
-    }
-    
-    if (m_event.key.keysym.sym == SDLK_i)   // Rotate camera down
-    {
-      GetObjectRigidBody(1)->applyCentralImpulse(btVector3(1.0f, 0.0f, 0.0f));
-    }
-    
-    if (m_event.key.keysym.sym == SDLK_j)   // Rotate camera down
-    {
-      GetObjectRigidBody(1)->applyCentralImpulse(btVector3(0.0f, 0.0f, -1.0f));
-    }
-    
-    if (m_event.key.keysym.sym == SDLK_k)   // Rotate camera down
-    {
-      GetObjectRigidBody(1)->applyCentralImpulse(btVector3(-1.0f, 0.0f, 0.0f));
-    }
-    
-    if (m_event.key.keysym.sym == SDLK_l)   // Rotate camera down
-    {
-      GetObjectRigidBody(1)->applyCentralImpulse(btVector3(0.0f, 0.0f, 1.0f));
-    }
-    
-    if (m_event.key.keysym.sym == SDLK_TAB) // Switch shaders
-    {
-    	m_graphics->SwitchShaders();
-    }
-    
-    if(m_event.key.keysym.sym == SDLK_KP_8)
-    {
-        if(m_graphics->GetAmbientLightingScale() < 1.0)
-        {
-          m_graphics->SetAmbientLightingScale(m_graphics->GetAmbientLightingScale() + 0.1);
-        }
-    }
-    
-    if(m_event.key.keysym.sym == SDLK_KP_2)
-    {
-        if(m_graphics->GetAmbientLightingScale() > 0.0)
-        {
-          m_graphics->SetAmbientLightingScale(m_graphics->GetAmbientLightingScale() - 0.1);
-        }
-    }
-    
-    // Cheese Specular Scale
-    if(m_event.key.keysym.sym == SDLK_KP_6)
-    {
-        if(m_graphics->GetSpecularScale() < 1.0)
-        {
-          m_graphics->SetSpecularScale(m_graphics->GetSpecularScale() + 0.1);
-        }
-    }
-    
-    if(m_event.key.keysym.sym == SDLK_KP_4)
-    {
-        if(m_graphics->GetSpecularScale() > 0.0)
-        {
-          m_graphics->SetSpecularScale(m_graphics->GetSpecularScale() - 0.1);
-        }
-    }
-    
-  }
-  else if (m_event.type == SDL_KEYUP)
-  { 
-    if (m_event.key.keysym.sym == SDLK_a)      // Move camera left
-    {
-      movingLeft = false;
-    }
-    
-    if (m_event.key.keysym.sym == SDLK_d)      // Move camera right
-    {
-      movingRight = false;
-    }
-        
-    if (m_event.key.keysym.sym == SDLK_w)      // Move camera forward
-    {
-      movingForward = false;
-    }
-    
-    if (m_event.key.keysym.sym == SDLK_s)      // Move camera backward
-    {
-      movingBackward = false;
-    }
-        
-    if (m_event.key.keysym.sym == SDLK_e)      // Move camera up
-    {
-      movingUp = false;
-    }
-    
-    if (m_event.key.keysym.sym == SDLK_q)      // Move camera down
-    {
-      movingDown = false;
-    }
-        
-    if (m_event.key.keysym.sym == SDLK_LEFT)   // Rotate camera left
-    {
-      rotatingLeft = false;
-    }
-    
-    if (m_event.key.keysym.sym == SDLK_RIGHT)  // Rotate camera right
-    {
-      rotatingRight = false;
-    }
-    
-    if (m_event.key.keysym.sym == SDLK_UP)     // Rotate camera up
-    {
-      rotatingUp = false;
-    }
-    
-    if (m_event.key.keysym.sym == SDLK_DOWN)   // Rotate camera down
-    {
-      rotatingDown = false;
-    }
-  }
-}
-
-void Engine::Mouse()
-{
-  if (m_event.type == SDL_QUIT)
-  {
-    m_running = false;
   }
 }
 
