@@ -24,7 +24,7 @@ Engine::~Engine()
   ImGui::DestroyContext();
   
   delete m_window;
-  delete m_graphics;
+  delete m_graphics;  
   m_window = NULL;
   m_graphics = NULL;
 }
