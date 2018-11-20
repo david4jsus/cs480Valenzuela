@@ -117,7 +117,7 @@ bool Graphics::Initialize(int width, int height, std::string file)
   // Create objects
   for(int i = 0; i < objectsInfo.size(); i++)
   {
-    m_objects.push_back(new Object(objectsInfo[i].objectName, glm::vec3(0, 0, 0), this, objectsInfo[i]));
+    m_objects.push_back(new Object(objectsInfo[i].objectName, this, objectsInfo[i]));
   }
 
 
@@ -400,7 +400,7 @@ void Graphics::Render()
 	  }
 	  
 	  // Send light position
-	  glUniform4f(m_vlightPos, 0, 0, 0, 1.0);
+	  glUniform4f(m_vlightPos, 0, 5, 0, 1.0);
 	  
 	  // Send ambient color
 	  glUniform4f(m_vambientColor, ambientLightingScale, ambientLightingScale, ambientLightingScale, 1.0);
