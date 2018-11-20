@@ -10,6 +10,7 @@ using namespace std;
 #include "object.h"
 #include "sound.h"
 #include <btBulletDynamicsCommon.h>
+#include "objectInfo.h"
 
 class Object;
 
@@ -18,7 +19,7 @@ class Graphics
   public:
     Graphics();
     Graphics(string vLightingVertFilePath, string vLightingFragFilePath, string fLightingVertFilePath, string fLightingFragFilePath, glm::vec3 storedEngineStartingCameraPos, 
-             float storedEngineYaw, float storedEnginePitch);
+             float storedEngineYaw, float storedEnginePitch, std::vector<ObjectInfo> allObjectsInfo);
     ~Graphics();
     bool Initialize(int width, int height, std::string file);
     void Update(unsigned int dt);
@@ -105,6 +106,8 @@ class Graphics
     // camera starting orientation
     float storedGraphicsYaw;
     float storedGraphicsPitch;
+    
+    std::vector<ObjectInfo> objectsInfo;
 };
 
 #endif /* GRAPHICS_H */

@@ -44,7 +44,7 @@ bool Engine::Initialize()
 
   // Start the graphics
   m_graphics = new Graphics(storedVLightingVertexShaderFilePath, storedVLightingFragmentShaderFilePath, storedFLightingVertexShaderFilePath, storedFLightingFragmentShaderFilePath, 
-                            storedEngineStartingCameraPos, storedEngineYaw, storedEnginePitch);
+                            storedEngineStartingCameraPos, storedEngineYaw, storedEnginePitch, allObjectsInfo);
   if(!m_graphics->Initialize(m_WINDOW_WIDTH, m_WINDOW_HEIGHT, m_file))
   {
     printf("The graphics failed to initialize.\n");
@@ -376,9 +376,6 @@ void Engine::Mouse()
 
 unsigned int Engine::getDT()
 {
-  endTime = high_resolution_clock::now();
-  time_span = endTime - startTime;
-
   long long TimeNowMillis = GetCurrentTimeMillis();
   assert(TimeNowMillis >= m_currentTimeMillis);
   unsigned int DeltaTimeMillis = (unsigned int)(TimeNowMillis - m_currentTimeMillis);
@@ -405,6 +402,8 @@ void Engine::loadConfigurationFileInfo()
   ifstream fin;
   string configFileInfo;
   float floatInfo;
+  ObjectInfo anObject;
+  float xAxisInfo, yAxisInfo, zAxisInfo, aAxisInfo;
   
   // clear and open file
   fin.clear();
@@ -476,7 +475,130 @@ void Engine::loadConfigurationFileInfo()
       // get camera starting pitch orientation 
       fin >> configFileInfo;
       fin >> floatInfo;
-      storedEngineYaw = floatInfo;
+      storedEnginePitch = floatInfo;
+    }
+    
+    // check if we are about to read in object name information
+    else if(configFileInfo == "name:")
+    {
+      // get object name
+      fin >> anObject.objectName;
+    }
+    
+    // check if we are about to read in object position information
+    else if(configFileInfo == "position:")
+    {
+      // get object x position
+      fin >> xAxisInfo;
+      fin >> configFileInfo;
+      
+      // get object y position
+      fin >> yAxisInfo;
+      fin >> configFileInfo;
+      
+      // get object z position
+      fin >> zAxisInfo;
+      
+      // set object position
+      anObject.objectPos = btVector3(xAxisInfo, yAxisInfo, zAxisInfo);
+    }
+    
+    // check if we are about to read in object orientation information
+    else if(configFileInfo == "orientation:")
+    {
+      // get object x position
+      fin >> xAxisInfo;
+      fin >> configFileInfo;
+      
+      // get object y position
+      fin >> yAxisInfo;
+      fin >> configFileInfo;
+      
+      // get object z position
+      fin >> zAxisInfo;
+      fin >> configFileInfo;
+      
+      // get fourth number required for orientation
+      fin >> aAxisInfo;
+      
+      // set object orientation
+      anObject.objectOrientation = btQuaternion(xAxisInfo, yAxisInfo, zAxisInfo, aAxisInfo);
+    }
+    
+    // check if we are about to read in object scale information
+    else if(configFileInfo == "scale:")
+    {
+      // get object scaling size
+      fin >> anObject.scale;
+    }
+    
+    // check if we are about to read in object mass information
+    else if(configFileInfo == "mass:")
+    {
+      // get object mass
+      fin >> anObject.mass;
+    }
+    
+    // check if we are about to read in object collision shape information
+    else if(configFileInfo == "shape:")
+    {
+      // get collision shape name
+      fin >> anObject.collisionShape;
+    }
+    
+    // check if we are about to read in object collision shape size information
+    else if(configFileInfo == "size:")
+    {
+      // get sphere collision size
+      if(anObject.collisionShape == "box")
+      {
+        // get collision shape x length
+        fin >> anObject.xBoxSize;
+        fin >> configFileInfo;
+        
+        // get collision shape y length
+        fin >> anObject.yBoxSize;
+        fin >> configFileInfo;
+        
+        // get collision shape z length
+        fin >> anObject.zBoxSize;
+        
+        // default other values
+        anObject.sphereRadius = 0.0;
+        anObject.planeDirection = 0.0;
+        anObject.planeConstant = 0.0;
+      }
+      
+      // get sphere collision size
+      else if(anObject.collisionShape == "sphere")
+      {
+        // get radius size
+        fin >> anObject.sphereRadius;
+        
+        // default other values
+        anObject.xBoxSize = 0.0;
+        anObject.yBoxSize = 0.0;
+        anObject.zBoxSize = 0.0;
+        anObject.planeDirection = 0.0;
+        anObject.planeConstant = 0.0;
+      }
+      
+      // get plane collision direction
+      else if(anObject.collisionShape == "plane")
+      {
+        // get plane direction
+        fin >> anObject.planeDirection;
+        fin >> anObject.planeConstant;
+        
+        // default other values
+        anObject.xBoxSize = 0.0;
+        anObject.yBoxSize = 0.0;
+        anObject.zBoxSize = 0.0;
+        anObject.sphereRadius = 0.0;
+      }
+      
+      // store object onto list of objects
+      allObjectsInfo.push_back(anObject);
     }
   }
   

@@ -44,7 +44,7 @@ class Object
 
     // Object info
     std::string objectName;
-	glm::vec3 objectPosition;
+	  glm::vec3 objectPosition;
     int modelNum;
     
     // If the object has a child, this is the matrix it should read as its center

@@ -12,11 +12,12 @@ Graphics::Graphics()
 	dynamicsWorld->setGravity(btVector3(-0.001, -1.0, 0.0));
 	
 	shaderToggle = true;
-	ambientLightingScale = 0.0;
+	ambientLightingScale = 0.5;
+	specularScale = 0.5;
 }
 
 Graphics::Graphics(string vLightingVertFilePath, string vLightingFragFilePath, string fLightingVertFilePath, string fLightingFragFilePath, glm::vec3 storedEngineStartingCameraPos, 
-                   float storedEngineYaw, float storedEnginePitch) : Graphics()
+                   float storedEngineYaw, float storedEnginePitch, std::vector<ObjectInfo> allObjectsInfo) : Graphics()
 {
   // per vertex lighting vertex and fragment shader filepaths
   vLightingVertexShaderFilePath = vLightingVertFilePath;
@@ -32,6 +33,9 @@ Graphics::Graphics(string vLightingVertFilePath, string vLightingFragFilePath, s
   // camera starting orientation
   storedGraphicsYaw = storedEngineYaw;
   storedGraphicsPitch = storedEnginePitch;
+  
+  // information required to create each object
+  objectsInfo = allObjectsInfo;
 }
 
 Graphics::~Graphics()

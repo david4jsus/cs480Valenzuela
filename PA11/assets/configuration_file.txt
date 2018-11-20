@@ -17,11 +17,28 @@ Camera Starting Orientation
 yaw: 0.0
 pitch: 0.0
 
-Objects
-object file name:
-object position:
-collision shape size:
+NOTES ON COLLISION SHAPE SIZES
+box: takes in a x, y, and z axis length
+sphere: takes in a radius size
+plane: takes in a direction for the normal and a plane constant. For example, btVector3(0, 1, 0) points and normal upwards and creates a ground. Plane constants can be kept at 0.0.
 
-object file name:
-object position:
-collision shape size:
+Box example
+box
+0.0, 0.0, 0,0
+
+Sphere example
+sphere
+0.0
+
+Plane example
+plane
+1.0, 0.0
+
+Objects Information
+object file name: Disboard.obj
+object position: 0.0, 0.0, 0.0
+object orientation: 0.0, 0.0, 0.0, 1.0
+object scale: 1.0
+object mass: 0.0
+object collision shape: box
+object collision size: 0.0, 0.0, 0,0
