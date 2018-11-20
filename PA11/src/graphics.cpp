@@ -114,7 +114,10 @@ bool Graphics::Initialize(int width, int height, std::string file)
   m_camera->updateCamRotPitch(storedGraphicsPitch);
 
   // Create objects
-  Object* board = new Object("Disboard.obj", glm::vec3(0, 0, 0), this);
+  for(int i = 0; i < objectsInfo.size(); i++)
+  {
+    m_objects.push_back(new Object(objectsInfo[i].objectName, glm::vec3(0, 0, 0), this, objectsInfo[i]));
+  }
 
   meshLoaded = true;
   
@@ -125,7 +128,7 @@ bool Graphics::Initialize(int width, int height, std::string file)
 	  gameSound.PlaySound();
     
 	  // Push objects onto list
-	  m_objects.push_back(board);
+	  //m_objects.push_back(board);
 	  
 	  // get rigidbody for the cube
 	  /*for(int i = 0; i < m_objects.size(); i++)

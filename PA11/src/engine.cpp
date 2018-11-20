@@ -543,57 +543,70 @@ void Engine::loadConfigurationFileInfo()
     else if(configFileInfo == "shape:")
     {
       // get collision shape name
-      fin >> anObject.collisionShape;
+      fin >> anObject.collisionShapeType;
     }
     
     // check if we are about to read in object collision shape size information
     else if(configFileInfo == "size:")
     {
       // get sphere collision size
-      if(anObject.collisionShape == "box")
+      if(anObject.collisionShapeType == "box")
       {
         // get collision shape x length
-        fin >> anObject.xBoxSize;
+        fin >> xAxisInfo;
         fin >> configFileInfo;
         
         // get collision shape y length
-        fin >> anObject.yBoxSize;
+        fin >> yAxisInfo;
         fin >> configFileInfo;
         
         // get collision shape z length
-        fin >> anObject.zBoxSize;
+        fin >> zAxisInfo;
+        
+        // set box collision size
+        anObject.boxSize = btVector3(xAxisInfo, yAxisInfo, zAxisInfo);
         
         // default other values
         anObject.sphereRadius = 0.0;
-        anObject.planeDirection = 0.0;
+        anObject.planeDirection = btVector3(0.0, 0.0, 0.0);
         anObject.planeConstant = 0.0;
       }
       
       // get sphere collision size
-      else if(anObject.collisionShape == "sphere")
+      else if(anObject.collisionShapeType == "sphere")
       {
-        // get radius size
+        // get radius size for sphere
         fin >> anObject.sphereRadius;
         
         // default other values
-        anObject.xBoxSize = 0.0;
-        anObject.yBoxSize = 0.0;
-        anObject.zBoxSize = 0.0;
-        anObject.planeDirection = 0.0;
+        anObject.boxSize = btVector3(0.0, 0.0, 0.0);
+        anObject.planeDirection = btVector3(0.0, 0.0, 0.0);
         anObject.planeConstant = 0.0;
       }
       
       // get plane collision direction
-      else if(anObject.collisionShape == "plane")
+      else if(anObject.collisionShapeType == "plane")
       {
-        // get plane direction
-        fin >> anObject.planeDirection;
+        // get plane x-axis direction
+        fin >> xAxisInfo;
+        fin >> configFileInfo;
+        
+        // get plane y-axis direction
+        fin >> yAxisInfo;
+        fin >> configFileInfo;
+        
+        // get plane z-axis direction
+        fin >> zAxisInfo;
+        fin >> configFileInfo;
+        
+        // get plane constant
         fin >> anObject.planeConstant;
         
+        // set plane collision direction
+        anObject.planeDirection = btVector3(xAxisInfo, yAxisInfo, zAxisInfo);
+        
         // default other values
-        anObject.xBoxSize = 0.0;
-        anObject.yBoxSize = 0.0;
-        anObject.zBoxSize = 0.0;
+        anObject.boxSize = btVector3(0.0, 0.0, 0.0);
         anObject.sphereRadius = 0.0;
       }
       
