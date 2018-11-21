@@ -7,11 +7,14 @@ using namespace std;
 #include "graphics_headers.h"
 #include "camera.h"
 #include "shader.h"
+#include "physics.h"
 #include "object.h"
 #include "sound.h"
-#include <btBulletDynamicsCommon.h>
 #include "objectInfo.h"
 
+#include <btBulletDynamicsCommon.h>
+
+class Physics;
 class Object;
 
 class Graphics
@@ -34,7 +37,7 @@ class Graphics
     
 	int GetNumberOfObjects();
 	 
-	// Bullet 
+	// Physics 
 	btDiscreteDynamicsWorld* GetDynamicsWorld();
 	 
 	float GetAmbientLightingScale();
@@ -53,6 +56,7 @@ class Graphics
     Camera *m_camera;
     Shader *m_PerVertexShader;
     Shader *m_PerFragmentShader;
+    Physics *m_physics;
 
     // Per vertex
     string vLightingVertexShaderFilePath;
@@ -83,11 +87,11 @@ class Graphics
     Sound gameSound;
     
     // Bullet Members
-    btBroadphaseInterface *broadphase;
+    /*btBroadphaseInterface *broadphase;
     btDefaultCollisionConfiguration *collisionConfig;
     btCollisionDispatcher *dispatcher;
     btSequentialImpulseConstraintSolver *solver;
-    btDiscreteDynamicsWorld *dynamicsWorld;
+    btDiscreteDynamicsWorld *dynamicsWorld;*/
     
     // Shader switching
     bool shaderToggle;
@@ -97,7 +101,7 @@ class Graphics
     float specularScale;
     
     // list of all rigidbodies from each object
-    std::vector<btRigidBody*> rigidBodies;
+    //std::vector<btRigidBody*> rigidBodies;
     
     bool meshLoaded;
     

@@ -3,17 +3,19 @@
 Graphics::Graphics()
 {
 	// Initialize Bullet World
-	broadphase = new btDbvtBroadphase();
+	/*broadphase = new btDbvtBroadphase();
 	collisionConfig = new btDefaultCollisionConfiguration();
 	dispatcher = new btCollisionDispatcher(collisionConfig);
 	solver = new btSequentialImpulseConstraintSolver;
 	dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, collisionConfig);
 	
-	dynamicsWorld->setGravity(btVector3(-0.001, -1.0, 0.0));
+	dynamicsWorld->setGravity(btVector3(-0.001, -1.0, 0.0));*/
 	
 	shaderToggle = true;
 	ambientLightingScale = 0.5;
 	specularScale = 0.5;
+	
+	m_physics = new Physics(this);
 }
 
 Graphics::Graphics(string vLightingVertFilePath, string vLightingFragFilePath, string fLightingVertFilePath, string fLightingFragFilePath, glm::vec3 storedEngineStartingCameraPos, 
@@ -40,7 +42,7 @@ Graphics::Graphics(string vLightingVertFilePath, string vLightingFragFilePath, s
 
 Graphics::~Graphics()
 {
-    if( dynamicsWorld != NULL )
+    /*if( dynamicsWorld != NULL )
     {
         delete dynamicsWorld;
         dynamicsWorld = NULL;
@@ -68,17 +70,26 @@ Graphics::~Graphics()
     {
         delete broadphase;
         broadphase = NULL;
-    }
+    }*/
     
     if (m_camera != NULL)
     {
     	delete m_camera;
     	m_camera = NULL;
     }
+	
+	if (m_physics != NULL)
+	{
+		delete m_physics;
+		m_physics = NULL;
+	}
 }
 
 bool Graphics::Initialize(int width, int height, std::string file)
 {
+  // Initialize physics
+  m_physics->Initialize();
+  
   // local variables
   int objectsLooper;
 
@@ -123,7 +134,6 @@ bool Graphics::Initialize(int width, int height, std::string file)
     m_objects.push_back(new Object(objectsInfo[objectsLooper].objectName, this, objectsInfo[objectsLooper]));
   }
 
-
   meshLoaded = true;
   
   if(meshLoaded)
@@ -133,10 +143,10 @@ bool Graphics::Initialize(int width, int height, std::string file)
 	  gameSound.PlaySound();
 	  
 	  // get rigidbodies from objects
-	  /*for(objectsLooper = 0; i < objectsInfo.size(); objectsLooper++)
+	  for(objectsLooper = 0; objectsLooper < objectsInfo.size(); objectsLooper++)
 	  {
-	    rigidBodies.push_back(m_objects[objectsLooper]->GetRigidBody());
-	  }*/
+	    m_physics->AddRigidBody(m_objects[objectsLooper]->GetRigidBody());
+	  }
 
 	  // PER VERTEX SHADER
 	  // Set up the shaders
@@ -343,11 +353,12 @@ bool Graphics::Initialize(int width, int height, std::string file)
 void Graphics::Update(unsigned int dt)
 {
   // Update the objects
-  	
   for(unsigned int i = 0; i < m_objects.size(); i++)
   {
     m_objects[i]->Update(dt);
   }
+  
+  m_physics->Update();
 }
 
 void Graphics::Render()
@@ -460,7 +471,7 @@ int Graphics::GetNumberOfObjects()
 
 btDiscreteDynamicsWorld* Graphics::GetDynamicsWorld()
 {
-  return dynamicsWorld;
+  return m_physics->GetDynamicsWorld();
 }
 
 float Graphics::GetAmbientLightingScale()
@@ -495,7 +506,7 @@ btRigidBody* Graphics::GetRigidBody(string objectName)
     if(m_objects[objectsLooper]->GetObjectName() == objectName)
     {
       // retrun orbject's rigid body
-      return m_objects[objectsLooper]->GetRigidBody();
+      return m_physics->GetObjectRigidBody(objectsLooper);
     }
   }
 
