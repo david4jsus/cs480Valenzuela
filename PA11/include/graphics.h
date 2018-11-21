@@ -43,7 +43,7 @@ class Graphics
 	float GetSpecularScale();
 	float SetSpecularScale(float setSpecularScale);
 	 
-	btRigidBody* GetRigidBody(int objectIndex);
+	btRigidBody* GetRigidBody(string objectName);
 	
 	void setCameraStartingPos();
 
@@ -96,6 +96,7 @@ class Graphics
     float ambientLightingScale;
     float specularScale;
     
+    // list of all rigidbodies from each object
     std::vector<btRigidBody*> rigidBodies;
     
     bool meshLoaded;

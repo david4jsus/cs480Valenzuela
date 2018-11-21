@@ -25,7 +25,7 @@ class Engine
     unsigned int getDT();
     long long GetCurrentTimeMillis();
     
-    btRigidBody* GetObjectRigidBody(int objectIndex);
+    btRigidBody* GetObjectRigidBody(string objectName);
     
     void loadConfigurationFileInfo();
   

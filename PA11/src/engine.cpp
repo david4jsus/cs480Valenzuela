@@ -248,30 +248,46 @@ void Engine::Keyboard()
       rotatingUp   = false;
     }
     
-    if (m_event.key.keysym.sym == SDLK_o)   // Rotate camera down
+    if (m_event.key.keysym.sym == SDLK_i)   // Move player 1 ball forward
     {
-      GetObjectRigidBody(1)->applyCentralImpulse(btVector3(0.0f, 10.0f, 0.0f));
+      GetObjectRigidBody("Player1")->applyCentralImpulse(btVector3(1.0f, 0.0f, 0.0f));
     }
     
-    if (m_event.key.keysym.sym == SDLK_i)   // Rotate camera down
+    if (m_event.key.keysym.sym == SDLK_j)   // Move player 1 ball to the left
     {
-      GetObjectRigidBody(1)->applyCentralImpulse(btVector3(1.0f, 0.0f, 0.0f));
+      GetObjectRigidBody("Player1")->applyCentralImpulse(btVector3(0.0f, 0.0f, -1.0f));
     }
     
-    if (m_event.key.keysym.sym == SDLK_j)   // Rotate camera down
+    if (m_event.key.keysym.sym == SDLK_k)   // Move player 1 ball backward
     {
-      GetObjectRigidBody(1)->applyCentralImpulse(btVector3(0.0f, 0.0f, -1.0f));
+      GetObjectRigidBody("Player1")->applyCentralImpulse(btVector3(-1.0f, 0.0f, 0.0f));
     }
     
-    if (m_event.key.keysym.sym == SDLK_k)   // Rotate camera down
+    if (m_event.key.keysym.sym == SDLK_l)   // Move player 1 ball to the right
     {
-      GetObjectRigidBody(1)->applyCentralImpulse(btVector3(-1.0f, 0.0f, 0.0f));
+      GetObjectRigidBody("Player1")->applyCentralImpulse(btVector3(0.0f, 0.0f, 1.0f));
     }
     
-    if (m_event.key.keysym.sym == SDLK_l)   // Rotate camera down
+    if (m_event.key.keysym.sym == SDLK_t)   // Move player 2 ball forward
     {
-      GetObjectRigidBody(1)->applyCentralImpulse(btVector3(0.0f, 0.0f, 1.0f));
+      GetObjectRigidBody("Player2")->applyCentralImpulse(btVector3(1.0f, 0.0f, 0.0f));
     }
+    
+    if (m_event.key.keysym.sym == SDLK_f)   // Move player 2 ball to the left
+    {
+      GetObjectRigidBody("Player2")->applyCentralImpulse(btVector3(0.0f, 0.0f, -1.0f));
+    }
+    
+    if (m_event.key.keysym.sym == SDLK_g)   // Move player 2 ball backward
+    {
+      GetObjectRigidBody("Player2")->applyCentralImpulse(btVector3(-1.0f, 0.0f, 0.0f));
+    }
+    
+    if (m_event.key.keysym.sym == SDLK_h)   // Move player 2 ball to the right
+    {
+      GetObjectRigidBody("Player2")->applyCentralImpulse(btVector3(0.0f, 0.0f, 1.0f));
+    }
+    
     
     if (m_event.key.keysym.sym == SDLK_TAB) // Switch shaders
     {
@@ -391,9 +407,9 @@ long long Engine::GetCurrentTimeMillis()
   return ret;
 }
 
-btRigidBody* Engine::GetObjectRigidBody(int objectIndex)
+btRigidBody* Engine::GetObjectRigidBody(string objectName)
 {
-  return m_graphics->GetRigidBody(objectIndex);
+  return m_graphics->GetRigidBody(objectName);
 }
 
 void Engine::loadConfigurationFileInfo()
@@ -414,6 +430,12 @@ void Engine::loadConfigurationFileInfo()
   {
     // read in first information segment
     fin >> configFileInfo;
+    
+    // check if entire file has been read
+    if(fin.eof() == true)
+    {
+      break;
+    }
     
     // check if we are about to read in per vertex lighting information
     if(configFileInfo == "Vertex")

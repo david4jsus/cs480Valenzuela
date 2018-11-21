@@ -12,7 +12,6 @@ Object::Object()
     // Object info
     objectName = "";
     objectScale = 1;
-    modelNum = -1;
     
     // If the object has a child, this is the matrix it should read as its center
     parent = 0;
@@ -89,6 +88,9 @@ Object::Object(std::string filename, Graphics* graphics, ObjectInfo anObject) : 
   
   // set bounciness of rigidbody
   rigidBody->setRestitution(defaultBounciness);
+  
+  // set bounciness of rigidbody
+  rigidBody->setRestitution(0.0);
   
   // add rigidbody to world
   m_graphics->GetDynamicsWorld()->addRigidBody(rigidBody);
