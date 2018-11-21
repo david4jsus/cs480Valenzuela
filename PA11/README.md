@@ -1,4 +1,4 @@
-# PA9: Pinball Part II - Lighting Basics
+# PA11: Group Project - Joust
 
 # Team Specular Bois
 The following students are part of the team who made this project:
@@ -25,7 +25,7 @@ mkdir build
 cd build
 cmake ..
 make
-./PA9
+./Joust
 ```
 
 # Controls
@@ -44,13 +44,19 @@ Moving the camera
 - **Left arrow**: Rotate view left
 - **Right arrow**: Rotate view right
 
-Moving the cube
+Move Player One
 
 - **I**: Move cube forward
 - **J**: Move cube left
 - **K**: Move cube backward
 - **L**: Move cube right
-- **O**: Make cube jump
+
+Move Player Two
+
+- **T**: Move cube forward
+- **F**: Move cube left
+- **G**: Move cube backward
+- **H**: Move cube right
 
 Changing ambient and specular brightness
 
