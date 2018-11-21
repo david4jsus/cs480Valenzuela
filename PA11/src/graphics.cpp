@@ -79,6 +79,9 @@ Graphics::~Graphics()
 
 bool Graphics::Initialize(int width, int height, std::string file)
 {
+  // local variables
+  int objectsLooper;
+
   // Used for the linux OS
   #if !defined(__APPLE__) && !defined(MACOSX)
     // cout << glewGetString(GLEW_VERSION) << endl;
@@ -115,9 +118,9 @@ bool Graphics::Initialize(int width, int height, std::string file)
   m_camera->updateCamRotPitch(storedGraphicsPitch);
 
   // Create objects
-  for(int i = 0; i < objectsInfo.size(); i++)
+  for(objectsLooper = 0; objectsLooper < objectsInfo.size(); objectsLooper++)
   {
-    m_objects.push_back(new Object(objectsInfo[i].objectName, this, objectsInfo[i]));
+    m_objects.push_back(new Object(objectsInfo[objectsLooper].objectName, this, objectsInfo[objectsLooper]));
   }
 
 
@@ -129,10 +132,10 @@ bool Graphics::Initialize(int width, int height, std::string file)
 	  gameSound.LoadSound("../assets/NGGUP.wav");
 	  gameSound.PlaySound();
 	  
-	  // get rigidbody for the cube
-	  /*for(int i = 0; i < m_objects.size(); i++)
+	  // get rigidbodies from objects
+	  /*for(objectsLooper = 0; i < objectsInfo.size(); objectsLooper++)
 	  {
-	    rigidBodies.push_back(m_objects[i]->GetRigidBody());
+	    rigidBodies.push_back(m_objects[objectsLooper]->GetRigidBody());
 	  }*/
 
 	  // PER VERTEX SHADER
@@ -480,9 +483,23 @@ float Graphics::SetSpecularScale(float setSpecularScale)
 	specularScale = setSpecularScale;
 }
 
-btRigidBody* Graphics::GetRigidBody(int objectIndex)
+btRigidBody* Graphics::GetRigidBody(string objectName)
 {
-  return rigidBodies[objectIndex];
+  // local variables
+  int objectsLooper;
+
+  // loop through all objects
+  for(objectsLooper = 0; objectsLooper < m_objects.size(); objectsLooper++)
+  {
+    // check if we found correct object
+    if(m_objects[objectsLooper]->GetObjectName() == objectName)
+    {
+      // retrun orbject's rigid body
+      return m_objects[objectsLooper]->GetRigidBody();
+    }
+  }
+
+  return NULL;
 }
 
 std::string Graphics::ErrorString(GLenum error)
