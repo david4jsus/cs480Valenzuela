@@ -58,6 +58,7 @@ bool Engine::Initialize()
      printf("The input failed to initialize.\n");
      return false;
   }
+  m_input->setGraphics(m_graphics);
 
   // Set the time
   m_currentTimeMillis = GetCurrentTimeMillis();

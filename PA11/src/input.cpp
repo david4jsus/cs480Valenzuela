@@ -26,7 +26,7 @@ bool Input::Initialize()
    return true;
 }
 
-void Input::Keyboard(SDL_Event m_event, bool running)
+void Input::Keyboard(SDL_Event m_event, bool &running)
 {
    // Check what event happened
    switch(m_event.type)
@@ -43,7 +43,7 @@ cout << "key released" << endl;
    }
 }
 
-void Input::KeydownEvents(SDL_Event m_event, bool running)
+void Input::KeydownEvents(SDL_Event m_event, bool &running)
 {
 cout << "reached keydown events" << endl;
 cout << "event key pressed: " << m_event.key.keysym.sym << endl;
@@ -279,4 +279,9 @@ void Input::CheckCameraMovement(unsigned int m_DT)
    {
       m_graphics->GetCamera()->updateCamRotPitch(m_DT * -0.1);
    }
+}
+
+void Input::setGraphics(Graphics *engineGraphics)
+{
+  m_graphics = engineGraphics;
 }

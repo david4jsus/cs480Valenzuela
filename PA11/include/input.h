@@ -20,10 +20,12 @@ class Input {
       bool Initialize();
 
       // Keyboard Inputs
-      void Keyboard(SDL_Event m_event, bool running);
-      void KeydownEvents(SDL_Event m_event, bool running);
+      void Keyboard(SDL_Event m_event, bool &running);
+      void KeydownEvents(SDL_Event m_event, bool &running);
       void KeyupEvents(SDL_Event m_event);
       void CheckCameraMovement(unsigned int m_DT);
+      
+      void setGraphics(Graphics *engineGraphics);
 
    private:
       Graphics *m_graphics;
