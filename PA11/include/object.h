@@ -6,8 +6,6 @@
 #include "mesh.h"
 #include "objectInfo.h"
 
-#include <btBulletDynamicsCommon.h>
-
 class Graphics;
 
 class Object
@@ -45,8 +43,8 @@ class Object
 
     // Object info
     std::string objectName;
-	  glm::vec3 objectPosition;
-	  float objectScale;
+	glm::vec3 objectPosition;
+	float objectScale;
     
     // If the object has a child, this is the matrix it should read as its center
     glm::mat4 modelForChild;
