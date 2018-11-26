@@ -33,6 +33,7 @@ class Physics
     btCollisionDispatcher* dispatcher;
     btSequentialImpulseConstraintSolver* solver;
     btDiscreteDynamicsWorld* dynamicsWorld;
+    btCollisionWorld* collisionWorld;
     
     // List of rigid bodies
     std::vector<btRigidBody*> rigidBodies;
