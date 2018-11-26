@@ -10,6 +10,7 @@ Physics::Physics(Graphics* graphics)
 	dispatcher = 0;
 	solver = 0;
 	dynamicsWorld = 0;
+	collisionWorld = 0;
 }
 
 //== Destructor ==//
@@ -54,6 +55,7 @@ bool Physics::Initialize()
 	dispatcher = new btCollisionDispatcher(collisionConfig);
 	solver = new btSequentialImpulseConstraintSolver;
 	dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, collisionConfig);
+	collisionWorld = new btCollisionWorld(dispatcher, broadphase, collisionConfig);
 	
 	dynamicsWorld->setGravity(btVector3(-0.001, -1.0, 0.0));
 }
@@ -91,5 +93,40 @@ void Physics::AddRigidBody(btRigidBody* rigidBody)
 //== Check for collisions ==//
 void Physics::CheckCollisions()
 {
-	// Stuff
+	collisionWorld->performDiscreteCollisionDetection();
+	
+	int numManifolds = collisionWorld->getDispatcher()->getNumManifolds();
+	
+	for (int i = 0; i < numManifolds; i++)
+	{
+		btPersistentManifold* contactManifold = collisionWorld->getDispatcher()->getManifoldByIndexInternal(i);
+		const btCollisionObject* obA = contactManifold->getBody0();
+		const btCollisionObject* obB = contactManifold->getBody1();
+		contactManifold->refreshContactPoints(obA->getWorldTransform(), obB->getWorldTransform());
+		int numContacts = contactManifold->getNumContacts();
+		
+		if (numContacts > 0)
+		{
+			string obAName, obBName;
+			const btCollisionShape* obAShape = obA->getCollisionShape();
+			const btCollisionShape* obBShape = obB->getCollisionShape();
+			
+			for (int j = 0; j < rigidBodies.size(); j++)
+			{
+				if (rigidBodies[j]->getCollisionShape() == obAShape)
+				{
+					obAName = m_graphics->GetObject(j)->GetObjectName();
+				}
+				else if (rigidBodies[j]->getCollisionShape() == obBShape)
+				{
+					obBName = m_graphics->GetObject(j)->GetObjectName();
+				}
+			}
+			
+			if ((obAName == "Player1" || obAName == "Player2") && (obBName == "Player1" || obBName == "Player2"))
+			{
+				cout << "|| Collision!" << endl;
+			}
+		}
+	}
 }
