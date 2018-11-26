@@ -63,6 +63,18 @@ class Engine
     bool rotatingUp;
     bool rotatingDown;
     
+    // Player one movement handling
+    bool playerOneMoveForward;
+    bool playerOneMoveBackward;
+    bool playerOneMoveLeft;
+    bool playerOneMoveRight;
+    
+    // Player one movement handling
+    bool playerTwoMoveForward;
+    bool playerTwoMoveBackward;
+    bool playerTwoMoveLeft;
+    bool playerTwoMoveRight;
+    
     // configuration file variables
       // per vertex lighting
     string storedVLightingVertexShaderFilePath;

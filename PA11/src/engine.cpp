@@ -73,6 +73,18 @@ bool Engine::Initialize()
   rotatingUp     = false;
   rotatingDown   = false;
   
+  // Player one movement handling
+  playerOneMoveForward = false;
+  playerOneMoveBackward = false;
+  playerOneMoveLeft = false;
+  playerOneMoveRight = false;
+  
+  // Player one movement handling
+  playerTwoMoveForward = false;
+  playerTwoMoveBackward = false;
+  playerTwoMoveLeft = false;
+  playerTwoMoveRight = false;
+  
   // No errors
   return true;
 }
@@ -101,7 +113,9 @@ void Engine::Run()
       Mouse();
     }
     
-    // Objects movement
+    /*/////////////////////////////////////////////////////////////////////
+                            Camera movement
+    /////////////////////////////////////////////////////////////////////*/
     if (movingLeft)          // Move camera left
     {
       m_graphics->GetCamera()->updateCamPosYNeg(m_DT * 0.05);
@@ -145,6 +159,52 @@ void Engine::Run()
     else if (rotatingDown)   // Rotate camera down
     {
       m_graphics->GetCamera()->updateCamRotPitch(m_DT * -0.1);
+    }
+    
+    /*/////////////////////////////////////////////////////////////////////
+                            Player one movement
+    /////////////////////////////////////////////////////////////////////*/
+    if (playerOneMoveForward) // Move player one forward
+    {
+      GetObjectRigidBody("Player1")->applyCentralImpulse(btVector3(0.3f, 0.0f, 0.0f));
+    }
+    
+    else if (playerOneMoveBackward) // Move player one backward
+    {
+      GetObjectRigidBody("Player1")->applyCentralImpulse(btVector3(-0.3f, 0.0f, 0.0f));
+    }
+    
+    if (playerOneMoveLeft)  // Move player one left
+    {
+      GetObjectRigidBody("Player1")->applyCentralImpulse(btVector3(0.0f, 0.0f, -0.3f));
+    }
+    
+    else if (playerOneMoveRight) // Move player one right
+    {
+      GetObjectRigidBody("Player1")->applyCentralImpulse(btVector3(0.0f, 0.0f, 0.3f));
+    }
+    
+    /*/////////////////////////////////////////////////////////////////////
+                            Player two movement
+    /////////////////////////////////////////////////////////////////////*/
+    if (playerTwoMoveForward) // Move player two forward
+    {
+      GetObjectRigidBody("Player2")->applyCentralImpulse(btVector3(0.3f, 0.0f, 0.0f));
+    }
+    
+    else if (playerTwoMoveBackward) // Move player two backward
+    {
+      GetObjectRigidBody("Player2")->applyCentralImpulse(btVector3(-0.3f, 0.0f, 0.0f));
+    }
+    
+    if (playerTwoMoveLeft) // Move player two left
+    {
+      GetObjectRigidBody("Player2")->applyCentralImpulse(btVector3(0.0f, 0.0f, -0.3f));
+    }
+    
+    else if (playerTwoMoveRight)  // Move player two right
+    {
+      GetObjectRigidBody("Player2")->applyCentralImpulse(btVector3(0.0f, 0.0f, 0.3f));
     }
     
     {
@@ -248,46 +308,53 @@ void Engine::Keyboard()
       rotatingUp   = false;
     }
     
-    if (m_event.key.keysym.sym == SDLK_i)   // Move player 1 ball forward
+    if (m_event.key.keysym.sym == SDLK_i)   // Move player one forward
     {
-      GetObjectRigidBody("Player1")->applyCentralImpulse(btVector3(1.0f, 0.0f, 0.0f));
+      playerOneMoveForward = true;
+      playerOneMoveBackward = false;
     }
     
-    if (m_event.key.keysym.sym == SDLK_j)   // Move player 1 ball to the left
+    if (m_event.key.keysym.sym == SDLK_j)   // Move player one left
     {
-      GetObjectRigidBody("Player1")->applyCentralImpulse(btVector3(0.0f, 0.0f, -1.0f));
+      playerOneMoveLeft = true;
+      playerOneMoveRight = false;
     }
     
-    if (m_event.key.keysym.sym == SDLK_k)   // Move player 1 ball backward
+    if (m_event.key.keysym.sym == SDLK_k)   // Move player one backward
     {
-      GetObjectRigidBody("Player1")->applyCentralImpulse(btVector3(-1.0f, 0.0f, 0.0f));
+      playerOneMoveBackward = true;
+      playerOneMoveForward = false;
     }
     
-    if (m_event.key.keysym.sym == SDLK_l)   // Move player 1 ball to the right
+    if (m_event.key.keysym.sym == SDLK_l)   // Move player one right
     {
-      GetObjectRigidBody("Player1")->applyCentralImpulse(btVector3(0.0f, 0.0f, 1.0f));
+      playerOneMoveRight = true;
+      playerOneMoveLeft = false;
     }
     
-    if (m_event.key.keysym.sym == SDLK_t)   // Move player 2 ball forward
+    if (m_event.key.keysym.sym == SDLK_t)   // Move player two forward
     {
-      GetObjectRigidBody("Player2")->applyCentralImpulse(btVector3(1.0f, 0.0f, 0.0f));
+      playerTwoMoveForward = true;
+      playerTwoMoveBackward = false;
     }
     
-    if (m_event.key.keysym.sym == SDLK_f)   // Move player 2 ball to the left
+    if (m_event.key.keysym.sym == SDLK_f)   // Move player two left
     {
-      GetObjectRigidBody("Player2")->applyCentralImpulse(btVector3(0.0f, 0.0f, -1.0f));
+      playerTwoMoveLeft = true;
+      playerTwoMoveRight = false;
     }
     
-    if (m_event.key.keysym.sym == SDLK_g)   // Move player 2 ball backward
+    if (m_event.key.keysym.sym == SDLK_g)   // Move player two backward
     {
-      GetObjectRigidBody("Player2")->applyCentralImpulse(btVector3(-1.0f, 0.0f, 0.0f));
+      playerTwoMoveBackward = true;
+      playerTwoMoveForward = false;
     }
     
-    if (m_event.key.keysym.sym == SDLK_h)   // Move player 2 ball to the right
+    if (m_event.key.keysym.sym == SDLK_h)   // Move player two right
     {
-      GetObjectRigidBody("Player2")->applyCentralImpulse(btVector3(0.0f, 0.0f, 1.0f));
+      playerTwoMoveRight = true;
+      playerTwoMoveLeft = false;
     }
-    
     
     if (m_event.key.keysym.sym == SDLK_TAB) // Switch shaders
     {
@@ -379,6 +446,55 @@ void Engine::Keyboard()
     {
       rotatingDown = false;
     }
+    
+    
+    
+    
+    if (m_event.key.keysym.sym == SDLK_i)   // Move player 1 ball forward
+    {
+      playerOneMoveForward = false;
+    }
+    
+    if (m_event.key.keysym.sym == SDLK_j)   // Move player 1 ball to the left
+    {
+      playerOneMoveLeft = false;
+    }
+    
+    if (m_event.key.keysym.sym == SDLK_k)   // Move player 1 ball backward
+    {
+      playerOneMoveBackward = false;
+    }
+    
+    if (m_event.key.keysym.sym == SDLK_l)   // Move player 1 ball to the right
+    {
+      playerOneMoveRight = false;
+    }
+    
+    
+    
+    
+    
+    if (m_event.key.keysym.sym == SDLK_t)   // Move player 2 ball forward
+    {
+      playerTwoMoveForward = false;
+    }
+    
+    if (m_event.key.keysym.sym == SDLK_f)   // Move player 2 ball to the left
+    {
+      playerTwoMoveLeft = false;
+    }
+    
+    if (m_event.key.keysym.sym == SDLK_g)   // Move player 2 ball backward
+    {
+      playerTwoMoveBackward = false;
+    }
+    
+    if (m_event.key.keysym.sym == SDLK_h)   // Move player 2 ball to the right
+    {
+      playerTwoMoveRight = false;
+    }
+    
+    
   }
 }
 
