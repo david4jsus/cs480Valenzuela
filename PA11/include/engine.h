@@ -8,8 +8,8 @@
 #include "graphics.h"
 #include "imgui.h"
 #include "sound.h"
-
 #include "objectInfo.h"
+#include "playerSettings.h"
 
 #include <btBulletDynamicsCommon.h>
 
@@ -28,6 +28,8 @@ class Engine
     btRigidBody* GetObjectRigidBody(string objectName);
     
     void loadConfigurationFileInfo();
+
+		void setPlayerSettings();
   
   private:
     // Window related variables
@@ -93,6 +95,9 @@ class Engine
     
       // information on all objects
     std::vector<ObjectInfo> allObjectsInfo;
+    
+    // player settings
+    PlayerSettings* players;
 };
 
 #endif // ENGINE_H
