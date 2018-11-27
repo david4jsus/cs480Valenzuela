@@ -33,6 +33,9 @@ bool Engine::Initialize()
 {
   // read configuration file
   loadConfigurationFileInfo();
+  
+  // create player settings
+  players = new PlayerSettings();
 
   // Start a window
   m_window = new Window();
@@ -50,6 +53,9 @@ bool Engine::Initialize()
     printf("The graphics failed to initialize.\n");
     return false;
   }
+
+	// set player settings
+	setPlayerSettings();
 
   // Set the time
   m_currentTimeMillis = GetCurrentTimeMillis();
@@ -215,6 +221,26 @@ void Engine::Run()
       
       ImGui::Text("Tab -- Switch between Vertex and Fragment Shaders");
       
+      ImGui::Separator();
+      ImGui::Separator();
+
+			// display player 1's remaining lives
+      int playerOneLives, playerTwoLives;
+			players->getPlayersLives(playerOneLives, playerTwoLives);
+      std::string playerOneLivesText = "Player 1 lives remaining: ";
+      playerOneLivesText.append(std::to_string(playerOneLives));
+      const char* displayPlayerOneLivesText = playerOneLivesText.c_str();
+      ImGui::Text(displayPlayerOneLivesText);
+      
+      ImGui::Separator();
+      ImGui::Separator();
+
+			// display player 2's remaining lives
+			std::string playerTwoLivesText = "Player 2 lives remaining: ";
+      playerTwoLivesText.append(std::to_string(playerTwoLives));
+      const char* displayPlayerTwoLivesText = playerTwoLivesText.c_str();
+      ImGui::Text(displayPlayerTwoLivesText);
+
       ImGui::Separator();
       ImGui::Separator();
       
@@ -755,4 +781,9 @@ void Engine::loadConfigurationFileInfo()
   
   // close file
   fin.close();
+}
+
+void Engine::setPlayerSettings()
+{
+  m_graphics->setPlayerSettings(players);
 }

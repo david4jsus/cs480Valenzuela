@@ -549,3 +549,8 @@ void Graphics::setCameraStartingPos()
 {
   m_camera->setCamPos(storedGraphicsStartingCameraPos);
 }
+
+void Graphics::setPlayerSettings(PlayerSettings* players)
+{
+	m_physics->setPlayerSettings(players);
+}
