@@ -7,11 +7,15 @@ using namespace std;
 #include "graphics_headers.h"
 #include "camera.h"
 #include "shader.h"
+#include "physics.h"
 #include "object.h"
 #include "sound.h"
-#include <btBulletDynamicsCommon.h>
 #include "objectInfo.h"
+#include "playerSettings.h"
 
+#include <btBulletDynamicsCommon.h>
+
+class Physics;
 class Object;
 
 class Graphics
@@ -32,20 +36,24 @@ class Graphics
     // To get a specified object, specified by array index
     Object* GetObject(int index);
     
-	int GetNumberOfObjects();
-	 
-	// Bullet 
-	btDiscreteDynamicsWorld* GetDynamicsWorld();
-	 
-	float GetAmbientLightingScale();
-	float SetAmbientLightingScale(float setAmbientLighting);
-	 
-	float GetSpecularScale();
-	float SetSpecularScale(float setSpecularScale);
-	 
-	btRigidBody* GetRigidBody(int objectIndex);
+		int GetNumberOfObjects();
+		 
+		// Physics 
+		btDiscreteDynamicsWorld* GetDynamicsWorld();
+		 
+		float GetAmbientLightingScale();
+		float SetAmbientLightingScale(float setAmbientLighting);
+		 
+		float GetSpecularScale();
+		float SetSpecularScale(float setSpecularScale);
+		 
+		btRigidBody* GetRigidBody(string objectName);
 	
-	void setCameraStartingPos();
+		// sets the initial starting camera position
+		void setCameraStartingPos();
+
+		// sets current player conditions such as lives remaining
+		void setPlayerSettings(PlayerSettings* players);
 
   private:
     std::string ErrorString(GLenum error);
@@ -53,6 +61,7 @@ class Graphics
     Camera *m_camera;
     Shader *m_PerVertexShader;
     Shader *m_PerFragmentShader;
+    Physics *m_physics;
 
     // Per vertex
     string vLightingVertexShaderFilePath;
@@ -83,11 +92,11 @@ class Graphics
     Sound gameSound;
     
     // Bullet Members
-    btBroadphaseInterface *broadphase;
+    /*btBroadphaseInterface *broadphase;
     btDefaultCollisionConfiguration *collisionConfig;
     btCollisionDispatcher *dispatcher;
     btSequentialImpulseConstraintSolver *solver;
-    btDiscreteDynamicsWorld *dynamicsWorld;
+    btDiscreteDynamicsWorld *dynamicsWorld;*/
     
     // Shader switching
     bool shaderToggle;
@@ -96,7 +105,8 @@ class Graphics
     float ambientLightingScale;
     float specularScale;
     
-    std::vector<btRigidBody*> rigidBodies;
+    // list of all rigidbodies from each object
+    //std::vector<btRigidBody*> rigidBodies;
     
     bool meshLoaded;
     
@@ -107,6 +117,7 @@ class Graphics
     float storedGraphicsYaw;
     float storedGraphicsPitch;
     
+    // information on all objects
     std::vector<ObjectInfo> objectsInfo;
 };
 

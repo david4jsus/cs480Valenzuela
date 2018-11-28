@@ -9,8 +9,8 @@
 #include "input.h"
 #include "imgui.h"
 #include "sound.h"
-
 #include "objectInfo.h"
+#include "playerSettings.h"
 
 #include <btBulletDynamicsCommon.h>
 
@@ -26,9 +26,11 @@ class Engine
     unsigned int getDT();
     long long GetCurrentTimeMillis();
     
-    btRigidBody* GetObjectRigidBody(int objectIndex);
+    btRigidBody* GetObjectRigidBody(string objectName);
     
     void loadConfigurationFileInfo();
+
+		void setPlayerSettings();
   
     SDL_Event m_event;
     bool m_running;
@@ -73,6 +75,18 @@ class Engine
     bool rotatingDown;
     */
     
+    // Player one movement handling
+    bool playerOneMoveForward;
+    bool playerOneMoveBackward;
+    bool playerOneMoveLeft;
+    bool playerOneMoveRight;
+    
+    // Player one movement handling
+    bool playerTwoMoveForward;
+    bool playerTwoMoveBackward;
+    bool playerTwoMoveLeft;
+    bool playerTwoMoveRight;
+    
     // configuration file variables
       // per vertex lighting
     string storedVLightingVertexShaderFilePath;
@@ -91,6 +105,9 @@ class Engine
     
       // information on all objects
     std::vector<ObjectInfo> allObjectsInfo;
+    
+    // player settings
+    PlayerSettings* players;
 };
 
 #endif // ENGINE_H

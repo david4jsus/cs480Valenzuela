@@ -3,17 +3,19 @@
 Graphics::Graphics()
 {
 	// Initialize Bullet World
-	broadphase = new btDbvtBroadphase();
+	/*broadphase = new btDbvtBroadphase();
 	collisionConfig = new btDefaultCollisionConfiguration();
 	dispatcher = new btCollisionDispatcher(collisionConfig);
 	solver = new btSequentialImpulseConstraintSolver;
 	dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, collisionConfig);
 	
-	dynamicsWorld->setGravity(btVector3(-0.001, -1.0, 0.0));
+	dynamicsWorld->setGravity(btVector3(-0.001, -1.0, 0.0));*/
 	
 	shaderToggle = true;
 	ambientLightingScale = 0.5;
 	specularScale = 0.5;
+	
+	m_physics = new Physics(this);
 }
 
 Graphics::Graphics(string vLightingVertFilePath, string vLightingFragFilePath, string fLightingVertFilePath, string fLightingFragFilePath, glm::vec3 storedEngineStartingCameraPos, 
@@ -40,44 +42,57 @@ Graphics::Graphics(string vLightingVertFilePath, string vLightingFragFilePath, s
 
 Graphics::~Graphics()
 {
-    if( dynamicsWorld != NULL )
+    /*if( dynamicsWorld != NULL )
     {
         delete dynamicsWorld;
-
         dynamicsWorld = NULL;
     }
-
+    
     if( solver != NULL )
     {
         delete solver;
-
         solver = NULL;
     }
-
+    
     if( dispatcher != NULL )
     {
         delete dispatcher;
-
         dispatcher = NULL;
     }
-
+    
     if( collisionConfig != NULL )
     {
         delete collisionConfig;
-
         collisionConfig = NULL;
     }
-
+    
     if( broadphase != NULL )
     {
         delete broadphase;
-
         broadphase = NULL;
+    }*/
+    
+    if (m_camera != NULL)
+    {
+    	delete m_camera;
+    	m_camera = NULL;
     }
+	
+	if (m_physics != NULL)
+	{
+		delete m_physics;
+		m_physics = NULL;
+	}
 }
 
 bool Graphics::Initialize(int width, int height, std::string file)
 {
+  // Initialize physics
+  m_physics->Initialize();
+  
+  // local variables
+  int objectsLooper;
+
   // Used for the linux OS
   #if !defined(__APPLE__) && !defined(MACOSX)
     // cout << glewGetString(GLEW_VERSION) << endl;
@@ -114,7 +129,10 @@ bool Graphics::Initialize(int width, int height, std::string file)
   m_camera->updateCamRotPitch(storedGraphicsPitch);
 
   // Create objects
-  Object* board = new Object("Disboard.obj", glm::vec3(0, 0, 0), this);
+  for(objectsLooper = 0; objectsLooper < objectsInfo.size(); objectsLooper++)
+  {
+    m_objects.push_back(new Object(objectsInfo[objectsLooper].objectName, this, objectsInfo[objectsLooper]));
+  }
 
   meshLoaded = true;
   
@@ -123,15 +141,12 @@ bool Graphics::Initialize(int width, int height, std::string file)
 	  // Waiting Song while the planets load
 	  gameSound.LoadSound("../assets/NGGUP.wav");
 	  gameSound.PlaySound();
-    
-	  // Push objects onto list
-	  m_objects.push_back(board);
 	  
-	  // get rigidbody for the cube
-	  /*for(int i = 0; i < m_objects.size(); i++)
+	  // get rigidbodies from objects
+	  for(objectsLooper = 0; objectsLooper < objectsInfo.size(); objectsLooper++)
 	  {
-	    rigidBodies.push_back(m_objects[i]->GetRigidBody());
-	  }*/
+	    m_physics->AddRigidBody(m_objects[objectsLooper]->GetRigidBody());
+	  }
 
 	  // PER VERTEX SHADER
 	  // Set up the shaders
@@ -338,11 +353,12 @@ bool Graphics::Initialize(int width, int height, std::string file)
 void Graphics::Update(unsigned int dt)
 {
   // Update the objects
-  	
   for(unsigned int i = 0; i < m_objects.size(); i++)
   {
     m_objects[i]->Update(dt);
   }
+  
+  m_physics->Update();
 }
 
 void Graphics::Render()
@@ -368,7 +384,7 @@ void Graphics::Render()
 	  }
 	  
 	  // Send light position
-	  glUniform4f(m_flightPos, 0, 0, 0, 1.0);
+	  glUniform4f(m_flightPos, 0, 5, 0, 1.0);
 	  
 	  // Send ambient color
 	  glUniform4f(m_fambientColor, ambientLightingScale, ambientLightingScale, ambientLightingScale, 1.0);
@@ -398,7 +414,7 @@ void Graphics::Render()
 	  }
 	  
 	  // Send light position
-	  glUniform4f(m_vlightPos, 0, 0, 0, 1.0);
+	  glUniform4f(m_vlightPos, 0, 5, 0, 1.0);
 	  
 	  // Send ambient color
 	  glUniform4f(m_vambientColor, ambientLightingScale, ambientLightingScale, ambientLightingScale, 1.0);
@@ -455,7 +471,7 @@ int Graphics::GetNumberOfObjects()
 
 btDiscreteDynamicsWorld* Graphics::GetDynamicsWorld()
 {
-  return dynamicsWorld;
+  return m_physics->GetDynamicsWorld();
 }
 
 float Graphics::GetAmbientLightingScale()
@@ -478,9 +494,23 @@ float Graphics::SetSpecularScale(float setSpecularScale)
 	specularScale = setSpecularScale;
 }
 
-btRigidBody* Graphics::GetRigidBody(int objectIndex)
+btRigidBody* Graphics::GetRigidBody(string objectName)
 {
-  return rigidBodies[objectIndex];
+  // local variables
+  int objectsLooper;
+
+  // loop through all objects
+  for(objectsLooper = 0; objectsLooper < m_objects.size(); objectsLooper++)
+  {
+    // check if we found correct object
+    if(m_objects[objectsLooper]->GetObjectName() == objectName)
+    {
+      // retrun orbject's rigid body
+      return m_physics->GetObjectRigidBody(objectsLooper);
+    }
+  }
+
+  return NULL;
 }
 
 std::string Graphics::ErrorString(GLenum error)
@@ -518,4 +548,9 @@ std::string Graphics::ErrorString(GLenum error)
 void Graphics::setCameraStartingPos()
 {
   m_camera->setCamPos(storedGraphicsStartingCameraPos);
+}
+
+void Graphics::setPlayerSettings(PlayerSettings* players)
+{
+	m_physics->setPlayerSettings(players);
 }

@@ -24,7 +24,7 @@ Engine::~Engine()
   ImGui::DestroyContext();
   
   delete m_window;
-  delete m_graphics;
+  delete m_graphics;  
   m_window = NULL;
   m_graphics = NULL;
 }
@@ -33,6 +33,9 @@ bool Engine::Initialize()
 {
   // read configuration file
   loadConfigurationFileInfo();
+  
+  // create player settings
+  players = new PlayerSettings();
 
   // Start a window
   m_window = new Window();
@@ -60,6 +63,9 @@ bool Engine::Initialize()
   }
   m_input->setGraphics(m_graphics);
 
+	// set player settings
+	setPlayerSettings();
+
   // Set the time
   m_currentTimeMillis = GetCurrentTimeMillis();
   
@@ -83,6 +89,18 @@ bool Engine::Initialize()
   rotatingUp     = false;
   rotatingDown   = false;
   */
+  
+  // Player one movement handling
+  playerOneMoveForward = false;
+  playerOneMoveBackward = false;
+  playerOneMoveLeft = false;
+  playerOneMoveRight = false;
+  
+  // Player one movement handling
+  playerTwoMoveForward = false;
+  playerTwoMoveBackward = false;
+  playerTwoMoveLeft = false;
+  playerTwoMoveRight = false;
   
   // No errors
   return true;
@@ -116,6 +134,7 @@ void Engine::Run()
     /////////////////////////////////////////////////
     /////////////// IMGUI MENU SYSTEM ///////////////
     /////////////////////////////////////////////////
+
     {
       ImGui::Begin("Joust Instructions and Help");
       
@@ -124,6 +143,26 @@ void Engine::Run()
       
       ImGui::Text("Tab -- Switch between Vertex and Fragment Shaders");
       
+      ImGui::Separator();
+      ImGui::Separator();
+
+			// display player 1's remaining lives
+      int playerOneLives, playerTwoLives;
+			players->getPlayersLives(playerOneLives, playerTwoLives);
+      std::string playerOneLivesText = "Player 1 lives remaining: ";
+      playerOneLivesText.append(std::to_string(playerOneLives));
+      const char* displayPlayerOneLivesText = playerOneLivesText.c_str();
+      ImGui::Text(displayPlayerOneLivesText);
+      
+      ImGui::Separator();
+      ImGui::Separator();
+
+			// display player 2's remaining lives
+			std::string playerTwoLivesText = "Player 2 lives remaining: ";
+      playerTwoLivesText.append(std::to_string(playerTwoLives));
+      const char* displayPlayerTwoLivesText = playerTwoLivesText.c_str();
+      ImGui::Text(displayPlayerTwoLivesText);
+
       ImGui::Separator();
       ImGui::Separator();
       
@@ -162,9 +201,9 @@ long long Engine::GetCurrentTimeMillis()
   return ret;
 }
 
-btRigidBody* Engine::GetObjectRigidBody(int objectIndex)
+btRigidBody* Engine::GetObjectRigidBody(string objectName)
 {
-  return m_graphics->GetRigidBody(objectIndex);
+  return m_graphics->GetRigidBody(objectName);
 }
 
 void Engine::loadConfigurationFileInfo()
@@ -185,6 +224,12 @@ void Engine::loadConfigurationFileInfo()
   {
     // read in first information segment
     fin >> configFileInfo;
+    
+    // check if entire file has been read
+    if(fin.eof() == true)
+    {
+      break;
+    }
     
     // check if we are about to read in per vertex lighting information
     if(configFileInfo == "Vertex")
@@ -314,57 +359,70 @@ void Engine::loadConfigurationFileInfo()
     else if(configFileInfo == "shape:")
     {
       // get collision shape name
-      fin >> anObject.collisionShape;
+      fin >> anObject.collisionShapeType;
     }
     
     // check if we are about to read in object collision shape size information
     else if(configFileInfo == "size:")
     {
       // get sphere collision size
-      if(anObject.collisionShape == "box")
+      if(anObject.collisionShapeType == "box")
       {
         // get collision shape x length
-        fin >> anObject.xBoxSize;
+        fin >> xAxisInfo;
         fin >> configFileInfo;
         
         // get collision shape y length
-        fin >> anObject.yBoxSize;
+        fin >> yAxisInfo;
         fin >> configFileInfo;
         
         // get collision shape z length
-        fin >> anObject.zBoxSize;
+        fin >> zAxisInfo;
+        
+        // set box collision size
+        anObject.boxSize = btVector3(xAxisInfo, yAxisInfo, zAxisInfo);
         
         // default other values
         anObject.sphereRadius = 0.0;
-        anObject.planeDirection = 0.0;
+        anObject.planeDirection = btVector3(0.0, 0.0, 0.0);
         anObject.planeConstant = 0.0;
       }
       
       // get sphere collision size
-      else if(anObject.collisionShape == "sphere")
+      else if(anObject.collisionShapeType == "sphere")
       {
-        // get radius size
+        // get radius size for sphere
         fin >> anObject.sphereRadius;
         
         // default other values
-        anObject.xBoxSize = 0.0;
-        anObject.yBoxSize = 0.0;
-        anObject.zBoxSize = 0.0;
-        anObject.planeDirection = 0.0;
+        anObject.boxSize = btVector3(0.0, 0.0, 0.0);
+        anObject.planeDirection = btVector3(0.0, 0.0, 0.0);
         anObject.planeConstant = 0.0;
       }
       
       // get plane collision direction
-      else if(anObject.collisionShape == "plane")
+      else if(anObject.collisionShapeType == "plane")
       {
-        // get plane direction
-        fin >> anObject.planeDirection;
+        // get plane x-axis direction
+        fin >> xAxisInfo;
+        fin >> configFileInfo;
+        
+        // get plane y-axis direction
+        fin >> yAxisInfo;
+        fin >> configFileInfo;
+        
+        // get plane z-axis direction
+        fin >> zAxisInfo;
+        fin >> configFileInfo;
+        
+        // get plane constant
         fin >> anObject.planeConstant;
         
+        // set plane collision direction
+        anObject.planeDirection = btVector3(xAxisInfo, yAxisInfo, zAxisInfo);
+        
         // default other values
-        anObject.xBoxSize = 0.0;
-        anObject.yBoxSize = 0.0;
-        anObject.zBoxSize = 0.0;
+        anObject.boxSize = btVector3(0.0, 0.0, 0.0);
         anObject.sphereRadius = 0.0;
       }
       
@@ -375,4 +433,9 @@ void Engine::loadConfigurationFileInfo()
   
   // close file
   fin.close();
+}
+
+void Engine::setPlayerSettings()
+{
+  m_graphics->setPlayerSettings(players);
 }
