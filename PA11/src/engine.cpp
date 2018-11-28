@@ -76,32 +76,6 @@ bool Engine::Initialize()
   ImGui_ImplOpenGL3_Init("#version 130"); // GL 3.0 + GLSL 130
   ImGui::StyleColorsDark(); // Setup style
   
-  /*
-  // Camera movement stuff
-  movingRight    = false;
-  movingLeft     = false;
-  movingForward  = false;
-  movingBackward = false;
-  movingUp       = false;
-  movingDown     = false;
-  rotatingLeft   = false;
-  rotatingRight  = false;
-  rotatingUp     = false;
-  rotatingDown   = false;
-  */
-  
-  // Player one movement handling
-  playerOneMoveForward = false;
-  playerOneMoveBackward = false;
-  playerOneMoveLeft = false;
-  playerOneMoveRight = false;
-  
-  // Player one movement handling
-  playerTwoMoveForward = false;
-  playerTwoMoveBackward = false;
-  playerTwoMoveLeft = false;
-  playerTwoMoveRight = false;
-  
   // No errors
   return true;
 }
@@ -130,6 +104,7 @@ void Engine::Run()
     }
     
     m_input->CheckCameraMovement(m_DT);
+		m_input->CheckPlayerMovement();
     
     /////////////////////////////////////////////////
     /////////////// IMGUI MENU SYSTEM ///////////////

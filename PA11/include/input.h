@@ -7,6 +7,7 @@
 #include <assert.h>
 #include <sys/time.h>
 #include <iostream>
+#include <btBulletDynamicsCommon.h>
 
 using namespace std;
 
@@ -27,6 +28,10 @@ class Input {
       
       void setGraphics(Graphics *engineGraphics);
 
+			void CheckPlayerMovement();
+
+			btRigidBody* GetObjectRigidBody(string objectName);
+
    private:
       Graphics *m_graphics;
 
@@ -41,6 +46,18 @@ class Input {
       bool rotatingRight;
       bool rotatingUp;
       bool rotatingDown;
+
+		  // Player one movement handling
+		  bool playerOneMoveForward;
+		  bool playerOneMoveBackward;
+		  bool playerOneMoveLeft;
+		  bool playerOneMoveRight;
+		  
+		  // Player one movement handling
+		  bool playerTwoMoveForward;
+		  bool playerTwoMoveBackward;
+		  bool playerTwoMoveLeft;
+			bool playerTwoMoveRight;
 };
 
 #endif

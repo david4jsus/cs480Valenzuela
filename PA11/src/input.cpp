@@ -23,6 +23,16 @@ bool Input::Initialize()
    rotatingUp     = false;
    rotatingDown   = false;
 
+	 playerOneMoveForward = false;
+	 playerOneMoveBackward = false;
+	 playerOneMoveLeft = false;
+	 playerOneMoveRight = false;
+
+	 playerTwoMoveForward = false;
+	 playerTwoMoveBackward = false;
+	 playerTwoMoveLeft = false;
+   playerTwoMoveRight = false;
+
    return true;
 }
 
@@ -115,6 +125,54 @@ cout << "event key pressed: " << m_event.key.keysym.sym << endl;
          rotatingUp   = false;
          break;
 
+			// Move player one forward
+			case SDLK_i:
+		    playerOneMoveForward = true;
+		    playerOneMoveBackward = false;
+         break;
+
+			// Move player one left
+			case SDLK_j:
+		    playerOneMoveLeft = true;
+		    playerOneMoveRight = false;
+         break;
+
+			// Move player one backward
+			case SDLK_k:
+		    playerOneMoveBackward = true;
+		    playerOneMoveForward = false;
+         break;
+
+			// Move player one right
+			case SDLK_l:
+		    playerOneMoveRight = true;
+		    playerOneMoveLeft = false;
+         break;
+
+			// Move player two forward
+			case SDLK_t:
+		    playerTwoMoveForward = true;
+		    playerTwoMoveBackward = false;
+         break;
+
+			// Move player two left
+			case SDLK_f:
+		    playerTwoMoveLeft = true;
+		    playerTwoMoveRight = false;
+         break;
+
+			// Move player two backward
+			case SDLK_g:
+		    playerTwoMoveBackward = true;
+		    playerTwoMoveForward = false;
+         break;
+
+			// Move player two right
+			case SDLK_h:
+		    playerTwoMoveRight = true;
+		    playerTwoMoveLeft = false;
+         break;
+
       // Shader Toggle (Vertex/Fragment)
       case SDLK_TAB:
          m_graphics->SwitchShaders();
@@ -150,7 +208,7 @@ cout << "event key pressed: " << m_event.key.keysym.sym << endl;
          {
             m_graphics->SetSpecularScale(m_graphics->GetSpecularScale() - 0.1);
          }
-         break;
+         break; 
 
       default:
          break;
@@ -212,6 +270,40 @@ void Input::KeyupEvents(SDL_Event m_event)
       case SDLK_DOWN:
          rotatingDown = false;
          break;
+
+			// stop moving player one forward
+			case SDLK_i:
+				playerOneMoveForward = false;
+				break;
+
+			case SDLK_j:
+				playerOneMoveLeft = false;
+				break;
+
+			case SDLK_k:
+				playerOneMoveBackward = false;
+				break;
+
+			case SDLK_l:
+				playerOneMoveRight = false;
+				break;
+
+
+			case SDLK_t:
+				playerTwoMoveForward = false;
+				break;
+
+			case SDLK_f:
+				playerTwoMoveLeft = false;
+				break;
+
+			case SDLK_g:
+				playerTwoMoveBackward = false;
+				break;
+
+			case SDLK_h:
+				playerTwoMoveRight = false;
+				break;
 
       default:
          break;
@@ -285,3 +377,58 @@ void Input::setGraphics(Graphics *engineGraphics)
 {
   m_graphics = engineGraphics;
 }
+
+void Input::CheckPlayerMovement()
+{
+  /*/////////////////////////////////////////////////////////////////////
+                          Player one movement
+  /////////////////////////////////////////////////////////////////////*/
+	if (playerOneMoveForward) // Move player one forward
+  {
+    GetObjectRigidBody("Player1")->applyCentralImpulse(btVector3(0.05f, 0.0f, 0.0f));
+  }
+    
+  else if (playerOneMoveBackward) // Move player one backward
+  {
+    GetObjectRigidBody("Player1")->applyCentralImpulse(btVector3(-0.05f, 0.0f, 0.0f));
+  }
+    
+  if (playerOneMoveLeft)  // Move player one left
+  {
+    GetObjectRigidBody("Player1")->applyCentralImpulse(btVector3(0.0f, 0.0f, -0.05f));
+  }
+    
+  else if (playerOneMoveRight) // Move player one right
+  {
+    GetObjectRigidBody("Player1")->applyCentralImpulse(btVector3(0.0f, 0.0f, 0.05f));
+  }
+    
+  /*/////////////////////////////////////////////////////////////////////
+                          Player two movement
+  /////////////////////////////////////////////////////////////////////*/
+  if (playerTwoMoveForward) // Move player two forward
+  {
+    GetObjectRigidBody("Player2")->applyCentralImpulse(btVector3(0.05f, 0.0f, 0.0f));
+  }
+    
+  else if (playerTwoMoveBackward) // Move player two backward
+  {
+    GetObjectRigidBody("Player2")->applyCentralImpulse(btVector3(-0.05f, 0.0f, 0.0f));
+  }
+    
+  if (playerTwoMoveLeft) // Move player two left
+  {
+    GetObjectRigidBody("Player2")->applyCentralImpulse(btVector3(0.0f, 0.0f, -0.05f));
+  }
+    
+  else if (playerTwoMoveRight)  // Move player two right
+  {
+    GetObjectRigidBody("Player2")->applyCentralImpulse(btVector3(0.0f, 0.0f, 0.05f));
+  }
+}
+
+btRigidBody* Input::GetObjectRigidBody(string objectName)
+{
+  return m_graphics->GetRigidBody(objectName);
+}
+
