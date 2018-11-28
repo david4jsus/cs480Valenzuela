@@ -61,32 +61,6 @@ class Engine
     // Model loading
     std::string m_file;
     
-    /*
-    // Keyboard handling
-    bool movingRight;
-    bool movingLeft;
-    bool movingForward;
-    bool movingBackward;
-    bool movingUp;
-    bool movingDown;
-    bool rotatingLeft;
-    bool rotatingRight;
-    bool rotatingUp;
-    bool rotatingDown;
-    */
-    
-    // Player one movement handling
-    bool playerOneMoveForward;
-    bool playerOneMoveBackward;
-    bool playerOneMoveLeft;
-    bool playerOneMoveRight;
-    
-    // Player one movement handling
-    bool playerTwoMoveForward;
-    bool playerTwoMoveBackward;
-    bool playerTwoMoveLeft;
-    bool playerTwoMoveRight;
-    
     // configuration file variables
       // per vertex lighting
     string storedVLightingVertexShaderFilePath;
