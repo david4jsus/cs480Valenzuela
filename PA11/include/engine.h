@@ -6,6 +6,7 @@
 
 #include "window.h"
 #include "graphics.h"
+#include "input.h"
 #include "imgui.h"
 #include "sound.h"
 #include "objectInfo.h"
@@ -20,8 +21,8 @@ class Engine
     ~Engine();
     bool Initialize();
     void Run();
-    void Keyboard();
-    void Mouse();
+    //void Keyboard();
+    //void Mouse();
     unsigned int getDT();
     long long GetCurrentTimeMillis();
     
@@ -31,21 +32,28 @@ class Engine
 
 		void setPlayerSettings();
   
+    SDL_Event m_event;
+    bool m_running;
+    unsigned int m_DT;
+    
   private:
+  
     // Window related variables
     Window *m_window;    
     string m_WINDOW_NAME;
     int m_WINDOW_WIDTH;
     int m_WINDOW_HEIGHT;
     bool m_FULLSCREEN;
-    SDL_Event m_event;
 
+    // Graphics related variables
     Graphics *m_graphics;
-    unsigned int m_DT;
     long long m_currentTimeMillis;
-    bool m_running;
 
+    // Sound related variables
     Sound gameSound;
+    
+    // Input related variables
+    Input *m_input;
     
     // Show Dear ImGui demo window
     bool imgui_demo;
@@ -53,6 +61,7 @@ class Engine
     // Model loading
     std::string m_file;
     
+    /*
     // Keyboard handling
     bool movingRight;
     bool movingLeft;
@@ -64,6 +73,7 @@ class Engine
     bool rotatingRight;
     bool rotatingUp;
     bool rotatingDown;
+    */
     
     // Player one movement handling
     bool playerOneMoveForward;
