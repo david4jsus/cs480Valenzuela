@@ -59,3 +59,37 @@ object scale: 0.05
 object mass: 1.0
 object collision shape: sphere
 object collision size: 2.0
+
+object file name: LeftArenaWall.obj
+object position: 0.0, 0.0, -45.0
+object orientation: 0.0, 0.0, 0.0, 1.0
+object scale: 0.0
+object mass: 0.0
+object collision shape: plane
+object collision size: 0.0, 0.0, 1.0, 0.0
+
+object file name: RightArenaWall.obj
+object position: 0.0, 0.0, 45.0
+object orientation: 0.0, 0.0, 0.0, 1.0
+object scale: 0.0
+object mass: 0.0
+object collision shape: plane
+object collision size: 0.0, 0.0, -1.0, 0.0
+
+object file name: BackArenaWall.obj
+object position: 40.0, 0.0, 0.0
+object orientation: 0.0, 0.0, 0.0, 1.0
+object scale: 0.0
+object mass: 0.0
+object collision shape: plane
+object collision size: -1.0, 0.0, 0.0, 0.0
+
+object file name: FrontArenaWall.obj
+object position: -40.0, 0.0, 0.0
+object orientation: 0.0, 0.0, 0.0, 1.0
+object scale: 0.0
+object mass: 0.0
+object collision shape: plane
+object collision size: 1.0, 0.0, 0.0, 0.0
+
+
