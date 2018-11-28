@@ -172,22 +172,22 @@ void Engine::Run()
     /////////////////////////////////////////////////////////////////////*/
     if (playerOneMoveForward) // Move player one forward
     {
-      GetObjectRigidBody("Player1")->applyCentralImpulse(btVector3(0.3f, 0.0f, 0.0f));
+      GetObjectRigidBody("Player1")->applyCentralImpulse(btVector3(0.05f, 0.0f, 0.0f));
     }
     
     else if (playerOneMoveBackward) // Move player one backward
     {
-      GetObjectRigidBody("Player1")->applyCentralImpulse(btVector3(-0.3f, 0.0f, 0.0f));
+      GetObjectRigidBody("Player1")->applyCentralImpulse(btVector3(-0.05f, 0.0f, 0.0f));
     }
     
     if (playerOneMoveLeft)  // Move player one left
     {
-      GetObjectRigidBody("Player1")->applyCentralImpulse(btVector3(0.0f, 0.0f, -0.3f));
+      GetObjectRigidBody("Player1")->applyCentralImpulse(btVector3(0.0f, 0.0f, -0.05f));
     }
     
     else if (playerOneMoveRight) // Move player one right
     {
-      GetObjectRigidBody("Player1")->applyCentralImpulse(btVector3(0.0f, 0.0f, 0.3f));
+      GetObjectRigidBody("Player1")->applyCentralImpulse(btVector3(0.0f, 0.0f, 0.05f));
     }
     
     /*/////////////////////////////////////////////////////////////////////
@@ -195,22 +195,22 @@ void Engine::Run()
     /////////////////////////////////////////////////////////////////////*/
     if (playerTwoMoveForward) // Move player two forward
     {
-      GetObjectRigidBody("Player2")->applyCentralImpulse(btVector3(0.3f, 0.0f, 0.0f));
+      GetObjectRigidBody("Player2")->applyCentralImpulse(btVector3(0.05f, 0.0f, 0.0f));
     }
     
     else if (playerTwoMoveBackward) // Move player two backward
     {
-      GetObjectRigidBody("Player2")->applyCentralImpulse(btVector3(-0.3f, 0.0f, 0.0f));
+      GetObjectRigidBody("Player2")->applyCentralImpulse(btVector3(-0.05f, 0.0f, 0.0f));
     }
     
     if (playerTwoMoveLeft) // Move player two left
     {
-      GetObjectRigidBody("Player2")->applyCentralImpulse(btVector3(0.0f, 0.0f, -0.3f));
+      GetObjectRigidBody("Player2")->applyCentralImpulse(btVector3(0.0f, 0.0f, -0.05f));
     }
     
     else if (playerTwoMoveRight)  // Move player two right
     {
-      GetObjectRigidBody("Player2")->applyCentralImpulse(btVector3(0.0f, 0.0f, 0.3f));
+      GetObjectRigidBody("Player2")->applyCentralImpulse(btVector3(0.0f, 0.0f, 0.05f));
     }
     
     {
