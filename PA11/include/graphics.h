@@ -74,6 +74,10 @@ class Graphics
     GLint m_vdiffuseColor;
     GLint m_vspecularColor;
     GLint m_vshininess;
+
+
+		std::vector<GLint> vLightMemoryLocations;
+		std::vector<glm::vec4> vLightPositions;
     
     // Per fragment
     string fLightingVertexShaderFilePath;
@@ -86,6 +90,11 @@ class Graphics
     GLint m_fdiffuseColor;
     GLint m_fspecularColor;
     GLint m_fshininess;
+
+    GLint m_flightPos1;
+
+		std::vector<GLint> fLightMemoryLocations;
+		std::vector<glm::vec4> fLightPositions;
 
     std::vector<Object*> m_objects;
 

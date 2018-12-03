@@ -42,12 +42,10 @@ void Input::Keyboard(SDL_Event m_event, bool &running)
    switch(m_event.type)
    {
       case SDL_KEYDOWN:
-cout << "key pressed" << endl;
          KeydownEvents(m_event, running);
          break;
 
       case SDL_KEYUP:
-cout << "key released" << endl;
          KeyupEvents(m_event);
          break;
    }
@@ -55,8 +53,6 @@ cout << "key released" << endl;
 
 void Input::KeydownEvents(SDL_Event m_event, bool &running)
 {
-cout << "reached keydown events" << endl;
-cout << "event key pressed: " << m_event.key.keysym.sym << endl;
    switch(m_event.key.keysym.sym)
    {
       case SDLK_ESCAPE:
