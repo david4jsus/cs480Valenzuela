@@ -1,4 +1,7 @@
 #include "graphics.h"
+#include <iostream>
+
+using namespace std;
 
 Graphics::Graphics()
 {
@@ -339,6 +342,36 @@ bool Graphics::Initialize(int width, int height, std::string file)
 	    printf("m_fshininess not found\n");
 	    return false;
 	  }  
+
+
+
+
+
+
+
+
+
+
+
+
+
+	  
+	  // Locate the light position in the per fragment shader
+	  m_flightPos1 = m_PerFragmentShader->GetUniformLocation("lightPos1");
+	  if (m_flightPos1 == INVALID_UNIFORM_LOCATION)
+	  {
+	    printf("m_flightPos1 not found\n");
+	    return false;
+	  }
+	  
+
+
+
+
+
+
+
+
 	  
 	  //enable depth testing
 	  glEnable(GL_DEPTH_TEST);
@@ -384,7 +417,18 @@ void Graphics::Render()
 	  }
 	  
 	  // Send light position
-	  glUniform4f(m_flightPos, 0, 5, 0, 1.0);
+	  glUniform4f(m_flightPos, 20, 0, 0, 1.0);
+
+
+
+
+
+	  // Send light position
+	  glUniform4f(m_flightPos1, -20, 0, 0, 1.0);
+
+
+
+
 	  
 	  // Send ambient color
 	  glUniform4f(m_fambientColor, ambientLightingScale, ambientLightingScale, ambientLightingScale, 1.0);
