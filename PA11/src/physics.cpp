@@ -1,4 +1,7 @@
 #include "physics.h"
+#include <iostream>
+
+using namespace std;
 
 //== Parameterzide constructor ==//
 Physics::Physics(Graphics* graphics)
@@ -11,6 +14,9 @@ Physics::Physics(Graphics* graphics)
 	solver = 0;
 	dynamicsWorld = 0;
 	collisionWorld = 0;
+
+	startTime = high_resolution_clock::now();
+	endTime = high_resolution_clock::now();
 }
 
 //== Destructor ==//
@@ -93,6 +99,9 @@ void Physics::AddRigidBody(btRigidBody* rigidBody)
 //== Check for collisions ==//
 void Physics::CheckCollisions()
 {
+	// local variables
+	int playerOneRemainingLives, playerTwoRemainingLives;
+
 	collisionWorld->performDiscreteCollisionDetection();
 	
 	int numManifolds = collisionWorld->getDispatcher()->getNumManifolds();
@@ -123,10 +132,32 @@ void Physics::CheckCollisions()
 				}
 			}
 			
-			if ((obAName == "Player1" || obAName == "Player2") && (obBName == "Player1" || obBName == "Player2"))
+			endTime = high_resolution_clock::now();
+			time_span = endTime - startTime;
+
+			if ((obAName == "Player1" || obAName == "Player2") && (obBName == "Player1" || obBName == "Player2") && (time_span.count() > players->getInvincibilityTime()))
 			{
 				cout << "|| Collision!" << endl;
+			
+				// get current amount of remaining player lives
+				players->getPlayersLives(playerOneRemainingLives, playerTwoRemainingLives);
+
+				// decrement each players lives
+					// will be changed in the future
+				playerOneRemainingLives--;
+				playerTwoRemainingLives--;
+
+				// update remaining amount of lives
+				players->setPlayersLives(playerOneRemainingLives, playerTwoRemainingLives);
+
+				// restart invincibility period
+				startTime = high_resolution_clock::now();
 			}
 		}
 	}
+}
+
+void Physics::setPlayerSettings(PlayerSettings* players)
+{
+  this->players = players;
 }

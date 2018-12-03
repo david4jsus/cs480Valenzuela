@@ -11,6 +11,7 @@ using namespace std;
 #include "object.h"
 #include "sound.h"
 #include "objectInfo.h"
+#include "playerSettings.h"
 
 #include <btBulletDynamicsCommon.h>
 
@@ -35,20 +36,24 @@ class Graphics
     // To get a specified object, specified by array index
     Object* GetObject(int index);
     
-	int GetNumberOfObjects();
-	 
-	// Physics 
-	btDiscreteDynamicsWorld* GetDynamicsWorld();
-	 
-	float GetAmbientLightingScale();
-	float SetAmbientLightingScale(float setAmbientLighting);
-	 
-	float GetSpecularScale();
-	float SetSpecularScale(float setSpecularScale);
-	 
-	btRigidBody* GetRigidBody(string objectName);
+		int GetNumberOfObjects();
+		 
+		// Physics 
+		btDiscreteDynamicsWorld* GetDynamicsWorld();
+		 
+		float GetAmbientLightingScale();
+		float SetAmbientLightingScale(float setAmbientLighting);
+		 
+		float GetSpecularScale();
+		float SetSpecularScale(float setSpecularScale);
+		 
+		btRigidBody* GetRigidBody(string objectName);
 	
-	void setCameraStartingPos();
+		// sets the initial starting camera position
+		void setCameraStartingPos();
+
+		// sets current player conditions such as lives remaining
+		void setPlayerSettings(PlayerSettings* players);
 
   private:
     std::string ErrorString(GLenum error);
@@ -69,6 +74,10 @@ class Graphics
     GLint m_vdiffuseColor;
     GLint m_vspecularColor;
     GLint m_vshininess;
+
+
+		std::vector<GLint> vLightMemoryLocations;
+		std::vector<glm::vec4> vLightPositions;
     
     // Per fragment
     string fLightingVertexShaderFilePath;
@@ -81,6 +90,11 @@ class Graphics
     GLint m_fdiffuseColor;
     GLint m_fspecularColor;
     GLint m_fshininess;
+
+    GLint m_flightPos1;
+
+		std::vector<GLint> fLightMemoryLocations;
+		std::vector<glm::vec4> fLightPositions;
 
     std::vector<Object*> m_objects;
 
