@@ -69,15 +69,25 @@ class Graphics
     GLint m_vprojectionMatrix;
     GLint m_vviewMatrix;
     GLint m_vmodelMatrix;
-    GLint m_vlightPos;
+
+		// first light
+    GLint m_vFirstLightPos;
     GLint m_vambientColor;
-    GLint m_vdiffuseColor;
-    GLint m_vspecularColor;
-    GLint m_vshininess;
+    GLint m_vFirstLightDiffuseColor;
+    GLint m_vFirstLightSpecularColor;
+    GLint m_vFirstLightShininess;
 
+		// second light
+		GLint m_vSecondLightPos;
+    GLint m_vSecondLightDiffuseColor;
+    GLint m_vSecondLightSpecularColor;
+    GLint m_vSecondLightShininess;
 
-		std::vector<GLint> vLightMemoryLocations;
-		std::vector<glm::vec4> vLightPositions;
+		// third light
+	  GLint m_vThirdLightPos;
+    GLint m_vThirdLightDiffuseColor;
+    GLint m_vThirdLightSpecularColor;
+    GLint m_vThirdLightShininess;
     
     // Per fragment
     string fLightingVertexShaderFilePath;
@@ -85,20 +95,31 @@ class Graphics
     GLint m_fprojectionMatrix;
     GLint m_fviewMatrix;
     GLint m_fmodelMatrix;
-    GLint m_flightPos;
+
+		// first light
+    GLint m_fFirstLightPos;
     GLint m_fambientColor;
-    GLint m_fdiffuseColor;
-    GLint m_fspecularColor;
-    GLint m_fshininess;
+    GLint m_fFirstLightDiffuseColor;
+    GLint m_fFirstLightSpecularColor;
+    GLint m_fFirstLightShininess;
 
-    GLint m_flightPos1;
+		// second light
+    GLint m_fSecondLightPos;
+		GLint m_fSecondLightDiffuseColor;
+    GLint m_fSecondLightSpecularColor;
+    GLint m_fSecondLightShininess;
 
-		std::vector<GLint> fLightMemoryLocations;
-		std::vector<glm::vec4> fLightPositions;
-
-    std::vector<Object*> m_objects;
-
+		// third light
+		GLint m_fThirdLightPos;
+		GLint m_fThirdLightDiffuseColor;
+    GLint m_fThirdLightSpecularColor;
+    GLint m_fThirdLightShininess;
+		
+		// game sound
     Sound gameSound;
+
+		// objects
+		std::vector<Object*> m_objects;
     
     // Bullet Members
     /*btBroadphaseInterface *broadphase;

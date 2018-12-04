@@ -213,6 +213,10 @@ bool Graphics::Initialize(int width, int height, std::string file)
 	    return false;
 	  }
 
+		/////////////////////////////////////////////////////////////////////////////////////////////////////
+		/* VERTEX SHADER */
+		/////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	  // Locate the projection matrix in the per vertex shader
 	  m_vprojectionMatrix = m_PerVertexShader->GetUniformLocation("projectionMatrix");
 	  if (m_vprojectionMatrix == INVALID_UNIFORM_LOCATION) 
@@ -237,48 +241,82 @@ bool Graphics::Initialize(int width, int height, std::string file)
 	    return false;
 	  }
 	  
-	  // Locate the light position in the per vertex shader
-	  m_vlightPos = m_PerVertexShader->GetUniformLocation("lightPos");
-	  if (m_vlightPos == INVALID_UNIFORM_LOCATION) 
+		// Locate the light position in the per fragment shader
+	  m_vFirstLightPos = m_PerVertexShader->GetUniformLocation("firstLightPos");
+	  if (m_vFirstLightPos == INVALID_UNIFORM_LOCATION)
 	  {
 	    printf("m_vlightPos not found\n");
 	    return false;
 	  }
 	  
-	  // Locate the ambient color in the per vertex shader
+	  // Locate the ambient color in the per fragment shader
 	  m_vambientColor = m_PerVertexShader->GetUniformLocation("ambientColor");
-	  if (m_vambientColor == INVALID_UNIFORM_LOCATION) 
+	  if (m_fambientColor == INVALID_UNIFORM_LOCATION)
 	  {
 	    printf("m_vambientColor not found\n");
 	    return false;
 	  }
 	  
 	  // Locate the diffuse color in the per fragment shader
-	  m_vdiffuseColor = m_PerVertexShader->GetUniformLocation("diffuseColor");
-	  if (m_vdiffuseColor == INVALID_UNIFORM_LOCATION)
+	  m_vFirstLightDiffuseColor = m_PerVertexShader->GetUniformLocation("diffuseColorFirstLight");
+	  if (m_vFirstLightDiffuseColor == INVALID_UNIFORM_LOCATION)
 	  {
 	    printf("m_vdiffuseColor not found\n");
 	    return false;
 	  }
 	  
 	  // Locate the specular color in the per fragment shader
-	  m_vspecularColor = m_PerVertexShader->GetUniformLocation("specularColor");
-	  if (m_vspecularColor == INVALID_UNIFORM_LOCATION)
+	  m_vFirstLightSpecularColor = m_PerVertexShader->GetUniformLocation("specularColorFirstLight");
+	  if (m_vFirstLightSpecularColor == INVALID_UNIFORM_LOCATION)
 	  {
 	    printf("m_vspecularColor not found\n");
 	    return false;
 	  }
 	  
 	  // Locate the shininess in the per fragment shader
-	  m_vshininess = m_PerVertexShader->GetUniformLocation("shininess");
-	  if (m_vshininess == INVALID_UNIFORM_LOCATION)
+	  m_vFirstLightShininess = m_PerVertexShader->GetUniformLocation("shininessFirstLight");
+	  if (m_vFirstLightShininess == INVALID_UNIFORM_LOCATION)
 	  {
 	    printf("m_vshininess not found\n");
 	    return false;
+	  }  
+
+		// Locate the light position in the per fragment shader
+	  m_vSecondLightPos = m_PerVertexShader->GetUniformLocation("SecondLightPos");
+	  if (m_vSecondLightPos == INVALID_UNIFORM_LOCATION)
+	  {
+	    printf("m_vlightPos not found\n");
+	    return false;
 	  }
 	  
-	  // PER FRAGMENT SHADER //
+	  // Locate the diffuse color in the per fragment shader
+	  m_vSecondLightDiffuseColor = m_PerVertexShader->GetUniformLocation("diffuseColorSecondLight");
+	  if (m_vSecondLightDiffuseColor == INVALID_UNIFORM_LOCATION)
+	  {
+	    printf("m_vdiffuseColor not found\n");
+	    return false;
+	  }
 	  
+	  // Locate the specular color in the per fragment shader
+	  m_vSecondLightSpecularColor = m_PerVertexShader->GetUniformLocation("specularColorSecondLight");
+	  if (m_vSecondLightSpecularColor == INVALID_UNIFORM_LOCATION)
+	  {
+	    printf("m_vspecularColor not found\n");
+	    return false;
+	  }
+	  
+	  // Locate the shininess in the per fragment shader
+	  m_vSecondLightShininess = m_PerVertexShader->GetUniformLocation("shininessSecondLight");
+	  if (m_vSecondLightShininess == INVALID_UNIFORM_LOCATION)
+	  {
+	    printf("m_vshininess not found\n");
+	    return false;
+	  }  
+
+		/////////////////////////////////////////////////////////////////////////////////////////////////////
+		/* FRAGMENT SHADER */
+		/////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	  // Locate the projection matrix in the per fragment shader
 	  m_fprojectionMatrix = m_PerFragmentShader->GetUniformLocation("projectionMatrix");
 	  if (m_fprojectionMatrix == INVALID_UNIFORM_LOCATION) 
@@ -304,8 +342,8 @@ bool Graphics::Initialize(int width, int height, std::string file)
 	  }
 	  
 	  // Locate the light position in the per fragment shader
-	  m_flightPos = m_PerFragmentShader->GetUniformLocation("lightPos");
-	  if (m_flightPos == INVALID_UNIFORM_LOCATION)
+	  m_fFirstLightPos = m_PerFragmentShader->GetUniformLocation("firstLightPos");
+	  if (m_fFirstLightPos == INVALID_UNIFORM_LOCATION)
 	  {
 	    printf("m_flightPos not found\n");
 	    return false;
@@ -320,59 +358,61 @@ bool Graphics::Initialize(int width, int height, std::string file)
 	  }
 	  
 	  // Locate the diffuse color in the per fragment shader
-	  m_fdiffuseColor = m_PerFragmentShader->GetUniformLocation("diffuseColor");
-	  if (m_fdiffuseColor == INVALID_UNIFORM_LOCATION)
+	  m_fFirstLightDiffuseColor = m_PerFragmentShader->GetUniformLocation("diffuseColorFirstLight");
+	  if (m_fFirstLightDiffuseColor == INVALID_UNIFORM_LOCATION)
 	  {
 	    printf("m_fdiffuseColor not found\n");
 	    return false;
 	  }
 	  
 	  // Locate the specular color in the per fragment shader
-	  m_fspecularColor = m_PerFragmentShader->GetUniformLocation("specularColor");
-	  if (m_fspecularColor == INVALID_UNIFORM_LOCATION)
+	  m_fFirstLightSpecularColor = m_PerFragmentShader->GetUniformLocation("specularColorFirstLight");
+	  if (m_fFirstLightSpecularColor == INVALID_UNIFORM_LOCATION)
 	  {
 	    printf("m_fspecularColor not found\n");
 	    return false;
 	  }
 	  
 	  // Locate the shininess in the per fragment shader
-	  m_fshininess = m_PerFragmentShader->GetUniformLocation("shininess");
-	  if (m_fshininess == INVALID_UNIFORM_LOCATION)
+	  m_fFirstLightShininess = m_PerFragmentShader->GetUniformLocation("shininessFirstLight");
+	  if (m_fFirstLightShininess == INVALID_UNIFORM_LOCATION)
 	  {
 	    printf("m_fshininess not found\n");
 	    return false;
 	  }  
 
-
-
-
-
-
-
-
-
-
-
-
-
-	  
 	  // Locate the light position in the per fragment shader
-	  m_flightPos1 = m_PerFragmentShader->GetUniformLocation("lightPos1");
-	  if (m_flightPos1 == INVALID_UNIFORM_LOCATION)
+	  m_fSecondLightPos = m_PerFragmentShader->GetUniformLocation("secondLightPos");
+	  if (m_fSecondLightPos == INVALID_UNIFORM_LOCATION)
 	  {
-	    printf("m_flightPos1 not found\n");
+	    printf("m_flightPos not found\n");
 	    return false;
 	  }
 	  
-
-
-
-
-
-
-
-
+		// Locate the diffuse color in the per fragment shader
+	  m_fSecondLightDiffuseColor = m_PerFragmentShader->GetUniformLocation("diffuseColorSecondLight");
+	  if (m_fSecondLightDiffuseColor == INVALID_UNIFORM_LOCATION)
+	  {
+	    printf("m_fdiffuseColor not found\n");
+	    return false;
+	  }
 	  
+	  // Locate the specular color in the per fragment shader
+	  m_fSecondLightSpecularColor = m_PerFragmentShader->GetUniformLocation("specularColorSecondLight");
+	  if (m_fSecondLightSpecularColor == INVALID_UNIFORM_LOCATION)
+	  {
+	    printf("m_fspecularColor not found\n");
+	    return false;
+	  }
+	  
+	  // Locate the shininess in the per fragment shader
+	  m_fSecondLightShininess = m_PerFragmentShader->GetUniformLocation("shininessSecondLight");
+	  if (m_fSecondLightShininess == INVALID_UNIFORM_LOCATION)
+	  {
+	    printf("m_fshininess not found\n");
+	    return false;
+	  } 
+
 	  //enable depth testing
 	  glEnable(GL_DEPTH_TEST);
 	  glDepthFunc(GL_LESS);
@@ -417,30 +457,34 @@ void Graphics::Render()
 	  }
 	  
 	  // Send light position
-	  glUniform4f(m_flightPos, 20, 0, 0, 1.0);
-
-
-
-
-
-	  // Send light position
-	  glUniform4f(m_flightPos1, -20, 0, 0, 1.0);
-
-
-
-
+	  glUniform4f(m_fFirstLightPos, 25, 0, 0, 1.0);
 	  
 	  // Send ambient color
 	  glUniform4f(m_fambientColor, ambientLightingScale, ambientLightingScale, ambientLightingScale, 1.0);
 	  
 	  // Send diffuse color
-	  glUniform4f(m_fdiffuseColor, 1.0, 1.0, 1.0, 1.0);
+	  glUniform4f(m_fFirstLightDiffuseColor, 1.0, 1.0, 1.0, 1.0);
 	  
 	  // Send specular color
-	  glUniform4f(m_fspecularColor, specularScale, specularScale, specularScale, 1.0);
+	  glUniform4f(m_fFirstLightSpecularColor, specularScale, specularScale, specularScale, 1.0);
 	  
 	  // Send shininess
-	  glUniform1f(m_fshininess, 0.5);
+	  glUniform1f(m_fFirstLightShininess, 0.5);
+
+		// Send light position
+	  glUniform4f(m_fSecondLightPos, -25, 0, 0, 1.0);
+
+	  // Send ambient color
+	  glUniform4f(m_fambientColor, ambientLightingScale, ambientLightingScale, ambientLightingScale, 1.0);
+	  
+	  // Send diffuse color
+	  glUniform4f(m_fSecondLightDiffuseColor, 1.0, 1.0, 1.0, 1.0);
+	  
+	  // Send specular color
+	  glUniform4f(m_fSecondLightSpecularColor, specularScale, specularScale, specularScale, 1.0);
+	  
+	  // Send shininess
+	  glUniform1f(m_fSecondLightShininess, 0.5);
   }
   else // PER VERTEX SHADERS
   {
@@ -458,21 +502,35 @@ void Graphics::Render()
 	  }
 	  
 	  // Send light position
-	  glUniform4f(m_vlightPos, 0, 5, 0, 1.0);
+	  glUniform4f(m_vFirstLightPos, 0, 5, 0, 1.0);
 	  
 	  // Send ambient color
 	  glUniform4f(m_vambientColor, ambientLightingScale, ambientLightingScale, ambientLightingScale, 1.0);
 	  
 	  // Send diffuse color
-	  glUniform4f(m_vdiffuseColor, 1.0, 1.0, 1.0, 1.0);
+	  glUniform4f(m_vFirstLightDiffuseColor, 1.0, 1.0, 1.0, 1.0);
 	  
 	  // Send specular color
-	  glUniform4f(m_vspecularColor, specularScale, specularScale, specularScale, 1.0);
+	  glUniform4f(m_vFirstLightSpecularColor, specularScale, specularScale, specularScale, 1.0);
 	  
 	  // Send shininess
-	  glUniform1f(m_vshininess, 0.5);
-  }
+	  glUniform1f(m_vFirstLightShininess, 0.5);
 
+	  // Send light position
+	  glUniform4f(m_vSecondLightPos, 0, 5, 0, 1.0);
+	  
+	  // Send ambient color
+	  glUniform4f(m_vambientColor, ambientLightingScale, ambientLightingScale, ambientLightingScale, 1.0);
+	  
+	  // Send diffuse color
+	  glUniform4f(m_vSecondLightDiffuseColor, 1.0, 1.0, 1.0, 1.0);
+	  
+	  // Send specular color
+	  glUniform4f(m_vSecondLightSpecularColor, specularScale, specularScale, specularScale, 1.0);
+	  
+	  // Send shininess
+	  glUniform1f(m_vSecondLightShininess, 0.5);
+  }
 
   // Get any errors from OpenGL
   auto error = glGetError();
