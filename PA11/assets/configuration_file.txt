@@ -92,4 +92,28 @@ object mass: 0.0
 object collision shape: plane
 object collision size: 1.0, 0.0, 0.0, 0.0
 
+object file name: Jouster.obj
+object position: 0.0, 10.0, 20.0
+object orientation: 0.0, 0.0, 0.0, 1.0
+object scale: 1.0
+object mass: 1.0
+object collision shape: box
+object collision size: 0.0, 0.0, 0.0
+
+object file name: JoustHandle.obj
+object position: 0.0, 10.0, -5.0
+object orientation: 0.0, 0.0, 0.0, 1.0
+object scale: 1.0
+object mass: 1.0
+object collision shape: box
+object collision size: 0.0, 0.0, 0.0
+
+object file name: JoustTip.obj
+object position: 0.0, 10.0, -5.0
+object orientation: 0.0, 0.0, 0.0, 1.0
+object scale: 1.0
+object mass: 1.0
+object collision shape: box
+object collision size: 0.0, 0.0, 0.0
+
 
