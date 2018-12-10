@@ -140,7 +140,20 @@ void Engine::Run()
 
       ImGui::Separator();
       ImGui::Separator();
-      
+
+			// display restart game button when one player dies
+			if(playerOneLives <= 0 || playerTwoLives <= 0)
+			{
+				if(ImGui::Button("Restart Game"))
+				{
+					// restart game
+					restartGame();
+				}
+			}    
+			
+			ImGui::Separator();
+      ImGui::Separator();
+
       ImGui::End();
     }
     /////////////////////////////////////////////////
@@ -202,7 +215,7 @@ void Engine::loadConfigurationFileInfo()
     
     // check if entire file has been read
     if(fin.eof() == true)
-    {
+    {	
       break;
     }
     
@@ -413,4 +426,19 @@ void Engine::loadConfigurationFileInfo()
 void Engine::setPlayerSettings()
 {
   m_graphics->setPlayerSettings(players);
+}
+
+void Engine::restartGame()
+{
+	// local variables
+	int playerOneLives, playerTwoLives;
+
+	// reset players lives
+	playerOneLives = 3;
+	playerTwoLives = 3;
+	players->setPlayersLives(playerOneLives, playerTwoLives);
+
+	// reset players position
+	GetObjectRigidBody("Player1")->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(10, 10, 0)));
+	GetObjectRigidBody("Player2")->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(-10, 10, 0)));
 }

@@ -35,6 +35,8 @@ class Engine
     SDL_Event m_event;
     bool m_running;
     unsigned int m_DT;
+
+		void restartGame();
     
   private:
   

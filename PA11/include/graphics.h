@@ -121,13 +121,6 @@ class Graphics
 		// objects
 		std::vector<Object*> m_objects;
     
-    // Bullet Members
-    /*btBroadphaseInterface *broadphase;
-    btDefaultCollisionConfiguration *collisionConfig;
-    btCollisionDispatcher *dispatcher;
-    btSequentialImpulseConstraintSolver *solver;
-    btDiscreteDynamicsWorld *dynamicsWorld;*/
-    
     // Shader switching
     bool shaderToggle;
     

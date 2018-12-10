@@ -67,7 +67,7 @@ Object::Object(std::string filename, Graphics* graphics, ObjectInfo anObject) : 
     else if(anObject.collisionShapeType == "plane")
 	{
 	  // create a plane collider
-      colliderShape = new btStaticPlaneShape(anObject.planeDirection, anObject.planeConstant);
+    colliderShape = new btStaticPlaneShape(anObject.planeDirection, anObject.planeConstant);
     
     // set orientation and position of object
     shapeMotionState = new btDefaultMotionState(btTransform(anObject.objectOrientation, anObject.objectPos));
