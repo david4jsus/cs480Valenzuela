@@ -432,6 +432,18 @@ void Graphics::Update(unsigned int dt)
   }
   
   m_physics->Update();
+
+	// reposition player 1's weapon 
+	btMotionState* playerOneBody = GetRigidBody("Player1")->getMotionState();
+	btTransform playerOneOrientationPosiiton;
+	playerOneBody->getWorldTransform(playerOneOrientationPosiiton);
+	GetRigidBody("JousterPlayer1")->setCenterOfMassTransform(playerOneOrientationPosiiton);
+
+	// reposition player 2's weapon 
+	btMotionState* playerTwoBody = GetRigidBody("Player2")->getMotionState();
+	btTransform playerTwoOrientationPosiiton;
+	playerTwoBody->getWorldTransform(playerTwoOrientationPosiiton);
+	GetRigidBody("JousterPlayer2")->setCenterOfMassTransform(playerTwoOrientationPosiiton);
 }
 
 void Graphics::Render()
@@ -457,7 +469,7 @@ void Graphics::Render()
 	  }
 	  
 	  // Send light position
-	  glUniform4f(m_fFirstLightPos, 25, 0, 0, 1.0);
+	  glUniform4f(m_fFirstLightPos, 25, 5, 0, 1.0);
 	  
 	  // Send ambient color
 	  glUniform4f(m_fambientColor, ambientLightingScale, ambientLightingScale, ambientLightingScale, 1.0);
@@ -472,7 +484,7 @@ void Graphics::Render()
 	  glUniform1f(m_fFirstLightShininess, 0.5);
 
 		// Send light position
-	  glUniform4f(m_fSecondLightPos, -25, 0, 0, 1.0);
+	  glUniform4f(m_fSecondLightPos, -25, 5, 0, 1.0);
 
 	  // Send ambient color
 	  glUniform4f(m_fambientColor, ambientLightingScale, ambientLightingScale, ambientLightingScale, 1.0);

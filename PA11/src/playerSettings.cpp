@@ -2,8 +2,8 @@
 
 PlayerSettings::PlayerSettings()
 {
-  playerOneRemainingLives = 100;
-  playerTwoRemainingLives = 100;
+  playerOneRemainingLives = 3;
+  playerTwoRemainingLives = 3;
   invincibilityTime = 1000.0;
 }
 
