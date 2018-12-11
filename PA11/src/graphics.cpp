@@ -41,6 +41,10 @@ Graphics::Graphics(string vLightingVertFilePath, string vLightingFragFilePath, s
   
   // information required to create each object
   objectsInfo = allObjectsInfo;
+  
+  // Initial light positions
+  light1Pos = glm::vec3( 25, 5, 0);
+  light2Pos = glm::vec3(-25, 5, 0);
 }
 
 Graphics::~Graphics()
@@ -444,6 +448,10 @@ void Graphics::Update(unsigned int dt)
 	btTransform playerTwoOrientationPosiiton;
 	playerTwoBody->getWorldTransform(playerTwoOrientationPosiiton);
 	GetRigidBody("JousterPlayer2")->setCenterOfMassTransform(playerTwoOrientationPosiiton);
+	
+	// Update light positions per player
+	light1Pos = GetObjectByName("Player1")->GetObjectPosition();
+	light2Pos = GetObjectByName("Player2")->GetObjectPosition();
 }
 
 void Graphics::Render()
@@ -469,7 +477,7 @@ void Graphics::Render()
 	  }
 	  
 	  // Send light position
-	  glUniform4f(m_fFirstLightPos, 25, 5, 0, 1.0);
+	  glUniform4f(m_fFirstLightPos, light1Pos.x, light1Pos.y, light1Pos.z, 1.0);
 	  
 	  // Send ambient color
 	  glUniform4f(m_fambientColor, ambientLightingScale, ambientLightingScale, ambientLightingScale, 1.0);
@@ -484,7 +492,7 @@ void Graphics::Render()
 	  glUniform1f(m_fFirstLightShininess, 0.5);
 
 		// Send light position
-	  glUniform4f(m_fSecondLightPos, -25, 5, 0, 1.0);
+	  glUniform4f(m_fSecondLightPos, light2Pos.x, light2Pos.y, light2Pos.z, 1.0);
 
 	  // Send ambient color
 	  glUniform4f(m_fambientColor, ambientLightingScale, ambientLightingScale, ambientLightingScale, 1.0);
@@ -576,6 +584,20 @@ Camera* Graphics::GetCamera()
 Object* Graphics::GetObject(int index)
 {
   return m_objects[index];
+}
+
+Object* Graphics::GetObjectByName(string name)
+{
+	for (int i = 0; i < m_objects.size(); i++)
+	{
+		Object* obj = GetObject(i);
+		if (obj->GetObjectName() == name)
+		{
+			return obj;
+		}
+	}
+	
+	return NULL;
 }
 
 int Graphics::GetNumberOfObjects()
