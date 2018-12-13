@@ -65,7 +65,7 @@ bool Physics::Initialize()
 	dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, collisionConfig);
 	collisionWorld = new btCollisionWorld(dispatcher, broadphase, collisionConfig);
 	
-	dynamicsWorld->setGravity(btVector3(0.0, -0.001, 0.0));
+	dynamicsWorld->setGravity(m_graphics->getGravity());
 }
 
 //== Update function ==//
