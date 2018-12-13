@@ -12,17 +12,6 @@ Input::~Input()
 
 bool Input::Initialize()
 {
-   movingRight    = false;
-   movingLeft     = false;
-   movingForward  = false;
-   movingBackward = false;
-   movingUp       = false;
-   movingDown     = false;
-   rotatingLeft   = false;
-   rotatingRight  = false;
-   rotatingUp     = false;
-   rotatingDown   = false;
-
 	 playerOneMoveForward = false;
 	 playerOneMoveBackward = false;
 	 playerOneMoveLeft = false;
@@ -61,112 +50,59 @@ void Input::KeydownEvents(SDL_Event m_event, bool &running)
 
       // Basic WASDEQ Movement
       // Move Camera Left
-      case SDLK_a:
-         movingLeft = true;
-         movingRight = false;
+      case SDLK_w:
+		     playerOneMoveForward = true;
+		     playerOneMoveBackward = false;
          break;
 
       // Move Camera Right
-      case SDLK_d:
-         movingRight = true; 
-         movingLeft = false;
+      case SDLK_a:
+		     playerOneMoveLeft = true;
+		     playerOneMoveRight = false;
          break;
 
       // Move Camera Forward
-      case SDLK_w:
-         movingForward = true;
-         movingBackward = false;
+      case SDLK_s:
+		     playerOneMoveBackward = true;
+		     playerOneMoveForward = false;
          break;
 
       // Move Camera Backward
-      case SDLK_s:
-         movingBackward = true;
-         movingForward  = false;
+      case SDLK_d:
+		     playerOneMoveRight = true;
+		     playerOneMoveLeft = false;
          break;
 
       // Move Camera Up
       case SDLK_e:
-         movingUp   = true;
-         movingDown = false;
-         break;
-
-      // Move Camera Down
-      case SDLK_q:
-         movingDown = true;
-         movingUp   = false;
-         break;
-
-      // Basic Camera Rotations
-      // Rotate Camera Left
-       case SDLK_LEFT:
-         rotatingLeft  = true;
-         rotatingRight = false;
-         break;
-
-      // Rotate Camera Right
-      case SDLK_RIGHT:
-         rotatingRight = true;
-         rotatingLeft  = false;
-         break; 
-
-      // Rotate Camera Up
-      case SDLK_UP:
-         rotatingUp   = true;
-         rotatingDown = false;
-         break;
-
-      // Rotate Camera Down
-      case SDLK_DOWN:
-         rotatingDown = true;
-         rotatingUp   = false;
-         break;
-
-			// Move player one forward
-			case SDLK_i:
-		    playerOneMoveForward = true;
-		    playerOneMoveBackward = false;
-         break;
-
-			// Move player one left
-			case SDLK_j:
-		    playerOneMoveLeft = true;
-		    playerOneMoveRight = false;
-         break;
-
-			// Move player one backward
-			case SDLK_k:
-		    playerOneMoveBackward = true;
-		    playerOneMoveForward = false;
-         break;
-
-			// Move player one right
-			case SDLK_l:
-		    playerOneMoveRight = true;
-		    playerOneMoveLeft = false;
          break;
 
 			// Move player two forward
-			case SDLK_t:
-		    playerTwoMoveForward = true;
-		    playerTwoMoveBackward = false;
+			case SDLK_KP_8:
+		     playerTwoMoveForward = true;
+		     playerTwoMoveBackward = false;
          break;
 
 			// Move player two left
-			case SDLK_f:
-		    playerTwoMoveLeft = true;
-		    playerTwoMoveRight = false;
+			case SDLK_KP_4:
+		     playerTwoMoveLeft = true;
+		     playerTwoMoveRight = false;
          break;
 
 			// Move player two backward
-			case SDLK_g:
-		    playerTwoMoveBackward = true;
-		    playerTwoMoveForward = false;
+			case SDLK_KP_2:
+		     playerTwoMoveBackward = true;
+		     playerTwoMoveForward = false;
          break;
 
 			// Move player two right
-			case SDLK_h:
-		    playerTwoMoveRight = true;
-		    playerTwoMoveLeft = false;
+			case SDLK_KP_6:
+		     playerTwoMoveRight = true;
+		     playerTwoMoveLeft = false;
+         break;
+
+			// player two jump
+			case SDLK_KP_0:
          break;
 
       // Shader Toggle (Vertex/Fragment)
@@ -175,7 +111,7 @@ void Input::KeydownEvents(SDL_Event m_event, bool &running)
          break;
 
       // Increase Ambient Light
-      case SDLK_KP_8:
+      /*case SDLK_KP_8:
          if(m_graphics->GetAmbientLightingScale() < 1.0)
          {
             m_graphics->SetAmbientLightingScale(m_graphics->GetAmbientLightingScale() + 0.1);
@@ -204,7 +140,7 @@ void Input::KeydownEvents(SDL_Event m_event, bool &running)
          {
             m_graphics->SetSpecularScale(m_graphics->GetSpecularScale() - 0.1);
          }
-         break; 
+         break; */
 
       default:
          break;
@@ -215,89 +151,36 @@ void Input::KeyupEvents(SDL_Event m_event)
 {
    switch(m_event.key.keysym.sym)
    {
-      // Basic WASDEQ Movement
-      // Move Camera Left
-      case SDLK_a:
-         movingLeft = false;
-         break;
-
-      // Move Camera Right
-      case SDLK_d:
-         movingRight = false;
-         break;
-
-      // Move Camera Forward
-      case SDLK_w:
-         movingForward = false;
-         break;
-
-      // Move Camera Backward
-      case SDLK_s:
-         movingBackward = false;
-         break;
-
-      // Move Camera Up
-      case SDLK_e:
-         movingUp = false;
-         break;
-
-      // Move Camera Down
-      case SDLK_q:
-         movingDown = false;
-         break;
-
-      // Basic Camera Rotations
-      // Rotate Camera Left
-       case SDLK_LEFT:
-         rotatingLeft = false;
-         break;
-
-      // Rotate Camera Right
-      case SDLK_RIGHT:
-         rotatingRight = false;
-         break; 
-
-      // Rotate Camera Up
-      case SDLK_UP:
-         rotatingUp = false;
-         break;
-
-      // Rotate Camera Down
-      case SDLK_DOWN:
-         rotatingDown = false;
-         break;
-
 			// stop moving player one forward
-			case SDLK_i:
+			case SDLK_w:
 				playerOneMoveForward = false;
 				break;
 
-			case SDLK_j:
+			case SDLK_a:
 				playerOneMoveLeft = false;
 				break;
 
-			case SDLK_k:
+			case SDLK_s:
 				playerOneMoveBackward = false;
 				break;
 
-			case SDLK_l:
+			case SDLK_d:
 				playerOneMoveRight = false;
 				break;
 
-
-			case SDLK_t:
+			case SDLK_KP_8:
 				playerTwoMoveForward = false;
 				break;
 
-			case SDLK_f:
+			case SDLK_KP_4:
 				playerTwoMoveLeft = false;
 				break;
 
-			case SDLK_g:
+			case SDLK_KP_2:
 				playerTwoMoveBackward = false;
 				break;
 
-			case SDLK_h:
+			case SDLK_KP_6:
 				playerTwoMoveRight = false;
 				break;
 
@@ -309,7 +192,7 @@ void Input::KeyupEvents(SDL_Event m_event)
 void Input::CheckCameraMovement(unsigned int m_DT)
 {
    // Moving Left
-   if (movingLeft)
+   /*if (movingLeft)
    {
       m_graphics->GetCamera()->updateCamPosYNeg(m_DT * 0.05);
    }
@@ -366,7 +249,7 @@ void Input::CheckCameraMovement(unsigned int m_DT)
    else if (rotatingDown)   // Rotate camera down
    {
       m_graphics->GetCamera()->updateCamRotPitch(m_DT * -0.1);
-   }
+   }*/
 }
 
 void Input::setGraphics(Graphics *engineGraphics)

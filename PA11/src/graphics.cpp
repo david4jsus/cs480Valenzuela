@@ -49,36 +49,6 @@ Graphics::Graphics(string vLightingVertFilePath, string vLightingFragFilePath, s
 
 Graphics::~Graphics()
 {
-    /*if( dynamicsWorld != NULL )
-    {
-        delete dynamicsWorld;
-        dynamicsWorld = NULL;
-    }
-    
-    if( solver != NULL )
-    {
-        delete solver;
-        solver = NULL;
-    }
-    
-    if( dispatcher != NULL )
-    {
-        delete dispatcher;
-        dispatcher = NULL;
-    }
-    
-    if( collisionConfig != NULL )
-    {
-        delete collisionConfig;
-        collisionConfig = NULL;
-    }
-    
-    if( broadphase != NULL )
-    {
-        delete broadphase;
-        broadphase = NULL;
-    }*/
-    
     if (m_camera != NULL)
     {
     	delete m_camera;
@@ -438,16 +408,19 @@ void Graphics::Update(unsigned int dt)
   m_physics->Update();
 
 	// reposition player 1's weapon 
-	btMotionState* playerOneBody = GetRigidBody("Player1")->getMotionState();
-	btTransform playerOneOrientationPosiiton;
-	playerOneBody->getWorldTransform(playerOneOrientationPosiiton);
-	GetRigidBody("JousterPlayer1")->setCenterOfMassTransform(playerOneOrientationPosiiton);
+	//GetRigidBody("Player1")->setCollisionFlags(btCollisionObject::CF_STATIC_OBJECT);
+	//btMotionState* playerOneBody = GetRigidBody("Player1")->getMotionState();
+	//btTransform playerOneOrientationPosiiton;
+	//playerOneBody->getWorldTransform(playerOneOrientationPosiiton);
+	//GetRigidBody("JousterPlayer1")->setCenterOfMassTransform(playerOneOrientationPosiiton);
+	//GetRigidBody("JousterPlayer1")->setWorldTransform(playerOneOrientationPosiiton);
+	//GetRigidBody("JousterPlayer1")->getMotionState()->setWorldTransform(playerOneOrientationPosiiton);
+	//GetRigidBody("JousterPlayer1")->setMotionState(playerOneBody);
 
-	// reposition player 2's weapon 
-	btMotionState* playerTwoBody = GetRigidBody("Player2")->getMotionState();
-	btTransform playerTwoOrientationPosiiton;
-	playerTwoBody->getWorldTransform(playerTwoOrientationPosiiton);
-	GetRigidBody("JousterPlayer2")->setCenterOfMassTransform(playerTwoOrientationPosiiton);
+	//btMotionState* playerTwoBody = GetRigidBody("Player2")->getMotionState();
+	//btTransform playerTwoOrientationPosiiton;
+	//playerTwoBody->getWorldTransform(playerTwoOrientationPosiiton);
+	//GetRigidBody("JousterPlayer2")->setCenterOfMassTransform(playerTwoOrientationPosiiton);
 	
 	// Update light positions per player
 	light1Pos = GetObjectByName("Player1")->GetObjectPosition();
