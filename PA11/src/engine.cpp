@@ -140,7 +140,33 @@ void Engine::Run()
 
       ImGui::Separator();
       ImGui::Separator();
-      
+
+			if(playerOneLives <= 0)
+			{
+				ImGui::Text("Player 2 wins!");
+			}
+
+			else if(playerTwoLives <= 0)
+			{
+				ImGui::Text("Player 1 wins!");
+			}
+
+			ImGui::Separator();
+      ImGui::Separator();
+
+			// display restart game button when one player dies
+			if(playerOneLives <= 0 || playerTwoLives <= 0)
+			{
+				if(ImGui::Button("Restart Game"))
+				{
+					// restart game
+					restartGame();
+				}
+			}    
+			
+			ImGui::Separator();
+      ImGui::Separator();
+
       ImGui::End();
     }
     /////////////////////////////////////////////////
@@ -202,7 +228,7 @@ void Engine::loadConfigurationFileInfo()
     
     // check if entire file has been read
     if(fin.eof() == true)
-    {
+    {	
       break;
     }
     
@@ -329,6 +355,13 @@ void Engine::loadConfigurationFileInfo()
       // get object mass
       fin >> anObject.mass;
     }
+
+    // check if we are about to read in object bounciness (restitution) information
+    else if(configFileInfo == "restitution:")
+    {
+      // get object mass
+      fin >> anObject.restitution;
+    }
     
     // check if we are about to read in object collision shape information
     else if(configFileInfo == "shape:")
@@ -356,11 +389,6 @@ void Engine::loadConfigurationFileInfo()
         
         // set box collision size
         anObject.boxSize = btVector3(xAxisInfo, yAxisInfo, zAxisInfo);
-        
-        // default other values
-        anObject.sphereRadius = 0.0;
-        anObject.planeDirection = btVector3(0.0, 0.0, 0.0);
-        anObject.planeConstant = 0.0;
       }
       
       // get sphere collision size
@@ -368,11 +396,6 @@ void Engine::loadConfigurationFileInfo()
       {
         // get radius size for sphere
         fin >> anObject.sphereRadius;
-        
-        // default other values
-        anObject.boxSize = btVector3(0.0, 0.0, 0.0);
-        anObject.planeDirection = btVector3(0.0, 0.0, 0.0);
-        anObject.planeConstant = 0.0;
       }
       
       // get plane collision direction
@@ -395,11 +418,17 @@ void Engine::loadConfigurationFileInfo()
         
         // set plane collision direction
         anObject.planeDirection = btVector3(xAxisInfo, yAxisInfo, zAxisInfo);
-        
-        // default other values
-        anObject.boxSize = btVector3(0.0, 0.0, 0.0);
-        anObject.sphereRadius = 0.0;
       }
+
+			else if(anObject.collisionShapeType == "capsule")
+			{
+				// get capsule raidus
+				fin >> anObject.capsuleRadius;
+				fin >> configFileInfo;
+
+				// get capsule height
+				fin >> anObject.capsuleHeight;
+			}
       
       // store object onto list of objects
       allObjectsInfo.push_back(anObject);
@@ -413,4 +442,19 @@ void Engine::loadConfigurationFileInfo()
 void Engine::setPlayerSettings()
 {
   m_graphics->setPlayerSettings(players);
+}
+
+void Engine::restartGame()
+{
+	// local variables
+	int playerOneLives, playerTwoLives;
+
+	// reset players lives
+	playerOneLives = 3;
+	playerTwoLives = 3;
+	players->setPlayersLives(playerOneLives, playerTwoLives);
+
+	// reset players position
+	GetObjectRigidBody("Player1")->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(10, 10, 0)));
+	GetObjectRigidBody("Player2")->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(-10, 10, 0)));
 }

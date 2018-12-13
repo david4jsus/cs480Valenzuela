@@ -1,8 +1,8 @@
 GROUP PROJECT CONFIGURATION FILE
 
 Per Vertex Lighting Shaders
-../assets/shaders/vLightingVertex.shader
-../assets/shaders/vLightingFragment.shader
+../assets/shaders/ToonVertex.shader
+../assets/shaders/ToonFragment.shader
 
 Per Fragment Lighting Shaders
 ../assets/shaders/fLightingVertex.shader
@@ -21,6 +21,7 @@ NOTES ON COLLISION SHAPE SIZES
 box: takes in a x, y, and z axis length
 sphere: takes in a radius size
 plane: takes in a direction for the normal and then a plane constant. For example, btVector3(0, 1, 0) points and normal upwards and creates a ground. Plane constants can be kept at 0.0.
+capsule: takes in a raidus and a height
 
 Box example
 box
@@ -35,28 +36,36 @@ plane
 0.0, 1.0, 0.0, 0.0
 First three numbers are for the plane direction.
 
+Capsule example
+capsule
+2.0, 5.0
+First number is radius and second number is height.
+
 Objects Information
 object file name: Disboard.obj
 object position: 0.0, -10.0, 0.0
 object orientation: 0.0, 0.0, 0.0, 1.0
 object scale: 1.0
 object mass: 0.0
+object restitution: 1.0
 object collision shape: plane
 object collision size: 0.0, 1.0, 0.0, 0.0
 
 object file name: Player1.obj
-object position: 0.0, 10.0, 0.0
+object position: 10.0, 10.0, 0.0
 object orientation: 0.0, 0.0, 0.0, 1.0
 object scale: 0.05
 object mass: 1.0
+object restitution: 1.0
 object collision shape: sphere
 object collision size: 2.0
 
 object file name: Player2.obj
-object position: 0.0, 10.0, 0.0
+object position: -10.0, 10.0, 0.0
 object orientation: 0.0, 0.0, 0.0, 1.0
 object scale: 0.05
 object mass: 1.0
+object restitution: 1.0
 object collision shape: sphere
 object collision size: 2.0
 
@@ -65,6 +74,7 @@ object position: 0.0, 0.0, -45.0
 object orientation: 0.0, 0.0, 0.0, 1.0
 object scale: 0.0
 object mass: 0.0
+object restitution: 1.0
 object collision shape: plane
 object collision size: 0.0, 0.0, 1.0, 0.0
 
@@ -73,6 +83,7 @@ object position: 0.0, 0.0, 45.0
 object orientation: 0.0, 0.0, 0.0, 1.0
 object scale: 0.0
 object mass: 0.0
+object restitution: 1.0
 object collision shape: plane
 object collision size: 0.0, 0.0, -1.0, 0.0
 
@@ -81,6 +92,7 @@ object position: 40.0, 0.0, 0.0
 object orientation: 0.0, 0.0, 0.0, 1.0
 object scale: 0.0
 object mass: 0.0
+object restitution: 1.0
 object collision shape: plane
 object collision size: -1.0, 0.0, 0.0, 0.0
 
@@ -89,31 +101,8 @@ object position: -40.0, 0.0, 0.0
 object orientation: 0.0, 0.0, 0.0, 1.0
 object scale: 0.0
 object mass: 0.0
+object restitution: 1.0
 object collision shape: plane
 object collision size: 1.0, 0.0, 0.0, 0.0
-
-object file name: Jouster.obj
-object position: 0.0, 10.0, 20.0
-object orientation: 0.0, 0.0, 0.0, 1.0
-object scale: 1.0
-object mass: 1.0
-object collision shape: box
-object collision size: 0.0, 0.0, 0.0
-
-object file name: JoustHandle.obj
-object position: 0.0, 10.0, -5.0
-object orientation: 0.0, 0.0, 0.0, 1.0
-object scale: 1.0
-object mass: 1.0
-object collision shape: box
-object collision size: 0.0, 0.0, 0.0
-
-object file name: JoustTip.obj
-object position: 0.0, 10.0, -5.0
-object orientation: 0.0, 0.0, 0.0, 1.0
-object scale: 1.0
-object mass: 1.0
-object collision shape: box
-object collision size: 0.0, 0.0, 0.0
 
 

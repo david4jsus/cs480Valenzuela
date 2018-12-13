@@ -36,6 +36,8 @@ class Graphics
     // To get a specified object, specified by array index
     Object* GetObject(int index);
     
+    Object* GetObjectByName(string name);
+    
 		int GetNumberOfObjects();
 		 
 		// Physics 
@@ -121,22 +123,12 @@ class Graphics
 		// objects
 		std::vector<Object*> m_objects;
     
-    // Bullet Members
-    /*btBroadphaseInterface *broadphase;
-    btDefaultCollisionConfiguration *collisionConfig;
-    btCollisionDispatcher *dispatcher;
-    btSequentialImpulseConstraintSolver *solver;
-    btDiscreteDynamicsWorld *dynamicsWorld;*/
-    
     // Shader switching
     bool shaderToggle;
     
     // ambient lighting values
     float ambientLightingScale;
     float specularScale;
-    
-    // list of all rigidbodies from each object
-    //std::vector<btRigidBody*> rigidBodies;
     
     bool meshLoaded;
     
@@ -149,6 +141,10 @@ class Graphics
     
     // information on all objects
     std::vector<ObjectInfo> objectsInfo;
+    
+    // Light positions
+    glm::vec3 light1Pos;
+    glm::vec3 light2Pos;
 };
 
 #endif /* GRAPHICS_H */

@@ -22,6 +22,9 @@ struct ObjectInfo
     
     // object mass
     float mass;
+
+		// object bounciness
+		float restitution;
     
     // collision box parameters
     btVector3 boxSize;
@@ -32,6 +35,9 @@ struct ObjectInfo
     // collision plane parameters
     btVector3 planeDirection;
     btScalar planeConstant;
+
+		// collision capsule parameters
+		btScalar capsuleRadius, capsuleHeight;
 };
 
 #endif // OBJECT_INFO_H
