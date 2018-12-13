@@ -23,7 +23,7 @@ class Graphics
   public:
     Graphics();
     Graphics(string vLightingVertFilePath, string vLightingFragFilePath, string fLightingVertFilePath, string fLightingFragFilePath, glm::vec3 storedEngineStartingCameraPos, 
-             float storedEngineYaw, float storedEnginePitch, btVector3 gravityDirection, std::vector<ObjectInfo> allObjectsInfo);
+             float storedEngineYaw, float storedEnginePitch, btVector3 gravityDirection, float jumpHeight, std::vector<ObjectInfo> allObjectsInfo);
     ~Graphics();
     bool Initialize(int width, int height, std::string file);
     void Update(unsigned int dt);
@@ -59,6 +59,9 @@ class Graphics
 
 		// gets gravity direction
 		btVector3 getGravity();
+
+		// gets jump height
+		float getJumpHeight();
 
   private:
     std::string ErrorString(GLenum error);
@@ -151,6 +154,9 @@ class Graphics
 
 		// gravity direction
 		btVector3 gravityDirection;
+
+		// jump height
+		float jumpHeight;
 };
 
 #endif /* GRAPHICS_H */
