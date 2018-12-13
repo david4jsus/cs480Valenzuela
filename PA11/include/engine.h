@@ -78,6 +78,9 @@ class Engine
       // camera starting orientation
     float storedEngineYaw;
     float storedEnginePitch;
+
+			// gravity direction
+		btVector3 gravityDirection;
     
       // information on all objects
     std::vector<ObjectInfo> allObjectsInfo;

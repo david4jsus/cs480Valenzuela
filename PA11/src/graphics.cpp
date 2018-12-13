@@ -22,7 +22,7 @@ Graphics::Graphics()
 }
 
 Graphics::Graphics(string vLightingVertFilePath, string vLightingFragFilePath, string fLightingVertFilePath, string fLightingFragFilePath, glm::vec3 storedEngineStartingCameraPos, 
-                   float storedEngineYaw, float storedEnginePitch, std::vector<ObjectInfo> allObjectsInfo) : Graphics()
+                   float storedEngineYaw, float storedEnginePitch, btVector3 gravityDirection, std::vector<ObjectInfo> allObjectsInfo) : Graphics()
 {
   // per vertex lighting vertex and fragment shader filepaths
   vLightingVertexShaderFilePath = vLightingVertFilePath;
@@ -45,6 +45,9 @@ Graphics::Graphics(string vLightingVertFilePath, string vLightingFragFilePath, s
   // Initial light positions
   light1Pos = glm::vec3( 25, 5, 0);
   light2Pos = glm::vec3(-25, 5, 0);
+
+	// get gravity direction
+	this->gravityDirection = gravityDirection;
 }
 
 Graphics::~Graphics()
@@ -662,4 +665,9 @@ void Graphics::setCameraStartingPos()
 void Graphics::setPlayerSettings(PlayerSettings* players)
 {
 	m_physics->setPlayerSettings(players);
+}
+
+btVector3 Graphics::getGravity()
+{
+	return gravityDirection;
 }
