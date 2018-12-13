@@ -1,6 +1,5 @@
 #ifndef INPUT_HEADER
 #define INPUT_HEADER
-#include "input.h"
 #include "graphics.h"
 #include "graphics_headers.h"
 #include "window.h"
@@ -34,18 +33,6 @@ class Input {
 
    private:
       Graphics *m_graphics;
-
-      // Keyboard handling
-      bool movingRight;
-      bool movingLeft;
-      bool movingForward;
-      bool movingBackward;
-      bool movingUp;
-      bool movingDown;
-      bool rotatingLeft;
-      bool rotatingRight;
-      bool rotatingUp;
-      bool rotatingDown;
 
 		  // Player one movement handling
 		  bool playerOneMoveForward;

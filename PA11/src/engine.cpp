@@ -355,6 +355,13 @@ void Engine::loadConfigurationFileInfo()
       // get object mass
       fin >> anObject.mass;
     }
+
+    // check if we are about to read in object bounciness (restitution) information
+    else if(configFileInfo == "restitution:")
+    {
+      // get object mass
+      fin >> anObject.restitution;
+    }
     
     // check if we are about to read in object collision shape information
     else if(configFileInfo == "shape:")
@@ -382,11 +389,6 @@ void Engine::loadConfigurationFileInfo()
         
         // set box collision size
         anObject.boxSize = btVector3(xAxisInfo, yAxisInfo, zAxisInfo);
-        
-        // default other values
-        anObject.sphereRadius = 0.0;
-        anObject.planeDirection = btVector3(0.0, 0.0, 0.0);
-        anObject.planeConstant = 0.0;
       }
       
       // get sphere collision size
@@ -394,11 +396,6 @@ void Engine::loadConfigurationFileInfo()
       {
         // get radius size for sphere
         fin >> anObject.sphereRadius;
-        
-        // default other values
-        anObject.boxSize = btVector3(0.0, 0.0, 0.0);
-        anObject.planeDirection = btVector3(0.0, 0.0, 0.0);
-        anObject.planeConstant = 0.0;
       }
       
       // get plane collision direction
@@ -421,11 +418,17 @@ void Engine::loadConfigurationFileInfo()
         
         // set plane collision direction
         anObject.planeDirection = btVector3(xAxisInfo, yAxisInfo, zAxisInfo);
-        
-        // default other values
-        anObject.boxSize = btVector3(0.0, 0.0, 0.0);
-        anObject.sphereRadius = 0.0;
       }
+
+			else if(anObject.collisionShapeType == "capsule")
+			{
+				// get capsule raidus
+				fin >> anObject.capsuleRadius;
+				fin >> configFileInfo;
+
+				// get capsule height
+				fin >> anObject.capsuleHeight;
+			}
       
       // store object onto list of objects
       allObjectsInfo.push_back(anObject);
