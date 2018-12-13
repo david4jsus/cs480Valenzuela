@@ -4,7 +4,7 @@ PlayerSettings::PlayerSettings()
 {
   playerOneRemainingLives = 3;
   playerTwoRemainingLives = 3;
-  invincibilityTime = 1000.0;
+  invincibilityTime = 5000.0;
 }
 
 bool PlayerSettings::Stabbed()
