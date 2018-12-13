@@ -101,10 +101,11 @@ void Engine::Run()
     {
       ImGui_ImplSDL2_ProcessEvent(&m_event); // Dear ImGui input
       m_input->Keyboard(m_event, m_running);
+      m_input->Mouse(m_event);
     }
     
-    m_input->CheckCameraMovement(m_DT);
-		m_input->CheckPlayerMovement();
+    m_input->CheckCamera(m_DT);
+	m_input->CheckPlayerMovement();
     
     /////////////////////////////////////////////////
     /////////////// IMGUI MENU SYSTEM ///////////////

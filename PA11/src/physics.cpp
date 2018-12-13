@@ -163,6 +163,30 @@ void Physics::CheckCollisions()
 				// update remaining amount of lives
 				players->setPlayersLives(playerOneRemainingLives, playerTwoRemainingLives);
 				
+				if ((obAName == "Player1" || obAName == "Stage1Floor") && (obBName == "Stage1Floor" || obBName == "Player1") ||
+					(obAName == "Player1" || obAName == "Stage2Floor") && (obBName == "Stage2Floor" || obBName == "Player1") ||
+					(obAName == "Player1" || obAName == "Stage3Floor") && (obBName == "Stage3Floor" || obBName == "Player1"))
+				{
+					playerOneCanJump = true;
+				}
+				
+				else
+				{
+					playerOneCanJump = false;
+				}
+				
+				if ((obAName == "Player2" || obAName == "Stage1Floor") && (obBName == "Stage1Floor" || obBName == "Player2") ||
+					(obAName == "Player2" || obAName == "Stage2Floor") && (obBName == "Stage2Floor" || obBName == "Player2") ||
+					(obAName == "Player2" || obAName == "Stage3Floor") && (obBName == "Stage3Floor" || obBName == "Player2"))
+				{
+					playerTwoCanJump = true;
+				}
+				
+				else
+				{
+					playerTwoCanJump = false;
+				}
+				
 				// check if player 1's weapons hit player 2's body
 				if ((obAName == "DeathZone" || obAName == "Player1") && (obBName == "Player1" || obBName == "DeathZone"))
 				{
@@ -233,4 +257,14 @@ void Physics::CheckCollisions()
 void Physics::setPlayerSettings(PlayerSettings* players)
 {
   this->players = players;
+}
+
+bool Physics::getPlayerOneCanJump()
+{
+	return playerOneCanJump;
+}
+
+bool Physics::getPlayerTwoCanJump()
+{
+	return playerTwoCanJump;
 }

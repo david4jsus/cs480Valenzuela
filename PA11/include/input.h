@@ -23,28 +23,42 @@ class Input {
       void Keyboard(SDL_Event m_event, bool &running);
       void KeydownEvents(SDL_Event m_event, bool &running);
       void KeyupEvents(SDL_Event m_event);
-      void CheckCameraMovement(unsigned int m_DT);
+      
+      // Mouse Inputs
+      void Mouse(SDL_Event m_event);
+      
+      void CheckCamera(unsigned int m_DT);
       
       void setGraphics(Graphics *engineGraphics);
 
-			void CheckPlayerMovement();
+	  void CheckPlayerMovement();
 
-			btRigidBody* GetObjectRigidBody(string objectName);
+	  btRigidBody* GetObjectRigidBody(string objectName);
+	  
+	  void playerTwoJump();
 
    private:
       Graphics *m_graphics;
 
-		  // Player one movement handling
-		  bool playerOneMoveForward;
-		  bool playerOneMoveBackward;
-		  bool playerOneMoveLeft;
-		  bool playerOneMoveRight;
-		  
-		  // Player one movement handling
-		  bool playerTwoMoveForward;
-		  bool playerTwoMoveBackward;
-		  bool playerTwoMoveLeft;
-			bool playerTwoMoveRight;
+	  // Player one movement handling
+	  bool playerOneMoveForward;
+	  bool playerOneMoveBackward;
+	  bool playerOneMoveLeft;
+	  bool playerOneMoveRight;
+	  
+	  // Player one movement handling
+	  bool playerTwoMoveForward;
+	  bool playerTwoMoveBackward;
+	  bool playerTwoMoveLeft;
+	  bool playerTwoMoveRight;
+	  
+	  // Mouse clicking + movement
+	  bool leftClicking;
+	  float deltax;
+	  float deltay;
+	  
+	  // Keyboard input
+	  bool shifting;
 };
 
 #endif
