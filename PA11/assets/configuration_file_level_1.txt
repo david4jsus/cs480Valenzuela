@@ -118,91 +118,109 @@ object collision size: 1.0, 0.0, 0.0, 0.0
 
 
 
-object file name: ArenaStamp.obj
+object file name: InnerGround.obj
 object position: 0.0, -10.0, 0.0
-object orientation: 0.0, 0.0, 0.0, 1.0
+object orientation: 0.0, 1.0, 0.0, 1.0
 object scale: 1.0
 object mass: 0.0
 object restitution: 1.0
-object collision shape: plane
-object collision size: 0.0, 0.0, 0.0, 0.0
+object collision shape: sphere
+object collision size: 0.0
+
+object file name: ArenaStamp.obj
+object position: 0.0, -10.0, 0.0
+object orientation: 0.0, 1.0, 0.0, 1.0
+object scale: 1.0
+object mass: 0.0
+object restitution: 1.0
+object collision shape: sphere
+object collision size: 0.0
 
 object file name: Bleachers.obj
 object position: 0.0, -10.0, 0.0
-object orientation: 0.0, 0.0, 0.0, 1.0
+object orientation: 0.0, 1.0, 0.0, 1.0
 object scale: 1.0
 object mass: 0.0
 object restitution: 1.0
-object collision shape: plane
-object collision size: 0.0, 0.0, 0.0, 0.0
+object collision shape: sphere
+object collision size: 0.0
 
 object file name: Castle.obj
 object position: 0.0, -10.0, 0.0
-object orientation: 0.0, 0.0, 0.0, 1.0
+object orientation: 0.0, 1.0, 0.0, 1.0
 object scale: 1.0
 object mass: 0.0
 object restitution: 1.0
-object collision shape: plane
-object collision size: 0.0, 0.0, 0.0, 0.0
+object collision shape: sphere
+object collision size: 0.0
 
 object file name: CastleDoor.obj
 object position: 0.0, -10.0, 0.0
-object orientation: 0.0, 0.0, 0.0, 1.0
+object orientation: 0.0, 1.0, 0.0, 1.0
 object scale: 1.0
 object mass: 0.0
 object restitution: 1.0
-object collision shape: plane
-object collision size: 0.0, 0.0, 0.0, 0.0
+object collision shape: sphere
+object collision size: 0.0
 
 object file name: CastleWallExterior.obj
 object position: 0.0, -10.0, 0.0
-object orientation: 0.0, 0.0, 0.0, 1.0
+object orientation: 0.0, 1.0, 0.0, 1.0
 object scale: 1.0
 object mass: 0.0
 object restitution: 1.0
-object collision shape: plane
-object collision size: 0.0, 0.0, 0.0, 0.0
+object collision shape: sphere
+object collision size: 0.0
 
-object file name: ExternalGround.obj
+object file name: OuterGround.obj
 object position: 0.0, -10.0, 0.0
-object orientation: 0.0, 0.0, 0.0, 1.0
+object orientation: 0.0, 1.0, 0.0, 1.0
 object scale: 1.0
 object mass: 0.0
 object restitution: 1.0
-object collision shape: plane
-object collision size: 0.0, 0.0, 0.0, 0.0
+object collision shape: sphere
+object collision size: 0.0
 
 object file name: JoustBoundries.obj
 object position: 0.0, -10.0, 0.0
-object orientation: 0.0, 0.0, 0.0, 1.0
+object orientation: 0.0, 1.0, 0.0, 1.0
 object scale: 1.0
 object mass: 0.0
 object restitution: 1.0
-object collision shape: plane
-object collision size: 0.0, 0.0, 0.0, 0.0
+object collision shape: sphere
+object collision size: 0.0
 
 object file name: RandomBuildings.obj
 object position: 0.0, -10.0, 0.0
-object orientation: 0.0, 0.0, 0.0, 1.0
+object orientation: 0.0, 1.0, 0.0, 1.0
 object scale: 1.0
 object mass: 0.0
 object restitution: 1.0
-object collision shape: plane
-object collision size: 0.0, 0.0, 0.0, 0.0
+object collision shape: sphere
+object collision size: 0.0
 
 object file name: RandomTents.obj
 object position: 0.0, -10.0, 0.0
-object orientation: 0.0, 0.0, 0.0, 1.0
+object orientation: 0.0, 1.0, 0.0, 1.0
 object scale: 1.0
 object mass: 0.0
 object restitution: 1.0
-object collision shape: plane
-object collision size: 0.0, 0.0, 0.0, 0.0
+object collision shape: sphere
+object collision size: 0.0
 
-object file name: InnerGround.obj
+object file name: Stage1Floor.obj
 object position: 0.0, -10.0, 0.0
-object orientation: 0.0, 0.0, 0.0, 1.0
-object scale: 1.0
+object orientation: 0.0, 1.0, 0.0, 1.0
+object scale: 0.0
+object mass: 0.0
+object restitution: 1.0
+object collision shape: cylinder
+object collision size: 75.0, 1.0, 75.0
+
+object file name: DeathZone.obj
+object position: 0.0, -20.0, 0.0
+object orientation: 0.0, 1.0, 0.0, 1.0
+object scale: 0.0
 object mass: 0.0
 object restitution: 1.0
 object collision shape: plane
@@ -219,29 +237,38 @@ object collision size: 0.0, 1.0, 0.0, 0.0
 object file name: Ground_Stage_2.obj
 object position: 0.0, -10.0, 0.0
 object orientation: 0.0, 0.0, 0.0, 1.0
-object scale: 1.0
+object scale: 4.0
 object mass: 0.0
 object restitution: 1.0
-object collision shape: plane
-object collision size: 0.0, 1.0, 0.0, 0.0
+object collision shape: sphere
+object collision size: 0.0
 
 object file name: Stage_2_Outside.obj
 object position: 0.0, -10.0, 0.0
 object orientation: 0.0, 0.0, 0.0, 1.0
-object scale: 1.0
+object scale: 4.0
 object mass: 0.0
 object restitution: 1.0
-object collision shape: plane
-object collision size: 0.0, 0.0, 0.0, 0.0
+object collision shape: sphere
+object collision size: 0.0
 
 object file name: Stadium.obj
 object position: 0.0, -10.0, 0.0
 object orientation: 0.0, 0.0, 0.0, 1.0
-object scale: 1.0
+object scale: 4.0
 object mass: 0.0
 object restitution: 1.0
-object collision shape: plane
-object collision size: 0.0, 0.0, 0.0, 0.0
+object collision shape: sphere
+object collision size: 0.0
+
+object file name: Stage2Floor.obj
+object position: 0.0, -10.0, 0.0
+object orientation: 0.0, 1.0, 0.0, 1.0
+object scale: 0.0
+object mass: 0.0
+object restitution: 1.0
+object collision shape: cylinder
+object collision size: 45.0, 1.0, 45.0
 
 
 
