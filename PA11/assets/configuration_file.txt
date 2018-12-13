@@ -56,15 +56,6 @@ cylinder
 First number represents the x direction, second number y direction, and third number z direction.
 
 Objects Information
-object file name: Disboard.obj
-object position: 0.0, -10.0, 0.0
-object orientation: 0.0, 0.0, 0.0, 1.0
-object scale: 1.0
-object mass: 0.0
-object restitution: 0.0
-object collision shape: plane
-object collision size: 0.0, 1.0, 0.0, 0.0
-
 object file name: Player1.obj
 object position: 10.0, 15.0, 0.0
 object orientation: 0.0, 0.0, 0.0, 1.0
@@ -73,6 +64,7 @@ object mass: 1.0
 object restitution: 1.0
 object collision shape: box
 object collision size: 2.0, 5.0, 2.0
+
 
 object file name: Player2.obj
 object position: -10.0, 15.0, 0.0
@@ -83,40 +75,66 @@ object restitution: 1.0
 object collision shape: box
 object collision size: 2.0, 5.0, 2.0
 
-object file name: LeftArenaWall.obj
-object position: 0.0, 0.0, -45.0
-object orientation: 0.0, 0.0, 0.0, 1.0
-object scale: 0.0
-object mass: 0.0
-object restitution: 1.0
-object collision shape: plane
-object collision size: 0.0, 0.0, 1.0, 0.0
 
-object file name: RightArenaWall.obj
-object position: 0.0, 0.0, 45.0
-object orientation: 0.0, 0.0, 0.0, 1.0
-object scale: 0.0
-object mass: 0.0
-object restitution: 1.0
-object collision shape: plane
-object collision size: 0.0, 0.0, -1.0, 0.0
 
-object file name: BackArenaWall.obj
-object position: 40.0, 0.0, 0.0
-object orientation: 0.0, 0.0, 0.0, 1.0
-object scale: 0.0
-object mass: 0.0
-object restitution: 1.0
-object collision shape: plane
-object collision size: -1.0, 0.0, 0.0, 0.0
 
-object file name: FrontArenaWall.obj
-object position: -40.0, 0.0, 0.0
+
+object file name: Stadium_Stage_3.obj
+object position: 0.0, -10.0, 0.0
 object orientation: 0.0, 0.0, 0.0, 1.0
+object scale: 4.0
+object mass: 0.0
+object restitution: 1.0
+object collision shape: sphere
+object collision size: 0.0
+
+object file name: Stage_Outside_3.obj
+object position: 0.0, -10.0, 0.0
+object orientation: 0.0, 0.0, 0.0, 1.0
+object scale: 4.0
+object mass: 0.0
+object restitution: 1.0
+object collision shape: sphere
+object collision size: 0.0
+
+object file name: Magma_Towers.obj
+object position: 0.0, -10.0, 0.0
+object orientation: 0.0, 0.0, 0.0, 1.0
+object scale: 4.0
+object mass: 0.0
+object restitution: 1.0
+object collision shape: sphere
+object collision size: 0.0
+
+object file name: Ground_Stage_3.obj
+object position: 0.0, -10.0, 0.0
+object orientation: 0.0, 0.0, 0.0, 1.0
+object scale: 4.0
+object mass: 0.0
+object restitution: 1.0
+object collision shape: sphere
+object collision size: 0.0
+
+object file name: Stage3Floor.obj
+object position: 0.0, -10.0, 0.0
+object orientation: 0.0, 1.0, 0.0, 1.0
+object scale: 0.0
+object mass: 0.0
+object restitution: 1.0
+object collision shape: box
+object collision size: 35.0, 1.0, 150.0
+
+object file name: DeathZone.obj
+object position: 0.0, -20.0, 0.0
+object orientation: 0.0, 1.0, 0.0, 1.0
 object scale: 0.0
 object mass: 0.0
 object restitution: 1.0
 object collision shape: plane
-object collision size: 1.0, 0.0, 0.0, 0.0
+object collision size: 0.0, 1.0, 0.0, 0.0
+
+
+
+
 
 

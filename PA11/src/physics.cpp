@@ -149,9 +149,8 @@ void Physics::CheckCollisions()
 				time_span = endTimePlayerOneInvincibility - startTimePlayerOneInvincibility;
 
 				// decrement each players lives
-					// will be changed in the future
 			   // Player 1
-				if(players->Stabbed())
+				/*if(players->Stabbed())
 				{
 				   playerTwoRemainingLives--;
 				}
@@ -159,7 +158,7 @@ void Physics::CheckCollisions()
 				else
 				{
 				   playerOneRemainingLives--;
-				}
+				}*/
 				
 				// update remaining amount of lives
 				players->setPlayersLives(playerOneRemainingLives, playerTwoRemainingLives);
@@ -189,19 +188,32 @@ void Physics::CheckCollisions()
 				}
 				
 				// check if player 1's weapons hit player 2's body
-				if ((obAName == "JousterPlayer1" || obAName == "Player2") && (obBName == "Player2" || obBName == "JousterPlayer1") && (time_span.count() > players->getInvincibilityTime()))
+				if ((obAName == "DeathZone" || obAName == "Player1") && (obBName == "Player1" || obBName == "DeathZone"))
 				{
-					cout << "|| Collision!" << endl;
+					if(time_span.count() > players->getInvincibilityTime())
+					{
+						cout << "|| Collision!" << endl;
 
-					// decrement each players lives
-						// will be changed in the future
-					playerTwoRemainingLives--;
+						// decrement each players lives
+						playerOneRemainingLives--;
 
-					// update remaining amount of lives
-					players->setPlayersLives(playerOneRemainingLives, playerTwoRemainingLives);
+						// update remaining amount of lives
+						players->setPlayersLives(playerOneRemainingLives, playerTwoRemainingLives);
 
-					// restart invincibility period
-					startTimePlayerOneInvincibility = high_resolution_clock::now();
+						// restart invincibility period
+						startTimePlayerOneInvincibility = high_resolution_clock::now();
+
+						// reset player 2's position
+						m_graphics->GetRigidBody("Player1")->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(10, 10, 0)));
+					}
+
+					else if(time_span.count() <= players->getInvincibilityTime())
+					{
+						cout << "|| Collision!" << endl;
+
+						// reset player 2's position
+						m_graphics->GetRigidBody("Player1")->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(10, 10, 0)));
+					}
 				}
 
 			// calculate player 2 invincibility period
@@ -209,19 +221,33 @@ void Physics::CheckCollisions()
 			time_span = endTimePlayerTwoInvincibility - startTimePlayerTwoInvincibility;
 
 			// check if player 2's weapons hit player 1's body
-			if ((obAName == "JousterPlayer2" || obAName == "Player1") && (obBName == "Player1" || obBName == "JousterPlayer2") && (time_span.count() > players->getInvincibilityTime()))
+			if ((obAName == "DeathZone" || obAName == "Player2") && (obBName == "Player2" || obBName == "DeathZone"))
 				{
-					cout << "|| Collision!" << endl;
+					if(time_span.count() > players->getInvincibilityTime())
+					{
+						cout << "|| Collision!" << endl;
 
-					// decrement each players lives
-						// will be changed in the future
-					playerOneRemainingLives--;
+						// decrement each players lives
+							// will be changed in the future
+						playerTwoRemainingLives--;
 
-					// update remaining amount of lives
-					players->setPlayersLives(playerOneRemainingLives, playerTwoRemainingLives);
+						// update remaining amount of lives
+						players->setPlayersLives(playerOneRemainingLives, playerTwoRemainingLives);
 
-					// restart invincibility period
-					startTimePlayerTwoInvincibility = high_resolution_clock::now();
+						// restart invincibility period
+						startTimePlayerTwoInvincibility = high_resolution_clock::now();
+
+						// reset player 1's position
+						m_graphics->GetRigidBody("Player2")->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(-10, 10, 0)));
+					}
+
+					else if(time_span.count() <= players->getInvincibilityTime())
+					{
+						cout << "|| Collision!" << endl;
+
+						// reset player 2's position
+						m_graphics->GetRigidBody("Player2")->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(-10, 10, 0)));
+					}
 				}
 			}
 		}
