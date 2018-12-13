@@ -34,6 +34,8 @@ class Input {
 	  void CheckPlayerMovement();
 
 	  btRigidBody* GetObjectRigidBody(string objectName);
+	  
+	  void playerTwoJump();
 
    private:
       Graphics *m_graphics;

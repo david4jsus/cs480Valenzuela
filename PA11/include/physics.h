@@ -30,6 +30,9 @@ class Physics
 
 		// sets player conditions such as lives remaining
 		void setPlayerSettings(PlayerSettings* players);
+		
+	bool getPlayerOneCanJump();
+	bool getPlayerTwoCanJump();
   
   private:
     // Admin variables
@@ -58,6 +61,9 @@ class Physics
     high_resolution_clock::time_point startTimePlayerTwoInvincibility;
     high_resolution_clock::time_point endTimePlayerTwoInvincibility;
 		duration<double, std::milli> time_span;
+		
+	bool playerOneCanJump;
+	bool playerTwoCanJump;
 };
 
 #endif // PHYSICS_H
