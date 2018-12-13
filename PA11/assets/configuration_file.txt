@@ -1,8 +1,8 @@
 GROUP PROJECT CONFIGURATION FILE
 
 Per Vertex Lighting Shaders
-../assets/shaders/vLightingVertex.shader
-../assets/shaders/vLightingFragment.shader
+../assets/shaders/ToonVertex.shader
+../assets/shaders/ToonFragment.shader
 
 Per Fragment Lighting Shaders
 ../assets/shaders/fLightingVertex.shader
