@@ -5,7 +5,10 @@ class PlayerSettings
 {
   public:
 		// constructor
-    PlayerSettings();
+      PlayerSettings();
+
+      // stabbed
+      bool Stabbed();
 
 		// set each player's lives
 		void getPlayersLives(int &playerOneLives, int &playerTwoLives);
@@ -20,6 +23,7 @@ class PlayerSettings
     int playerOneRemainingLives;
     int playerTwoRemainingLives;
     float invincibilityTime;
+    bool stabbed = true;
 };
 
 #endif // PLAYER_SETTINGS_H

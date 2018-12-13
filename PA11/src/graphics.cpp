@@ -22,7 +22,7 @@ Graphics::Graphics()
 }
 
 Graphics::Graphics(string vLightingVertFilePath, string vLightingFragFilePath, string fLightingVertFilePath, string fLightingFragFilePath, glm::vec3 storedEngineStartingCameraPos, 
-                   float storedEngineYaw, float storedEnginePitch, btVector3 gravityDirection, std::vector<ObjectInfo> allObjectsInfo) : Graphics()
+                   float storedEngineYaw, float storedEnginePitch, btVector3 gravityDirection, float jumpHeight, std::vector<ObjectInfo> allObjectsInfo) : Graphics()
 {
   // per vertex lighting vertex and fragment shader filepaths
   vLightingVertexShaderFilePath = vLightingVertFilePath;
@@ -48,6 +48,9 @@ Graphics::Graphics(string vLightingVertFilePath, string vLightingFragFilePath, s
 
 	// get gravity direction
 	this->gravityDirection = gravityDirection;
+
+	// get jump height
+	this->jumpHeight = jumpHeight;
 }
 
 Graphics::~Graphics()
@@ -670,4 +673,9 @@ void Graphics::setPlayerSettings(PlayerSettings* players)
 btVector3 Graphics::getGravity()
 {
 	return gravityDirection;
+}
+
+float Graphics::getJumpHeight()
+{
+	return jumpHeight;
 }

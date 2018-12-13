@@ -20,19 +20,25 @@ pitch: -17.0
 Gravity
 gravity: 0.0, -0.001, 0.0
 
+Jump height
+jump power: 0.05
+
 NOTES ON COLLISION SHAPE SIZES
 box: takes in a x, y, and z axis length
 sphere: takes in a radius size
 plane: takes in a direction for the normal and then a plane constant. For example, btVector3(0, 1, 0) points and normal upwards and creates a ground. Plane constants can be kept at 0.0.
-capsule: takes in a raidus and a height
+capsule: takes in a radius and a height
+cylinder: takes in a x, y, and z axis length
 
 Box example
 box
 0.0, 0.0, 0,0
+First number represents the x direction, second number y direction, and third number z direction.
 
 Sphere example
 sphere
 0.0
+The number represents radius.
 
 Plane example
 plane
@@ -43,6 +49,11 @@ Capsule example
 capsule
 2.0, 5.0
 First number is radius and second number is height.
+
+Cylinder example
+cylinder
+2.0, 5.0, 2.0
+First number represents the x direction, second number y direction, and third number z direction.
 
 Objects Information
 object file name: Disboard.obj
@@ -60,8 +71,8 @@ object orientation: 0.0, 0.0, 0.0, 1.0
 object scale: 0.05
 object mass: 1.0
 object restitution: 1.0
-object collision shape: capsule
-object collision size: 2.0, 5.0
+object collision shape: cylinder
+object collision size: 2.0, 5.0, 2.0
 
 object file name: Player2.obj
 object position: -10.0, 10.0, 0.0

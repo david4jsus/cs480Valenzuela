@@ -102,11 +102,15 @@ void Physics::AddRigidBody(btRigidBody* rigidBody)
 void Physics::CheckCollisions()
 {
 	// local variables
-	int playerOneRemainingLives, playerTwoRemainingLives;
+	int playerOneRemainingLives, playerTwoRemainingLives;	
 
 	collisionWorld->performDiscreteCollisionDetection();
 	
 	int numManifolds = collisionWorld->getDispatcher()->getNumManifolds();
+	
+   // Testing Constraints
+	//btTypedConstraint* p2p = new btPoint2PointConstraint(*m_graphics->GetRigidBody("JoustTip"), btVector3(0,-1.0,0));
+	//dynamicsWorld->addConstraint(p2p);
 	
 	for (int i = 0; i < numManifolds; i++)
 	{
@@ -144,6 +148,22 @@ void Physics::CheckCollisions()
 				endTimePlayerOneInvincibility = high_resolution_clock::now();
 				time_span = endTimePlayerOneInvincibility - startTimePlayerOneInvincibility;
 
+				// decrement each players lives
+					// will be changed in the future
+			   // Player 1
+				if(players->Stabbed())
+				{
+				   playerTwoRemainingLives--;
+				}
+				
+				else
+				{
+				   playerOneRemainingLives--;
+				}
+				
+				// update remaining amount of lives
+				players->setPlayersLives(playerOneRemainingLives, playerTwoRemainingLives);
+				
 				// check if player 1's weapons hit player 2's body
 				if ((obAName == "JousterPlayer1" || obAName == "Player2") && (obBName == "Player2" || obBName == "JousterPlayer1") && (time_span.count() > players->getInvincibilityTime()))
 				{

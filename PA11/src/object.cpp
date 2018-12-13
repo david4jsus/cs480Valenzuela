@@ -82,6 +82,16 @@ Object::Object(std::string filename, Graphics* graphics, ObjectInfo anObject) : 
     // set orientation and position of object
     shapeMotionState = new btDefaultMotionState(btTransform(anObject.objectOrientation, anObject.objectPos));
 	}
+
+	// check if collision shape type is a cylinder
+	else if(anObject.collisionShapeType == "cylinder")
+	{
+	  // create a box collider
+	  colliderShape = new btBoxShape(anObject.cylinderSize);
+	  
+	  // set orientation and position of object
+	  shapeMotionState = new btDefaultMotionState(btTransform(anObject.objectOrientation, anObject.objectPos));
+	}
 	
 	// set mass and inertia
   btScalar mass(anObject.mass);

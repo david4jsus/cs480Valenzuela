@@ -81,6 +81,9 @@ class Engine
 
 			// gravity direction
 		btVector3 gravityDirection;
+
+			// jump height
+		float jumpHeight;
     
       // information on all objects
     std::vector<ObjectInfo> allObjectsInfo;
