@@ -12,15 +12,21 @@ Input::~Input()
 
 bool Input::Initialize()
 {
-	 playerOneMoveForward = false;
-	 playerOneMoveBackward = false;
-	 playerOneMoveLeft = false;
-	 playerOneMoveRight = false;
+   playerOneMoveForward = false;
+   playerOneMoveBackward = false;
+   playerOneMoveLeft = false;
+   playerOneMoveRight = false;
 
-	 playerTwoMoveForward = false;
-	 playerTwoMoveBackward = false;
-	 playerTwoMoveLeft = false;
+   playerTwoMoveForward = false;
+   playerTwoMoveBackward = false;
+   playerTwoMoveLeft = false;
    playerTwoMoveRight = false;
+   
+   leftClicking = false;
+   deltax = 0;
+   deltay = 0;
+   
+   shifting = false;
 
    return true;
 }
@@ -110,6 +116,14 @@ void Input::KeydownEvents(SDL_Event m_event, bool &running)
       case SDLK_TAB:
          m_graphics->SwitchShaders();
          break;
+         
+      case SDLK_LSHIFT:
+         shifting = true;
+         break;
+         
+      case SDLK_RSHIFT:
+         shifting = true;
+         break;
 
       // Increase Ambient Light
       /*case SDLK_KP_8:
@@ -184,73 +198,75 @@ void Input::KeyupEvents(SDL_Event m_event)
 			case SDLK_KP_6:
 				playerTwoMoveRight = false;
 				break;
+				
+		      case SDLK_LSHIFT:
+		         shifting = false;
+		         break;
+		         
+		      case SDLK_RSHIFT:
+		         shifting = false;
+		         break;
 
       default:
          break;
    }
 }
 
-void Input::CheckCameraMovement(unsigned int m_DT)
+void Input::Mouse(SDL_Event m_event)
 {
-   // Moving Left
-   /*if (movingLeft)
-   {
-      m_graphics->GetCamera()->updateCamPosYNeg(m_DT * 0.05);
-   }
+	// Get mouse movement
+	if (m_event.type == SDL_MOUSEMOTION)
+	{
+		deltax = m_event.motion.xrel;
+		deltay = m_event.motion.yrel;
+	}
+	else
+	{
+		deltax = 0;
+		deltay = 0;
+	}
+	
+	// Get left click
+	if (m_event.button.button == SDL_BUTTON_LEFT)
+	{
+		leftClicking = true;
+	}
+	else
+	{
+		leftClicking = false;
+	}
+}
 
-   // Moving Right
-   else if (movingRight)
-   {
-      m_graphics->GetCamera()->updateCamPosYPos(m_DT * 0.05);
-   }
-        
-   // Moving Forward
-   if (movingForward)
-   {
-      m_graphics->GetCamera()->updateCamPosXPos(m_DT * 0.05);
-   }
-
-   // Moving Backward
-   else if (movingBackward)
-   {
-      m_graphics->GetCamera()->updateCamPosXNeg(m_DT * 0.05);
-   }
-        
-   // Moving Up
-   if (movingUp)
-   {
-      m_graphics->GetCamera()->updateCamPosZPos(m_DT * 0.05);
-   }
-
-   // Moving Down
-   else if (movingDown)
-   {
-      m_graphics->GetCamera()->updateCamPosZNeg(m_DT * 0.05);
-   }
-        
-   // Rotate Left
-   if (rotatingLeft)
-   {
-      m_graphics->GetCamera()->updateCamRotYaw(m_DT * -0.1);
-   }
-
-   // Rotate Right
-   else if (rotatingRight)
-   {
-      m_graphics->GetCamera()->updateCamRotYaw(m_DT * 0.1);
-   }
-    
-   // Rotate Up
-   if (rotatingUp)
-   {
-      m_graphics->GetCamera()->updateCamRotPitch(m_DT * 0.1);
-   }
-
-   // Rotate Down
-   else if (rotatingDown)   // Rotate camera down
-   {
-      m_graphics->GetCamera()->updateCamRotPitch(m_DT * -0.1);
-   }*/
+void Input::CheckCamera(unsigned int m_DT)
+{
+	if (leftClicking) // Engage camera stuffs!
+	{
+		if (!shifting) // Camera rotation
+		{
+			m_graphics->GetCamera()->updateCamRotYaw(m_DT * deltax / 50);
+			m_graphics->GetCamera()->updateCamRotPitch(m_DT * deltay / 50);
+		}
+		else // Camera translation
+		{
+			if (deltax > 0)
+			{
+				m_graphics->GetCamera()->updateCamPosYPos(m_DT * 0.05);
+			}
+			else if (deltax < 0)
+			{
+				m_graphics->GetCamera()->updateCamPosYNeg(m_DT * 0.05);
+			}
+			
+			if (deltay > 0)
+			{
+				m_graphics->GetCamera()->updateCamPosXPos(m_DT * 0.1);
+			}
+			else if (deltay < 0)
+			{
+				m_graphics->GetCamera()->updateCamPosXNeg(m_DT * 0.1);
+			}
+		}
+	}
 }
 
 void Input::setGraphics(Graphics *engineGraphics)

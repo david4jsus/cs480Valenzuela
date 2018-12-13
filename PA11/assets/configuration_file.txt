@@ -1,8 +1,8 @@
 GROUP PROJECT CONFIGURATION FILE
 
 Per Vertex Lighting Shaders
-../assets/shaders/vLightingVertex.shader
-../assets/shaders/vLightingFragment.shader
+../assets/shaders/ToonVertex.shader
+../assets/shaders/ToonFragment.shader
 
 Per Fragment Lighting Shaders
 ../assets/shaders/fLightingVertex.shader
@@ -68,7 +68,7 @@ object collision size: 0.0, 1.0, 0.0, 0.0
 object file name: Player1.obj
 object position: 10.0, 10.0, 0.0
 object orientation: 0.0, 0.0, 0.0, 1.0
-object scale: 0.05
+object scale: 1.0
 object mass: 1.0
 object restitution: 1.0
 object collision shape: cylinder
@@ -77,7 +77,7 @@ object collision size: 2.0, 5.0, 2.0
 object file name: Player2.obj
 object position: -10.0, 10.0, 0.0
 object orientation: 0.0, 0.0, 0.0, 1.0
-object scale: 0.05
+object scale: 1.0
 object mass: 1.0
 object restitution: 1.0
 object collision shape: sphere
