@@ -116,6 +116,8 @@ object collision size: 1.0, 0.0, 0.0, 0.0
 
 
 
+
+
 object file name: ArenaStamp.obj
 object position: 0.0, -10.0, 0.0
 object orientation: 0.0, 0.0, 0.0, 1.0
@@ -161,7 +163,7 @@ object restitution: 1.0
 object collision shape: plane
 object collision size: 0.0, 0.0, 0.0, 0.0
 
-object file name: OutterGround.obj
+object file name: ExternalGround.obj
 object position: 0.0, -10.0, 0.0
 object orientation: 0.0, 0.0, 0.0, 1.0
 object scale: 1.0
@@ -205,6 +207,84 @@ object mass: 0.0
 object restitution: 1.0
 object collision shape: plane
 object collision size: 0.0, 1.0, 0.0, 0.0
+
+
+
+
+
+
+
+
+
+object file name: Ground_Stage_2.obj
+object position: 0.0, -10.0, 0.0
+object orientation: 0.0, 0.0, 0.0, 1.0
+object scale: 1.0
+object mass: 0.0
+object restitution: 1.0
+object collision shape: plane
+object collision size: 0.0, 1.0, 0.0, 0.0
+
+object file name: Stage_2_Outside.obj
+object position: 0.0, -10.0, 0.0
+object orientation: 0.0, 0.0, 0.0, 1.0
+object scale: 1.0
+object mass: 0.0
+object restitution: 1.0
+object collision shape: plane
+object collision size: 0.0, 0.0, 0.0, 0.0
+
+object file name: Stadium.obj
+object position: 0.0, -10.0, 0.0
+object orientation: 0.0, 0.0, 0.0, 1.0
+object scale: 1.0
+object mass: 0.0
+object restitution: 1.0
+object collision shape: plane
+object collision size: 0.0, 0.0, 0.0, 0.0
+
+
+
+
+
+
+
+
+
+
+
+
+object file name: Stadium_Stage_3.obj
+object position: 0.0, -10.0, 0.0
+object orientation: 0.0, 0.0, 0.0, 1.0
+object scale: 4.0
+object mass: 0.0
+object restitution: 1.0
+object collision shape: plane
+object collision size: 0.0, 1.0, 0.0, 0.0
+
+object file name: Stage_Outside_3.obj
+object position: 0.0, -10.0, 0.0
+object orientation: 0.0, 0.0, 0.0, 1.0
+object scale: 4.0
+object mass: 0.0
+object restitution: 1.0
+object collision shape: plane
+object collision size: 0.0, 0.0, 0.0, 0.0
+
+object file name: Magma_Towers.obj
+object position: 0.0, -10.0, 0.0
+object orientation: 0.0, 0.0, 0.0, 1.0
+object scale: 4.0
+object mass: 0.0
+object restitution: 1.0
+object collision shape: plane
+object collision size: 0.0, 0.0, 0.0, 0.0
+
+
+
+
+
 
 
 
