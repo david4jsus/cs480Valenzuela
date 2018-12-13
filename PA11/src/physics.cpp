@@ -63,7 +63,7 @@ bool Physics::Initialize()
 	dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, collisionConfig);
 	collisionWorld = new btCollisionWorld(dispatcher, broadphase, collisionConfig);
 	
-	dynamicsWorld->setGravity(btVector3(-0.001, -1.0, 0.0));
+	dynamicsWorld->setGravity(btVector3(-0.001, -1.0, 0.0));	
 }
 
 //== Update function ==//
@@ -100,11 +100,15 @@ void Physics::AddRigidBody(btRigidBody* rigidBody)
 void Physics::CheckCollisions()
 {
 	// local variables
-	int playerOneRemainingLives, playerTwoRemainingLives;
+	int playerOneRemainingLives, playerTwoRemainingLives;	
 
 	collisionWorld->performDiscreteCollisionDetection();
 	
 	int numManifolds = collisionWorld->getDispatcher()->getNumManifolds();
+	
+   // Testing Constraints
+	//btTypedConstraint* p2p = new btPoint2PointConstraint(*m_graphics->GetRigidBody("JoustTip"), btVector3(0,-1.0,0));
+	//dynamicsWorld->addConstraint(p2p);
 	
 	for (int i = 0; i < numManifolds; i++)
 	{
@@ -144,9 +148,17 @@ void Physics::CheckCollisions()
 
 				// decrement each players lives
 					// will be changed in the future
-				playerOneRemainingLives--;
-				playerTwoRemainingLives--;
-
+			   // Player 1
+				if(players->Stabbed())
+				{
+				   playerTwoRemainingLives--;
+				}
+				
+				else
+				{
+				   playerOneRemainingLives--;
+				}
+				
 				// update remaining amount of lives
 				players->setPlayersLives(playerOneRemainingLives, playerTwoRemainingLives);
 
