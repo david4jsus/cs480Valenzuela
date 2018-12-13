@@ -47,7 +47,7 @@ bool Engine::Initialize()
 
   // Start the graphics
   m_graphics = new Graphics(storedVLightingVertexShaderFilePath, storedVLightingFragmentShaderFilePath, storedFLightingVertexShaderFilePath, storedFLightingFragmentShaderFilePath, 
-                            storedEngineStartingCameraPos, storedEngineYaw, storedEnginePitch, gravityDirection, allObjectsInfo);
+                            storedEngineStartingCameraPos, storedEngineYaw, storedEnginePitch, gravityDirection, jumpHeight, allObjectsInfo);
   if(!m_graphics->Initialize(m_WINDOW_WIDTH, m_WINDOW_HEIGHT, m_file))
   {
     printf("The graphics failed to initialize.\n");
@@ -312,6 +312,13 @@ void Engine::loadConfigurationFileInfo()
 			// set gravity direction
 			gravityDirection = btVector3(xAxisInfo, yAxisInfo, zAxisInfo);
     }
+
+    // check if we are about to read in jump height information
+    else if(configFileInfo == "power:")
+    {
+			// get jump power information
+			fin >> jumpHeight;
+    }
     
     // check if we are about to read in object name information
     else if(configFileInfo == "name:")
@@ -438,6 +445,7 @@ void Engine::loadConfigurationFileInfo()
         anObject.planeDirection = btVector3(xAxisInfo, yAxisInfo, zAxisInfo);
       }
 
+			// get capsule collision size
 			else if(anObject.collisionShapeType == "capsule")
 			{
 				// get capsule raidus
@@ -446,6 +454,24 @@ void Engine::loadConfigurationFileInfo()
 
 				// get capsule height
 				fin >> anObject.capsuleHeight;
+			}
+
+			// get cylinder collision size
+			else if(anObject.collisionShapeType == "cylinder")
+			{
+       // get collision shape x length
+        fin >> xAxisInfo;
+        fin >> configFileInfo;
+        
+        // get collision shape y length
+        fin >> yAxisInfo;
+        fin >> configFileInfo;
+        
+        // get collision shape z length
+        fin >> zAxisInfo;
+        
+        // set box capsule size
+        anObject.cylinderSize = btVector3(xAxisInfo, yAxisInfo, zAxisInfo);
 			}
       
       // store object onto list of objects

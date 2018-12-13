@@ -75,7 +75,7 @@ void Input::KeydownEvents(SDL_Event m_event, bool &running)
 
       // Move Camera Up
       case SDLK_SPACE:
-				 GetObjectRigidBody("Player1")->applyCentralImpulse(btVector3(0.0f, 0.05f, 0.0f));
+				 GetObjectRigidBody("Player1")->applyCentralImpulse(btVector3(0.0f, m_graphics->getJumpHeight(), 0.0f));
          break;
 
 			// Move player two forward

@@ -38,6 +38,9 @@ struct ObjectInfo
 
 		// collision capsule parameters
 		btScalar capsuleRadius, capsuleHeight;
+
+		// collision cylinder parameters
+		btVector3 cylinderSize;
 };
 
 #endif // OBJECT_INFO_H
