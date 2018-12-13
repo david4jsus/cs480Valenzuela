@@ -23,7 +23,7 @@ class Graphics
   public:
     Graphics();
     Graphics(string vLightingVertFilePath, string vLightingFragFilePath, string fLightingVertFilePath, string fLightingFragFilePath, glm::vec3 storedEngineStartingCameraPos, 
-             float storedEngineYaw, float storedEnginePitch, std::vector<ObjectInfo> allObjectsInfo);
+             float storedEngineYaw, float storedEnginePitch, btVector3 gravityDirection, std::vector<ObjectInfo> allObjectsInfo);
     ~Graphics();
     bool Initialize(int width, int height, std::string file);
     void Update(unsigned int dt);
@@ -35,6 +35,8 @@ class Graphics
     
     // To get a specified object, specified by array index
     Object* GetObject(int index);
+    
+    Object* GetObjectByName(string name);
     
 		int GetNumberOfObjects();
 		 
@@ -55,6 +57,9 @@ class Graphics
 		// sets current player conditions such as lives remaining
 		void setPlayerSettings(PlayerSettings* players);
 
+		// gets gravity direction
+		btVector3 getGravity();
+
   private:
     std::string ErrorString(GLenum error);
 
@@ -69,11 +74,25 @@ class Graphics
     GLint m_vprojectionMatrix;
     GLint m_vviewMatrix;
     GLint m_vmodelMatrix;
-    GLint m_vlightPos;
+
+		// first light
+    GLint m_vFirstLightPos;
     GLint m_vambientColor;
-    GLint m_vdiffuseColor;
-    GLint m_vspecularColor;
-    GLint m_vshininess;
+    GLint m_vFirstLightDiffuseColor;
+    GLint m_vFirstLightSpecularColor;
+    GLint m_vFirstLightShininess;
+
+		// second light
+		GLint m_vSecondLightPos;
+    GLint m_vSecondLightDiffuseColor;
+    GLint m_vSecondLightSpecularColor;
+    GLint m_vSecondLightShininess;
+
+		// third light
+	  GLint m_vThirdLightPos;
+    GLint m_vThirdLightDiffuseColor;
+    GLint m_vThirdLightSpecularColor;
+    GLint m_vThirdLightShininess;
     
     // Per fragment
     string fLightingVertexShaderFilePath;
@@ -81,22 +100,31 @@ class Graphics
     GLint m_fprojectionMatrix;
     GLint m_fviewMatrix;
     GLint m_fmodelMatrix;
-    GLint m_flightPos;
+
+		// first light
+    GLint m_fFirstLightPos;
     GLint m_fambientColor;
-    GLint m_fdiffuseColor;
-    GLint m_fspecularColor;
-    GLint m_fshininess;
+    GLint m_fFirstLightDiffuseColor;
+    GLint m_fFirstLightSpecularColor;
+    GLint m_fFirstLightShininess;
 
-    std::vector<Object*> m_objects;
+		// second light
+    GLint m_fSecondLightPos;
+		GLint m_fSecondLightDiffuseColor;
+    GLint m_fSecondLightSpecularColor;
+    GLint m_fSecondLightShininess;
 
+		// third light
+		GLint m_fThirdLightPos;
+		GLint m_fThirdLightDiffuseColor;
+    GLint m_fThirdLightSpecularColor;
+    GLint m_fThirdLightShininess;
+		
+		// game sound
     Sound gameSound;
-    
-    // Bullet Members
-    /*btBroadphaseInterface *broadphase;
-    btDefaultCollisionConfiguration *collisionConfig;
-    btCollisionDispatcher *dispatcher;
-    btSequentialImpulseConstraintSolver *solver;
-    btDiscreteDynamicsWorld *dynamicsWorld;*/
+
+		// objects
+		std::vector<Object*> m_objects;
     
     // Shader switching
     bool shaderToggle;
@@ -104,9 +132,6 @@ class Graphics
     // ambient lighting values
     float ambientLightingScale;
     float specularScale;
-    
-    // list of all rigidbodies from each object
-    //std::vector<btRigidBody*> rigidBodies;
     
     bool meshLoaded;
     
@@ -119,6 +144,13 @@ class Graphics
     
     // information on all objects
     std::vector<ObjectInfo> objectsInfo;
+    
+    // Light positions
+    glm::vec3 light1Pos;
+    glm::vec3 light2Pos;
+
+		// gravity direction
+		btVector3 gravityDirection;
 };
 
 #endif /* GRAPHICS_H */

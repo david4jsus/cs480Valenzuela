@@ -64,10 +64,20 @@ Object::Object(std::string filename, Graphics* graphics, ObjectInfo anObject) : 
 	}
 	
 	// check if collision shape type is a plane
-    else if(anObject.collisionShapeType == "plane")
+  else if(anObject.collisionShapeType == "plane")
 	{
 	  // create a plane collider
-      colliderShape = new btStaticPlaneShape(anObject.planeDirection, anObject.planeConstant);
+    colliderShape = new btStaticPlaneShape(anObject.planeDirection, anObject.planeConstant);
+    
+    // set orientation and position of object
+    shapeMotionState = new btDefaultMotionState(btTransform(anObject.objectOrientation, anObject.objectPos));
+	}
+
+	// check if collision shape type is a capsule
+  else if(anObject.collisionShapeType == "capsule")
+	{
+	  // create a plane collider
+    colliderShape = new btCapsuleShape(anObject.capsuleRadius, anObject.capsuleHeight);
     
     // set orientation and position of object
     shapeMotionState = new btDefaultMotionState(btTransform(anObject.objectOrientation, anObject.objectPos));
@@ -87,10 +97,7 @@ Object::Object(std::string filename, Graphics* graphics, ObjectInfo anObject) : 
   rigidBody = new btRigidBody(shapeRigidBodyCI);
   
   // set bounciness of rigidbody
-  rigidBody->setRestitution(defaultBounciness);
-  
-  // set bounciness of rigidbody
-  rigidBody->setRestitution(0.0);
+  rigidBody->setRestitution(anObject.restitution);
   
   // add rigidbody to world
   m_graphics->GetDynamicsWorld()->addRigidBody(rigidBody);

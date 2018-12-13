@@ -53,8 +53,10 @@ class Physics
     PlayerSettings* players;
 
 		// invincibility time
-    high_resolution_clock::time_point startTime;
-    high_resolution_clock::time_point endTime;
+    high_resolution_clock::time_point startTimePlayerOneInvincibility;
+    high_resolution_clock::time_point endTimePlayerOneInvincibility;
+    high_resolution_clock::time_point startTimePlayerTwoInvincibility;
+    high_resolution_clock::time_point endTimePlayerTwoInvincibility;
 		duration<double, std::milli> time_span;
 };
 

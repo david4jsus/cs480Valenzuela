@@ -15,8 +15,10 @@ Physics::Physics(Graphics* graphics)
 	dynamicsWorld = 0;
 	collisionWorld = 0;
 
-	startTime = high_resolution_clock::now();
-	endTime = high_resolution_clock::now();
+	startTimePlayerOneInvincibility = high_resolution_clock::now();
+	endTimePlayerOneInvincibility = high_resolution_clock::now();
+	startTimePlayerTwoInvincibility = high_resolution_clock::now();
+	endTimePlayerTwoInvincibility = high_resolution_clock::now();
 }
 
 //== Destructor ==//
@@ -63,7 +65,7 @@ bool Physics::Initialize()
 	dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, collisionConfig);
 	collisionWorld = new btCollisionWorld(dispatcher, broadphase, collisionConfig);
 	
-	dynamicsWorld->setGravity(btVector3(-0.001, -1.0, 0.0));
+	dynamicsWorld->setGravity(m_graphics->getGravity());
 }
 
 //== Update function ==//
@@ -132,27 +134,52 @@ void Physics::CheckCollisions()
 				}
 			}
 			
-			endTime = high_resolution_clock::now();
-			time_span = endTime - startTime;
+			// get current amount of remaining player lives
+			/*players->getPlayersLives(playerOneRemainingLives, playerTwoRemainingLives);
 
-			if ((obAName == "Player1" || obAName == "Player2") && (obBName == "Player1" || obBName == "Player2") && (time_span.count() > players->getInvincibilityTime()))
+			// calcualte remaining lives if neither player is dead
+			if(playerOneRemainingLives != 0 && playerTwoRemainingLives != 0)
 			{
-				cout << "|| Collision!" << endl;
-			
-				// get current amount of remaining player lives
-				players->getPlayersLives(playerOneRemainingLives, playerTwoRemainingLives);
+				// calculate player 1 invincibility period
+				endTimePlayerOneInvincibility = high_resolution_clock::now();
+				time_span = endTimePlayerOneInvincibility - startTimePlayerOneInvincibility;
 
-				// decrement each players lives
-					// will be changed in the future
-				playerOneRemainingLives--;
-				playerTwoRemainingLives--;
+				// check if player 1's weapons hit player 2's body
+				if ((obAName == "JousterPlayer1" || obAName == "Player2") && (obBName == "Player2" || obBName == "JousterPlayer1") && (time_span.count() > players->getInvincibilityTime()))
+				{
+					cout << "|| Collision!" << endl;
 
-				// update remaining amount of lives
-				players->setPlayersLives(playerOneRemainingLives, playerTwoRemainingLives);
+					// decrement each players lives
+						// will be changed in the future
+					playerTwoRemainingLives--;
 
-				// restart invincibility period
-				startTime = high_resolution_clock::now();
-			}
+					// update remaining amount of lives
+					players->setPlayersLives(playerOneRemainingLives, playerTwoRemainingLives);
+
+					// restart invincibility period
+					startTimePlayerOneInvincibility = high_resolution_clock::now();
+				}
+
+			// calculate player 2 invincibility period
+			endTimePlayerTwoInvincibility = high_resolution_clock::now();
+			time_span = endTimePlayerTwoInvincibility - startTimePlayerTwoInvincibility;
+
+			// check if player 2's weapons hit player 1's body
+			if ((obAName == "JousterPlayer2" || obAName == "Player1") && (obBName == "Player1" || obBName == "JousterPlayer2") && (time_span.count() > players->getInvincibilityTime()))
+				{
+					cout << "|| Collision!" << endl;
+
+					// decrement each players lives
+						// will be changed in the future
+					playerOneRemainingLives--;
+
+					// update remaining amount of lives
+					players->setPlayersLives(playerOneRemainingLives, playerTwoRemainingLives);
+
+					// restart invincibility period
+					startTimePlayerTwoInvincibility = high_resolution_clock::now();
+				}
+			}*/
 		}
 	}
 }

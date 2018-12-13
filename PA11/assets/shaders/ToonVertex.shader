@@ -7,16 +7,12 @@ layout (location = 2) in vec3 v_normal;
 uniform mat4 projectionMatrix;
 uniform mat4 viewMatrix;
 uniform mat4 modelMatrix;
-uniform vec4 firstLightPos;
-uniform vec4 secondLightPos;
-uniform vec4 thirdLightPos;
+uniform vec4 lightPos;
 
 smooth out vec2 texture;
 smooth out vec3 fN;
 smooth out vec3 fE;
-smooth out vec3 fLFirstLight;
-smooth out vec3 fLSecondLight;
-smooth out vec3 fLThirdLight;
+smooth out vec3 fL;
 
 void main(void)
 {
@@ -24,10 +20,8 @@ void main(void)
    
    fN = mat3(transpose(inverse(modelMatrix))) * v_normal;
    fE = vec3(modelMatrix * vPos);
-   fLFirstLight = firstLightPos.xyz - fE;
-	 fLSecondLight = secondLightPos.xyz - fE;
-	 fLThirdLight = thirdLightPos.xyz - fE;
-
+   fL = lightPos.xyz - fE;
+   
    texture = v_texture;
 
    gl_Position = (projectionMatrix * viewMatrix * modelMatrix) * vPos;

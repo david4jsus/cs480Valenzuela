@@ -35,6 +35,8 @@ class Engine
     SDL_Event m_event;
     bool m_running;
     unsigned int m_DT;
+
+		void restartGame();
     
   private:
   
@@ -76,6 +78,9 @@ class Engine
       // camera starting orientation
     float storedEngineYaw;
     float storedEnginePitch;
+
+			// gravity direction
+		btVector3 gravityDirection;
     
       // information on all objects
     std::vector<ObjectInfo> allObjectsInfo;
