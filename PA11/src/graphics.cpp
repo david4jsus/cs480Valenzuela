@@ -679,3 +679,8 @@ float Graphics::getJumpHeight()
 {
 	return jumpHeight;
 }
+
+void Graphics::checkPlayerTwoJump()
+{
+	m_physics->getPlayerTwoCanJump();
+}

@@ -139,7 +139,7 @@ void Physics::CheckCollisions()
 			}
 			
 			// get current amount of remaining player lives
-			/*players->getPlayersLives(playerOneRemainingLives, playerTwoRemainingLives);
+			players->getPlayersLives(playerOneRemainingLives, playerTwoRemainingLives);
 
 			// calcualte remaining lives if neither player is dead
 			if(playerOneRemainingLives != 0 && playerTwoRemainingLives != 0)
@@ -163,6 +163,30 @@ void Physics::CheckCollisions()
 				
 				// update remaining amount of lives
 				players->setPlayersLives(playerOneRemainingLives, playerTwoRemainingLives);
+				
+				if ((obAName == "Player1" || obAName == "Stage1Floor") && (obBName == "Stage1Floor" || obBName == "Player1") ||
+					(obAName == "Player1" || obAName == "Stage2Floor") && (obBName == "Stage2Floor" || obBName == "Player1") ||
+					(obAName == "Player1" || obAName == "Stage3Floor") && (obBName == "Stage3Floor" || obBName == "Player1"))
+				{
+					playerOneCanJump = true;
+				}
+				
+				else
+				{
+					playerOneCanJump = false;
+				}
+				
+				if ((obAName == "Player2" || obAName == "Stage1Floor") && (obBName == "Stage1Floor" || obBName == "Player2") ||
+					(obAName == "Player2" || obAName == "Stage2Floor") && (obBName == "Stage2Floor" || obBName == "Player2") ||
+					(obAName == "Player2" || obAName == "Stage3Floor") && (obBName == "Stage3Floor" || obBName == "Player2"))
+				{
+					playerTwoCanJump = true;
+				}
+				
+				else
+				{
+					playerTwoCanJump = false;
+				}
 				
 				// check if player 1's weapons hit player 2's body
 				if ((obAName == "JousterPlayer1" || obAName == "Player2") && (obBName == "Player2" || obBName == "JousterPlayer1") && (time_span.count() > players->getInvincibilityTime()))
@@ -199,7 +223,7 @@ void Physics::CheckCollisions()
 					// restart invincibility period
 					startTimePlayerTwoInvincibility = high_resolution_clock::now();
 				}
-			}*/
+			}
 		}
 	}
 }
@@ -207,4 +231,14 @@ void Physics::CheckCollisions()
 void Physics::setPlayerSettings(PlayerSettings* players)
 {
   this->players = players;
+}
+
+bool Physics::getPlayerOneCanJump()
+{
+	return playerOneCanJump;
+}
+
+bool Physics::getPlayerTwoCanJump()
+{
+	return playerTwoCanJump;
 }

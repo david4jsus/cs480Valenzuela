@@ -18,10 +18,10 @@ yaw: 0.0
 pitch: -17.0
 
 Gravity
-gravity: 0.0, -0.001, 0.0
+gravity: 0.0, -0.1, 0.0
 
 Jump height
-jump power: 0.05
+jump power: 1.0
 
 NOTES ON COLLISION SHAPE SIZES
 box: takes in a x, y, and z axis length
@@ -61,27 +61,27 @@ object position: 0.0, -10.0, 0.0
 object orientation: 0.0, 0.0, 0.0, 1.0
 object scale: 1.0
 object mass: 0.0
-object restitution: 1.0
+object restitution: 0.0
 object collision shape: plane
 object collision size: 0.0, 1.0, 0.0, 0.0
 
 object file name: Player1.obj
-object position: 10.0, 10.0, 0.0
+object position: 10.0, 15.0, 0.0
 object orientation: 0.0, 0.0, 0.0, 1.0
 object scale: 1.0
 object mass: 1.0
 object restitution: 1.0
-object collision shape: cylinder
+object collision shape: box
 object collision size: 2.0, 5.0, 2.0
 
 object file name: Player2.obj
-object position: -10.0, 10.0, 0.0
+object position: -10.0, 15.0, 0.0
 object orientation: 0.0, 0.0, 0.0, 1.0
 object scale: 1.0
 object mass: 1.0
 object restitution: 1.0
-object collision shape: sphere
-object collision size: 2.0
+object collision shape: box
+object collision size: 2.0, 5.0, 2.0
 
 object file name: LeftArenaWall.obj
 object position: 0.0, 0.0, -45.0

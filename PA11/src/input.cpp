@@ -109,7 +109,9 @@ void Input::KeydownEvents(SDL_Event m_event, bool &running)
          break;
 
 			// player two jump
-			case SDLK_KP_0:
+			case SDLK_KP_0: 
+				playerTwoJump();
+			  //GetObjectRigidBody("Player2")->applyCentralImpulse(btVector3(0.0f, m_graphics->getJumpHeight(), 0.0f));
          break;
 
       // Shader Toggle (Vertex/Fragment)
@@ -328,3 +330,7 @@ btRigidBody* Input::GetObjectRigidBody(string objectName)
   return m_graphics->GetRigidBody(objectName);
 }
 
+void Input::playerTwoJump()
+{
+	m_graphics->checkPlayerTwoJump();
+}
