@@ -23,7 +23,7 @@ class Graphics
   public:
     Graphics();
     Graphics(string vLightingVertFilePath, string vLightingFragFilePath, string fLightingVertFilePath, string fLightingFragFilePath, glm::vec3 storedEngineStartingCameraPos, 
-             float storedEngineYaw, float storedEnginePitch, std::vector<ObjectInfo> allObjectsInfo);
+             float storedEngineYaw, float storedEnginePitch, btVector3 gravityDirection, std::vector<ObjectInfo> allObjectsInfo);
     ~Graphics();
     bool Initialize(int width, int height, std::string file);
     void Update(unsigned int dt);
@@ -56,6 +56,9 @@ class Graphics
 
 		// sets current player conditions such as lives remaining
 		void setPlayerSettings(PlayerSettings* players);
+
+		// gets gravity direction
+		btVector3 getGravity();
 
   private:
     std::string ErrorString(GLenum error);
@@ -145,6 +148,9 @@ class Graphics
     // Light positions
     glm::vec3 light1Pos;
     glm::vec3 light2Pos;
+
+		// gravity direction
+		btVector3 gravityDirection;
 };
 
 #endif /* GRAPHICS_H */

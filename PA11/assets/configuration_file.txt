@@ -1,8 +1,8 @@
 GROUP PROJECT CONFIGURATION FILE
 
 Per Vertex Lighting Shaders
-../assets/shaders/ToonVertex.shader
-../assets/shaders/ToonFragment.shader
+../assets/shaders/vLightingVertex.shader
+../assets/shaders/vLightingFragment.shader
 
 Per Fragment Lighting Shaders
 ../assets/shaders/fLightingVertex.shader
@@ -16,6 +16,9 @@ z-axis: 0.0
 Camera Starting Orientation
 yaw: 0.0
 pitch: -17.0
+
+Gravity
+gravity: 0.0, -0.001, 0.0
 
 NOTES ON COLLISION SHAPE SIZES
 box: takes in a x, y, and z axis length
@@ -57,8 +60,8 @@ object orientation: 0.0, 0.0, 0.0, 1.0
 object scale: 0.05
 object mass: 1.0
 object restitution: 1.0
-object collision shape: sphere
-object collision size: 2.0
+object collision shape: capsule
+object collision size: 2.0, 5.0
 
 object file name: Player2.obj
 object position: -10.0, 10.0, 0.0

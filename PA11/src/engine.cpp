@@ -47,7 +47,7 @@ bool Engine::Initialize()
 
   // Start the graphics
   m_graphics = new Graphics(storedVLightingVertexShaderFilePath, storedVLightingFragmentShaderFilePath, storedFLightingVertexShaderFilePath, storedFLightingFragmentShaderFilePath, 
-                            storedEngineStartingCameraPos, storedEngineYaw, storedEnginePitch, allObjectsInfo);
+                            storedEngineStartingCameraPos, storedEngineYaw, storedEnginePitch, gravityDirection, allObjectsInfo);
   if(!m_graphics->Initialize(m_WINDOW_WIDTH, m_WINDOW_HEIGHT, m_file))
   {
     printf("The graphics failed to initialize.\n");
@@ -293,6 +293,24 @@ void Engine::loadConfigurationFileInfo()
       fin >> configFileInfo;
       fin >> floatInfo;
       storedEnginePitch = floatInfo;
+    }
+
+    // check if we are about to read in gravity direction information
+    else if(configFileInfo == "gravity:")
+    {
+      // get gravity x direction
+      fin >> xAxisInfo;
+      fin >> configFileInfo;
+      
+      // get gravity y direction
+      fin >> yAxisInfo;
+      fin >> configFileInfo;
+      
+      // get gravity z direction
+      fin >> zAxisInfo;
+
+			// set gravity direction
+			gravityDirection = btVector3(xAxisInfo, yAxisInfo, zAxisInfo);
     }
     
     // check if we are about to read in object name information
