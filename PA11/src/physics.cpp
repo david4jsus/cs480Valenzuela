@@ -135,7 +135,7 @@ void Physics::CheckCollisions()
 			}
 			
 			// get current amount of remaining player lives
-			players->getPlayersLives(playerOneRemainingLives, playerTwoRemainingLives);
+			/*players->getPlayersLives(playerOneRemainingLives, playerTwoRemainingLives);
 
 			// calcualte remaining lives if neither player is dead
 			if(playerOneRemainingLives != 0 && playerTwoRemainingLives != 0)
@@ -179,7 +179,7 @@ void Physics::CheckCollisions()
 					// restart invincibility period
 					startTimePlayerTwoInvincibility = high_resolution_clock::now();
 				}
-			}
+			}*/
 		}
 	}
 }
