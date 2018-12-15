@@ -145,15 +145,16 @@ void Engine::Run()
 			if(playerOneLives <= 0)
 			{
 				ImGui::Text("Player 2 wins!");
+				ImGui::Separator();
+      	ImGui::Separator();
 			}
 
 			else if(playerTwoLives <= 0)
 			{
 				ImGui::Text("Player 1 wins!");
+				ImGui::Separator();
+      	ImGui::Separator();
 			}
-
-			ImGui::Separator();
-      ImGui::Separator();
 
 			// display restart game button when one player dies
 			if(playerOneLives <= 0 || playerTwoLives <= 0)
@@ -162,11 +163,10 @@ void Engine::Run()
 				{
 					// restart game
 					restartGame();
+					ImGui::Separator();
+      		ImGui::Separator();
 				}
 			}    
-			
-			ImGui::Separator();
-      ImGui::Separator();
 
       ImGui::End();
     }

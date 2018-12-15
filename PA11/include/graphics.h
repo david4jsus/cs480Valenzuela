@@ -62,8 +62,9 @@ class Graphics
 
 		// gets jump height
 		float getJumpHeight();
-		
-		void checkPlayerTwoJump();
+
+		bool checkPlayerOneJump();		
+		bool checkPlayerTwoJump();
 
   private:
     std::string ErrorString(GLenum error);

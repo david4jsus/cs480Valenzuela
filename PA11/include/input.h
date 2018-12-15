@@ -7,6 +7,7 @@
 #include <sys/time.h>
 #include <iostream>
 #include <btBulletDynamicsCommon.h>
+#include <chrono>
 
 using namespace std;
 
@@ -36,6 +37,7 @@ class Input {
 	  btRigidBody* GetObjectRigidBody(string objectName);
 	  
 	  void playerTwoJump();
+		void playerOneJump();
 
    private:
       Graphics *m_graphics;
@@ -59,6 +61,13 @@ class Input {
 	  
 	  // Keyboard input
 	  bool shifting;
+
+		// jump time
+    high_resolution_clock::time_point startTimePlayerOneJump;
+    high_resolution_clock::time_point endTimePlayerOneJump;
+    high_resolution_clock::time_point startTimePlayerTwoJump;
+    high_resolution_clock::time_point endTimePlayerTwoJump;
+		duration<double, std::milli> time_span;
 };
 
 #endif

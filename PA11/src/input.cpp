@@ -28,6 +28,11 @@ bool Input::Initialize()
    
    shifting = false;
 
+	 startTimePlayerOneJump = high_resolution_clock::now();
+	 endTimePlayerOneJump = high_resolution_clock::now();
+	 startTimePlayerTwoJump = high_resolution_clock::now();
+	 endTimePlayerTwoJump = high_resolution_clock::now();
+
    return true;
 }
 
@@ -81,7 +86,7 @@ void Input::KeydownEvents(SDL_Event m_event, bool &running)
 
       // Move Camera Up
       case SDLK_SPACE:
-				 GetObjectRigidBody("Player1")->applyCentralImpulse(btVector3(0.0f, m_graphics->getJumpHeight(), 0.0f));
+				 playerOneJump();
          break;
 
 			// Move player two forward
@@ -111,7 +116,6 @@ void Input::KeydownEvents(SDL_Event m_event, bool &running)
 			// player two jump
 			case SDLK_KP_0: 
 				playerTwoJump();
-			  //GetObjectRigidBody("Player2")->applyCentralImpulse(btVector3(0.0f, m_graphics->getJumpHeight(), 0.0f));
          break;
 
       // Shader Toggle (Vertex/Fragment)
@@ -327,10 +331,33 @@ void Input::CheckPlayerMovement()
 
 btRigidBody* Input::GetObjectRigidBody(string objectName)
 {
-  return m_graphics->GetRigidBody(objectName);
+	return m_graphics->GetRigidBody(objectName);
+}
+
+void Input::playerOneJump()
+{
+	// calculate player 1 jump period
+	endTimePlayerOneJump = high_resolution_clock::now();
+	time_span = endTimePlayerOneJump - startTimePlayerOneJump;
+
+
+	if(time_span.count() >= 300)
+	{
+		GetObjectRigidBody("Player1")->applyCentralImpulse(btVector3(0.0f, m_graphics->getJumpHeight(), 0.0f));
+		startTimePlayerOneJump = high_resolution_clock::now();
+	}
 }
 
 void Input::playerTwoJump()
 {
-	m_graphics->checkPlayerTwoJump();
+	// calculate player 1 jump period
+	endTimePlayerTwoJump = high_resolution_clock::now();
+	time_span = endTimePlayerTwoJump - startTimePlayerTwoJump;
+
+
+	if(time_span.count() >= 300)
+	{
+		GetObjectRigidBody("Player2")->applyCentralImpulse(btVector3(0.0f, m_graphics->getJumpHeight(), 0.0f));
+		startTimePlayerTwoJump = high_resolution_clock::now();
+	}
 }
