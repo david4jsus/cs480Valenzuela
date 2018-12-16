@@ -341,7 +341,7 @@ void Input::playerOneJump()
 	time_span = endTimePlayerOneJump - startTimePlayerOneJump;
 
 
-	if(time_span.count() >= 300)
+	if(time_span.count() >= 1000)
 	{
 		GetObjectRigidBody("Player1")->applyCentralImpulse(btVector3(0.0f, m_graphics->getJumpHeight(), 0.0f));
 		startTimePlayerOneJump = high_resolution_clock::now();
@@ -355,7 +355,7 @@ void Input::playerTwoJump()
 	time_span = endTimePlayerTwoJump - startTimePlayerTwoJump;
 
 
-	if(time_span.count() >= 300)
+	if(time_span.count() >= 1000)
 	{
 		GetObjectRigidBody("Player2")->applyCentralImpulse(btVector3(0.0f, m_graphics->getJumpHeight(), 0.0f));
 		startTimePlayerTwoJump = high_resolution_clock::now();

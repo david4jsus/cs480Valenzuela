@@ -269,8 +269,7 @@ void Physics::CheckCollisions()
 			{
 				if(time_span.count() > players->getInvincibilityTime() && (playerTwoRemainingLives != 0) && (playerOneRemainingLives != 0))
 				{
-					if(time_span.count() > players->getInvincibilityTime())
-					{
+
 						cout << "|| Collision!" << endl;
 						
 						gameSound.LoadSound("../assets/sounds/hit.wav");
@@ -310,7 +309,7 @@ void Physics::CheckCollisions()
 							break;
 					}
 				}
-
+				
 				else if((playerTwoRemainingLives == 0) || (playerOneRemainingLives == 0))
 				{
 					// reset player 2's position
@@ -357,7 +356,6 @@ void Physics::CheckCollisions()
 		}
 	}
   }
-}
 
 void Physics::setPlayerSettings(PlayerSettings* players)
 {
