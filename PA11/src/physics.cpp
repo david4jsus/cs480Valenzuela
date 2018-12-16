@@ -183,10 +183,10 @@ void Physics::CheckCollisions()
 						cout << "|| Collision!" << endl;
 						
 						gameSound.LoadSound("../assets/sounds/hit.wav");
-                  gameSound.PlaySound();
+            gameSound.PlaySound();
 
-						// decrement each players lives
-						playerOneRemainingLives--;
+					// decrement each players lives
+					playerOneRemainingLives--;
 
 						// update remaining amount of lives
 						players->setPlayersLives(playerOneRemainingLives, playerTwoRemainingLives);												
@@ -196,41 +196,53 @@ void Physics::CheckCollisions()
 						   players->GameSet();
 						   players->GameReset();
 						}											
+					// update remaining amount of lives
+					players->setPlayersLives(playerOneRemainingLives, playerTwoRemainingLives);
 
-						// restart invincibility period
-						startTimePlayerOneInvincibility = high_resolution_clock::now();
+					// restart invincibility period
+					startTimePlayerOneInvincibility = high_resolution_clock::now();
 
-						// reset player 2's position
-						m_graphics->GetRigidBody("Player1")->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(10, 10, 0)));
-					}
-
-					else if(time_span.count() <= players->getInvincibilityTime())
-					{
-						// reset player 2's position
-						m_graphics->GetRigidBody("Player1")->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(10, 10, 0)));
-					}
+					// reset player 1's position
+					m_graphics->GetRigidBody("Player1")->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(10, 10, 0)));
 				}
 
-			// calculate player 2 invincibility period
-			endTimePlayerTwoInvincibility = high_resolution_clock::now();
-			time_span = endTimePlayerTwoInvincibility - startTimePlayerTwoInvincibility;
+				else if((playerTwoRemainingLives == 0) || (playerOneRemainingLives == 0))
+				{
+					cout << "|| Collision!" << endl;
 
-			// check if player 2's weapons hit player 1's body
+					// reset player 2's position
+					m_graphics->GetRigidBody("Player1")->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(-10, 10, 0)));
+				}
+
+        else if(time_span.count() <= players->getInvincibilityTime())
+				{
+					 // reset player 2's position
+					 m_graphics->GetRigidBody("Player1")->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(10, 10, 0)));
+				}
+			}
+
+		// calculate player 2 invincibility period
+		endTimePlayerTwoInvincibility = high_resolution_clock::now();
+		time_span = endTimePlayerTwoInvincibility - startTimePlayerTwoInvincibility;
+
+		// check if player 2's weapons hit player 1's body
 			if ((obAName == "DeathZone" || obAName == "Player2") && (obBName == "Player2" || obBName == "DeathZone"))
+			{
+				if(time_span.count() > players->getInvincibilityTime() && (playerTwoRemainingLives != 0) && (playerOneRemainingLives != 0))
 				{
 					if(time_span.count() > players->getInvincibilityTime())
 					{
 						cout << "|| Collision!" << endl;
 						
 						gameSound.LoadSound("../assets/sounds/hit.wav");
-                  gameSound.PlaySound();
+            gameSound.PlaySound();
 
-						// decrement each players lives
-							// will be changed in the future
-						playerTwoRemainingLives--;
+					// decrement each players lives
+						// will be changed in the future
+					playerTwoRemainingLives--;
 
-						// update remaining amount of lives
-						players->setPlayersLives(playerOneRemainingLives, playerTwoRemainingLives);
+					// update remaining amount of lives
+					players->setPlayersLives(playerOneRemainingLives, playerTwoRemainingLives);
 
 						if(playerTwoRemainingLives == 0)
 						{
@@ -241,15 +253,23 @@ void Physics::CheckCollisions()
 						// restart invincibility period
 						startTimePlayerTwoInvincibility = high_resolution_clock::now();
 
-						// reset player 1's position
-						m_graphics->GetRigidBody("Player2")->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(-10, 10, 0)));
-					}
+					// reset player 1's position
+					m_graphics->GetRigidBody("Player2")->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(-10, 10, 0)));
+				}
 
-					else if(time_span.count() <= players->getInvincibilityTime())
-					{
-						// reset player 2's position
-						m_graphics->GetRigidBody("Player2")->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(-10, 10, 0)));
-					}
+				else if((playerTwoRemainingLives == 0) || (playerOneRemainingLives == 0))
+				{
+					cout << "|| Collision!" << endl;
+
+					// reset player 2's position
+					m_graphics->GetRigidBody("Player2")->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(-10, 10, 0)));
+				}
+          
+				else if(time_span.count() <= players->getInvincibilityTime())
+				{
+					// reset player 2's position
+					m_graphics->GetRigidBody("Player2")->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(-10, 10, 0)));
+				} 
 				}
 			}
 		}

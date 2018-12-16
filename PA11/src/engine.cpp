@@ -156,46 +156,46 @@ void Engine::Run()
 				{			  
 				  soundPlayed = true;	
 				  gameSound.LoadSound("../assets/sounds/win.wav");
-              gameSound.PlaySound();
+          gameSound.PlaySound();
 				  gameSound.LoadSound("../assets/sounds/p1.wav");
-              gameSound.PlaySound();
-              gameSound.LoadSound("../assets/sounds/defeated.wav");
-              gameSound.PlaySound();
-            }
+          gameSound.PlaySound();
+          gameSound.LoadSound("../assets/sounds/defeated.wav");
+          gameSound.PlaySound();
+         }
 			}
 
 			else if(playerTwoLives <= 0)
 			{
 				ImGui::Text("Player 1 wins!");
+
 				
 				if(players->GameOver() && players->GameRestart() && !soundPlayed)
 				{			
 				  soundPlayed = true;
 				  gameSound.LoadSound("../assets/sounds/win.wav");
-              gameSound.PlaySound();
+          gameSound.PlaySound();
 				  gameSound.LoadSound("../assets/sounds/p2.wav");
-              gameSound.PlaySound();
-              gameSound.LoadSound("../assets/sounds/defeated.wav");
-              gameSound.PlaySound();
-            }
+          gameSound.PlaySound();
+          gameSound.LoadSound("../assets/sounds/defeated.wav");
+          gameSound.PlaySound();
+         }
 			}
 			
-			ImGui::Separator();
-         ImGui::Separator();
+			  ImGui::Separator();
+        ImGui::Separator();
 
 			// display restart game button when one player dies
 			if(playerOneLives <= 0 || playerTwoLives <= 0)
 			{
 				if(ImGui::Button("Restart Game"))
 				{			   				
-		        	// restart game
+		      // restart game
 					restartGame();
 				}
 			}    
-			
-			ImGui::Separator();
-      ImGui::Separator();
 
+    	ImGui::Separator();
+      ImGui::Separator();
       ImGui::End();
     }
     /////////////////////////////////////////////////
