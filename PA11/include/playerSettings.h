@@ -4,8 +4,11 @@
 class PlayerSettings
 {
   public:
-		// constructor
+	  // constructor
       PlayerSettings();
+      
+      // destructor
+      ~PlayerSettings();
 
 		// set each player's lives
 		void getPlayersLives(int &playerOneLives, int &playerTwoLives);

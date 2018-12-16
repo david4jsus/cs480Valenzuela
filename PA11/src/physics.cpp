@@ -53,6 +53,16 @@ Physics::~Physics()
         delete broadphase;
         broadphase = NULL;
     }
+    
+    if (rigidBodies.size() > 0)
+    {
+    	rigidBodies.clear();
+    }
+    
+    if (players != NULL)
+    {
+    	delete players;
+    }
 }
 
 //== Initializer ==//
@@ -176,8 +186,6 @@ void Physics::CheckCollisions()
 				{
 					if(time_span.count() > players->getInvincibilityTime())
 					{
-						cout << "|| Collision!" << endl;
-						
 						gameSound.LoadSound("../assets/sounds/hit.wav");
 						gameSound.PlaySound();
 
@@ -269,9 +277,6 @@ void Physics::CheckCollisions()
 			{
 				if(time_span.count() > players->getInvincibilityTime() && (playerTwoRemainingLives != 0) && (playerOneRemainingLives != 0))
 				{
-
-						cout << "|| Collision!" << endl;
-						
 						gameSound.LoadSound("../assets/sounds/hit.wav");
 						gameSound.PlaySound();
 

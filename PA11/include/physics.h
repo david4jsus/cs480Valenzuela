@@ -29,8 +29,8 @@ class Physics
     // Add rigid bodies
     void AddRigidBody(btRigidBody* rigidBody);
 
-		// sets player conditions such as lives remaining
-		void setPlayerSettings(PlayerSettings* players);
+	// sets player conditions such as lives remaining
+	void setPlayerSettings(PlayerSettings* players);
 		
 	bool getPlayerOneCanJump();
 	bool getPlayerTwoCanJump();
@@ -53,17 +53,17 @@ class Physics
     // Other functions
     void CheckCollisions();
 
-		// player settings
+	// player settings
     PlayerSettings* players;
 
-		// invincibility time
+	// invincibility time
     high_resolution_clock::time_point startTimePlayerOneInvincibility;
     high_resolution_clock::time_point endTimePlayerOneInvincibility;
     high_resolution_clock::time_point startTimePlayerTwoInvincibility;
     high_resolution_clock::time_point endTimePlayerTwoInvincibility;
     duration<double, std::milli> time_span;
 		
-	 // Sound related variables
+	// Sound related variables
     Sound gameSound;
 		
 	bool playerOneCanJump;

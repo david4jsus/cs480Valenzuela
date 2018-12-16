@@ -7,6 +7,10 @@ PlayerSettings::PlayerSettings()
   invincibilityTime = 5000.0;
 }
 
+PlayerSettings::~PlayerSettings()
+{
+}
+
 void PlayerSettings::getPlayersLives(int &playerOneLives, int &playerTwoLives)
 {
 	playerOneLives = playerOneRemainingLives;
