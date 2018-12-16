@@ -10,7 +10,6 @@ Sound::~Sound()
 {
    if (engineIsRunning)
    {
-	   SDL_FreeWAV(wavBuffer);
 	   engineIsRunning = false;
    }
    SDL_CloseAudioDevice(deviceId);
@@ -25,8 +24,9 @@ void Sound::LoadSound(std::string soundPath)
 		return;
 	}
 	
-	     deviceId = SDL_OpenAudioDevice( NULL, 0, &wavSpec, NULL, SDL_AUDIO_ALLOW_ANY_CHANGE );
-         int success = SDL_QueueAudio(deviceId, wavBuffer, wavLength);
+	 deviceId = SDL_OpenAudioDevice( NULL, 0, &wavSpec, NULL, SDL_AUDIO_ALLOW_ANY_CHANGE );
+	 int success = SDL_QueueAudio(deviceId, wavBuffer, wavLength);
+	 SDL_FreeWAV(wavBuffer);
 	//PlaySound();	
 }
 
@@ -59,12 +59,12 @@ void Sound::PlaySoundEffect()
 
 void Sound::LoopAudio()
 {
-	if (engineIsRunning)
+	/*if (engineIsRunning)
 	{
 		LoadSound("../assets/imperial_march.wav");
 		PlaySound();
 		std::cout << "Playing Audio Again" << std::endl;
-	}
+	}*/
 }
 
 bool Sound::AudioStopped()
