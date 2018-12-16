@@ -21,7 +21,7 @@ Gravity
 gravity: 0.0, -0.001, 0.0
 
 Jump height
-jump power: 0.05
+jump power: 0.13
 
 NOTES ON COLLISION SHAPE SIZES
 box: takes in a x, y, and z axis length
