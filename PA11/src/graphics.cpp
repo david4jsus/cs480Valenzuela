@@ -410,25 +410,13 @@ void Graphics::Update(unsigned int dt)
   }
   
   m_physics->Update();
-
-	// reposition player 1's weapon 
-	//GetRigidBody("Player1")->setCollisionFlags(btCollisionObject::CF_STATIC_OBJECT);
-	//btMotionState* playerOneBody = GetRigidBody("Player1")->getMotionState();
-	//btTransform playerOneOrientationPosiiton;
-	//playerOneBody->getWorldTransform(playerOneOrientationPosiiton);
-	//GetRigidBody("JousterPlayer1")->setCenterOfMassTransform(playerOneOrientationPosiiton);
-	//GetRigidBody("JousterPlayer1")->setWorldTransform(playerOneOrientationPosiiton);
-	//GetRigidBody("JousterPlayer1")->getMotionState()->setWorldTransform(playerOneOrientationPosiiton);
-	//GetRigidBody("JousterPlayer1")->setMotionState(playerOneBody);
-
-	//btMotionState* playerTwoBody = GetRigidBody("Player2")->getMotionState();
-	//btTransform playerTwoOrientationPosiiton;
-	//playerTwoBody->getWorldTransform(playerTwoOrientationPosiiton);
-	//GetRigidBody("JousterPlayer2")->setCenterOfMassTransform(playerTwoOrientationPosiiton);
 	
 	// Update light positions per player
 	light1Pos = GetObjectByName("Player1")->GetObjectPosition();
 	light2Pos = GetObjectByName("Player2")->GetObjectPosition();
+	
+	// Update skybox position
+	GetObjectByName("Skybox")->setPosition(m_camera->getCamPos());
 }
 
 void Graphics::Render()
