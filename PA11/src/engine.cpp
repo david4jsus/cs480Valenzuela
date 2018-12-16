@@ -196,6 +196,39 @@ void Engine::Run()
 
     	ImGui::Separator();
       ImGui::Separator();
+
+			if(ImGui::Button("Increase ambient lighting"))
+			{
+				if(m_graphics->GetAmbientLightingScale() < 1.0)
+				{
+					m_graphics->SetAmbientLightingScale(m_graphics->GetAmbientLightingScale() + 0.1);
+				}
+			}
+
+			if(ImGui::Button("Decrease ambient lighting"))
+			{
+				if(m_graphics->GetAmbientLightingScale() > 0.0)
+				{
+					m_graphics->SetAmbientLightingScale(m_graphics->GetAmbientLightingScale() - 0.1);
+				}
+			}
+
+			if(ImGui::Button("Increase specular lighting"))
+			{
+				if(m_graphics->GetAmbientLightingScale() < 1.0)
+				{
+					m_graphics->SetSpecularScale(m_graphics->GetSpecularScale() + 0.1);
+				}
+			}
+
+			if(ImGui::Button("Decrease specular lighting"))
+			{
+				if(m_graphics->GetAmbientLightingScale() > 0.0)
+				{
+					m_graphics->SetSpecularScale(m_graphics->GetSpecularScale() - 0.1);
+				}
+			}
+
       ImGui::End();
     }
     /////////////////////////////////////////////////
