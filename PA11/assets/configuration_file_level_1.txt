@@ -74,6 +74,14 @@ object restitution: 0.0
 object collision shape: sphere
 object collision size: 2.0
 
+object file name: Skybox.obj
+object position: 0.0, 0.0, 0.0
+object orientation: 0.0, 0.0, 0.0, 1.0
+object scale: 400.0
+object mass: 0.0
+object restitution: 0.0
+object collision shape: sphere
+object collision size: 0.0
 
 
 
