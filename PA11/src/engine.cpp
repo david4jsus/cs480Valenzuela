@@ -76,6 +76,12 @@ bool Engine::Initialize()
   ImGui_ImplOpenGL3_Init("#version 130"); // GL 3.0 + GLSL 130
   ImGui::StyleColorsDark(); // Setup style
   
+  // Stadium Sound
+  gameSound.LoadSound("../assets/sounds/ps1-ssbm.wav");
+  gameSound.PlaySound();
+  
+  soundPlayed = false;
+  
   // No errors
   return true;
 }
@@ -105,7 +111,7 @@ void Engine::Run()
     }
     
     m_input->CheckCamera(m_DT);
-	m_input->CheckPlayerMovement();
+	 m_input->CheckPlayerMovement();
     
     /////////////////////////////////////////////////
     /////////////// IMGUI MENU SYSTEM ///////////////
@@ -145,22 +151,44 @@ void Engine::Run()
 			if(playerOneLives <= 0)
 			{
 				ImGui::Text("Player 2 wins!");
+				
+				if(players->GameOver() && players->GameRestart() && !soundPlayed)
+				{			  
+				  soundPlayed = true;	
+				  gameSound.LoadSound("../assets/sounds/win.wav");
+              gameSound.PlaySound();
+				  gameSound.LoadSound("../assets/sounds/p1.wav");
+              gameSound.PlaySound();
+              gameSound.LoadSound("../assets/sounds/defeated.wav");
+              gameSound.PlaySound();
+            }
 			}
 
 			else if(playerTwoLives <= 0)
 			{
 				ImGui::Text("Player 1 wins!");
+				
+				if(players->GameOver() && players->GameRestart() && !soundPlayed)
+				{			
+				  soundPlayed = true;
+				  gameSound.LoadSound("../assets/sounds/win.wav");
+              gameSound.PlaySound();
+				  gameSound.LoadSound("../assets/sounds/p2.wav");
+              gameSound.PlaySound();
+              gameSound.LoadSound("../assets/sounds/defeated.wav");
+              gameSound.PlaySound();
+            }
 			}
-
+			
 			ImGui::Separator();
-      ImGui::Separator();
+         ImGui::Separator();
 
 			// display restart game button when one player dies
 			if(playerOneLives <= 0 || playerTwoLives <= 0)
 			{
 				if(ImGui::Button("Restart Game"))
-				{
-					// restart game
+				{			   				
+		        	// restart game
 					restartGame();
 				}
 			}    
@@ -493,7 +521,7 @@ void Engine::restartGame()
 {
 	// local variables
 	int playerOneLives, playerTwoLives;
-
+   
 	// reset players lives
 	playerOneLives = 3;
 	playerTwoLives = 3;

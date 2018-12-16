@@ -120,11 +120,7 @@ bool Graphics::Initialize(int width, int height, std::string file)
   meshLoaded = true;
   
   if(meshLoaded)
-  {
-	  // Waiting Song while the planets load
-	  gameSound.LoadSound("../assets/NGGUP.wav");
-	  gameSound.PlaySound();
-	  
+  {	  
 	  // get rigidbodies from objects
 	  for(objectsLooper = 0; objectsLooper < objectsInfo.size(); objectsLooper++)
 	  {
