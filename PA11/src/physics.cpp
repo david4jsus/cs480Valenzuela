@@ -179,7 +179,7 @@ void Physics::CheckCollisions()
 						cout << "|| Collision!" << endl;
 						
 						gameSound.LoadSound("../assets/sounds/hit.wav");
-            gameSound.PlaySound();
+						gameSound.PlaySound();
 
 					// decrement each players lives
 					playerOneRemainingLives--;
@@ -238,7 +238,7 @@ void Physics::CheckCollisions()
 					}
 				}
 
-        else if(time_span.count() <= players->getInvincibilityTime())
+				else if(time_span.count() <= players->getInvincibilityTime())
 				{
 					// reset player 1's position
 					btRigidBody* p1 = m_graphics->GetRigidBody("Player1");
@@ -274,7 +274,7 @@ void Physics::CheckCollisions()
 						cout << "|| Collision!" << endl;
 						
 						gameSound.LoadSound("../assets/sounds/hit.wav");
-            gameSound.PlaySound();
+						gameSound.PlaySound();
 
 					// decrement each players lives
 					// will be changed in the future
@@ -351,10 +351,12 @@ void Physics::CheckCollisions()
 							p2->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(990, 10, 0)));
 							break;
 					}
+				  }
 				}
 			}
 		}
 	}
+  }
 }
 
 void Physics::setPlayerSettings(PlayerSettings* players)
