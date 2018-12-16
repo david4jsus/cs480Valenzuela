@@ -7,11 +7,6 @@ PlayerSettings::PlayerSettings()
   invincibilityTime = 5000.0;
 }
 
-bool PlayerSettings::Stabbed()
-{
-   return stabbed;
-}
-
 void PlayerSettings::getPlayersLives(int &playerOneLives, int &playerTwoLives)
 {
 	playerOneLives = playerOneRemainingLives;
@@ -28,3 +23,31 @@ float PlayerSettings::getInvincibilityTime()
 {
 	return invincibilityTime;
 }
+
+bool PlayerSettings::GameSet()
+{
+   gameWon = true;  
+   return gameWon;
+}
+
+bool PlayerSettings::GameReset()
+{
+  gameReset = true;
+  return gameReset;
+}
+
+bool PlayerSettings::GameOver()
+{
+   return GameSet();
+}
+
+bool PlayerSettings::GameRestart()
+{
+   return GameReset();
+}
+
+
+
+
+
+
