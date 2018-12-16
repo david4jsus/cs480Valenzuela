@@ -69,7 +69,7 @@ bool Physics::Initialize()
 }
 
 //== Update function ==//
-void Physics::Update(/*unsigned int dt*/)
+void Physics::Update()
 {
 	CheckCollisions();
 }
@@ -108,10 +108,6 @@ void Physics::CheckCollisions()
 	
 	int numManifolds = collisionWorld->getDispatcher()->getNumManifolds();
 	
-   // Testing Constraints
-	//btTypedConstraint* p2p = new btPoint2PointConstraint(*m_graphics->GetRigidBody("JoustTip"), btVector3(0,-1.0,0));
-	//dynamicsWorld->addConstraint(p2p);
-	
 	for (int i = 0; i < numManifolds; i++)
 	{
 		btPersistentManifold* contactManifold = collisionWorld->getDispatcher()->getManifoldByIndexInternal(i);
@@ -145,18 +141,6 @@ void Physics::CheckCollisions()
 			endTimePlayerOneInvincibility = high_resolution_clock::now();
 			time_span = endTimePlayerOneInvincibility - startTimePlayerOneInvincibility;
 
-			// decrement each players lives
-		   // Player 1
-			/*if(players->Stabbed())
-			{
-			   playerTwoRemainingLives--;
-			}
-			
-			else
-			{
-			   playerOneRemainingLives--;
-			}*/
-			
 			// update remaining amount of lives
 			players->setPlayersLives(playerOneRemainingLives, playerTwoRemainingLives);
 			
@@ -189,8 +173,6 @@ void Physics::CheckCollisions()
 			{
 				if(time_span.count() > players->getInvincibilityTime() && (playerTwoRemainingLives != 0) && (playerOneRemainingLives != 0))
 				{
-					cout << "|| Collision!" << endl;
-
 					// decrement each players lives
 					playerOneRemainingLives--;
 
@@ -201,39 +183,78 @@ void Physics::CheckCollisions()
 					startTimePlayerOneInvincibility = high_resolution_clock::now();
 
 					// reset player 1's position
-					m_graphics->GetRigidBody("Player1")->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(10, 10, 0)));
+					btRigidBody* p1 = m_graphics->GetRigidBody("Player1");
+					p1->clearForces();
+					p1->setLinearVelocity(btVector3(0, 0, 0));
+					p1->setAngularVelocity(btVector3(0, 0, 0));
+					switch (m_graphics->GetCurrentMapNumber())
+					{
+						case 1:
+							p1->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(10, 10, 0)));
+							break;
+						case 2:
+							p1->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(510, 10, 0)));
+							break;
+						case 3:
+							p1->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(1010, 10, 0)));
+							break;
+					}
 				}
 
 				else if((playerTwoRemainingLives == 0) || (playerOneRemainingLives == 0))
 				{
-					cout << "|| Collision!" << endl;
-
-					// reset player 2's position
-					m_graphics->GetRigidBody("Player1")->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(-10, 10, 0)));
+					// reset player 1's position
+					btRigidBody* p1 = m_graphics->GetRigidBody("Player1");
+					p1->clearForces();
+					p1->setLinearVelocity(btVector3(0, 0, 0));
+					p1->setAngularVelocity(btVector3(0, 0, 0));
+					switch (m_graphics->GetCurrentMapNumber())
+					{
+						case 1:
+							p1->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(10, 10, 0)));
+							break;
+						case 2:
+							p1->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(510, 10, 0)));
+							break;
+						case 3:
+							p1->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(1010, 10, 0)));
+							break;
+					}
 				}
 
 				else if(time_span.count() <= players->getInvincibilityTime())
 				{
-					cout << "|| Collision!" << endl;
-
 					// reset player 1's position
-					m_graphics->GetRigidBody("Player1")->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(10, 10, 0)));
+					btRigidBody* p1 = m_graphics->GetRigidBody("Player1");
+					p1->clearForces();
+					p1->setLinearVelocity(btVector3(0, 0, 0));
+					p1->setAngularVelocity(btVector3(0, 0, 0));
+					switch (m_graphics->GetCurrentMapNumber())
+					{
+						case 1:
+							p1->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(10, 10, 0)));
+							break;
+						case 2:
+							p1->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(510, 10, 0)));
+							break;
+						case 3:
+							p1->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(1010, 10, 0)));
+							break;
+					}
 				}
 			}
 
-		// calculate player 2 invincibility period
-		endTimePlayerTwoInvincibility = high_resolution_clock::now();
-		time_span = endTimePlayerTwoInvincibility - startTimePlayerTwoInvincibility;
+			// calculate player 2 invincibility period
+			endTimePlayerTwoInvincibility = high_resolution_clock::now();
+			time_span = endTimePlayerTwoInvincibility - startTimePlayerTwoInvincibility;
 
-		// check if player 2's weapons hit player 1's body
+			// check if player 2's weapons hit player 1's body
 			if ((obAName == "DeathZone" || obAName == "Player2") && (obBName == "Player2" || obBName == "DeathZone"))
 			{
 				if(time_span.count() > players->getInvincibilityTime() && (playerTwoRemainingLives != 0) && (playerOneRemainingLives != 0))
 				{
-					cout << "|| Collision!" << endl;
-
 					// decrement each players lives
-						// will be changed in the future
+					// will be changed in the future
 					playerTwoRemainingLives--;
 
 					// update remaining amount of lives
@@ -242,24 +263,65 @@ void Physics::CheckCollisions()
 					// restart invincibility period
 					startTimePlayerTwoInvincibility = high_resolution_clock::now();
 
-					// reset player 1's position
-					m_graphics->GetRigidBody("Player2")->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(-10, 10, 0)));
+					// reset player 2's position
+					btRigidBody* p2 = m_graphics->GetRigidBody("Player2");
+					p2->clearForces();
+					p2->setLinearVelocity(btVector3(0, 0, 0));
+					p2->setAngularVelocity(btVector3(0, 0, 0));
+					switch (m_graphics->GetCurrentMapNumber())
+					{
+						case 1:
+							p2->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(-10, 10, 0)));
+							break;
+						case 2:
+							p2->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(490, 10, 0)));
+							break;
+						case 3:
+							p2->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(990, 10, 0)));
+							break;
+					}
 				}
 
 				else if((playerTwoRemainingLives == 0) || (playerOneRemainingLives == 0))
 				{
-					cout << "|| Collision!" << endl;
-
 					// reset player 2's position
-					m_graphics->GetRigidBody("Player2")->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(-10, 10, 0)));
+					btRigidBody* p2 = m_graphics->GetRigidBody("Player2");
+					p2->clearForces();
+					p2->setLinearVelocity(btVector3(0, 0, 0));
+					p2->setAngularVelocity(btVector3(0, 0, 0));
+					switch (m_graphics->GetCurrentMapNumber())
+					{
+						case 1:
+							p2->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(-10, 10, 0)));
+							break;
+						case 2:
+							p2->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(490, 10, 0)));
+							break;
+						case 3:
+							p2->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(990, 10, 0)));
+							break;
+					}
 				}
 
 				else if(time_span.count() <= players->getInvincibilityTime())
 				{
-					cout << "|| Collision!" << endl;
-
 					// reset player 2's position
-					m_graphics->GetRigidBody("Player2")->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(-10, 10, 0)));
+					btRigidBody* p2 = m_graphics->GetRigidBody("Player2");
+					p2->clearForces();
+					p2->setLinearVelocity(btVector3(0, 0, 0));
+					p2->setAngularVelocity(btVector3(0, 0, 0));
+					switch (m_graphics->GetCurrentMapNumber())
+					{
+						case 1:
+							p2->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(-10, 10, 0)));
+							break;
+						case 2:
+							p2->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(490, 10, 0)));
+							break;
+						case 3:
+							p2->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(990, 10, 0)));
+							break;
+					}
 				}
 			}
 		}
