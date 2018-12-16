@@ -3,6 +3,7 @@
 
 #include "graphics.h"
 #include "playerSettings.h"
+#include "sound.h"
 
 #include <btBulletDynamicsCommon.h>
 
@@ -60,7 +61,10 @@ class Physics
     high_resolution_clock::time_point endTimePlayerOneInvincibility;
     high_resolution_clock::time_point startTimePlayerTwoInvincibility;
     high_resolution_clock::time_point endTimePlayerTwoInvincibility;
-		duration<double, std::milli> time_span;
+    duration<double, std::milli> time_span;
+		
+	 // Sound related variables
+    Sound gameSound;
 		
 	bool playerOneCanJump;
 	bool playerTwoCanJump;

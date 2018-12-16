@@ -30,15 +30,22 @@ class Engine
     
     void loadConfigurationFileInfo();
 
-		void setPlayerSettings();
+
+	 void setPlayerSettings();
   
     SDL_Event m_event;
     bool m_running;
+    
+    bool soundPlayed;
+    
     unsigned int m_DT;
 
-		void restartGame();
+    void restartGame();
     
   private:
+		
+	// Private functions
+	void ToMap(int level);
   
     // Window related variables
     Window *m_window;    
@@ -64,28 +71,28 @@ class Engine
     std::string m_file;
     
     // configuration file variables
-      // per vertex lighting
+    // per vertex lighting
     string storedVLightingVertexShaderFilePath;
     string storedVLightingFragmentShaderFilePath;
     
-      // per fragment lighting
+    // per fragment lighting
     string storedFLightingVertexShaderFilePath;
     string storedFLightingFragmentShaderFilePath;
     
-      // camera starting position
+    // camera starting position
     glm::vec3 storedEngineStartingCameraPos;
     
-      // camera starting orientation
+    // camera starting orientation
     float storedEngineYaw;
     float storedEnginePitch;
 
-			// gravity direction
-		btVector3 gravityDirection;
+	// gravity direction
+	btVector3 gravityDirection;
 
-			// jump height
-		float jumpHeight;
+	// jump height
+	float jumpHeight;
     
-      // information on all objects
+    // information on all objects
     std::vector<ObjectInfo> allObjectsInfo;
     
     // player settings

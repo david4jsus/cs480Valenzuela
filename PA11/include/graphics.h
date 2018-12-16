@@ -38,33 +38,37 @@ class Graphics
     
     Object* GetObjectByName(string name);
     
-		int GetNumberOfObjects();
-		 
-		// Physics 
-		btDiscreteDynamicsWorld* GetDynamicsWorld();
-		 
-		float GetAmbientLightingScale();
-		float SetAmbientLightingScale(float setAmbientLighting);
-		 
-		float GetSpecularScale();
-		float SetSpecularScale(float setSpecularScale);
-		 
-		btRigidBody* GetRigidBody(string objectName);
+	int GetNumberOfObjects();
+	 
+	// Physics 
+	btDiscreteDynamicsWorld* GetDynamicsWorld();
+	 
+	float GetAmbientLightingScale();
+	float SetAmbientLightingScale(float setAmbientLighting);
+	 
+	float GetSpecularScale();
+	float SetSpecularScale(float setSpecularScale);
+	 
+	btRigidBody* GetRigidBody(string objectName);
+
+	// sets the initial starting camera position
+	void setCameraStartingPos();
+
+	// sets current player conditions such as lives remaining
+	void setPlayerSettings(PlayerSettings* players);
+
+	// gets gravity direction
+	btVector3 getGravity();
+
+	// gets jump height
+	float getJumpHeight();
+
+	bool checkPlayerOneJump();
+	bool checkPlayerTwoJump();
 	
-		// sets the initial starting camera position
-		void setCameraStartingPos();
-
-		// sets current player conditions such as lives remaining
-		void setPlayerSettings(PlayerSettings* players);
-
-		// gets gravity direction
-		btVector3 getGravity();
-
-		// gets jump height
-		float getJumpHeight();
-
-		bool checkPlayerOneJump();		
-		bool checkPlayerTwoJump();
+	// Current map number setter/getter
+	void SetCurrentMapNumber(int number);
+	int GetCurrentMapNumber();
 
   private:
     std::string ErrorString(GLenum error);
@@ -81,21 +85,21 @@ class Graphics
     GLint m_vviewMatrix;
     GLint m_vmodelMatrix;
 
-		// first light
+	// first light
     GLint m_vFirstLightPos;
     GLint m_vambientColor;
     GLint m_vFirstLightDiffuseColor;
     GLint m_vFirstLightSpecularColor;
     GLint m_vFirstLightShininess;
 
-		// second light
-		GLint m_vSecondLightPos;
+	// second light
+	GLint m_vSecondLightPos;
     GLint m_vSecondLightDiffuseColor;
     GLint m_vSecondLightSpecularColor;
     GLint m_vSecondLightShininess;
 
-		// third light
-	  GLint m_vThirdLightPos;
+	// third light
+    GLint m_vThirdLightPos;
     GLint m_vThirdLightDiffuseColor;
     GLint m_vThirdLightSpecularColor;
     GLint m_vThirdLightShininess;
@@ -107,30 +111,30 @@ class Graphics
     GLint m_fviewMatrix;
     GLint m_fmodelMatrix;
 
-		// first light
+	// first light
     GLint m_fFirstLightPos;
     GLint m_fambientColor;
     GLint m_fFirstLightDiffuseColor;
     GLint m_fFirstLightSpecularColor;
     GLint m_fFirstLightShininess;
 
-		// second light
+	// second light
     GLint m_fSecondLightPos;
-		GLint m_fSecondLightDiffuseColor;
+	GLint m_fSecondLightDiffuseColor;
     GLint m_fSecondLightSpecularColor;
     GLint m_fSecondLightShininess;
 
-		// third light
-		GLint m_fThirdLightPos;
-		GLint m_fThirdLightDiffuseColor;
+	// third light
+	GLint m_fThirdLightPos;
+	GLint m_fThirdLightDiffuseColor;
     GLint m_fThirdLightSpecularColor;
     GLint m_fThirdLightShininess;
-		
-		// game sound
+  
+	// game sound
     Sound gameSound;
 
-		// objects
-		std::vector<Object*> m_objects;
+	// objects
+	std::vector<Object*> m_objects;
     
     // Shader switching
     bool shaderToggle;
@@ -155,11 +159,14 @@ class Graphics
     glm::vec3 light1Pos;
     glm::vec3 light2Pos;
 
-		// gravity direction
-		btVector3 gravityDirection;
+	// gravity direction
+	btVector3 gravityDirection;
 
-		// jump height
-		float jumpHeight;
+	// jump height
+	float jumpHeight;
+	
+	// Current map number
+	int currentMap;
 };
 
 #endif /* GRAPHICS_H */

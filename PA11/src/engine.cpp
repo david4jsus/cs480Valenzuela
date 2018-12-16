@@ -76,6 +76,12 @@ bool Engine::Initialize()
   ImGui_ImplOpenGL3_Init("#version 130"); // GL 3.0 + GLSL 130
   ImGui::StyleColorsDark(); // Setup style
   
+  // Stadium Sound
+  gameSound.LoadSound("../assets/sounds/ps1-ssbm.wav");
+  gameSound.PlaySound();
+  
+  soundPlayed = false;
+  
   // No errors
   return true;
 }
@@ -105,7 +111,7 @@ void Engine::Run()
     }
     
     m_input->CheckCamera(m_DT);
-	m_input->CheckPlayerMovement();
+	 m_input->CheckPlayerMovement();
     
     /////////////////////////////////////////////////
     /////////////// IMGUI MENU SYSTEM ///////////////
@@ -122,9 +128,9 @@ void Engine::Run()
       ImGui::Separator();
       ImGui::Separator();
 
-			// display player 1's remaining lives
+	  // display player 1's remaining lives
       int playerOneLives, playerTwoLives;
-			players->getPlayersLives(playerOneLives, playerTwoLives);
+	  players->getPlayersLives(playerOneLives, playerTwoLives);
       std::string playerOneLivesText = "Player 1 lives remaining: ";
       playerOneLivesText.append(std::to_string(playerOneLives));
       const char* displayPlayerOneLivesText = playerOneLivesText.c_str();
@@ -133,8 +139,8 @@ void Engine::Run()
       ImGui::Separator();
       ImGui::Separator();
 
-			// display player 2's remaining lives
-			std::string playerTwoLivesText = "Player 2 lives remaining: ";
+      // display player 2's remaining lives
+	  std::string playerTwoLivesText = "Player 2 lives remaining: ";
       playerTwoLivesText.append(std::to_string(playerTwoLives));
       const char* displayPlayerTwoLivesText = playerTwoLivesText.c_str();
       ImGui::Text(displayPlayerTwoLivesText);
@@ -142,32 +148,53 @@ void Engine::Run()
       ImGui::Separator();
       ImGui::Separator();
 
-			if(playerOneLives <= 0)
-			{
-				ImGui::Text("Player 2 wins!");
-				ImGui::Separator();
-      	ImGui::Separator();
-			}
+       if(playerOneLives <= 0)
+       {
+		   ImGui::Text("Player 2 wins!");
+						
+		   if(players->GameOver() && players->GameRestart() && !soundPlayed)
+		   {			  
+				 soundPlayed = true;	
+				 gameSound.LoadSound("../assets/sounds/win.wav");
+				 gameSound.PlaySound();
+				 gameSound.LoadSound("../assets/sounds/p1.wav");
+				 gameSound.PlaySound();
+				 gameSound.LoadSound("../assets/sounds/defeated.wav");
+				 gameSound.PlaySound();
+		   }
+       }
 
-			else if(playerTwoLives <= 0)
-			{
-				ImGui::Text("Player 1 wins!");
-				ImGui::Separator();
-      	ImGui::Separator();
+       else if(playerTwoLives <= 0)
+       {
+		   ImGui::Text("Player 1 wins!");
+						
+		   if(players->GameOver() && players->GameRestart() && !soundPlayed)
+		   {			
+				  soundPlayed = true;
+				  gameSound.LoadSound("../assets/sounds/win.wav");
+				  gameSound.PlaySound();
+				  gameSound.LoadSound("../assets/sounds/p2.wav");
+				  gameSound.PlaySound();
+				  gameSound.LoadSound("../assets/sounds/defeated.wav");
+				  gameSound.PlaySound();
 			}
+      	}
+			
+  	    ImGui::Separator();
+        ImGui::Separator();
 
 			// display restart game button when one player dies
 			if(playerOneLives <= 0 || playerTwoLives <= 0)
 			{
 				if(ImGui::Button("Restart Game"))
-				{
-					// restart game
+				{			   				
+		      // restart game
 					restartGame();
-					ImGui::Separator();
-      		ImGui::Separator();
 				}
-			}    
+			}
 
+    	ImGui::Separator();
+      ImGui::Separator();
 
 			if(ImGui::Button("Increase ambient lighting"))
 			{
@@ -200,7 +227,7 @@ void Engine::Run()
 					m_graphics->SetSpecularScale(m_graphics->GetSpecularScale() - 0.1);
 				}
 			}
-		
+
       ImGui::End();
     }
     /////////////////////////////////////////////////
@@ -252,7 +279,7 @@ void Engine::loadConfigurationFileInfo()
   
   // clear and open file
   fin.clear();
-  fin.open("../assets/configuration_file.txt");
+  fin.open("../assets/configuration_file_level_1.txt");
   
   // run until end of file
   while(fin.eof() == false)
@@ -526,13 +553,52 @@ void Engine::restartGame()
 {
 	// local variables
 	int playerOneLives, playerTwoLives;
-
+   
 	// reset players lives
 	playerOneLives = 3;
 	playerTwoLives = 3;
 	players->setPlayersLives(playerOneLives, playerTwoLives);
+	
+	// To next map (cyclical)
+	int map = m_graphics->GetCurrentMapNumber();
+	switch (map)
+	{
+		default:
+		case 1:
+			ToMap(2);
+			break;
+		case 2:
+			ToMap(3);
+			break;
+		case 3:
+			ToMap(1);
+			break;
+	}
+}
 
-	// reset players position
-	GetObjectRigidBody("Player1")->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(10, 10, 0)));
-	GetObjectRigidBody("Player2")->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(-10, 10, 0)));
+void Engine::ToMap(int map)
+{
+	switch (map)
+	{
+		case 0:
+		case 1:
+			m_graphics->SetCurrentMapNumber(1);
+			m_graphics->GetCamera()->setCamPos(glm::vec3(-50, 5, 0));
+			GetObjectRigidBody("Player1")->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(10, 10, 0)));
+			GetObjectRigidBody("Player2")->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(-10, 10, 0)));
+			break;
+		case 2:
+			m_graphics->SetCurrentMapNumber(2);
+			m_graphics->GetCamera()->setCamPos(glm::vec3(450, 5, 0));
+			GetObjectRigidBody("Player1")->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(510, 10, 0)));
+			GetObjectRigidBody("Player2")->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(490, 10, 0)));
+			break;
+		default:
+		case 3:
+			m_graphics->SetCurrentMapNumber(3);
+			m_graphics->GetCamera()->setCamPos(glm::vec3(950, 5, 0));
+			GetObjectRigidBody("Player1")->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(1010, 10, 0)));
+			GetObjectRigidBody("Player2")->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(990, 10, 0)));
+			break;
+	}
 }

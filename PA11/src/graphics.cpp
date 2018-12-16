@@ -18,6 +18,8 @@ Graphics::Graphics()
 	ambientLightingScale = 0.5;
 	specularScale = 0.5;
 	
+	currentMap = 1;
+	
 	m_physics = new Physics(this);
 }
 
@@ -120,11 +122,7 @@ bool Graphics::Initialize(int width, int height, std::string file)
   meshLoaded = true;
   
   if(meshLoaded)
-  {
-	  // Waiting Song while the planets load
-	  gameSound.LoadSound("../assets/NGGUP.wav");
-	  gameSound.PlaySound();
-	  
+  {	  
 	  // get rigidbodies from objects
 	  for(objectsLooper = 0; objectsLooper < objectsInfo.size(); objectsLooper++)
 	  {
@@ -688,4 +686,25 @@ bool Graphics::checkPlayerOneJump()
 bool Graphics::checkPlayerTwoJump()
 {
 	return m_physics->getPlayerTwoCanJump();
+}
+
+void Graphics::SetCurrentMapNumber(int number)
+{
+	if (number <= 0)
+	{
+		currentMap = 1;
+	}
+	else if (number > 3)
+	{
+		currentMap = 3;
+	}
+	else
+	{
+		currentMap = number;
+	}
+}
+
+int Graphics::GetCurrentMapNumber()
+{
+	return currentMap;
 }

@@ -7,9 +7,6 @@ class PlayerSettings
 		// constructor
       PlayerSettings();
 
-      // stabbed
-      bool Stabbed();
-
 		// set each player's lives
 		void getPlayersLives(int &playerOneLives, int &playerTwoLives);
 
@@ -18,12 +15,20 @@ class PlayerSettings
 
 		// get invincibility time length
 		float getInvincibilityTime();
+		
+		// player win
+		bool GameSet();
+		bool GameOver();
+		bool GameReset();
+		bool GameRestart();
     
 	private:
     int playerOneRemainingLives;
     int playerTwoRemainingLives;
     float invincibilityTime;
-    bool stabbed = true;
+    
+    bool gameWon;
+    bool gameReset;
 };
 
 #endif // PLAYER_SETTINGS_H

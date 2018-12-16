@@ -69,7 +69,7 @@ bool Physics::Initialize()
 }
 
 //== Update function ==//
-void Physics::Update(/*unsigned int dt*/)
+void Physics::Update()
 {
 	CheckCollisions();
 }
@@ -108,10 +108,6 @@ void Physics::CheckCollisions()
 	
 	int numManifolds = collisionWorld->getDispatcher()->getNumManifolds();
 	
-   // Testing Constraints
-	//btTypedConstraint* p2p = new btPoint2PointConstraint(*m_graphics->GetRigidBody("JoustTip"), btVector3(0,-1.0,0));
-	//dynamicsWorld->addConstraint(p2p);
-	
 	for (int i = 0; i < numManifolds; i++)
 	{
 		btPersistentManifold* contactManifold = collisionWorld->getDispatcher()->getManifoldByIndexInternal(i);
@@ -141,59 +137,61 @@ void Physics::CheckCollisions()
 			// get current amount of remaining player lives
 			players->getPlayersLives(playerOneRemainingLives, playerTwoRemainingLives);
 
-			// calculate player 1 invincibility period
-			endTimePlayerOneInvincibility = high_resolution_clock::now();
-			time_span = endTimePlayerOneInvincibility - startTimePlayerOneInvincibility;
-
-			// decrement each players lives
-		   // Player 1
-			/*if(players->Stabbed())
+			// calcualte remaining lives if neither player is dead
+			if(playerOneRemainingLives != 0 && playerTwoRemainingLives != 0)
 			{
-			   playerTwoRemainingLives--;
-			}
-			
-			else
-			{
-			   playerOneRemainingLives--;
-			}*/
-			
-			// update remaining amount of lives
-			players->setPlayersLives(playerOneRemainingLives, playerTwoRemainingLives);
-			
-			if ((obAName == "Player1" || obAName == "Stage1Floor") && (obBName == "Stage1Floor" || obBName == "Player1") ||
-				(obAName == "Player1" || obAName == "Stage2Floor") && (obBName == "Stage2Floor" || obBName == "Player1") ||
-				(obAName == "Player1" || obAName == "Stage3Floor") && (obBName == "Stage3Floor" || obBName == "Player1"))
-			{
-				playerOneCanJump = true;
-			}
-			
-			else
-			{
-				playerOneCanJump = false;
-			}
-			
-			if (((obAName == "Player2" || obAName == "Stage1Floor") && (obBName == "Stage1Floor" || obBName == "Player2")) ||
-				((obAName == "Player2" || obAName == "Stage2Floor") && (obBName == "Stage2Floor" || obBName == "Player2")) ||
-				((obAName == "Player2" || obAName == "Stage3Floor") && (obBName == "Stage3Floor" || obBName == "Player2")))
-			{
-				playerTwoCanJump = true;
-			}
-			
-			else
-			{
-				playerTwoCanJump = false;
-			}
-			
-			// check if player 1's weapons hit player 2's body
-			if ((obAName == "DeathZone" || obAName == "Player1") && (obBName == "Player1" || obBName == "DeathZone"))
-			{
-				if(time_span.count() > players->getInvincibilityTime() && (playerTwoRemainingLives != 0) && (playerOneRemainingLives != 0))
+				// calculate player 1 invincibility period
+				endTimePlayerOneInvincibility = high_resolution_clock::now();
+				time_span = endTimePlayerOneInvincibility - startTimePlayerOneInvincibility;
+				
+				// update remaining amount of lives
+				players->setPlayersLives(playerOneRemainingLives, playerTwoRemainingLives);
+				
+				if ((obAName == "Player1" || obAName == "Stage1Floor") && (obBName == "Stage1Floor" || obBName == "Player1") ||
+					(obAName == "Player1" || obAName == "Stage2Floor") && (obBName == "Stage2Floor" || obBName == "Player1") ||
+					(obAName == "Player1" || obAName == "Stage3Floor") && (obBName == "Stage3Floor" || obBName == "Player1"))
 				{
-					cout << "|| Collision!" << endl;
+					playerOneCanJump = true;
+				}
+				
+				else
+				{
+					playerOneCanJump = false;
+				}
+				
+				if ((obAName == "Player2" || obAName == "Stage1Floor") && (obBName == "Stage1Floor" || obBName == "Player2") ||
+					(obAName == "Player2" || obAName == "Stage2Floor") && (obBName == "Stage2Floor" || obBName == "Player2") ||
+					(obAName == "Player2" || obAName == "Stage3Floor") && (obBName == "Stage3Floor" || obBName == "Player2"))
+				{
+					playerTwoCanJump = true;
+				}
+				
+				else
+				{
+					playerTwoCanJump = false;
+				}
+				
+				// check if player 1's weapons hit player 2's body
+				if ((obAName == "DeathZone" || obAName == "Player1") && (obBName == "Player1" || obBName == "DeathZone"))
+				{
+					if(time_span.count() > players->getInvincibilityTime())
+					{
+						cout << "|| Collision!" << endl;
+						
+						gameSound.LoadSound("../assets/sounds/hit.wav");
+						gameSound.PlaySound();
 
 					// decrement each players lives
 					playerOneRemainingLives--;
 
+						// update remaining amount of lives
+						players->setPlayersLives(playerOneRemainingLives, playerTwoRemainingLives);												
+						
+						if(playerOneRemainingLives == 0)
+						{
+						   players->GameSet();
+						   players->GameReset();
+						}											
 					// update remaining amount of lives
 					players->setPlayersLives(playerOneRemainingLives, playerTwoRemainingLives);
 
@@ -201,70 +199,163 @@ void Physics::CheckCollisions()
 					startTimePlayerOneInvincibility = high_resolution_clock::now();
 
 					// reset player 1's position
-					m_graphics->GetRigidBody("Player1")->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(10, 10, 0)));
+					btRigidBody* p1 = m_graphics->GetRigidBody("Player1");
+					p1->clearForces();
+					p1->setLinearVelocity(btVector3(0, 0, 0));
+					p1->setAngularVelocity(btVector3(0, 0, 0));
+					switch (m_graphics->GetCurrentMapNumber())
+					{
+						case 1:
+							p1->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(10, 10, 0)));
+							break;
+						case 2:
+							p1->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(510, 10, 0)));
+							break;
+						case 3:
+							p1->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(1010, 10, 0)));
+							break;
+					}
 				}
 
 				else if((playerTwoRemainingLives == 0) || (playerOneRemainingLives == 0))
 				{
-					cout << "|| Collision!" << endl;
-
-					// reset player 2's position
-					m_graphics->GetRigidBody("Player1")->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(-10, 10, 0)));
+					// reset player 1's position
+					btRigidBody* p1 = m_graphics->GetRigidBody("Player1");
+					p1->clearForces();
+					p1->setLinearVelocity(btVector3(0, 0, 0));
+					p1->setAngularVelocity(btVector3(0, 0, 0));
+					switch (m_graphics->GetCurrentMapNumber())
+					{
+						case 1:
+							p1->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(10, 10, 0)));
+							break;
+						case 2:
+							p1->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(510, 10, 0)));
+							break;
+						case 3:
+							p1->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(1010, 10, 0)));
+							break;
+					}
 				}
 
 				else if(time_span.count() <= players->getInvincibilityTime())
 				{
-					cout << "|| Collision!" << endl;
-
 					// reset player 1's position
-					m_graphics->GetRigidBody("Player1")->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(10, 10, 0)));
+					btRigidBody* p1 = m_graphics->GetRigidBody("Player1");
+					p1->clearForces();
+					p1->setLinearVelocity(btVector3(0, 0, 0));
+					p1->setAngularVelocity(btVector3(0, 0, 0));
+					switch (m_graphics->GetCurrentMapNumber())
+					{
+						case 1:
+							p1->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(10, 10, 0)));
+							break;
+						case 2:
+							p1->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(510, 10, 0)));
+							break;
+						case 3:
+							p1->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(1010, 10, 0)));
+							break;
+					}
 				}
 			}
 
-		// calculate player 2 invincibility period
-		endTimePlayerTwoInvincibility = high_resolution_clock::now();
-		time_span = endTimePlayerTwoInvincibility - startTimePlayerTwoInvincibility;
+			// calculate player 2 invincibility period
+			endTimePlayerTwoInvincibility = high_resolution_clock::now();
+			time_span = endTimePlayerTwoInvincibility - startTimePlayerTwoInvincibility;
 
-		// check if player 2's weapons hit player 1's body
+			// check if player 2's weapons hit player 1's body
 			if ((obAName == "DeathZone" || obAName == "Player2") && (obBName == "Player2" || obBName == "DeathZone"))
 			{
 				if(time_span.count() > players->getInvincibilityTime() && (playerTwoRemainingLives != 0) && (playerOneRemainingLives != 0))
 				{
-					cout << "|| Collision!" << endl;
+
+						cout << "|| Collision!" << endl;
+						
+						gameSound.LoadSound("../assets/sounds/hit.wav");
+						gameSound.PlaySound();
 
 					// decrement each players lives
-						// will be changed in the future
+					// will be changed in the future
 					playerTwoRemainingLives--;
 
 					// update remaining amount of lives
 					players->setPlayersLives(playerOneRemainingLives, playerTwoRemainingLives);
 
-					// restart invincibility period
-					startTimePlayerTwoInvincibility = high_resolution_clock::now();
+						if(playerTwoRemainingLives == 0)
+						{
+						   players->GameSet();
+						   players->GameReset();
+						}
+						
+						// restart invincibility period
+						startTimePlayerTwoInvincibility = high_resolution_clock::now();
 
-					// reset player 1's position
-					m_graphics->GetRigidBody("Player2")->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(-10, 10, 0)));
+					// reset player 2's position
+					btRigidBody* p2 = m_graphics->GetRigidBody("Player2");
+					p2->clearForces();
+					p2->setLinearVelocity(btVector3(0, 0, 0));
+					p2->setAngularVelocity(btVector3(0, 0, 0));
+					switch (m_graphics->GetCurrentMapNumber())
+					{
+						case 1:
+							p2->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(-10, 10, 0)));
+							break;
+						case 2:
+							p2->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(490, 10, 0)));
+							break;
+						case 3:
+							p2->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(990, 10, 0)));
+							break;
+					}
 				}
-
+				
 				else if((playerTwoRemainingLives == 0) || (playerOneRemainingLives == 0))
 				{
-					cout << "|| Collision!" << endl;
-
 					// reset player 2's position
-					m_graphics->GetRigidBody("Player2")->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(-10, 10, 0)));
+					btRigidBody* p2 = m_graphics->GetRigidBody("Player2");
+					p2->clearForces();
+					p2->setLinearVelocity(btVector3(0, 0, 0));
+					p2->setAngularVelocity(btVector3(0, 0, 0));
+					switch (m_graphics->GetCurrentMapNumber())
+					{
+						case 1:
+							p2->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(-10, 10, 0)));
+							break;
+						case 2:
+							p2->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(490, 10, 0)));
+							break;
+						case 3:
+							p2->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(990, 10, 0)));
+							break;
+					}
 				}
-
+          
 				else if(time_span.count() <= players->getInvincibilityTime())
 				{
-					cout << "|| Collision!" << endl;
-
 					// reset player 2's position
-					m_graphics->GetRigidBody("Player2")->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(-10, 10, 0)));
+					btRigidBody* p2 = m_graphics->GetRigidBody("Player2");
+					p2->clearForces();
+					p2->setLinearVelocity(btVector3(0, 0, 0));
+					p2->setAngularVelocity(btVector3(0, 0, 0));
+					switch (m_graphics->GetCurrentMapNumber())
+					{
+						case 1:
+							p2->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(-10, 10, 0)));
+							break;
+						case 2:
+							p2->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(490, 10, 0)));
+							break;
+						case 3:
+							p2->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(990, 10, 0)));
+							break;
+					}
+				  }
 				}
 			}
 		}
 	}
-}
+  }
 
 void Physics::setPlayerSettings(PlayerSettings* players)
 {

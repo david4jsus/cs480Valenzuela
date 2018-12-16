@@ -33,36 +33,30 @@ This program uses keyboard input and the mouse to select items on the on-screen 
 
 Moving the camera
 
-- **W**: Move view forward
-- **S**: Move view backward
-- **A**: Move view left
-- **D**: Move view right
-- **Q**: Move view down
-- **E**: Move view up
-- **Up arrow**: Rotate view upwards
-- **Down arrow**: Rotate view downwards
-- **Left arrow**: Rotate view left
-- **Right arrow**: Rotate view right
+- **Hold left click and move mouse left**: look left
+- **Hold left click and move mouse right**: look right
+- **Hold left click and move mouse up**: look down
+- **Hold left click and move mouse down**: look up
+- **Hold shift and move mouse left**: move left
+- **Hold shift and move mouse right**: move right
+- **Hold shift and move mouse down**: move forward
+- **Hold shift and move mouse up**: move backward
+
 
 Move Player One
 
-- **I**: Move cube forward
-- **J**: Move cube left
-- **K**: Move cube backward
-- **L**: Move cube right
+- **W**: Move forward
+- **A**: Move left
+- **S**: Move backward
+- **D**: Move right
+- **Space bar**: jump
 
 Move Player Two
 
-- **T**: Move cube forward
-- **F**: Move cube left
-- **G**: Move cube backward
-- **H**: Move cube right
-
-Changing ambient and specular brightness
-
-- **Numpad 8**: Increase ambient brightness
-- **Numpad 2**: Decrease ambient brightness
-- **Numpad 4**: Decrease specular brightness
-- **Numpad 6**: Increase specular brightness
+- **Number pad 8**: Move forward
+- **Number pad 4**: Move left
+- **Number pad 2**: Move backward
+- **Number pad 6**: Move right
+- **Number pad 0**: jump
 
 The on-screen menu is scalable and has an available scrolling bar on the right side.
