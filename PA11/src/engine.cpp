@@ -148,84 +148,39 @@ void Engine::Run()
       ImGui::Separator();
       ImGui::Separator();
 
-		if(playerOneLives <= 0)
-		{
-			ImGui::Text("Player 2 wins!");
-			ImGui::Separator();
-			ImGui::Separator();
-		}
+       if(playerOneLives <= 0)
+       {
+		   ImGui::Text("Player 2 wins!");
+						
+		   if(players->GameOver() && players->GameRestart() && !soundPlayed)
+		   {			  
+				 soundPlayed = true;	
+				 gameSound.LoadSound("../assets/sounds/win.wav");
+				 gameSound.PlaySound();
+				 gameSound.LoadSound("../assets/sounds/p1.wav");
+				 gameSound.PlaySound();
+				 gameSound.LoadSound("../assets/sounds/defeated.wav");
+				 gameSound.PlaySound();
+		   }
+       }
 
-		else if(playerTwoLives <= 0)
-		{
-			ImGui::Text("Player 1 wins!");
-			ImGui::Separator();
-			ImGui::Separator();
-		}
-
-		// display restart game button when one player dies
-		if(playerOneLives <= 0 || playerTwoLives <= 0)
-		{
-			if(ImGui::Button("Restart Game"))
-			{
-				// restart game
-				restartGame();
-				ImGui::Separator();
-				ImGui::Separator();
-			}
-		}
-		
-	  /*ImGui::Separator();
-	  ImGui::Separator();
-	  
-	  if(ImGui::Button("Map 1"))
-	  {
-		  // To map 1
-		  ToMap(1);
-	  }
-	  
-	  if(ImGui::Button("Map 2"))
-	  {
-		  // To map 2
-		  ToMap(2);
-	  }
-	  
-	  if(ImGui::Button("Map 3"))
-	  {
-		  // To map 3
-		  ToMap(3);
-	  }*/
-				ImGui::Text("Player 2 wins!");
-				
-				if(players->GameOver() && players->GameRestart() && !soundPlayed)
-				{			  
-				  soundPlayed = true;	
-				  gameSound.LoadSound("../assets/sounds/win.wav");
-          gameSound.PlaySound();
-				  gameSound.LoadSound("../assets/sounds/p1.wav");
-          gameSound.PlaySound();
-          gameSound.LoadSound("../assets/sounds/defeated.wav");
-          gameSound.PlaySound();
-         }
-			}
-
-			else if(playerTwoLives <= 0)
-			{
-				ImGui::Text("Player 1 wins!");
-
-				
-				if(players->GameOver() && players->GameRestart() && !soundPlayed)
-				{			
+       else if(playerTwoLives <= 0)
+       {
+		   ImGui::Text("Player 1 wins!");
+						
+		   if(players->GameOver() && players->GameRestart() && !soundPlayed)
+		   {			
 				  soundPlayed = true;
 				  gameSound.LoadSound("../assets/sounds/win.wav");
-          gameSound.PlaySound();
+				  gameSound.PlaySound();
 				  gameSound.LoadSound("../assets/sounds/p2.wav");
-          gameSound.PlaySound();
-          gameSound.LoadSound("../assets/sounds/defeated.wav");
-          gameSound.PlaySound();
-         }
+				  gameSound.PlaySound();
+				  gameSound.LoadSound("../assets/sounds/defeated.wav");
+				  gameSound.PlaySound();
 			}
+      	}
 			
-			  ImGui::Separator();
+  	    ImGui::Separator();
         ImGui::Separator();
 
 			// display restart game button when one player dies
