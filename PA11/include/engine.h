@@ -30,13 +30,16 @@ class Engine
     
     void loadConfigurationFileInfo();
 
-		void setPlayerSettings();
+	 void setPlayerSettings();
   
     SDL_Event m_event;
     bool m_running;
+    
+    bool soundPlayed;
+    
     unsigned int m_DT;
 
-		void restartGame();
+    void restartGame();
     
   private:
   

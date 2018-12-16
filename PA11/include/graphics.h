@@ -125,9 +125,6 @@ class Graphics
 		GLint m_fThirdLightDiffuseColor;
     GLint m_fThirdLightSpecularColor;
     GLint m_fThirdLightShininess;
-		
-		// game sound
-    Sound gameSound;
 
 		// objects
 		std::vector<Object*> m_objects;
