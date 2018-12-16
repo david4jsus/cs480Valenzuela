@@ -128,9 +128,9 @@ void Engine::Run()
       ImGui::Separator();
       ImGui::Separator();
 
-			// display player 1's remaining lives
+	  // display player 1's remaining lives
       int playerOneLives, playerTwoLives;
-			players->getPlayersLives(playerOneLives, playerTwoLives);
+	  players->getPlayersLives(playerOneLives, playerTwoLives);
       std::string playerOneLivesText = "Player 1 lives remaining: ";
       playerOneLivesText.append(std::to_string(playerOneLives));
       const char* displayPlayerOneLivesText = playerOneLivesText.c_str();
@@ -139,8 +139,8 @@ void Engine::Run()
       ImGui::Separator();
       ImGui::Separator();
 
-			// display player 2's remaining lives
-			std::string playerTwoLivesText = "Player 2 lives remaining: ";
+      // display player 2's remaining lives
+	  std::string playerTwoLivesText = "Player 2 lives remaining: ";
       playerTwoLivesText.append(std::to_string(playerTwoLives));
       const char* displayPlayerTwoLivesText = playerTwoLivesText.c_str();
       ImGui::Text(displayPlayerTwoLivesText);
@@ -148,8 +148,52 @@ void Engine::Run()
       ImGui::Separator();
       ImGui::Separator();
 
-			if(playerOneLives <= 0)
+		if(playerOneLives <= 0)
+		{
+			ImGui::Text("Player 2 wins!");
+			ImGui::Separator();
+			ImGui::Separator();
+		}
+
+		else if(playerTwoLives <= 0)
+		{
+			ImGui::Text("Player 1 wins!");
+			ImGui::Separator();
+			ImGui::Separator();
+		}
+
+		// display restart game button when one player dies
+		if(playerOneLives <= 0 || playerTwoLives <= 0)
+		{
+			if(ImGui::Button("Restart Game"))
 			{
+				// restart game
+				restartGame();
+				ImGui::Separator();
+				ImGui::Separator();
+			}
+		}
+		
+	  /*ImGui::Separator();
+	  ImGui::Separator();
+	  
+	  if(ImGui::Button("Map 1"))
+	  {
+		  // To map 1
+		  ToMap(1);
+	  }
+	  
+	  if(ImGui::Button("Map 2"))
+	  {
+		  // To map 2
+		  ToMap(2);
+	  }
+	  
+	  if(ImGui::Button("Map 3"))
+	  {
+		  // To map 3
+		  ToMap(3);
+	  }*/
 				ImGui::Text("Player 2 wins!");
 				
 				if(players->GameOver() && players->GameRestart() && !soundPlayed)
@@ -192,7 +236,7 @@ void Engine::Run()
 		      // restart game
 					restartGame();
 				}
-			}    
+			}
 
     	ImGui::Separator();
       ImGui::Separator();
@@ -280,7 +324,7 @@ void Engine::loadConfigurationFileInfo()
   
   // clear and open file
   fin.clear();
-  fin.open("../assets/configuration_file.txt");
+  fin.open("../assets/configuration_file_level_1.txt");
   
   // run until end of file
   while(fin.eof() == false)
@@ -559,8 +603,47 @@ void Engine::restartGame()
 	playerOneLives = 3;
 	playerTwoLives = 3;
 	players->setPlayersLives(playerOneLives, playerTwoLives);
+	
+	// To next map (cyclical)
+	int map = m_graphics->GetCurrentMapNumber();
+	switch (map)
+	{
+		default:
+		case 1:
+			ToMap(2);
+			break;
+		case 2:
+			ToMap(3);
+			break;
+		case 3:
+			ToMap(1);
+			break;
+	}
+}
 
-	// reset players position
-	GetObjectRigidBody("Player1")->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(10, 10, 0)));
-	GetObjectRigidBody("Player2")->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(-10, 10, 0)));
+void Engine::ToMap(int map)
+{
+	switch (map)
+	{
+		case 0:
+		case 1:
+			m_graphics->SetCurrentMapNumber(1);
+			m_graphics->GetCamera()->setCamPos(glm::vec3(-50, 5, 0));
+			GetObjectRigidBody("Player1")->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(10, 10, 0)));
+			GetObjectRigidBody("Player2")->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(-10, 10, 0)));
+			break;
+		case 2:
+			m_graphics->SetCurrentMapNumber(2);
+			m_graphics->GetCamera()->setCamPos(glm::vec3(450, 5, 0));
+			GetObjectRigidBody("Player1")->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(510, 10, 0)));
+			GetObjectRigidBody("Player2")->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(490, 10, 0)));
+			break;
+		default:
+		case 3:
+			m_graphics->SetCurrentMapNumber(3);
+			m_graphics->GetCamera()->setCamPos(glm::vec3(950, 5, 0));
+			GetObjectRigidBody("Player1")->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(1010, 10, 0)));
+			GetObjectRigidBody("Player2")->setCenterOfMassTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(990, 10, 0)));
+			break;
+	}
 }

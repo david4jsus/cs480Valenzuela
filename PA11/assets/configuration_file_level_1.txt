@@ -59,7 +59,7 @@ Objects Information
 object file name: Player1.obj
 object position: 10.0, 10.0, 0.0
 object orientation: 0.0, 0.0, 0.0, 1.0
-object scale: 0.05
+object scale: 1.0
 object mass: 1.0
 object restitution: 0.0
 object collision shape: cylinder
@@ -68,47 +68,11 @@ object collision size: 2.0, 5.0, 2.0
 object file name: Player2.obj
 object position: -10.0, 10.0, 0.0
 object orientation: 0.0, 0.0, 0.0, 1.0
-object scale: 0.05
+object scale: 1.0
 object mass: 1.0
 object restitution: 0.0
 object collision shape: sphere
 object collision size: 2.0
-
-object file name: LeftArenaWall.obj
-object position: 0.0, 0.0, -45.0
-object orientation: 0.0, 0.0, 0.0, 1.0
-object scale: 0.0
-object mass: 0.0
-object restitution: 1.0
-object collision shape: plane
-object collision size: 0.0, 0.0, 1.0, 0.0
-
-object file name: RightArenaWall.obj
-object position: 0.0, 0.0, 45.0
-object orientation: 0.0, 0.0, 0.0, 1.0
-object scale: 0.0
-object mass: 0.0
-object restitution: 1.0
-object collision shape: plane
-object collision size: 0.0, 0.0, -1.0, 0.0
-
-object file name: BackArenaWall.obj
-object position: 40.0, 0.0, 0.0
-object orientation: 0.0, 0.0, 0.0, 1.0
-object scale: 0.0
-object mass: 0.0
-object restitution: 1.0
-object collision shape: plane
-object collision size: -1.0, 0.0, 0.0, 0.0
-
-object file name: FrontArenaWall.obj
-object position: -40.0, 0.0, 0.0
-object orientation: 0.0, 0.0, 0.0, 1.0
-object scale: 0.0
-object mass: 0.0
-object restitution: 1.0
-object collision shape: plane
-object collision size: 1.0, 0.0, 0.0, 0.0
 
 
 
@@ -235,7 +199,7 @@ object collision size: 0.0, 1.0, 0.0, 0.0
 
 
 object file name: Ground_Stage_2.obj
-object position: 0.0, -10.0, 0.0
+object position: 500.0, -10.0, 0.0
 object orientation: 0.0, 0.0, 0.0, 1.0
 object scale: 4.0
 object mass: 0.0
@@ -244,7 +208,7 @@ object collision shape: sphere
 object collision size: 0.0
 
 object file name: Stage_2_Outside.obj
-object position: 0.0, -10.0, 0.0
+object position: 500.0, -10.0, 0.0
 object orientation: 0.0, 0.0, 0.0, 1.0
 object scale: 4.0
 object mass: 0.0
@@ -253,7 +217,7 @@ object collision shape: sphere
 object collision size: 0.0
 
 object file name: Stadium.obj
-object position: 0.0, -10.0, 0.0
+object position: 500.0, -10.0, 0.0
 object orientation: 0.0, 0.0, 0.0, 1.0
 object scale: 4.0
 object mass: 0.0
@@ -262,13 +226,31 @@ object collision shape: sphere
 object collision size: 0.0
 
 object file name: Stage2Floor.obj
-object position: 0.0, -10.0, 0.0
+object position: 500.0, -10.0, 0.0
 object orientation: 0.0, 1.0, 0.0, 1.0
 object scale: 0.0
 object mass: 0.0
 object restitution: 0.0
 object collision shape: cylinder
 object collision size: 45.0, 1.0, 45.0
+
+object file name: BackArenaWall.obj
+object position: 555.0, 0.0, 0.0
+object orientation: 0.0, 0.0, 0.0, 1.0
+object scale: 0.0
+object mass: 0.0
+object restitution: 1.0
+object collision shape: box
+object collision size: 1.0, 100.0, 100.0
+
+object file name: FrontArenaWall.obj
+object position: 445.0, 0.0, 0.0
+object orientation: 0.0, 0.0, 0.0, 1.0
+object scale: 0.0
+object mass: 0.0
+object restitution: 1.0
+object collision shape: box
+object collision size: 1.0, 100.0, 100.0
 
 
 
@@ -282,7 +264,7 @@ object collision size: 45.0, 1.0, 45.0
 
 
 object file name: Stadium_Stage_3.obj
-object position: 0.0, -10.0, 0.0
+object position: 1000.0, -10.0, 0.0
 object orientation: 0.0, 0.0, 0.0, 1.0
 object scale: 4.0
 object mass: 0.0
@@ -291,7 +273,7 @@ object collision shape: sphere
 object collision size: 0.0
 
 object file name: Stage_Outside_3.obj
-object position: 0.0, -10.0, 0.0
+object position: 1000.0, -10.0, 0.0
 object orientation: 0.0, 0.0, 0.0, 1.0
 object scale: 4.0
 object mass: 0.0
@@ -300,7 +282,7 @@ object collision shape: sphere
 object collision size: 0.0
 
 object file name: Magma_Towers.obj
-object position: 0.0, -10.0, 0.0
+object position: 1000.0, -10.0, 0.0
 object orientation: 0.0, 0.0, 0.0, 1.0
 object scale: 4.0
 object mass: 0.0
@@ -309,7 +291,7 @@ object collision shape: sphere
 object collision size: 0.0
 
 object file name: Ground_Stage_3.obj
-object position: 0.0, -10.0, 0.0
+object position: 1000.0, -10.0, 0.0
 object orientation: 0.0, 0.0, 0.0, 1.0
 object scale: 4.0
 object mass: 0.0
@@ -318,7 +300,7 @@ object collision shape: sphere
 object collision size: 0.0
 
 object file name: Stage3Floor.obj
-object position: 0.0, -10.0, 0.0
+object position: 1000.0, -10.0, 0.0
 object orientation: 0.0, 1.0, 0.0, 1.0
 object scale: 0.0
 object mass: 0.0
@@ -327,22 +309,22 @@ object collision shape: box
 object collision size: 35.0, 1.0, 150.0
 
 object file name: BackArenaWall.obj
-object position: 55.0, 0.0, 0.0
+object position: 1055.0, 0.0, 0.0
 object orientation: 0.0, 0.0, 0.0, 1.0
 object scale: 0.0
 object mass: 0.0
 object restitution: 1.0
-object collision shape: plane
-object collision size: -1.0, 0.0, 0.0, 0.0
+object collision shape: box
+object collision size: 1.0, 100.0, 100.0
 
 object file name: FrontArenaWall.obj
-object position: -55.0, 0.0, 0.0
+object position: 945.0, 0.0, 0.0
 object orientation: 0.0, 0.0, 0.0, 1.0
 object scale: 0.0
 object mass: 0.0
 object restitution: 1.0
-object collision shape: plane
-object collision size: 1.0, 0.0, 0.0, 0.0
+object collision shape: box
+object collision size: 1.0, 100.0, 100.0
 
 
 

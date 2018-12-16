@@ -18,6 +18,8 @@ Graphics::Graphics()
 	ambientLightingScale = 0.5;
 	specularScale = 0.5;
 	
+	currentMap = 1;
+	
 	m_physics = new Physics(this);
 }
 
@@ -684,4 +686,25 @@ bool Graphics::checkPlayerOneJump()
 bool Graphics::checkPlayerTwoJump()
 {
 	return m_physics->getPlayerTwoCanJump();
+}
+
+void Graphics::SetCurrentMapNumber(int number)
+{
+	if (number <= 0)
+	{
+		currentMap = 1;
+	}
+	else if (number > 3)
+	{
+		currentMap = 3;
+	}
+	else
+	{
+		currentMap = number;
+	}
+}
+
+int Graphics::GetCurrentMapNumber()
+{
+	return currentMap;
 }
